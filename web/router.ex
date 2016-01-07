@@ -7,6 +7,7 @@ defmodule EmbedChat.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug EmbedChat.Auth, repo: EmbedChat.Repo
   end
 
   pipeline :api do
@@ -18,7 +19,8 @@ defmodule EmbedChat.Router do
 
     get "/", PageController, :index
 
-    resources "/registrations", RegistrationController, only: [:new, :create]
+    resources "/users", UserController, only: [:new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   # Other scopes may use custom stacks.

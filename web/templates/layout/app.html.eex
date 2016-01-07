@@ -16,7 +16,13 @@
       <header class="header">
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
-            <li><%= link "Register", to: registration_path(@conn, :new) %></li>
+            <%= if @current_user do %>
+              <li><%= @current_user.email %></li>
+              <li><%= link "Logout",   to: session_path(@conn, :delete, @current_user), method: :delete %></li>
+            <% else %>
+              <li><%= link "Login",    to: session_path(@conn, :new) %></li>
+              <li><%= link "Register", to: user_path(@conn, :new) %></li>
+            <% end %>
           </ul>
         </nav>
         <span class="logo"></span>
