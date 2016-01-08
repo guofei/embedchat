@@ -7,7 +7,7 @@ defmodule EmbedChat.SessionController do
 
   def create(conn, %{"session" => %{"email" => email, "password" =>
                                      pass}}) do
-    case EmbedChat.Auth.login_by_username_and_pass(conn, email, pass, repo:
+    case EmbedChat.Auth.login_by_email_and_pass(conn, email, pass, repo:
                                                Repo) do
       {:ok, conn} ->
         conn

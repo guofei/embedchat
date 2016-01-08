@@ -64,19 +64,19 @@ defmodule EmbedChat.AuthTest do
   test "login with a valid email and pass", %{conn: conn} do
     user = insert_user(email: "me@me.com", password: "secret")
     {:ok, conn} =
-      Auth.login_by_username_and_pass(conn, "me@me.com", "secret", repo: Repo)
+      Auth.login_by_email_and_pass(conn, "me@me.com", "secret", repo: Repo)
 
     assert conn.assigns.current_user.id == user.id
   end
 
   test "login with a not found user", %{conn: conn} do
     assert {:error, :not_found, _conn} =
-      Auth.login_by_username_and_pass(conn, "me@me.com", "secret", repo: Repo)
+      Auth.login_by_email_and_pass(conn, "me@me.com", "secret", repo: Repo)
   end
 
   test "login with password mismatch", %{conn: conn} do
     _ = insert_user(email: "me@me.com", password: "secret")
     assert {:error, :unauthorized, _conn} =
-      Auth.login_by_username_and_pass(conn, "me@me.com", "wrong", repo: Repo)
+      Auth.login_by_email_and_pass(conn, "me@me.com", "wrong", repo: Repo)
   end
 end

@@ -24,7 +24,7 @@ defmodule EmbedChat.Auth do
 
   import Comeonin.Bcrypt, only: [checkpw: 2]
 
-  def login_by_username_and_pass(conn, email, given_pass, opts) do
+  def login_by_email_and_pass(conn, email, given_pass, opts) do
     repo = Keyword.fetch!(opts, :repo)
     user = repo.get_by(EmbedChat.User, email: email)
 
