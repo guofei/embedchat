@@ -36,6 +36,8 @@ defmodule EmbedChat.Web do
 
       import EmbedChat.Router.Helpers
       import EmbedChat.Gettext
+
+      import EmbedChat.Auth, only: [authenticate_user: 2]
     end
   end
 
@@ -58,6 +60,8 @@ defmodule EmbedChat.Web do
   def router do
     quote do
       use Phoenix.Router
+
+      import EmbedChat.Auth, only: [authenticate_user: 2]
     end
   end
 

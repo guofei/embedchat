@@ -23,6 +23,12 @@ defmodule EmbedChat.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
+  scope "/manage", EmbedChat do
+    pipe_through [:browser, :authenticate_user]
+
+    # resources "/chats", VideoController
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", EmbedChat do
   #   pipe_through :api

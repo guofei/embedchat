@@ -12,8 +12,6 @@ config :logger, level: :warn
 # Configure your database
 config :embed_chat, EmbedChat.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
   database: "embed_chat_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

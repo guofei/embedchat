@@ -25,6 +25,7 @@ defmodule EmbedChat.ConnCase do
       import Ecto.Query, only: [from: 2]
 
       import EmbedChat.Router.Helpers
+      import EmbedChat.TestHelpers
 
       # The default endpoint for testing
       @endpoint EmbedChat.Endpoint

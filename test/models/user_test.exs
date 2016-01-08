@@ -3,7 +3,7 @@ defmodule EmbedChat.UserTest do
 
   alias EmbedChat.User
 
-  @valid_attrs %{crypted_password: "some content", email: "some content"}
+  @valid_attrs %{password: "some content", email: "some@content.com"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
