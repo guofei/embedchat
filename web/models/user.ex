@@ -5,6 +5,7 @@ defmodule EmbedChat.User do
     field :email, :string
     field :password, :string, virtual: true
     field :crypted_password, :string
+    has_many :addresses, EmbedChat.Address
 
     timestamps
   end
