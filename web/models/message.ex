@@ -1,16 +1,17 @@
-defmodule EmbedChat.Address do
+defmodule EmbedChat.Message do
   use EmbedChat.Web, :model
 
-  schema "addresses" do
-    field :uuid, Ecto.UUID
-    belongs_to :user, EmbedChat.User
-    has_many :from_messages, EmbedChat.Message, foreign_key: :from_address_id
-    has_many :to_messages, EmbedChat.Message, foreign_key: :to_address_id
+  schema "messages" do
+    field :message_type, :string
+    field :subject, :string
+    field :body, :string
+    belongs_to :from_address, EmbedChat.Address
+    belongs_to :to_address, EmbedChat.Address
 
     timestamps
   end
 
-  @required_fields ~w(uuid)
+  @required_fields ~w(message_type subject body)
   @optional_fields ~w()
 
   @doc """
@@ -22,6 +23,5 @@ defmodule EmbedChat.Address do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
-    |> unique_constraint(:uuid)
   end
 end

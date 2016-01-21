@@ -19,6 +19,29 @@ defmodule EmbedChat.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
+  def connect(%{"token" => "", "distinct_id" => distinct_id}, socket) do
+    connect(%{"distinct_id" => distinct_id}, socket)
+  end
+
+  @max_age 2 * 7 * 24 * 60 * 60
+
+  def connect(%{"token" => token, "distinct_id" => distinct_id}, socket) do
+    case Ecto.UUID.cast(distinct_id) do
+      {:ok, distinct_id} ->
+        case Phoenix.Token.verify(socket, "user socket", token, max_age: @max_age) do
+          {:ok, user_id} ->
+            {:ok,
+             socket
+             |> assign(:user_id, user_id)
+             |> assign(:distinct_id, distinct_id) }
+          {:error, _reason} ->
+            :error
+        end
+      {:error, _reason} ->
+        :error
+    end
+  end
+
   def connect(%{"distinct_id" => distinct_id}, socket) do
     case Ecto.UUID.cast(distinct_id) do
       {:ok, distinct_id} ->

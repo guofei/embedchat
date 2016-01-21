@@ -7,7 +7,10 @@ import {Socket} from "deps/phoenix/web/static/js/phoenix"
 import DistinctID from "./distinct_id"
 
 let socket = new Socket("/socket", {
-  params: { distinct_id: DistinctID.webMaster() }
+  params: {
+    token: window.userToken,
+    distinct_id: DistinctID.get()
+  }
 })
 
 // When you connect, you'll often need to authenticate the client.

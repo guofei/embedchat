@@ -5,6 +5,8 @@ defmodule EmbedChat.User do
     field :email, :string
     field :password, :string, virtual: true
     field :crypted_password, :string
+
+    # user use different pc can have different address
     has_many :addresses, EmbedChat.Address
 
     timestamps

@@ -6,7 +6,7 @@ let DistinctID = {
     return this.getID(key)
   },
 
-  webMaster() {
+  get() {
     let key = "distinct_id"
     return this.getID(key)
   },
