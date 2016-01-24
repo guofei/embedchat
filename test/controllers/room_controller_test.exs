@@ -90,14 +90,14 @@ defmodule EmbedChat.RoomControllerTest do
   end
 
   @tag login_as: "max"
-  test "renders form for editing chosen resource", %{conn: conn} do
+  test "renders form for editing chosen resource", %{conn: conn, user: user} do
     room = insert_room user, @valid_attrs
     conn = get conn, room_path(conn, :edit, room)
     assert html_response(conn, 200) =~ "Edit room"
   end
 
   @tag login_as: "max"
-  test "updates chosen resource and redirects when data is valid", %{conn: conn} do
+  test "updates chosen resource and redirects when data is valid", %{conn: conn, user: user} do
     room = insert_room user, @valid_attrs
     conn = put conn, room_path(conn, :update, room), room: @valid_attrs
     assert redirected_to(conn) == room_path(conn, :show, room)
@@ -112,7 +112,7 @@ defmodule EmbedChat.RoomControllerTest do
   # end
 
   @tag login_as: "max"
-  test "deletes chosen resource", %{conn: conn} do
+  test "deletes chosen resource", %{conn: conn, user: user} do
     room = insert_room user, @valid_attrs
     conn = delete conn, room_path(conn, :delete, room)
     assert redirected_to(conn) == room_path(conn, :index)
