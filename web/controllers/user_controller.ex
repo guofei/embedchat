@@ -12,6 +12,7 @@ defmodule EmbedChat.UserController do
     changeset = User.registration_changeset(%User{}, user_params)
     case Repo.insert(changeset) do
       {:ok, user} ->
+        add_room user
         conn
         |> EmbedChat.Auth.login(user)
         |> put_flash(:info, "Your account was created!")
@@ -19,5 +20,11 @@ defmodule EmbedChat.UserController do
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
+  end
+
+  defp add_room(user) do
+    user
+    |> build_assoc(:rooms)
+    |> Repo.insert()
   end
 end
