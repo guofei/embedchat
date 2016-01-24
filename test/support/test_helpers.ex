@@ -11,4 +11,11 @@ defmodule EmbedChat.TestHelpers do
     |> EmbedChat.User.registration_changeset(changes)
     |> Repo.insert!()
   end
+
+  def insert_room(user, attrs \\ %{}) do
+    user
+    |> Ecto.build_assoc(:rooms)
+    |> EmbedChat.Room.changeset(attrs)
+    |> Repo.insert!()
+  end
 end
