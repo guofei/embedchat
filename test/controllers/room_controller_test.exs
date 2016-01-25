@@ -37,9 +37,6 @@ defmodule EmbedChat.RoomControllerTest do
     conn = assign(conn, :current_user, non_owner)
 
     assert_error_sent :not_found, fn ->
-      get(conn, room_path(conn, :show, room))
-    end
-    assert_error_sent :not_found, fn ->
       get(conn, room_path(conn, :edit, room))
     end
     assert_error_sent :not_found, fn ->
@@ -75,8 +72,8 @@ defmodule EmbedChat.RoomControllerTest do
   #   assert html_response(conn, 200) =~ "New room"
   # end
 
-  @tag login_as: "max"
-  test "shows chosen resource", %{conn: conn, user: user} do
+  test "shows chosen resource", %{conn: conn} do
+    user = insert_user()
     room = insert_room user, @valid_attrs
     conn = get conn, room_path(conn, :show, room)
     assert html_response(conn, 200) =~ "Show room"

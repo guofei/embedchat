@@ -33,9 +33,6 @@
 
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
-        <%= content_tag :div, id: "room",
-        data: [id: 1] do %>
-            <% end %>
       </main>
 
     </div> <!-- /container -->

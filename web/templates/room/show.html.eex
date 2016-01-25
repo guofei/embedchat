@@ -9,5 +9,12 @@
 
 </ul>
 
+<%= content_tag :div,
+id: "room",
+data: [id: 1] do %>
+room div
+            <% end %>
+
+
 <%= link "Edit", to: room_path(@conn, :edit, @room) %>
 <%= link "Back", to: room_path(@conn, :index) %>
