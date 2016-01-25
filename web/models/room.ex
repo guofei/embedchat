@@ -3,6 +3,7 @@ defmodule EmbedChat.Room do
 
   schema "rooms" do
     belongs_to :user, EmbedChat.User
+    has_many :addresses, EmbedChat.Address
 
     timestamps
   end
