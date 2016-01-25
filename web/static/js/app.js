@@ -21,5 +21,14 @@ import "deps/phoenix_html/web/static/js/phoenix_html"
 import socket from "./socket"
 import Room from "./room"
 
-Room.join(socket, document.getElementById("room"))
+Room.join(socket, document.getElementById("chat-room"))
+
+import React from "react"
+import ReactDOM from "react-dom"
+import Chat from "./components/chat"
+
+ReactDOM.render(
+  <Chat/>,
+  document.getElementById("chat-room")
+)
 

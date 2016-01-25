@@ -1,20 +1,4 @@
-<h2>Show room</h2>
-
-<ul>
-
-  <li>
-    <strong>User:</strong>
-    <%= @room.user_id %>
-  </li>
-
-</ul>
-
-<%= content_tag :div,
-id: "room",
-data: [id: 1] do %>
-room div
-            <% end %>
+<%= content_tag :div, "", id: "chat-room", data: [id: 1] %>
 
 
-<%= link "Edit", to: room_path(@conn, :edit, @room) %>
 <%= link "Back", to: room_path(@conn, :index) %>
