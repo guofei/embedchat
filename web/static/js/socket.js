@@ -3,7 +3,7 @@
 
 // To use Phoenix channels, the first step is to import Socket
 // and connect at the socket path in "lib/my_app/endpoint.ex":
-import {Socket} from "deps/phoenix/web/static/js/phoenix"
+import {Socket} from "phoenix"
 import DistinctID from "./distinct_id"
 
 let socket = new Socket("/socket", {
