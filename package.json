@@ -2,6 +2,8 @@
   "repository": {},
   "dependencies": {
     "material-ui": "^0.14.3",
+    "phoenix": "file:deps/phoenix",
+    "phoenix_html": "file:deps/phoenix_html",
     "react": "^0.14.6",
     "react-dom": "^0.14.6",
     "react-tap-event-plugin": "^0.2.1",
