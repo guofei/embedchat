@@ -1,14 +1,8 @@
 import React from "react"
 
 import AppBar from 'material-ui/lib/app-bar'
-import Colors from 'material-ui/lib/styles/colors'
 import IconButton from 'material-ui/lib/icon-button'
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close'
-
-import Toolbar from 'material-ui/lib/toolbar/toolbar'
-import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group'
-import ToolbarSeparator from 'material-ui/lib/toolbar/toolbar-separator'
-import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title'
 
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
