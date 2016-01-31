@@ -1,9 +1,17 @@
 import React from "react"
 
 import AppBar from 'material-ui/lib/app-bar'
+import Colors from 'material-ui/lib/styles/colors'
+import IconButton from 'material-ui/lib/icon-button'
+import NavigationClose from 'material-ui/lib/svg-icons/navigation/close'
+
+import Toolbar from 'material-ui/lib/toolbar/toolbar'
+import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group'
+import ToolbarSeparator from 'material-ui/lib/toolbar/toolbar-separator'
+import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title'
+
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
-import Divider from 'material-ui/lib/divider'
 import Avatar from 'material-ui/lib/avatar'
 import TextField from 'material-ui/lib/text-field'
 import Popover from 'material-ui/lib/popover/popover'
@@ -28,7 +36,7 @@ const styles = {
     width: "350px",
   },
   message: {
-    "min-width": "350px",
+    minWidth: "350px",
   },
 }
 
@@ -85,7 +93,7 @@ const MenuBar = React.createClass({
     return (
       <AppBar
         title="Chat"
-        iconClassNameRight="muidocs-icon-navigation-expand-more"
+        iconElementRight={<IconButton><NavigationClose /></IconButton>}
         />
     )
   }
@@ -129,7 +137,7 @@ const Chat = React.createClass({
           secondary={true}
           style={styles.fixed}
           onTouchTap={this.handleTouchTap}
-          label="Chat"
+          label="Click me to chat"
           />
         <Popover
           open={this.state.open}
