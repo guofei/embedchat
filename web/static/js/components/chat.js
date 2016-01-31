@@ -1,17 +1,36 @@
 import React from "react"
 
 import AppBar from 'material-ui/lib/app-bar'
-
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
 import Divider from 'material-ui/lib/divider'
 import Avatar from 'material-ui/lib/avatar'
 import TextField from 'material-ui/lib/text-field'
+import Popover from 'material-ui/lib/popover/popover'
+import RaisedButton from 'material-ui/lib/raised-button'
+import injectTapEventPlugin from 'react-tap-event-plugin'
+
+injectTapEventPlugin()
 
 const data = [
   {id: 1, name: "Pete Hunt", text: "This is one comment", createdAt: "2016/01/31 15:00"},
-  {id: 2, name: "Jordan Walke", text: "This is *another* comment", createdAt: "2016/01/31 15:30"}
+  {id: 2, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
+  {id: 3, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
+  {id: 4, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
+  {id: 5, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
 ]
+
+const styles = {
+  fixed: {
+    position: "fixed",
+    bottom: 5,
+    right: 5,
+    width: "350px",
+  },
+  message: {
+    "min-width": "350px",
+  },
+}
 
 const ListItemMessage = React.createClass({
   avatar: function() {
@@ -24,6 +43,7 @@ const ListItemMessage = React.createClass({
   render: function() {
     return (
       <ListItem
+        style={styles.message}
         leftAvatar={<Avatar>{this.avatar()}</Avatar>}
         primaryText={this.props.name}
         secondaryText={
@@ -74,22 +94,54 @@ const MenuBar = React.createClass({
 const MessageForm = React.createClass({
   render: function() {
     return (
-      <div>
-        <TextField
-          hintText="Input Message"
-          />
-      </div>
+      <List>
+        <ListItem disabled={true}>
+          <TextField
+            fullWidth={true}
+            hintText="Input Message"
+            />
+        </ListItem>
+      </List>
     )
   }
 })
 
 const Chat = React.createClass({
+  getInitialState: function() {
+    return {
+      open: false,
+      anchorEl: null,
+    }
+  },
+
+  handleTouchTap: function(event) {
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    })
+  },
+
   render: function() {
     return (
       <div>
-        <MenuBar />
-        <ListMessages />
-        <MessageForm />
+        <RaisedButton
+          label="Secondary"
+          secondary={true}
+          style={styles.fixed}
+          onTouchTap={this.handleTouchTap}
+          label="Chat"
+          />
+        <Popover
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+          targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
+          autoCloseWhenOffScreen={false}
+          >
+          <MenuBar />
+          <ListMessages />
+          <MessageForm />
+        </Popover>
       </div>
     )
   }
