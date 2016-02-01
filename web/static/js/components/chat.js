@@ -1,6 +1,7 @@
 import React from "react"
 
 import AppBar from 'material-ui/lib/app-bar'
+import LeftNav from 'material-ui/lib/left-nav'
 import IconButton from 'material-ui/lib/icon-button'
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close'
 
@@ -8,7 +9,6 @@ import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
 import Avatar from 'material-ui/lib/avatar'
 import TextField from 'material-ui/lib/text-field'
-import Popover from 'material-ui/lib/popover/popover'
 import RaisedButton from 'material-ui/lib/raised-button'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
@@ -16,20 +16,26 @@ injectTapEventPlugin()
 
 const data = [
   {id: 1, name: "Pete Hunt", text: "This is one comment", createdAt: "2016/01/31 15:00"},
-  {id: 2, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
-  {id: 3, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
-  {id: 4, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
 ]
 
 const styles = {
   fixed: {
     position: "fixed",
     bottom: 5,
-    right: 5,
-    width: "350px",
+    right: 0,
+    width: "300px",
   },
   messageForm: {
-    minWidth: "350px",
+    minWidth: "300px",
+  },
+  list: {
+    maxHeight: "500px",
+    overflow: "scroll",
+  },
+  popover: {
+    position: "fixed",
+    bottom: 5,
+    right: 5,
   },
 }
 
@@ -53,7 +59,7 @@ const ListItemMessage = React.createClass({
           </p>
         }
         secondaryTextLines={2}
-      />
+        />
     )
   }
 })
@@ -71,11 +77,9 @@ const ListMessages = React.createClass({
       )
     })
     return (
-      <div>
-        <List>
-          {messages}
-        </List>
-      </div>
+      <List>
+        {messages}
+      </List>
     )
   }
 })
@@ -150,17 +154,11 @@ const Chat = React.createClass({
           onTouchTap={this.handleTouchTap}
           label="Click me to chat"
           />
-        <Popover
-          open={this.state.open}
-          anchorEl={this.state.anchorEl}
-          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          autoCloseWhenOffScreen={false}
-          >
+        <LeftNav width={300} openRight={true} open={this.state.open} >
           <MenuBar />
           <ListMessages messages={this.state.data}/>
           <MessageForm onInputMessage={this.handleInputMessage}/>
-        </Popover>
+        </LeftNav>
       </div>
     )
   }
