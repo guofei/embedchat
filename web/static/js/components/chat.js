@@ -9,6 +9,7 @@ import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
 import Avatar from 'material-ui/lib/avatar'
 import TextField from 'material-ui/lib/text-field'
+import Popover from 'material-ui/lib/popover/popover'
 import RaisedButton from 'material-ui/lib/raised-button'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
@@ -27,16 +28,17 @@ const styles = {
   },
   messageForm: {
     minWidth: "300px",
+    padding: "10px",
   },
-  list: {
-    maxHeight: "500px",
-    overflow: "scroll",
-  },
-  popover: {
-    position: "fixed",
-    bottom: 5,
-    right: 5,
-  },
+  // list: {
+  //   maxHeight: "500px",
+  //   overflow: "scroll",
+  // },
+  // popover: {
+  //   position: "fixed",
+  //   bottom: 5,
+  //   right: 5,
+  // },
 }
 
 const ListItemMessage = React.createClass({
@@ -50,15 +52,15 @@ const ListItemMessage = React.createClass({
   render: function() {
     return (
       <ListItem
+        secondaryTextLines={2}
         leftAvatar={<Avatar>{this.avatar()}</Avatar>}
         primaryText={this.props.name}
         secondaryText={
-          <p>
+          <div>
             {this.props.createdAt}<br />
             {this.props.children}
-          </p>
+          </div>
         }
-        secondaryTextLines={2}
         />
     )
   }
@@ -66,7 +68,7 @@ const ListItemMessage = React.createClass({
 
 const ListMessages = React.createClass({
   render: function() {
-    var messages = this.props.messages.map(function(msg) {
+    const messages = this.props.messages.map(function(msg) {
       return (
         <ListItemMessage
           key={msg.id}
@@ -105,17 +107,13 @@ const MessageForm = React.createClass({
 
   render: function() {
     return (
-      <List>
-        <ListItem
-          style={styles.messageForm}
-          disabled={true}>
-          <TextField
-            onEnterKeyDown={this.handleEnterKyeDown}
-            fullWidth={true}
-            hintText="Input Message"
-            />
-        </ListItem>
-      </List>
+      <div style={styles.messageForm}>
+        <TextField
+          onEnterKeyDown={this.handleEnterKyeDown}
+          fullWidth={true}
+          hintText="Input Message"
+          />
+      </div>
     )
   }
 })
@@ -132,14 +130,14 @@ const Chat = React.createClass({
   handleTouchTap: function(event) {
     this.setState({
       open: true,
-      anchorEl: event.currentTarget,
     })
   },
 
   handleInputMessage: function(text) {
     const msgs = this.state.data
     const newID = msgs.length + 1
-    const newMsg = {id: newID, name: "you", text: text, createdAt: Date.now()}
+    const now = new Date()
+    const newMsg = {id: newID, name: "you", text: text, createdAt: now.toLocaleString()}
     const newMsgs = msgs.concat([newMsg])
     this.setState({data: newMsgs})
   },
@@ -154,7 +152,10 @@ const Chat = React.createClass({
           onTouchTap={this.handleTouchTap}
           label="Click me to chat"
           />
-        <LeftNav width={300} openRight={true} open={this.state.open} >
+        <LeftNav
+          width={300}
+          openRight={true}
+          open={this.state.open} >
           <MenuBar />
           <ListMessages messages={this.state.data}/>
           <MessageForm onInputMessage={this.handleInputMessage}/>
