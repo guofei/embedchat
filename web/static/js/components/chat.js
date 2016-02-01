@@ -27,6 +27,8 @@ const styles = {
     width: "300px",
   },
   messageForm: {
+    position: "absolute",
+    bottom: "0px",
     minWidth: "300px",
     padding: "10px",
   },
@@ -157,8 +159,8 @@ const Chat = React.createClass({
           openRight={true}
           open={this.state.open} >
           <MenuBar />
-          <ListMessages messages={this.state.data}/>
-          <MessageForm onInputMessage={this.handleInputMessage}/>
+          <ListMessages messages={this.state.data} />
+          <MessageForm onInputMessage={this.handleInputMessage} />
         </LeftNav>
       </div>
     )
