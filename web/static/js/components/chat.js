@@ -19,7 +19,6 @@ const data = [
   {id: 2, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
   {id: 3, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
   {id: 4, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
-  {id: 5, name: "Jordan Walke", text: "This is another comment", createdAt: "2016/01/31 15:30"},
 ]
 
 const styles = {
@@ -29,7 +28,7 @@ const styles = {
     right: 5,
     width: "350px",
   },
-  message: {
+  messageForm: {
     minWidth: "350px",
   },
 }
@@ -45,7 +44,6 @@ const ListItemMessage = React.createClass({
   render: function() {
     return (
       <ListItem
-        style={styles.message}
         leftAvatar={<Avatar>{this.avatar()}</Avatar>}
         primaryText={this.props.name}
         secondaryText={
@@ -62,7 +60,7 @@ const ListItemMessage = React.createClass({
 
 const ListMessages = React.createClass({
   render: function() {
-    var messages = data.map(function(msg) {
+    var messages = this.props.messages.map(function(msg) {
       return (
         <ListItemMessage
           key={msg.id}
@@ -94,11 +92,21 @@ const MenuBar = React.createClass({
 })
 
 const MessageForm = React.createClass({
+  handleEnterKyeDown: function(event) {
+    const text = event.target.value
+    this.props.onInputMessage(text)
+    event.target.value = ""
+    return
+  },
+
   render: function() {
     return (
       <List>
-        <ListItem disabled={true}>
+        <ListItem
+          style={styles.messageForm}
+          disabled={true}>
           <TextField
+            onEnterKeyDown={this.handleEnterKyeDown}
             fullWidth={true}
             hintText="Input Message"
             />
@@ -113,6 +121,7 @@ const Chat = React.createClass({
     return {
       open: false,
       anchorEl: null,
+      data: data,
     }
   },
 
@@ -121,6 +130,14 @@ const Chat = React.createClass({
       open: true,
       anchorEl: event.currentTarget,
     })
+  },
+
+  handleInputMessage: function(text) {
+    const msgs = this.state.data
+    const newID = msgs.length + 1
+    const newMsg = {id: newID, name: "you", text: text, createdAt: Date.now()}
+    const newMsgs = msgs.concat([newMsg])
+    this.setState({data: newMsgs})
   },
 
   render: function() {
@@ -141,8 +158,8 @@ const Chat = React.createClass({
           autoCloseWhenOffScreen={false}
           >
           <MenuBar />
-          <ListMessages />
-          <MessageForm />
+          <ListMessages messages={this.state.data}/>
+          <MessageForm onInputMessage={this.handleInputMessage}/>
         </Popover>
       </div>
     )
