@@ -1,46 +1,48 @@
 import React from "react"
+import ReactDOM from "react-dom"
 
 import AppBar from 'material-ui/lib/app-bar'
 import LeftNav from 'material-ui/lib/left-nav'
 import IconButton from 'material-ui/lib/icon-button'
+import FloatingActionButton from 'material-ui/lib/floating-action-button'
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close'
-
+import CommunicationMessage from 'material-ui/lib/svg-icons/communication/message'
 import List from 'material-ui/lib/lists/list'
 import ListItem from 'material-ui/lib/lists/list-item'
 import Avatar from 'material-ui/lib/avatar'
 import TextField from 'material-ui/lib/text-field'
-import Popover from 'material-ui/lib/popover/popover'
-import RaisedButton from 'material-ui/lib/raised-button'
+import Colors from 'material-ui/lib/styles/colors'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 injectTapEventPlugin()
 
 const data = [
-  {id: 1, name: "Pete Hunt", text: "This is one comment", createdAt: "2016/01/31 15:00"},
+  {id: 1, name: "Pete Hunt", text: "This is one comment", createdAt: "1/2/2016, 1:54:37 PM"},
 ]
 
 const styles = {
   fixed: {
     position: "fixed",
-    bottom: 5,
-    right: 0,
-    width: "300px",
+    bottom: 20,
+    right: 40,
+  },
+  messagesAndForm: {
+    overflow: "auto",
+    height: "95%",
+  },
+  messages: {
+    overflow: "auto",
+    height: "80%",
   },
   messageForm: {
-    position: "absolute",
-    bottom: "0px",
     minWidth: "300px",
+    height: "20%",
+    backgroundColor: "white",
     padding: "10px",
+    WebkitBoxSizing: "border-box",
+    MozBoxSizing: "border-box",
+    boxSizing: "border-box",
   },
-  // list: {
-  //   maxHeight: "500px",
-  //   overflow: "scroll",
-  // },
-  // popover: {
-  //   position: "fixed",
-  //   bottom: 5,
-  //   right: 5,
-  // },
 }
 
 const ListItemMessage = React.createClass({
@@ -89,12 +91,39 @@ const ListMessages = React.createClass({
 })
 
 const MenuBar = React.createClass({
+  handleTouchTap: function(event) {
+    this.props.onClose()
+  },
+
   render: function() {
     return (
       <AppBar
         title="Chat"
-        iconElementRight={<IconButton><NavigationClose /></IconButton>}
+        iconElementRight={
+          <IconButton onTouchTap={this.handleTouchTap}>
+            <NavigationClose />
+          </IconButton>
+        }
         />
+    )
+  }
+})
+
+const License = React.createClass({
+  render: function() {
+    return (
+      <div
+        style={{color: Colors.grey500}}
+        >
+        <center>
+          Powered by&nbsp;
+          <a
+            style={{color: Colors.grey500}}
+            href="#">
+            XXX
+          </a>
+        </center>
+      </div>
     )
   }
 })
@@ -109,12 +138,13 @@ const MessageForm = React.createClass({
 
   render: function() {
     return (
-      <div style={styles.messageForm}>
+      <div>
         <TextField
           onEnterKeyDown={this.handleEnterKyeDown}
           fullWidth={true}
           hintText="Input Message"
           />
+        <License />
       </div>
     )
   }
@@ -129,9 +159,11 @@ const Chat = React.createClass({
   },
 
   handleTouchTap: function(event) {
-    this.setState({
-      open: true,
-    })
+    this.setState({open: true})
+  },
+
+  handleClose: function() {
+    this.setState({open: false})
   },
 
   handleInputMessage: function(text) {
@@ -143,23 +175,34 @@ const Chat = React.createClass({
     this.setState({data: newMsgs})
   },
 
+  componentDidUpdate: function() {
+    const node = ReactDOM.findDOMNode(this.refs.messages)
+    node.scrollTop = node.scrollHeight
+  },
+
   render: function() {
     return (
       <div>
-        <RaisedButton
-          label="Secondary"
-          secondary={true}
-          style={styles.fixed}
-          onTouchTap={this.handleTouchTap}
-          label="Click me to chat"
-          />
+        <div style={styles.fixed}>
+          <FloatingActionButton
+            secondary={true}
+            onTouchTap={this.handleTouchTap}>
+            <CommunicationMessage />
+          </FloatingActionButton>
+        </div>
         <LeftNav
           width={300}
           openRight={true}
           open={this.state.open} >
-          <MenuBar />
-          <ListMessages messages={this.state.data} />
-          <MessageForm onInputMessage={this.handleInputMessage} />
+          <MenuBar onClose={this.handleClose}/>
+          <div style={styles.messagesAndForm}>
+            <div ref="messages" style={styles.messages}>
+              <ListMessages messages={this.state.data} />
+            </div>
+            <div style={styles.messageForm}>
+              <MessageForm onInputMessage={this.handleInputMessage} />
+            </div>
+          </div>
         </LeftNav>
       </div>
     )
