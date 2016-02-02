@@ -124,7 +124,6 @@ const Chat = React.createClass({
   getInitialState: function() {
     return {
       open: false,
-      anchorEl: null,
       data: data,
     }
   },
