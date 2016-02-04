@@ -12,24 +12,23 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 // import "deps/phoenix_html/web/static/js/phoenix_html"
-import "phoenix_html"
+import 'phoenix_html';
 
 // Import local files
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import socket from "./socket"
-import Room from "./room"
+import socket from './socket';
+import ChatRoom from './room';
 
-Room.join(socket, document.getElementById("chat-room"))
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Chat from './components/chat';
 
-import React from "react"
-import ReactDOM from "react-dom"
-import Chat from "./components/chat"
+ChatRoom.join(socket, document.getElementById('chat-room'));
 
 ReactDOM.render(
   <Chat/>,
-  document.getElementById("chat-room")
-)
-
+  document.getElementById('chat-room')
+);

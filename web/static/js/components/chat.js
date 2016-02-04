@@ -1,59 +1,59 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import AppBar from 'material-ui/lib/app-bar'
-import LeftNav from 'material-ui/lib/left-nav'
-import IconButton from 'material-ui/lib/icon-button'
-import FloatingActionButton from 'material-ui/lib/floating-action-button'
-import NavigationClose from 'material-ui/lib/svg-icons/navigation/close'
-import CommunicationMessage from 'material-ui/lib/svg-icons/communication/message'
-import List from 'material-ui/lib/lists/list'
-import ListItem from 'material-ui/lib/lists/list-item'
-import Avatar from 'material-ui/lib/avatar'
-import TextField from 'material-ui/lib/text-field'
-import Colors from 'material-ui/lib/styles/colors'
-import injectTapEventPlugin from 'react-tap-event-plugin'
+import AppBar from 'material-ui/lib/app-bar';
+import LeftNav from 'material-ui/lib/left-nav';
+import IconButton from 'material-ui/lib/icon-button';
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
+import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
+import CommunicationMessage from 'material-ui/lib/svg-icons/communication/message';
+import List from 'material-ui/lib/lists/list';
+import ListItem from 'material-ui/lib/lists/list-item';
+import Avatar from 'material-ui/lib/avatar';
+import TextField from 'material-ui/lib/text-field';
+import Colors from 'material-ui/lib/styles/colors';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-injectTapEventPlugin()
+injectTapEventPlugin();
 
 const data = [
-  {id: 1, name: "Pete Hunt", text: "This is one comment", createdAt: "1/2/2016, 1:54:37 PM"},
-]
+  { id: 1, name: 'Pete Hunt', text: 'This is one comment', createdAt: '1/2/2016, 1:54:37 PM' },
+];
 
 const styles = {
   fixed: {
-    position: "fixed",
+    position: 'fixed',
     bottom: 20,
     right: 40,
   },
   messagesAndForm: {
-    overflow: "auto",
-    height: "95%",
+    overflow: 'auto',
+    height: '95%',
   },
   messages: {
-    overflow: "auto",
-    height: "80%",
+    overflow: 'auto',
+    height: '80%',
   },
   messageForm: {
-    minWidth: "300px",
-    height: "20%",
-    backgroundColor: "white",
-    padding: "10px",
-    WebkitBoxSizing: "border-box",
-    MozBoxSizing: "border-box",
-    boxSizing: "border-box",
+    minWidth: '300px',
+    height: '20%',
+    backgroundColor: 'white',
+    padding: '10px',
+    WebkitBoxSizing: 'border-box',
+    MozBoxSizing: 'border-box',
+    boxSizing: 'border-box',
   },
-}
+};
 
-const ListItemMessage = React.createClass({
-  avatar: function() {
-    if (this.props.name.length > 0)
-      return this.props.name[0].toUpperCase()
-    else
-      return "A"
-  },
+class ListItemMessage extends React.Component {
+  avatar() {
+    if (this.props.name.length > 0) {
+      return this.props.name[0].toUpperCase();
+    }
+    return 'A';
+  }
 
-  render: function() {
+  render() {
     return (
       <ListItem
         secondaryTextLines={2}
@@ -65,148 +65,152 @@ const ListItemMessage = React.createClass({
             {this.props.children}
           </div>
         }
-        />
-    )
+      />
+    );
   }
-})
+}
 
-const ListMessages = React.createClass({
-  render: function() {
+class ListMessages extends React.Component {
+  render() {
     const messages = this.props.messages.map(function(msg) {
       return (
         <ListItemMessage
           key={msg.id}
           name={msg.name}
-          createdAt={msg.createdAt}>
+          createdAt={msg.createdAt}
+        >
           {msg.text}
         </ListItemMessage>
-      )
-    })
+      );
+    });
     return (
       <List>
         {messages}
       </List>
-    )
+    );
   }
-})
+}
 
-const MenuBar = React.createClass({
-  handleTouchTap: function(event) {
-    this.props.onClose()
-  },
+class MenuBar extends React.Component {
+  handleTouchTap() {
+    this.props.onClose();
+  }
 
-  render: function() {
+  render() {
     return (
       <AppBar
         title="Chat"
         iconElementRight={
-          <IconButton onTouchTap={this.handleTouchTap}>
+          <IconButton onTouchTap={this.handleTouchTap.bind(this)}>
             <NavigationClose />
           </IconButton>
         }
-        />
-    )
+      />
+    );
   }
-})
+}
 
-const License = React.createClass({
-  render: function() {
+class License extends React.Component {
+  render() {
     return (
       <div
-        style={{color: Colors.grey500}}
-        >
+        style={{ color: Colors.grey500 }}
+      >
         <center>
           Powered by&nbsp;
           <a
-            style={{color: Colors.grey500}}
-            href="#">
+            style={{ color: Colors.grey500 }}
+            href="#"
+          >
             XXX
           </a>
         </center>
       </div>
-    )
+    );
   }
-})
+}
 
-const MessageForm = React.createClass({
-  handleEnterKyeDown: function(event) {
-    const text = event.target.value
-    this.props.onInputMessage(text)
-    event.target.value = ""
-    return
-  },
+class MessageForm extends React.Component {
+  handleEnterKyeDown(event) {
+    const text = event.target.value;
+    this.props.onInputMessage(text);
+    event.target.value = '';
+  }
 
-  render: function() {
+  render() {
     return (
       <div>
         <TextField
-          onEnterKeyDown={this.handleEnterKyeDown}
-          fullWidth={true}
+          onEnterKeyDown={this.handleEnterKyeDown.bind(this)}
+          fullWidth
           hintText="Input Message"
-          />
+        />
         <License />
       </div>
-    )
+    );
   }
-})
+}
 
-const Chat = React.createClass({
-  getInitialState: function() {
-    return {
+class Chat extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       open: false,
       data: data,
-    }
-  },
+    };
+  }
 
-  handleTouchTap: function(event) {
-    this.setState({open: true})
-  },
+  componentDidUpdate() {
+    const node = ReactDOM.findDOMNode(this.refs.messages);
+    node.scrollTop = node.scrollHeight;
+  }
 
-  handleClose: function() {
-    this.setState({open: false})
-  },
+  handleTouchTap() {
+    this.setState({ open: true });
+  }
 
-  handleInputMessage: function(text) {
-    const msgs = this.state.data
-    const newID = msgs.length + 1
-    const now = new Date()
-    const newMsg = {id: newID, name: "you", text: text, createdAt: now.toLocaleString()}
-    const newMsgs = msgs.concat([newMsg])
-    this.setState({data: newMsgs})
-  },
+  handleClose() {
+    this.setState({ open: false });
+  }
 
-  componentDidUpdate: function() {
-    const node = ReactDOM.findDOMNode(this.refs.messages)
-    node.scrollTop = node.scrollHeight
-  },
+  handleInputMessage(text) {
+    const msgs = this.state.data;
+    const newID = msgs.length + 1;
+    const now = new Date();
+    const newMsg = { id: newID, name: 'you', text: text, createdAt: now.toLocaleString() };
+    const newMsgs = msgs.concat([newMsg]);
+    this.setState({ data: newMsgs });
+  }
 
-  render: function() {
+  render() {
     return (
       <div>
         <div style={styles.fixed}>
           <FloatingActionButton
-            secondary={true}
-            onTouchTap={this.handleTouchTap}>
+            secondary
+            onTouchTap={this.handleTouchTap.bind(this)}
+          >
             <CommunicationMessage />
           </FloatingActionButton>
         </div>
         <LeftNav
           width={300}
-          openRight={true}
-          open={this.state.open} >
-          <MenuBar onClose={this.handleClose}/>
+          openRight
+          open={this.state.open}
+        >
+          <MenuBar onClose={this.handleClose.bind(this)}/>
           <div style={styles.messagesAndForm}>
             <div ref="messages" style={styles.messages}>
               <ListMessages messages={this.state.data} />
             </div>
             <div style={styles.messageForm}>
-              <MessageForm onInputMessage={this.handleInputMessage} />
+              <MessageForm onInputMessage={this.handleInputMessage.bind(this)} />
             </div>
           </div>
         </LeftNav>
       </div>
-    )
+    );
   }
-})
+}
 
-export default Chat
+export default Chat;

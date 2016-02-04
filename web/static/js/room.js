@@ -1,13 +1,13 @@
-let Room = {
+const ChatRoom = {
   join(socket, element) {
-    if(!element){ return }
-    socket.connect()
-    let roomID  = element.getAttribute("data-id")
-    let channel = socket.channel("rooms:" + roomID)
+    if (!element) { return; }
+    socket.connect();
+    const roomID = element.getAttribute('data-id');
+    const channel = socket.channel(`rooms:${roomID}`);
     channel.join()
-      .receive("ok", resp => { console.log("Joined successfully", resp) })
-      .receive("error", resp => { console.log("Unable to join", resp) })
-  }
-}
+      .receive('ok', resp => { console.log('Joined successfully', resp); })
+      .receive('error', resp => { console.log('Unable to join', resp); });
+  },
+};
 
-export default Room
+export default ChatRoom;
