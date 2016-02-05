@@ -3,7 +3,7 @@ import AppBar from 'material-ui/lib/app-bar';
 import IconButton from 'material-ui/lib/icon-button';
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
 
-class MenuBar extends React.Component {
+export class MenuBar extends React.Component {
   constructor(props) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);

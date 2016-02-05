@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/lib/text-field';
 import License from './license';
 
-class MessageForm extends React.Component {
+export class MessageForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleEnterKyeDown = this.handleEnterKyeDown.bind(this);
