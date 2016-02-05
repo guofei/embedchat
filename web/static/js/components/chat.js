@@ -72,7 +72,7 @@ class ListItemMessage extends React.Component {
 
 class ListMessages extends React.Component {
   render() {
-    const messages = this.props.messages.map(function(msg) {
+    const messages = this.props.messages.map((msg) => {
       return (
         <ListItemMessage
           key={msg.id}
@@ -92,6 +92,11 @@ class ListMessages extends React.Component {
 }
 
 class MenuBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+  }
+
   handleTouchTap() {
     this.props.onClose();
   }
@@ -101,7 +106,7 @@ class MenuBar extends React.Component {
       <AppBar
         title="Chat"
         iconElementRight={
-          <IconButton onTouchTap={this.handleTouchTap.bind(this)}>
+          <IconButton onTouchTap={this.handleTouchTap}>
             <NavigationClose />
           </IconButton>
         }
@@ -131,6 +136,11 @@ class License extends React.Component {
 }
 
 class MessageForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleEnterKyeDown = this.handleEnterKyeDown.bind(this);
+  }
+
   handleEnterKyeDown(event) {
     const text = event.target.value;
     this.props.onInputMessage(text);
@@ -141,7 +151,7 @@ class MessageForm extends React.Component {
     return (
       <div>
         <TextField
-          onEnterKeyDown={this.handleEnterKyeDown.bind(this)}
+          onEnterKeyDown={this.handleEnterKyeDown}
           fullWidth
           hintText="Input Message"
         />
@@ -158,6 +168,9 @@ class Chat extends React.Component {
       open: false,
       data: data,
     };
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleInputMessage = this.handleInputMessage.bind(this);
   }
 
   componentDidUpdate() {
@@ -188,7 +201,7 @@ class Chat extends React.Component {
         <div style={styles.fixed}>
           <FloatingActionButton
             secondary
-            onTouchTap={this.handleTouchTap.bind(this)}
+            onTouchTap={this.handleTouchTap}
           >
             <CommunicationMessage />
           </FloatingActionButton>
@@ -198,13 +211,13 @@ class Chat extends React.Component {
           openRight
           open={this.state.open}
         >
-          <MenuBar onClose={this.handleClose.bind(this)}/>
+          <MenuBar onClose={this.handleClose}/>
           <div style={styles.messagesAndForm}>
             <div ref="messages" style={styles.messages}>
               <ListMessages messages={this.state.data} />
             </div>
             <div style={styles.messageForm}>
-              <MessageForm onInputMessage={this.handleInputMessage.bind(this)} />
+              <MessageForm onInputMessage={this.handleInputMessage} />
             </div>
           </div>
         </LeftNav>
