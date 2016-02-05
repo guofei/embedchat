@@ -16,7 +16,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-const data = [
+const mocData = [
   { id: 1, name: 'Pete Hunt', text: 'This is one comment', createdAt: '1/2/2016, 1:54:37 PM' },
 ];
 
@@ -70,10 +70,16 @@ class ListItemMessage extends React.Component {
   }
 }
 
+ListItemMessage.propTypes = {
+  name: React.PropTypes.string.isRequired,
+  createdAt: React.PropTypes.string.isRequired,
+  children: React.PropTypes.string,
+};
+
 class ListMessages extends React.Component {
   render() {
-    const messages = this.props.messages.map((msg) => {
-      return (
+    const messages = this.props.messages.map((msg) =>
+      (
         <ListItemMessage
           key={msg.id}
           name={msg.name}
@@ -81,8 +87,8 @@ class ListMessages extends React.Component {
         >
           {msg.text}
         </ListItemMessage>
-      );
-    });
+      )
+    );
     return (
       <List>
         {messages}
@@ -90,6 +96,10 @@ class ListMessages extends React.Component {
     );
   }
 }
+
+ListMessages.propTypes = {
+  messages: React.PropTypes.array.isRequired,
+};
 
 class MenuBar extends React.Component {
   constructor(props) {
@@ -114,6 +124,9 @@ class MenuBar extends React.Component {
     );
   }
 }
+MenuBar.propTypes = {
+  onClose: React.PropTypes.func.isRequired,
+};
 
 class License extends React.Component {
   render() {
@@ -144,7 +157,6 @@ class MessageForm extends React.Component {
   handleEnterKyeDown(event) {
     const text = event.target.value;
     this.props.onInputMessage(text);
-    event.target.value = '';
   }
 
   render() {
@@ -160,13 +172,16 @@ class MessageForm extends React.Component {
     );
   }
 }
+MessageForm.propTypes = {
+  onInputMessage: React.PropTypes.func.isRequired,
+};
 
 class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      data: data,
+      data: mocData,
     };
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -186,11 +201,11 @@ class Chat extends React.Component {
     this.setState({ open: false });
   }
 
-  handleInputMessage(text) {
+  handleInputMessage(inputText) {
     const msgs = this.state.data;
     const newID = msgs.length + 1;
     const now = new Date();
-    const newMsg = { id: newID, name: 'you', text: text, createdAt: now.toLocaleString() };
+    const newMsg = { id: newID, name: 'you', text: inputText, createdAt: now.toLocaleString() };
     const newMsgs = msgs.concat([newMsg]);
     this.setState({ data: newMsgs });
   }
