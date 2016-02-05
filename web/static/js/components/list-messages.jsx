@@ -3,7 +3,7 @@ import List from 'material-ui/lib/lists/list';
 
 import ListItemMessage from './list-item-message';
 
-export class ListMessages extends React.Component {
+class ListMessages extends React.Component {
   render() {
     const messages = this.props.messages.map((msg) =>
       (
@@ -27,3 +27,5 @@ export class ListMessages extends React.Component {
 ListMessages.propTypes = {
   messages: React.PropTypes.array.isRequired,
 };
+
+export default ListMessages;

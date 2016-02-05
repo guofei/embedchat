@@ -1,7 +1,7 @@
 import React from 'react';
 import Colors from 'material-ui/lib/styles/colors';
 
-export class License extends React.Component {
+class License extends React.Component {
   render() {
     return (
       <div
@@ -20,3 +20,5 @@ export class License extends React.Component {
     );
   }
 }
+
+export default License;

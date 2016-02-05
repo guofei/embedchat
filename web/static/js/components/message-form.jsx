@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/lib/text-field';
 import License from './license';
 
-export class MessageForm extends React.Component {
+class MessageForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleEnterKyeDown = this.handleEnterKyeDown.bind(this);
@@ -30,3 +30,5 @@ export class MessageForm extends React.Component {
 MessageForm.propTypes = {
   onInputMessage: React.PropTypes.func.isRequired,
 };
+
+export default MessageForm;

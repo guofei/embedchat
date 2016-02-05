@@ -3,7 +3,7 @@ import React from 'react';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Avatar from 'material-ui/lib/avatar';
 
-export class ListItemMessage extends React.Component {
+class ListItemMessage extends React.Component {
   avatar() {
     if (this.props.name.length > 0) {
       return this.props.name[0].toUpperCase();
@@ -33,3 +33,5 @@ ListItemMessage.propTypes = {
   createdAt: React.PropTypes.string.isRequired,
   children: React.PropTypes.string,
 };
+
+export default ListItemMessage;

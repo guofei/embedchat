@@ -8,13 +8,9 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import MenuBar from './menu-bar';
 import ListMessages from './list-messages';
-import MessageForm from './message-from';
+import MessageForm from './message-form';
 
 injectTapEventPlugin();
-
-const mocData = [
-  { id: 1, name: 'Pete Hunt', text: 'This is one comment', createdAt: '1/2/2016, 1:54:37 PM' },
-];
 
 const styles = {
   fixed: {
@@ -41,12 +37,12 @@ const styles = {
   },
 };
 
-export class Chat extends React.Component {
+class Chat extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       open: false,
-      data: mocData,
+      data: [],
     };
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleClose = this.handleClose.bind(this);
@@ -105,3 +101,5 @@ export class Chat extends React.Component {
     );
   }
 }
+
+export default Chat;

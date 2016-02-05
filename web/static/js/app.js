@@ -20,15 +20,16 @@ import 'phoenix_html';
 // paths "./socket" or full ones "web/static/js/socket".
 
 import socket from './socket';
-import ChatRoom from './room';
+import room from './room';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chat from './components/chat';
 
-ChatRoom.join(socket, document.getElementById('chat-room'));
+const chatRoom = room();
+chatRoom.join(socket, document.getElementById('chat-room'));
 
 ReactDOM.render(
-  <Chat/>,
+  <Chat />,
   document.getElementById('chat-room')
 );
