@@ -22,14 +22,14 @@ import 'phoenix_html';
 import socket from './socket';
 import room from './room';
 
+const roomID = document.getElementById('chat-room').getAttribute('data-id');
+const chatRoom = room(socket, roomID);
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chat from './components/chat';
 
-const chatRoom = room();
-chatRoom.join(socket, document.getElementById('chat-room'));
-
 ReactDOM.render(
-  <Chat />,
+  <Chat room={chatRoom} />,
   document.getElementById('chat-room')
 );

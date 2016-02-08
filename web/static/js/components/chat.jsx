@@ -49,6 +49,12 @@ class Chat extends React.Component {
     this.handleInputMessage = this.handleInputMessage.bind(this);
   }
 
+  componentDidMount() {
+    this.props.room.join((msg) => {
+      this.handleReceiveMessage(msg);
+    });
+  }
+
   componentDidUpdate() {
     const node = ReactDOM.findDOMNode(this.refs.messages);
     node.scrollTop = node.scrollHeight;
@@ -68,7 +74,12 @@ class Chat extends React.Component {
     const now = new Date();
     const newMsg = { id: newID, name: 'you', text: inputText, createdAt: now.toLocaleString() };
     const newMsgs = msgs.concat([newMsg]);
+    this.props.room.send(inputText);
     this.setState({ data: newMsgs });
+  }
+
+  handleReceiveMessage(msg) {
+    // TODO
   }
 
   render() {
@@ -101,5 +112,9 @@ class Chat extends React.Component {
     );
   }
 }
+
+Chat.propTypes = {
+  room: React.PropTypes.object.isRequired,
+};
 
 export default Chat;

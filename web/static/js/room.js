@@ -1,12 +1,11 @@
-function room() {
+function room(socket, roomID) {
   let channel = null;
   const channelID = 'new_message';
 
   return {
-    join(socket, element, onNewMessage) {
-      if (!element) { return; }
+    join(onNewMessage) {
+      if (!roomID) { return; }
       socket.connect();
-      const roomID = element.getAttribute('data-id');
       channel = socket.channel(`rooms:${roomID}`);
       channel.on(channelID, (resp) => {
         onNewMessage(resp);
@@ -18,8 +17,9 @@ function room() {
 
     send(text) {
       const message = { body: text };
-      channel.push(channelID, message);
-      //  .receive('error', e => console.log(e));
+      channel.push(channelID, message)
+        .receive('ok', e => console.log(e))
+        .receive('error', e => console.log(e));
     },
   };
 }
