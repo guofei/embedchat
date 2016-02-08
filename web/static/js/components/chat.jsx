@@ -15,25 +15,24 @@ injectTapEventPlugin();
 const styles = {
   fixed: {
     position: 'fixed',
-    bottom: 20,
-    right: 40,
+    bottom: '20px',
+    right: '40px',
   },
   messagesAndForm: {
-    overflow: 'auto',
-    height: '95%',
+    position: 'fixed',
+    height: '100%',
+    top: '0px',
+    marginTop: '60px',
   },
   messages: {
     overflow: 'auto',
-    height: '80%',
+    height: '77%',
   },
   messageForm: {
     minWidth: '300px',
-    height: '20%',
+    height: '23%',
     backgroundColor: 'white',
-    padding: '10px',
-    WebkitBoxSizing: 'border-box',
-    MozBoxSizing: 'border-box',
-    boxSizing: 'border-box',
+    marginLeft: '10px',
   },
 };
 
@@ -98,7 +97,10 @@ class Chat extends React.Component {
           openRight
           open={this.state.open}
         >
-          <MenuBar onClose={this.handleClose}/>
+          <div>
+          <div style={styles.menu}>
+            <MenuBar onClose={this.handleClose}/>
+          </div>
           <div style={styles.messagesAndForm}>
             <div ref="messages" style={styles.messages}>
               <ListMessages messages={this.state.data} />
@@ -106,6 +108,7 @@ class Chat extends React.Component {
             <div style={styles.messageForm}>
               <MessageForm onInputMessage={this.handleInputMessage} />
             </div>
+          </div>
           </div>
         </LeftNav>
       </div>
