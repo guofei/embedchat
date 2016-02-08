@@ -8,6 +8,7 @@ function room(socket, roomID) {
       socket.connect();
       channel = socket.channel(`rooms:${roomID}`);
       channel.on(channelID, (resp) => {
+        console.log('Receive message', resp);
         onNewMessage(resp);
       });
       channel.join()

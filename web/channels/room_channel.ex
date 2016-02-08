@@ -23,6 +23,10 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("new_message", payload, socket) do
+    broadcast! socket, "new_message", %{
+      body: payload["body"],
+      name: socket.assigns[:distinct_id]
+    }
     {:noreply, socket}
   end
 

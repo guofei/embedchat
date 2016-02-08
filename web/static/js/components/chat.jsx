@@ -68,17 +68,16 @@ class Chat extends React.Component {
   }
 
   handleInputMessage(inputText) {
-    const msgs = this.state.data;
-    const newID = msgs.length + 1;
-    const now = new Date();
-    const newMsg = { id: newID, name: 'you', text: inputText, createdAt: now.toLocaleString() };
-    const newMsgs = msgs.concat([newMsg]);
     this.props.room.send(inputText);
-    this.setState({ data: newMsgs });
   }
 
   handleReceiveMessage(msg) {
-    // TODO
+    const msgs = this.state.data;
+    const newID = msgs.length + 1;
+    const now = new Date();
+    const newMsg = { id: newID, name: msg.name, text: msg.body, createdAt: now.toUTCString() };
+    const newMsgs = msgs.concat([newMsg]);
+    this.setState({ data: newMsgs });
   }
 
   render() {
