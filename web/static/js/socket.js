@@ -9,7 +9,7 @@ import DistinctID from './distinct_id';
 const socket = new Socket('/socket', {
   params: {
     token: window.userToken,
-    distinct_id: DistinctID.get(),
+    distinct_id: DistinctID,
   },
 });
 

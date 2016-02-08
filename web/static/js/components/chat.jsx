@@ -36,6 +36,10 @@ const styles = {
   },
 };
 
+function shortName(fullName) {
+  return fullName.substring(0, 7);
+}
+
 class Chat extends React.Component {
   constructor(props) {
     super(props);
@@ -75,7 +79,8 @@ class Chat extends React.Component {
     const msgs = this.state.data;
     const newID = msgs.length + 1;
     const now = new Date();
-    const newMsg = { id: newID, name: msg.name, text: msg.body, createdAt: now.toUTCString() };
+    const nm = this.props.room.isSentBySelf(msg) ? 'You' : shortName(msg.name);
+    const newMsg = { id: newID, name: nm, text: msg.body, createdAt: now.toUTCString() };
     const newMsgs = msgs.concat([newMsg]);
     this.setState({ data: newMsgs });
   }

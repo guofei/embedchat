@@ -1,6 +1,6 @@
 import uuid from 'uuid';
 
-const DistinctID = {
+const Distinct = {
   visitor(resource) {
     const key = `lwn_${resource}`;
     return this.getID(key);
@@ -42,5 +42,11 @@ const DistinctID = {
     return '';
   },
 };
+
+function distinct() {
+  return Distinct.get();
+}
+
+const DistinctID = distinct();
 
 export default DistinctID;

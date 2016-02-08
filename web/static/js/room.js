@@ -1,3 +1,5 @@
+import DistinctID from './distinct_id';
+
 function room(socket, roomID) {
   let channel = null;
   const channelID = 'new_message';
@@ -14,6 +16,10 @@ function room(socket, roomID) {
       channel.join()
         .receive('ok', resp => { console.log('Joined successfully', resp); })
         .receive('error', resp => { console.log('Unable to join', resp); });
+    },
+
+    isSentBySelf(newMsg) {
+      return newMsg.name === DistinctID;
     },
 
     send(text) {
