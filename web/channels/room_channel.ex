@@ -27,14 +27,20 @@ defmodule EmbedChat.RoomChannel do
     distinct_id = socket.assigns.distinct_id
     case get_or_create_from_address(socket, room, distinct_id) do
       {:ok, address} ->
-        broadcast! socket, "new_message",
-        %{
+        # changeset =
+        #   address
+        # |> build_assoc(:sent_messages)
+        # |> EmbedChat.Message.changeset(%{
+        #       type: "message",
+        #       body: payload["body"]})
+        param = %{
           body: payload["body"],
           name: socket.assigns.distinct_id
         }
+        broadcast! socket, "new_message", param
         {:reply, :ok, socket}
       {:error, changeset} ->
-        {:reply, {:error, %{errors: changeset}}, socket}
+        {:reply, {:error, changeset.errors}, socket}
     end
   end
 
@@ -43,6 +49,12 @@ defmodule EmbedChat.RoomChannel do
   # downstream but one could filter or change the event.
   def handle_out(event, payload, socket) do
     push socket, event, payload
+    {:noreply, socket}
+  end
+
+  def terminate(reason, socket) do
+    distinct_id = socket.assigns.distinct_id
+    broadcast! socket, "user_left", %{distinct_id: distinct_id}
     {:noreply, socket}
   end
 

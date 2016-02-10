@@ -53,9 +53,10 @@ class Chat extends React.Component {
   }
 
   componentDidMount() {
-    this.props.room.join((msg) => {
+    this.props.room.onMessage((msg) => {
       this.handleReceiveMessage(msg);
     });
+    this.props.room.join();
   }
 
   componentDidUpdate() {
