@@ -56,7 +56,7 @@ defmodule EmbedChat.RoomControllerTest do
   @tag login_as: "max"
   test "renders form for new resources", %{conn: conn} do
     conn = get conn, room_path(conn, :new)
-    assert html_response(conn, 200) =~ "New room"
+    assert html_response(conn, 200) =~ "Submit"
   end
 
   @tag login_as: "max"
@@ -76,7 +76,7 @@ defmodule EmbedChat.RoomControllerTest do
     user = insert_user()
     room = insert_room user, @valid_attrs
     conn = get conn, room_path(conn, :show, room)
-    assert html_response(conn, 200) =~ "Show room"
+    assert html_response(conn, 200) =~ "chat-room"
   end
 
   @tag login_as: "max"

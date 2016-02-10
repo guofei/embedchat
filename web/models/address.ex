@@ -5,8 +5,8 @@ defmodule EmbedChat.Address do
     field :uuid, Ecto.UUID
     belongs_to :user, EmbedChat.User
     belongs_to :room, EmbedChat.Room
-    has_many :from_messages, EmbedChat.Message, foreign_key: :from_address_id
-    has_many :to_messages, EmbedChat.Message, foreign_key: :to_address_id
+    has_many :received_messages, EmbedChat.Message, foreign_key: :from_address_id
+    has_many :sent_messages, EmbedChat.Message, foreign_key: :to_address_id
 
     timestamps
   end
