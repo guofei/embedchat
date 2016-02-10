@@ -3,7 +3,7 @@ defmodule EmbedChat.RoomChannel do
 
   def join("rooms:" <> room_id, payload, socket) do
     if authorized?(payload) do
-      {:ok, socket}
+      {:ok, assign(socket, :room_id, room_id)}
     else
       {:error, %{reason: "unauthorized"}}
     end
@@ -23,11 +23,19 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("new_message", payload, socket) do
-    broadcast! socket, "new_message", %{
-      body: payload["body"],
-      name: socket.assigns[:distinct_id]
-    }
-    {:noreply, socket}
+    room = EmbedChat.Repo.get(EmbedChat.Room, socket.assigns.room_id)
+    distinct_id = socket.assigns.distinct_id
+    case get_or_create_from_address(socket, room, distinct_id) do
+      {:ok, address} ->
+        broadcast! socket, "new_message",
+        %{
+          body: payload["body"],
+          name: socket.assigns.distinct_id
+        }
+        {:reply, :ok, socket}
+      {:error, changeset} ->
+        {:reply, {:error, %{errors: changeset}}, socket}
+    end
   end
 
   # This is invoked every time a notification is being broadcast
@@ -41,5 +49,19 @@ defmodule EmbedChat.RoomChannel do
   # Add authorization logic here as required.
   defp authorized?(_payload) do
     true
+  end
+
+  defp get_or_create_from_address(socket, room, distinct_id) do
+    from_address =
+      cond do
+      address = EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id) ->
+        {:ok, address}
+      true ->
+        changeset =
+          room
+        |> build_assoc(:addresses, user_id: socket.assigns[:user_id])
+        |> EmbedChat.Address.changeset(%{uuid: distinct_id})
+        EmbedChat.Repo.insert(changeset)
+    end
   end
 end
