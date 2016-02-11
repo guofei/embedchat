@@ -1,16 +1,10 @@
-<%= if @current_user do %>
-  <div class="row">
-    <div class="col-sm-4">
-      <%= content_tag :div, "", id: "webmaster-chat-room", data: [id: 1] %>
-      user lists
-    </div>
-    <div class="col-sm-8">
-      chat
-    </div>
-  </div>
-<% else %>
-  <%= content_tag :div, "", id: "chat-room", data: [id: 1] %>
-<% end %>
+<div>
+  <%= if @current_user do %>
+    <%= content_tag :div, "", id: "webmaster-chat-room", data: [id: 1] %>
+  <% else %>
+    <%= content_tag :div, "", id: "chat-room", data: [id: 1] %>
+  <% end %>
+</div>
 
 
 <%= link "Back", to: room_path(@conn, :index) %>

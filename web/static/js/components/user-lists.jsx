@@ -1,50 +1,46 @@
 import React from 'react';
-import Avatar from 'material-ui/lib/avatar';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
+import Paper from 'material-ui/lib/paper';
 import CommunicationChatBubble from 'material-ui/lib/svg-icons/communication/chat-bubble';
 
+import ListMessages from './list-messages';
+
+const data = [
+  { id: 1, name: 'abc', text: 'helll', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
+  { id: 2, name: 'aghh', text: 'fsadf lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
+  { id: 3, name: 'dds', text: 'abcd lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
+];
+
 const UserLists = () => (
-  <div>
-    <List subheader="Recent chats">
-      <ListItem
-        primaryText="Brendan Lim"
-        leftAvatar={<Avatar>A</Avatar>}
-        rightIcon={<CommunicationChatBubble />}
-      />
-      <ListItem
-        primaryText="Eric Hoffman"
-        leftAvatar={<Avatar>A</Avatar>}
-        rightIcon={<CommunicationChatBubble />}
-      />
-      <ListItem
-        primaryText="Grace Ng"
-        leftAvatar={<Avatar>A</Avatar>}
-        rightIcon={<CommunicationChatBubble />}
-      />
-      <ListItem
-        primaryText="Kerem Suer"
-        leftAvatar={<Avatar>A</Avatar>}
-        rightIcon={<CommunicationChatBubble />}
-      />
-      <ListItem
-        primaryText="Raquel Parrado"
-        leftAvatar={<Avatar>A</Avatar>}
-        rightIcon={<CommunicationChatBubble />}
-      />
-    </List>
-    <Divider />
-    <List subheader="Previous chats">
-      <ListItem
-        primaryText="Chelsea Otakan"
-        leftAvatar={<Avatar>A</Avatar>}
-      />
-      <ListItem
-        primaryText="James Anderson"
-        leftAvatar={<Avatar>A</Avatar>}
-      />
-    </List>
+  <div className="row">
+    <div className="col-xs-3">
+      <Paper zDepth={1}>
+        <List subheader="Online chats">
+          <ListItem
+            primaryText="Brendan Lim"
+            rightIcon={<CommunicationChatBubble />}
+          />
+          <ListItem
+            primaryText="Eric Hoffman"
+            rightIcon={<CommunicationChatBubble />}
+          />
+        </List>
+        <Divider />
+        <List subheader="Offline chats">
+          <ListItem
+            primaryText="Chelsea Otakan"
+            rightIcon={<CommunicationChatBubble />}
+          />
+        </List>
+      </Paper>
+    </div>
+    <div className="col-xs-9">
+      <Paper zDepth={1}>
+        <ListMessages messages={data} />
+      </Paper>
+    </div>
   </div>
 );
 
