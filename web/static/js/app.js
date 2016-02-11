@@ -14,6 +14,8 @@
 // import "deps/phoenix_html/web/static/js/phoenix_html"
 import 'phoenix_html';
 
+import 'bootstrap-sass/assets/javascripts/bootstrap.min.js';
+
 // Import local files
 //
 // Local files can be imported directly using relative
@@ -22,14 +24,23 @@ import 'phoenix_html';
 import socket from './socket';
 import room from './room';
 
-const roomID = document.getElementById('chat-room').getAttribute('data-id');
-const chatRoom = room(socket, roomID);
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chat from './components/chat';
+import UserLists from './components/user-lists';
+
+const roomElement = document.getElementById('chat-room');
+if (roomElement) {
+  const roomID = roomElement.getAttribute('data-id');
+  const chatRoom = room(socket, roomID);
+
+  ReactDOM.render(
+    <Chat room={chatRoom} />,
+    document.getElementById('chat-room')
+  );
+}
 
 ReactDOM.render(
-  <Chat room={chatRoom} />,
-  document.getElementById('chat-room')
+  <UserLists />,
+  document.getElementById('webmaster-chat-room')
 );

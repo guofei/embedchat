@@ -12,21 +12,40 @@
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
             <%= if @current_user do %>
-              <li><%= @current_user.email %></li>
-              <li><%= link "Logout",   to: session_path(@conn, :delete, @current_user), method: :delete %></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Logout <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><%= link @current_user.email, to: "#" %></li>
+                  <li><%= link "Logout", to: session_path(@conn, :delete, @current_user), method: :delete %></li>
+                </ul>
+              </li>
             <% else %>
               <li><%= link "Login",    to: session_path(@conn, :new) %></li>
               <li><%= link "Register", to: user_path(@conn, :new) %></li>
             <% end %>
           </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid">
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
@@ -37,6 +56,7 @@
 
     </div> <!-- /container -->
     <script>window.userToken = "<%= assigns[:user_token] %>"</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
