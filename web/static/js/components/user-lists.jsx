@@ -6,6 +6,7 @@ import Paper from 'material-ui/lib/paper';
 import CommunicationChatBubble from 'material-ui/lib/svg-icons/communication/chat-bubble';
 
 import ListMessages from './list-messages';
+import MessageForm from './message-form';
 
 const data = [
   { id: 1, name: 'abc', text: 'helll', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
@@ -39,6 +40,7 @@ const UserLists = () => (
     <div className="col-xs-9">
       <Paper zDepth={1}>
         <ListMessages messages={data} />
+        <MessageForm onInputMessage={ function(){console.log(msg)} } />
       </Paper>
     </div>
   </div>
