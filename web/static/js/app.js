@@ -27,7 +27,7 @@ import room from './room';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chat from './components/chat';
-import UserLists from './components/user-lists';
+import ChatWebmaster from './components/chat-webmaster';
 
 const roomElement = document.getElementById('chat-room');
 if (roomElement) {
@@ -41,6 +41,6 @@ if (roomElement) {
 }
 
 ReactDOM.render(
-  <UserLists />,
+  <ChatWebmaster />,
   document.getElementById('webmaster-chat-room')
 );
