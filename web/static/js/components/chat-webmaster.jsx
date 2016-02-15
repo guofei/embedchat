@@ -38,6 +38,9 @@ class ChatWebmaster extends React.Component {
     this.props.room.onUserJoin((user) => {
       this.handleUserJoin(user);
     });
+    this.props.room.onUserLeft((user) => {
+      this.handleUserLeft(user);
+    });
     this.props.room.join();
   }
 
