@@ -40,7 +40,12 @@ if (roomElement) {
   );
 }
 
-ReactDOM.render(
-  <ChatWebmaster />,
-  document.getElementById('webmaster-chat-room')
-);
+const masterRoomElement = document.getElementById('webmaster-chat-room');
+if (masterRoomElement) {
+  const roomID = masterRoomElement.getAttribute('data-id');
+  const chatRoom = room(socket, roomID);
+  ReactDOM.render(
+    <ChatWebmaster room={chatRoom} />,
+    document.getElementById('webmaster-chat-room')
+  );
+}

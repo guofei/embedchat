@@ -1,9 +1,14 @@
 import DistinctID from './distinct_id';
 
 function room(socket, roomID) {
-  let channel = null;
-  let onNewMessage = null;
   const messageEvent = 'new_message';
+  const userLeft = 'user_left';
+  const userJoin = 'user_join';
+
+  let channel = null;
+  let onMessageCallback = function func(res) { return res; };
+  let onUserJoinCallback = function func(res) { return res; };
+  let onUserLeftCallback = function func(res) { return res; };
 
   return {
     join() {
@@ -13,21 +18,26 @@ function room(socket, roomID) {
 
       channel.on(messageEvent, (resp) => {
         console.log('Receive message', resp);
-        onNewMessage(resp);
+        onMessageCallback(resp);
       });
 
-      const userLeft = 'User left';
-      channel.on('user_left', (resp) => {
-        console.log(userLeft, resp);
+      channel.on(userLeft, (resp) => {
+        console.log('User left', resp);
+        onUserLeftCallback(resp);
+      });
+
+      channel.on(userJoin, (resp) => {
+        console.log('User Join', resp);
+        onUserJoinCallback(resp);
       });
 
       channel.join()
-        .receive('ok', resp => { console.log('Joined successfully', resp); })
+        .receive('ok', resp => { console.log('Join', resp); })
         .receive('error', resp => { console.log('Unable to join', resp); });
     },
 
     onMessage(callback) {
-      onNewMessage = callback;
+      onMessageCallback = callback;
     },
 
     isSentBySelf(newMsg) {
@@ -39,6 +49,14 @@ function room(socket, roomID) {
       channel.push(messageEvent, message)
         .receive('ok', e => console.log(e))
         .receive('error', e => console.log(e));
+    },
+
+    onUserJoin(callback) {
+      onUserJoinCallback = callback;
+    },
+
+    onUserLeft(callback) {
+      onUserLeftCallback = callback;
     },
   };
 }

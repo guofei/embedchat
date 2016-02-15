@@ -25,11 +25,36 @@ class ChatWebmaster extends React.Component {
       offlineUsers: userMoc,
     };
     this.handleInputMessage = this.handleInputMessage.bind(this);
+    this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
     this.handleSelectUser = this.handleSelectUser.bind(this);
+    this.handleUserJoin = this.handleUserJoin.bind(this);
+    this.handleUserLeft = this.handleUserLeft.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.room.onMessage((msg) => {
+      this.handleReceiveMessage(msg);
+    });
+    this.props.room.onUserJoin((user) => {
+      this.handleUserJoin(user);
+    });
+    this.props.room.join();
   }
 
   handleInputMessage(inputText) {
     console.log(inputText);
+  }
+
+  handleReceiveMessage(msg) {
+    console.log(msg);
+  }
+
+  handleUserJoin(user) {
+    console.log(user);
+  }
+
+  handleUserLeft(user) {
+    console.log(user);
   }
 
   handleSelectUser(name) {
@@ -58,5 +83,9 @@ class ChatWebmaster extends React.Component {
     );
   }
 }
+
+ChatWebmaster.propTypes = {
+  room: React.PropTypes.object.isRequired,
+};
 
 export default ChatWebmaster;
