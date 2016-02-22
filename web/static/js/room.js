@@ -32,7 +32,11 @@ function room(socket, roomID) {
       });
 
       channel.join()
-        .receive('ok', resp => { console.log('Join', resp); })
+        .receive('ok', resp => {
+          channel.push('contact_list', { test: 'test' })
+          .receive('ok', listResp => { console.log('Contact List', listResp); });
+          console.log('Join', resp);
+        })
         .receive('error', resp => { console.log('Unable to join', resp); });
     },
 

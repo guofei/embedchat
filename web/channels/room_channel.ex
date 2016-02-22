@@ -15,6 +15,13 @@ defmodule EmbedChat.RoomChannel do
     {:reply, {:ok, payload}, socket}
   end
 
+  def handle_in("contact_list", payload, socket) do
+    if socket.assigns[:user_id] do
+      broadcast! socket, "contact_list", %{user_id: socket.assigns[:user_id]}
+    end
+    {:reply, {:ok, payload}, socket}
+  end
+
   # It is also common to receive messages from the client and
   # broadcast to everyone in the current topic (rooms:lobby).
   def handle_in("shout", payload, socket) do
@@ -44,10 +51,16 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
+  def handle_out("contact_list", %{user_id: user_id}, socket) do
+    broadcast! socket, "user_join", %{to: user_id, distinct_id: socket.assigns.distinct_id}
+    {:noreply, socket}
+  end
+
   # This is invoked every time a notification is being broadcast
   # to the client. The default implementation is just to push it
   # downstream but one could filter or change the event.
   def handle_out(event, payload, socket) do
+    # TODO
     push socket, event, payload
     {:noreply, socket}
   end
