@@ -3,20 +3,20 @@ defmodule EmbedChat.Bucket do
   Starts a new bucket.
   """
   def start_link do
-    Agent.start_link(fn -> %{} end)
+    Agent.start_link(fn -> [] end)
   end
 
   @doc """
-  Gets a value from the `bucket` by `key`.
+  Gets a list from the `bucket`
   """
-  def get(bucket, key) do
-    Agent.get(bucket, &Map.get(&1, key))
+  def get(bucket) do
+    Agent.get(bucket, fn list -> list end)
   end
 
   @doc """
-  Puts the `value` for the given `key` in the `bucket`.
+  Adds the `value` in the `bucket`.
   """
-  def put(bucket, key, value) do
-    Agent.update(bucket, &Map.put(&1, key, value))
+  def add(bucket, value) do
+    Agent.update(bucket, fn list -> [value|list] end)
   end
 end
