@@ -1,4 +1,4 @@
-defmodule EmbedChat.Bucket do
+defmodule EmbedChat.Room.Bucket do
   @doc """
   Starts a new bucket.
   """

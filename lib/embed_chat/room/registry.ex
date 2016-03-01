@@ -1,4 +1,4 @@
-defmodule EmbedChat.Room do
+defmodule EmbedChat.Room.Registry do
   use GenServer
 
   ## Client API
@@ -7,7 +7,7 @@ defmodule EmbedChat.Room do
   Starts the registry.
   """
   def start_link() do
-    GenServer.start_link(__MODULE__, :ok, [])
+    GenServer.start_link(__MODULE__, :ok, name: name)
   end
 
   @doc """
