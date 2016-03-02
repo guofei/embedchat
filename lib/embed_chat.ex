@@ -13,6 +13,7 @@ defmodule EmbedChat do
       supervisor(EmbedChat.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(EmbedChat.Worker, [arg1, arg2, arg3]),
+      supervisor(EmbedChat.Room.Supervisor, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

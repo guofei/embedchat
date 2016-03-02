@@ -6,7 +6,7 @@ defmodule EmbedChat.Room.Registry do
   @doc """
   Starts the registry.
   """
-  def start_link() do
+  def start_link(name) do
     GenServer.start_link(__MODULE__, :ok, name: name)
   end
 
@@ -49,7 +49,7 @@ defmodule EmbedChat.Room.Registry do
     if Map.has_key?(names, name) do
       {:noreply, {names, refs}}
     else
-      {:ok, pid} = EmbedChat.Bucket.start_link()
+      {:ok, pid} = EmbedChat.Room.Bucket.Supervisor.start_bucket()
       ref = Process.monitor(pid)
       refs = Map.put(refs, ref, name)
       names = Map.put(names, name, pid)

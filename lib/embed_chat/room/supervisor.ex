@@ -7,7 +7,7 @@ defmodule EmbedChat.Room.Supervisor do
 
   def init(:ok) do
     children = [
-      worker(EmbedChat.Room.Registry, [EmbedChat.Room.Registry])
+      worker(EmbedChat.Room.Registry, [EmbedChat.Room.Registry]),
       supervisor(EmbedChat.Room.Bucket.Supervisor, [])
     ]
 
