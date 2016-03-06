@@ -3,6 +3,10 @@ defmodule EmbedChat.RoomChannel do
 
   def join("rooms:" <> room_id, payload, socket) do
     if authorized?(payload) do
+      reg = EmbedChat.Room.Registry
+      EmbedChat.Room.Registry.create(reg, "rooms:#{room_id}")
+      {:ok, bucket} = EmbedChat.Room.Registry.lookup(reg, "rooms:#{room_id}")
+      EmbedChat.Room.Bucket.add(bucket, socket.assigns.distinct_id)
       {:ok, assign(socket, :room_id, room_id)}
     else
       {:error, %{reason: "unauthorized"}}
@@ -17,9 +21,13 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("contact_list", payload, socket) do
     if socket.assigns[:user_id] do
-      broadcast! socket, "contact_list", %{user_id: socket.assigns[:user_id]}
+      room_id = socket.assigns.room_id
+      reg = EmbedChat.Room.Registry
+      {:ok, bucket} = EmbedChat.Room.Registry.lookup(reg, "rooms:#{room_id}")
+      {:reply, {:ok, %{online: EmbedChat.Room.Bucket.get(bucket)}}, socket}
+    else
+      {:reply, {:ok, payload}, socket}
     end
-    {:reply, {:ok, payload}, socket}
   end
 
   # It is also common to receive messages from the client and
@@ -51,10 +59,10 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-  def handle_out("contact_list", %{user_id: user_id}, socket) do
-    broadcast! socket, "user_join", %{to: user_id, distinct_id: socket.assigns.distinct_id}
-    {:noreply, socket}
-  end
+#   def handle_out("contact_list", %{user_id: user_id}, socket) do
+#     broadcast! socket, "user_join", %{to: user_id, distinct_id: socket.assigns.distinct_id}
+#     {:noreply, socket}
+#   end
 
   # This is invoked every time a notification is being broadcast
   # to the client. The default implementation is just to push it
