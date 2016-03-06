@@ -17,6 +17,6 @@ defmodule EmbedChat.Room.Bucket do
   Adds the `value` in the `bucket`.
   """
   def add(bucket, value) do
-    Agent.update(bucket, &([value|&1]))
+    Agent.update(bucket, &(Enum.uniq [value|&1]))
   end
 end
