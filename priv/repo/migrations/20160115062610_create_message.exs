@@ -6,13 +6,13 @@ defmodule EmbedChat.Repo.Migrations.CreateMessage do
       add :message_type, :string
       add :subject, :string
       add :body, :text
-      add :from_address_id, references(:addresses, on_delete: :nothing), null: false
-      add :to_address_id, references(:addresses, on_delete: :nothing), null: false
+      add :incoming_id, references(:addresses, on_delete: :nothing), null: false
+      add :outgoing_id, references(:addresses, on_delete: :nothing), null: false
 
       timestamps
     end
-    create index(:messages, [:from_address_id])
-    create index(:messages, [:to_address_id])
+    create index(:messages, [:incoming_id])
+    create index(:messages, [:outgoing_id])
 
   end
 end

@@ -5,8 +5,8 @@ defmodule EmbedChat.Message do
     field :message_type, :string
     field :subject, :string
     field :body, :string
-    belongs_to :from_address, EmbedChat.Address
-    belongs_to :to_address, EmbedChat.Address
+    belongs_to :incomings, EmbedChat.Address
+    belongs_to :outgoings, EmbedChat.Address
 
     timestamps
   end
