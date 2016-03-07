@@ -14,5 +14,8 @@ defmodule EmbedChat.Room.BucketTest do
 
     EmbedChat.Room.Bucket.add(bucket, 2)
     assert EmbedChat.Room.Bucket.get(bucket) == [2, 1]
+
+    EmbedChat.Room.Bucket.delete(bucket, 1)
+    assert EmbedChat.Room.Bucket.get(bucket) == [2]
   end
 end

@@ -19,4 +19,11 @@ defmodule EmbedChat.Room.Bucket do
   def add(bucket, value) do
     Agent.update(bucket, &(Enum.uniq [value|&1]))
   end
+
+  @doc """
+  Deletes the `value` in the `bucket`.
+  """
+  def delete(bucket, value) do
+    Agent.update(bucket, &(List.delete &1, value))
+  end
 end
