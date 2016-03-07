@@ -20,7 +20,7 @@ function User({ name, onSelected }) {
 
 function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
   const onlines = onlineUsers.map((user) =>
-    (<User name={user.uid} key={user.uid} onSelected={onUserSelected} />)
+  (<User name={user.uid} key={user.uid} onSelected={onUserSelected} />)
   );
   const offlines = offlineUsers.map((user) =>
   (<User name={user.uid} key={user.uid} onSelected={onUserSelected} />)

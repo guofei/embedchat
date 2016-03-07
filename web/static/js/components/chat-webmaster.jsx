@@ -21,7 +21,7 @@ class ChatWebmaster extends React.Component {
     super(props);
     this.state = {
       data: dataMoc,
-      onlineUsers: userMoc,
+      onlineUsers: [],
       offlineUsers: userMoc,
     };
     this.handleInputMessage = this.handleInputMessage.bind(this);
@@ -53,7 +53,13 @@ class ChatWebmaster extends React.Component {
   }
 
   handleUserJoin(user) {
-    console.log(user);
+    if (this.props.room.isSelf(user.distinct_id)) {
+      return;
+    }
+    const users = this.state.onlineUsers;
+    const newUser = { uid: user.distinct_id };
+    const newUsers = users.concat([newUser]);
+    this.setState({ onlineUsers: newUsers });
   }
 
   handleUserLeft(user) {

@@ -34,7 +34,11 @@ function room(socket, roomID) {
       channel.join()
         .receive('ok', resp => {
           channel.push('contact_list', { test: 'test' })
-          .receive('ok', listResp => { console.log('Get contact list', listResp); });
+          .receive('ok', listResp => {
+            for (const user of listResp.users) {
+              onUserJoinCallback({ distinct_id: user });
+            }
+          });
           console.log('Join', resp);
         })
         .receive('error', resp => { console.log('Unable to join', resp); });
@@ -44,8 +48,8 @@ function room(socket, roomID) {
       onMessageCallback = callback;
     },
 
-    isSentBySelf(newMsg) {
-      return newMsg.name === DistinctID;
+    isSelf(uid) {
+      return uid === DistinctID;
     },
 
     send(text) {

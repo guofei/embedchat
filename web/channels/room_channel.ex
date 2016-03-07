@@ -20,7 +20,7 @@ defmodule EmbedChat.RoomChannel do
     if socket.assigns[:user_id] do
       {:reply, {:ok, %{users: online_users(socket.assigns.room_id)}}, socket}
     else
-      {:reply, {:ok, payload}, socket}
+      {:reply, {:error, %{reason: "unauthorized"}}, socket}
     end
   end
 
@@ -64,7 +64,9 @@ defmodule EmbedChat.RoomChannel do
 
   def terminate(reason, socket) do
     distinct_id = socket.assigns.distinct_id
-    broadcast! socket, "user_left", %{distinct_id: distinct_id}
+    if socket.assigns[:user_id] do
+      broadcast! socket, "user_left", %{distinct_id: distinct_id}
+    end
     offline(socket.assigns.room_id, distinct_id)
     {:noreply, socket}
   end
