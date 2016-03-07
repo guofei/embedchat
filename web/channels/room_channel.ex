@@ -3,10 +3,7 @@ defmodule EmbedChat.RoomChannel do
 
   def join("rooms:" <> room_id, payload, socket) do
     if authorized?(payload) do
-      reg = EmbedChat.Room.Registry
-      EmbedChat.Room.Registry.create(reg, "rooms:#{room_id}")
-      {:ok, bucket} = EmbedChat.Room.Registry.lookup(reg, "rooms:#{room_id}")
-      EmbedChat.Room.Bucket.add(bucket, socket.assigns.distinct_id)
+      online(room_id, socket.assigns.distinct_id)
       {:ok, assign(socket, :room_id, room_id)}
     else
       {:error, %{reason: "unauthorized"}}
@@ -21,10 +18,7 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("contact_list", payload, socket) do
     if socket.assigns[:user_id] do
-      room_id = socket.assigns.room_id
-      reg = EmbedChat.Room.Registry
-      {:ok, bucket} = EmbedChat.Room.Registry.lookup(reg, "rooms:#{room_id}")
-      {:reply, {:ok, %{online: EmbedChat.Room.Bucket.get(bucket)}}, socket}
+      {:reply, {:ok, %{users: online_users(socket.assigns.room_id)}}, socket}
     else
       {:reply, {:ok, payload}, socket}
     end
@@ -59,11 +53,6 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-#   def handle_out("contact_list", %{user_id: user_id}, socket) do
-#     broadcast! socket, "user_join", %{to: user_id, distinct_id: socket.assigns.distinct_id}
-#     {:noreply, socket}
-#   end
-
   # This is invoked every time a notification is being broadcast
   # to the client. The default implementation is just to push it
   # downstream but one could filter or change the event.
@@ -76,12 +65,35 @@ defmodule EmbedChat.RoomChannel do
   def terminate(reason, socket) do
     distinct_id = socket.assigns.distinct_id
     broadcast! socket, "user_left", %{distinct_id: distinct_id}
+    offline(socket.assigns.room_id, distinct_id)
     {:noreply, socket}
   end
 
   # Add authorization logic here as required.
   defp authorized?(_payload) do
     true
+  end
+
+  defp online_users(room_id) do
+    {:ok, bucket} = bucket(room_id)
+    EmbedChat.Room.Bucket.get(bucket)
+  end
+
+  defp online(room_id, distinct_id) do
+    reg = EmbedChat.Room.Registry
+    EmbedChat.Room.Registry.create(reg, "rooms:#{room_id}")
+    {:ok, bucket} = EmbedChat.Room.Registry.lookup(reg, "rooms:#{room_id}")
+    EmbedChat.Room.Bucket.add(bucket, distinct_id)
+  end
+
+  defp offline(room_id, distinct_id) do
+    {:ok, bucket} = bucket(room_id)
+    EmbedChat.Room.Bucket.delete(bucket, distinct_id)
+  end
+
+  defp bucket(room_id) do
+    reg = EmbedChat.Room.Registry
+    {:ok, bucket} = EmbedChat.Room.Registry.lookup(reg, "rooms:#{room_id}")
   end
 
   defp get_or_create_from_address(socket, room, distinct_id) do
