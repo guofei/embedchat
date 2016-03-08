@@ -11,10 +11,10 @@ const dataMoc = [
   { id: 3, name: 'dds', text: 'abcd lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
 ];
 
-const userMoc = [
-  { uid: 'ADAF9924-EEC8-467A-A822-AA4DB2887814' },
-  { uid: 'EDAF9924-EEC8-467A-A822-AA4DB2887814' },
-];
+// const userMoc = [
+//   { uid: 'ADAF9924-EEC8-467A-A822-AA4DB2887814' },
+//   { uid: 'EDAF9924-EEC8-467A-A822-AA4DB2887814' },
+// ];
 
 function mergeDup(arr) {
   return arr.reduce((prev, current, index) => {
@@ -29,13 +29,17 @@ function mergeDup(arr) {
   }, { result: [], keys: {} }).result;
 }
 
+function remove(arr, uid) {
+  return arr.filter(x => uid !== x.uid);
+}
+
 class ChatWebmaster extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: dataMoc,
       onlineUsers: [],
-      offlineUsers: userMoc,
+      offlineUsers: [],
     };
     this.handleInputMessage = this.handleInputMessage.bind(this);
     this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
@@ -73,10 +77,22 @@ class ChatWebmaster extends React.Component {
     const newUser = { uid: user.distinct_id };
     const newUsers = mergeDup(users.concat([newUser]));
     this.setState({ onlineUsers: newUsers });
+
+    const offlines = remove(this.state.offlineUsers, user.distinct_id);
+    this.setState({ offlineUsers: offlines });
   }
 
   handleUserLeft(user) {
-    console.log(user);
+    if (this.props.room.isSelf(user.distinct_id)) {
+      return;
+    }
+    const users = this.state.offlineUsers;
+    const newUser = { uid: user.distinct_id };
+    const newUsers = mergeDup(users.concat([newUser]));
+    this.setState({ offlineUsers: newUsers });
+
+    const onlines = remove(this.state.onlineUsers, user.distinct_id);
+    this.setState({ onlineUsers: onlines });
   }
 
   handleSelectUser(name) {
