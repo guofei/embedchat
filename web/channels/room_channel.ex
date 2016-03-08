@@ -3,11 +3,17 @@ defmodule EmbedChat.RoomChannel do
 
   def join("rooms:" <> room_id, payload, socket) do
     if authorized?(payload) do
-      online(room_id, socket.assigns.distinct_id)
+      send(self, :after_join)
       {:ok, assign(socket, :room_id, room_id)}
     else
       {:error, %{reason: "unauthorized"}}
     end
+  end
+
+  def handle_info(:after_join, socket) do
+    online(socket.assigns.room_id, socket.assigns.distinct_id)
+    broadcast! socket, "user_join", %{distinct_id: socket.assigns.distinct_id}
+    {:noreply, socket}
   end
 
   # Channels can be used in a request/response fashion
@@ -64,9 +70,7 @@ defmodule EmbedChat.RoomChannel do
 
   def terminate(reason, socket) do
     distinct_id = socket.assigns.distinct_id
-    if socket.assigns[:user_id] do
-      broadcast! socket, "user_left", %{distinct_id: distinct_id}
-    end
+    broadcast! socket, "user_left", %{distinct_id: distinct_id}
     offline(socket.assigns.room_id, distinct_id)
     {:noreply, socket}
   end

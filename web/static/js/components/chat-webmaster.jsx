@@ -16,6 +16,19 @@ const userMoc = [
   { uid: 'EDAF9924-EEC8-467A-A822-AA4DB2887814' },
 ];
 
+function mergeDup(arr) {
+  return arr.reduce((prev, current, index) => {
+    const newArr = prev;
+    if (!(current.uid in prev.keys)) {
+      newArr.keys[current.uid] = index;
+      newArr.result.push(current);
+    } else {
+      newArr.result[newArr.keys[current.uid]] = current;
+    }
+    return prev;
+  }, { result: [], keys: {} }).result;
+}
+
 class ChatWebmaster extends React.Component {
   constructor(props) {
     super(props);
@@ -58,7 +71,7 @@ class ChatWebmaster extends React.Component {
     }
     const users = this.state.onlineUsers;
     const newUser = { uid: user.distinct_id };
-    const newUsers = users.concat([newUser]);
+    const newUsers = mergeDup(users.concat([newUser]));
     this.setState({ onlineUsers: newUsers });
   }
 
