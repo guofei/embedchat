@@ -38,16 +38,16 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("new_message", payload, socket) do
-    room = EmbedChat.Repo.get(EmbedChat.Room, socket.assigns.room_id)
-    distinct_id = socket.assigns.distinct_id
-    case get_or_create_from_address(socket, room, distinct_id) do
+    case get_or_create_from_address(socket) do
       {:ok, address} ->
+        # income = admin_address(socket.assigns.room_id)
         # changeset =
         #   address
-        # |> build_assoc(:sent_messages)
+        # |> build_assoc(:sent_messages, %{incoming_id: income.id})
         # |> EmbedChat.Message.changeset(%{
-        #       type: "message",
+        #       message_type: "message",
         #       body: payload["body"]})
+        # Repo.insert(changeset)
         param = %{
           body: payload["body"],
           name: socket.assigns.distinct_id
@@ -102,7 +102,23 @@ defmodule EmbedChat.RoomChannel do
     {:ok, bucket} = EmbedChat.Room.Registry.lookup(reg, "rooms:#{room_id}")
   end
 
-  defp get_or_create_from_address(socket, room, distinct_id) do
+  defp admin(room_id) do
+    room =
+      EmbedChat.Repo.get(EmbedChat.Room, room_id)
+    |> EmbedChat.Repo.preload(:user)
+
+    room.user
+  end
+
+  defp admin_address(room_id) do
+    user = EmbedChat.Repo.preload(admin(room_id), :addresses)
+    List.first(user.addresses)
+  end
+
+  defp get_or_create_from_address(socket) do
+    room = EmbedChat.Repo.get(EmbedChat.Room, socket.assigns.room_id)
+    distinct_id = socket.assigns.distinct_id
+
     from_address =
       cond do
       address = EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id) ->
