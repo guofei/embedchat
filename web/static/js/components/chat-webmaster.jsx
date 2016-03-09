@@ -40,6 +40,7 @@ class ChatWebmaster extends React.Component {
       data: dataMoc,
       onlineUsers: [],
       offlineUsers: [],
+      currentUser: null,
     };
     this.handleInputMessage = this.handleInputMessage.bind(this);
     this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
@@ -62,7 +63,9 @@ class ChatWebmaster extends React.Component {
   }
 
   handleInputMessage(inputText) {
-    console.log(inputText);
+    if (this.state.currentUser) {
+      this.props.room.send(inputText, this.state.currentUser);
+    }
   }
 
   handleReceiveMessage(msg) {
@@ -95,8 +98,8 @@ class ChatWebmaster extends React.Component {
     this.setState({ onlineUsers: onlines });
   }
 
-  handleSelectUser(name) {
-    console.log(name);
+  handleSelectUser(userName) {
+    this.setState({ currentUser: userName });
   }
 
   render() {
