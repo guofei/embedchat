@@ -73,7 +73,7 @@ class Chat extends React.Component {
   }
 
   handleInputMessage(inputText) {
-    this.props.room.send(inputText);
+    this.props.room.send(inputText, 'admin');
   }
 
   handleReceiveMessage(msg) {
