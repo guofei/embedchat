@@ -12,6 +12,7 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_info(:after_join, socket) do
     online(socket.assigns.room_id, socket.assigns.distinct_id)
+    get_or_create_admin_adress(socket)
     broadcast! socket, "user_join", %{distinct_id: socket.assigns.distinct_id}
     {:noreply, socket}
   end
@@ -40,14 +41,14 @@ defmodule EmbedChat.RoomChannel do
   def handle_in("new_message", payload, socket) do
     case get_or_create_from_address(socket) do
       {:ok, address} ->
-        # income = admin_address(socket.assigns.room_id)
-        # changeset =
-        #   address
-        # |> build_assoc(:sent_messages, %{incoming_id: income.id})
-        # |> EmbedChat.Message.changeset(%{
-        #       message_type: "message",
-        #       body: payload["body"]})
-        # Repo.insert(changeset)
+        income = admin_address(socket.assigns.room_id)
+        changeset =
+          address
+        |> build_assoc(:sent_messages, %{incoming_id: income.id})
+        |> EmbedChat.Message.changeset(%{
+              message_type: "message",
+              body: payload["body"]})
+        Repo.insert(changeset)
         param = %{
           body: payload["body"],
           name: socket.assigns.distinct_id
@@ -113,6 +114,15 @@ defmodule EmbedChat.RoomChannel do
   defp admin_address(room_id) do
     user = EmbedChat.Repo.preload(admin(room_id), :addresses)
     List.first(user.addresses)
+  end
+
+  defp get_or_create_admin_adress(socket) do
+    cond do
+      socket.assigns[:user_id] ->
+        get_or_create_from_address(socket)
+      true ->
+        {:error, nil}
+    end
   end
 
   defp get_or_create_from_address(socket) do
