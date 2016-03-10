@@ -43,15 +43,20 @@ defmodule EmbedChat.RoomChannel do
       {:ok, sender} ->
         case receiver(socket, payload["to"]) do
           {:ok, receiver} ->
-            create_message(sender, receiver, payload["body"])
-            param = %{
-              body: payload["body"],
-              name: socket.assigns.distinct_id,
-              from: sender.uuid,
-              to: receiver.uuid
-            }
-            broadcast! socket, "new_message", param
-            {:reply, :ok, socket}
+            case create_message(sender, receiver, payload["body"]) do
+              {:ok, msg} ->
+                param = %{
+                  id: msg.id,
+                  body: msg.body,
+                  inserted_at: msg.inserted_at,
+                  from: sender.uuid,
+                  to: receiver.uuid
+                }
+                broadcast! socket, "new_message", param
+                {:noreply, socket}
+              {:error, changeset} ->
+                {:reply, {:error, changeset.errors}, socket}
+            end
           {:error, _ } ->
             {:reply, {:error, %{reason: "unknown receiver"}}, socket}
         end
@@ -60,12 +65,14 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
+  intercept ["new_message"]
+
   def handle_out("new_message", payload, socket) do
     cond do
-      payload["to"] == socket.assigns.distinct_id ->
+      payload[:to] == socket.assigns.distinct_id ->
         push socket, "new_message", payload
         {:noreply, socket}
-      payload["from"] == socket.assigns.distinct_id ->
+      payload[:from] == socket.assigns.distinct_id ->
         push socket, "new_message", payload
         {:noreply, socket}
       true ->
@@ -150,7 +157,7 @@ defmodule EmbedChat.RoomChannel do
     |> EmbedChat.Message.changeset(%{
           message_type: "message",
           body: text})
-    Repo.insert!(changeset)
+    Repo.insert(changeset)
   end
 
   defp create_admin_adress(socket) do

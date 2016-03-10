@@ -17,31 +17,27 @@ function room(socket, roomID) {
       channel = socket.channel(`rooms:${roomID}`);
 
       channel.on(messageEvent, (resp) => {
-        console.log('Receive message', resp);
         onMessageCallback(resp);
       });
 
       channel.on(userLeft, (resp) => {
-        console.log('User left', resp);
         onUserLeftCallback(resp);
       });
 
       channel.on(userJoin, (resp) => {
-        console.log('User Join', resp);
         onUserJoinCallback(resp);
       });
 
       channel.join()
         .receive('ok', resp => {
-          channel.push('contact_list', { test: 'test' })
+          channel.push('contact_list')
           .receive('ok', listResp => {
             for (const user of listResp.users) {
               onUserJoinCallback({ distinct_id: user });
             }
           });
-          console.log('Join', resp);
-        })
-        .receive('error', resp => { console.log('Unable to join', resp); });
+        });
+        // .receive('error', resp => { console.log('Unable to join', resp); });
     },
 
     onMessage(callback) {

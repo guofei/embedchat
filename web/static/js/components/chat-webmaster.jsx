@@ -5,16 +5,19 @@ import UserLists from './user-lists';
 import ListMessages from './list-messages';
 import MessageForm from './message-form';
 
-const dataMoc = [
-  { id: 1, name: 'abc', text: 'helll', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
-  { id: 2, name: 'aghh', text: 'fsadf lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
-  { id: 3, name: 'dds', text: 'abcd lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
-];
+// const dataMoc = [
+//   { id: 1, name: 'abc', text: 'helll', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
+//   { id: 2, name: 'aghh', text: 'fsadf lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
+//   { id: 3, name: 'dds', text: 'abcd lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
+// ];
 
 // const userMoc = [
 //   { uid: 'ADAF9924-EEC8-467A-A822-AA4DB2887814' },
 //   { uid: 'EDAF9924-EEC8-467A-A822-AA4DB2887814' },
 // ];
+function shortName(fullName) {
+  return fullName.substring(0, 7);
+}
 
 function mergeDup(arr) {
   return arr.reduce((prev, current, index) => {
@@ -37,7 +40,7 @@ class ChatWebmaster extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: dataMoc,
+      data: [],
       onlineUsers: [],
       offlineUsers: [],
       currentUser: null,
@@ -68,8 +71,13 @@ class ChatWebmaster extends React.Component {
     }
   }
 
+  //    { id: 1, name: 'abc', text: 'helll', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
   handleReceiveMessage(msg) {
-    console.log(msg);
+    const data = this.state.data;
+    const newMsg = msg;
+    newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : shortName(msg.from);
+    const newData = data.concat([newMsg]);
+    this.setState({ data: newData });
   }
 
   handleUserJoin(user) {
@@ -100,6 +108,7 @@ class ChatWebmaster extends React.Component {
 
   handleSelectUser(userName) {
     this.setState({ currentUser: userName });
+    this.setState({ data: [] });
   }
 
   render() {

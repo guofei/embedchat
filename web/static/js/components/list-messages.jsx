@@ -9,10 +9,10 @@ class ListMessages extends React.Component {
       (
         <ListItemMessage
           key={msg.id}
-          name={msg.name}
-          createdAt={msg.createdAt}
+          name={msg.from}
+          createdAt={msg.inserted_at}
         >
-          {msg.text}
+          {msg.body}
         </ListItemMessage>
       )
     );
