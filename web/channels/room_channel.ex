@@ -12,7 +12,7 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_info(:after_join, socket) do
     online(socket.assigns.room_id, socket.assigns.distinct_id)
-    get_or_create_admin_adress(socket)
+    create_admin_adress(socket)
     broadcast! socket, "user_join", %{distinct_id: socket.assigns.distinct_id}
     {:noreply, socket}
   end
@@ -39,28 +39,37 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("new_message", payload, socket) do
-    case get_or_create_from_address(socket) do
-      {:ok, address} ->
+    case sender(socket) do
+      {:ok, sender} ->
         case receiver(socket, payload["to"]) do
           {:ok, receiver} ->
-            changeset =
-              address
-            |> build_assoc(:sent_messages, %{incoming_id: receiver.id})
-            |> EmbedChat.Message.changeset(%{
-                  message_type: "message",
-                  body: payload["body"]})
-            Repo.insert(changeset)
+            create_message(sender, receiver, payload["body"])
             param = %{
               body: payload["body"],
-              name: socket.assigns.distinct_id
+              name: socket.assigns.distinct_id,
+              from: sender.uuid,
+              to: receiver.uuid
             }
             broadcast! socket, "new_message", param
             {:reply, :ok, socket}
-          {:error, _} ->
-        {:reply, {:error, %{reason: "address error"}}, socket}
+          {:error, _ } ->
+            {:reply, {:error, %{reason: "unknown receiver"}}, socket}
         end
       {:error, changeset} ->
         {:reply, {:error, changeset.errors}, socket}
+    end
+  end
+
+  def handle_out("new_message", payload, socket) do
+    cond do
+      payload["to"] == socket.assigns.distinct_id ->
+        push socket, "new_message", payload
+        {:noreply, socket}
+      payload["from"] == socket.assigns.distinct_id ->
+        push socket, "new_message", payload
+        {:noreply, socket}
+      true ->
+        {:noreply, socket}
     end
   end
 
@@ -68,7 +77,6 @@ defmodule EmbedChat.RoomChannel do
   # to the client. The default implementation is just to push it
   # downstream but one could filter or change the event.
   def handle_out(event, payload, socket) do
-    # TODO
     push socket, event, payload
     {:noreply, socket}
   end
@@ -107,14 +115,6 @@ defmodule EmbedChat.RoomChannel do
     {:ok, bucket} = EmbedChat.Room.Registry.lookup(reg, "rooms:#{room_id}")
   end
 
-  defp admin(room_id) do
-    room =
-      EmbedChat.Repo.get(EmbedChat.Room, room_id)
-    |> EmbedChat.Repo.preload(:user)
-
-    room.user
-  end
-
   defp receiver(socket, to) do
     cond do
       socket.assigns[:user_id] ->
@@ -124,24 +124,39 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-  defp admin_address(room_id) do
-    user = EmbedChat.Repo.preload(admin(room_id), :addresses)
-    List.first(user.addresses)
-  end
-
-  defp get_or_create_admin_adress(socket) do
-    cond do
-      socket.assigns[:user_id] ->
-        get_or_create_from_address(socket)
-      true ->
-        {:error, nil}
-    end
-  end
-
-  defp get_or_create_from_address(socket) do
+  defp sender(socket) do
     get_or_create_address(socket.assigns.room_id,
                           socket.assigns.distinct_id,
                           socket.assigns[:user_id])
+  end
+
+  defp admin_address(room_id) do
+    user = EmbedChat.Repo.preload(admin(room_id), :addresses)
+    {:ok, List.first(user.addresses)}
+  end
+
+  defp admin(room_id) do
+    room =
+      EmbedChat.Repo.get(EmbedChat.Room, room_id)
+    |> EmbedChat.Repo.preload(:user)
+
+    room.user
+  end
+
+  defp create_message(sender, receiver, text) do
+    changeset =
+      sender
+    |> build_assoc(:sent_messages, %{incoming_id: receiver.id})
+    |> EmbedChat.Message.changeset(%{
+          message_type: "message",
+          body: text})
+    Repo.insert!(changeset)
+  end
+
+  defp create_admin_adress(socket) do
+    if socket.assigns[:user_id] do
+      sender(socket)
+    end
   end
 
   defp get_or_create_address(room_id, distinct_id, user_id) do
