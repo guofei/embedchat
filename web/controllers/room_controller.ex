@@ -2,6 +2,7 @@ defmodule EmbedChat.RoomController do
   use EmbedChat.Web, :controller
 
   alias EmbedChat.Room
+  alias EmbedChat.UserRoom
 
   plug :scrub_params, "room" when action in [:create, :update]
   plug :authenticate_user, "room" when action in [:index, :new, :create, :edit, :update, :delete]
@@ -12,21 +13,19 @@ defmodule EmbedChat.RoomController do
   end
 
   def new(conn, _params) do
-    changeset =
-      conn.assigns.current_user
-    |> build_assoc(:rooms)
-    |> Room.changeset()
+    changeset = Room.changeset(%Room{})
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"room" => room_params}) do
     changeset =
-      conn.assigns.current_user
-    |> build_assoc(:rooms)
-    |> Room.changeset(room_params)
+      Room.changeset(%Room{uuid: Ecto.UUID.generate()}, room_params)
 
     case Repo.insert(changeset) do
-      {:ok, _room} ->
+      {:ok, room} ->
+        user = conn.assigns.current_user
+        # TODO check if connect user and room
+        Repo.insert(%UserRoom{user_id: user.id, room_id: room.id})
         conn
         |> put_flash(:info, "Room created successfully.")
         |> redirect(to: room_path(conn, :index))

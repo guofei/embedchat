@@ -3,11 +3,10 @@ defmodule EmbedChat.Repo.Migrations.CreateRoom do
 
   def change do
     create table(:rooms) do
-      add :user_id, references(:users, on_delete: :nothing)
+      add :uuid, :uuid
 
       timestamps
     end
-    create index(:rooms, [:user_id])
 
   end
 end

@@ -8,7 +8,10 @@ defmodule EmbedChat.User do
 
     # user use different pc can have different address
     has_many :addresses, EmbedChat.Address
-    has_many :rooms, EmbedChat.Room
+
+    # 
+    has_many :userrooms, EmbedChat.UserRoom
+    has_many :rooms, through: [:userrooms, :room]
 
     timestamps
   end

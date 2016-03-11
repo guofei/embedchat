@@ -149,11 +149,12 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp admin(room_id) do
+    # TODO change admin user
     room =
       EmbedChat.Repo.get(EmbedChat.Room, room_id)
-    |> EmbedChat.Repo.preload(:user)
+    |> EmbedChat.Repo.preload(:users)
 
-    room.user
+    List.first(room.users)
   end
 
   defp create_message(sender, receiver, text) do

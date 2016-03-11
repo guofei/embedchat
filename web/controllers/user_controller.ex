@@ -1,6 +1,9 @@
 defmodule EmbedChat.UserController do
   use EmbedChat.Web, :controller
   alias EmbedChat.User
+  alias EmbedChat.Room
+  alias EmbedChat.UserRoom
+
   # plug :authenticate when action in [:index, :show]
 
   def new(conn, _params) do
@@ -23,8 +26,9 @@ defmodule EmbedChat.UserController do
   end
 
   defp add_room(user) do
-    user
-    |> build_assoc(:rooms)
-    |> Repo.insert()
+    case Repo.insert(%Room{uuid: Ecto.UUID.generate()}) do
+      {:ok, room} ->
+        Repo.insert(%UserRoom{user_id: user.id, room_id: room.id})
+    end
   end
 end

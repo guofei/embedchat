@@ -1,12 +1,9 @@
-defmodule EmbedChat.Room do
+defmodule EmbedChat.UserRoom do
   use EmbedChat.Web, :model
 
-  schema "rooms" do
-    field :uuid, Ecto.UUID
-
-    has_many :addresses, EmbedChat.Address
-    has_many :userrooms, EmbedChat.UserRoom
-    has_many :users, through: [:userrooms, :user]
+  schema "userrooms" do
+    belongs_to :user, EmbedChat.User
+    belongs_to :room, EmbedChat.Room
 
     timestamps
   end

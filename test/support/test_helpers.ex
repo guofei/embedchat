@@ -13,9 +13,8 @@ defmodule EmbedChat.TestHelpers do
   end
 
   def insert_room(user, attrs \\ %{}) do
-    user
-    |> Ecto.build_assoc(:rooms)
-    |> EmbedChat.Room.changeset(attrs)
-    |> Repo.insert!()
+    {_, room} = Repo.insert(%EmbedChat.Room{uuid: Ecto.UUID.generate()})
+    Repo.insert(%EmbedChat.UserRoom{user_id: user.id, room_id: room.id})
+    room
   end
 end
