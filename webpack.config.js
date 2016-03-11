@@ -1,5 +1,6 @@
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
 module.exports = {
   devtool: 'source-map',
   entry: [
@@ -22,15 +23,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015', 'react'],
-        },
-      },
-      {
-        test: /\.jsx$/,
+        test: /\.js[x]?$/,
         exclude: /node_modules/,
         loader: 'babel',
         query: {

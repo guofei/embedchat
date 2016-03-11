@@ -138,8 +138,14 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp admin_address(room_id) do
+    # TODO get online admin address
     user = EmbedChat.Repo.preload(admin(room_id), :addresses)
-    {:ok, List.first(user.addresses)}
+    cond do
+      address = List.first(user.addresses) ->
+        {:ok, address}
+      true ->
+        {:error, "unknown receiver"}
+    end
   end
 
   defp admin(room_id) do

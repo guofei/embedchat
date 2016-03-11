@@ -36,6 +36,7 @@ const styles = {
   },
 };
 
+// TODO refactoring
 function shortName(fullName) {
   return fullName.substring(0, 7);
 }

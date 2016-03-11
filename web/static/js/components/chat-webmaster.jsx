@@ -11,10 +11,7 @@ import MessageForm from './message-form';
 //   { id: 3, name: 'dds', text: 'abcd lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
 // ];
 
-// const userMoc = [
-//   { uid: 'ADAF9924-EEC8-467A-A822-AA4DB2887814' },
-//   { uid: 'EDAF9924-EEC8-467A-A822-AA4DB2887814' },
-// ];
+// TODO refactoring
 function shortName(fullName) {
   return fullName.substring(0, 7);
 }
@@ -73,6 +70,9 @@ class ChatWebmaster extends React.Component {
 
   //    { id: 1, name: 'abc', text: 'helll', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
   handleReceiveMessage(msg) {
+    if (!this.state.currentUser) {
+      this.setState({ currentUser: msg.from });
+    }
     const data = this.state.data;
     const newMsg = msg;
     newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : shortName(msg.from);

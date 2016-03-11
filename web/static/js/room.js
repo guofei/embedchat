@@ -30,6 +30,7 @@ function room(socket, roomID) {
 
       channel.join()
         .receive('ok', resp => {
+          console.log('Joined successfully', resp);
           channel.push('contact_list')
           .receive('ok', listResp => {
             for (const user of listResp.users) {
@@ -50,9 +51,7 @@ function room(socket, roomID) {
 
     send(text, toUser) {
       const message = { body: text, to: toUser };
-      channel.push(messageEvent, message)
-        .receive('ok', e => console.log(e))
-        .receive('error', e => console.log(e));
+      channel.push(messageEvent, message);
     },
 
     onUserJoin(callback) {
