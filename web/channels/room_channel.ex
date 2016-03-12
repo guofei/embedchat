@@ -12,7 +12,10 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_info(:after_join, socket) do
     online(socket.assigns.room_id, socket.assigns.distinct_id)
-    create_admin_adress(socket)
+    if socket.assigns[:user_id] do
+      admin_online(socket.assigns.room_id, socket.assigns.distinct_id)
+      create_admin_address(socket)
+    end
     broadcast! socket, "user_join", %{distinct_id: socket.assigns.distinct_id}
     {:noreply, socket}
   end
@@ -92,6 +95,9 @@ defmodule EmbedChat.RoomChannel do
     distinct_id = socket.assigns.distinct_id
     broadcast! socket, "user_left", %{distinct_id: distinct_id}
     offline(socket.assigns.room_id, distinct_id)
+    if socket.assigns[:user_id] do
+      admin_offline(socket.assigns.room_id, distinct_id)
+    end
     {:noreply, socket}
   end
 
@@ -101,25 +107,52 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp online_users(room_id) do
-    {:ok, bucket} = bucket(room_id)
+    {:ok, bucket} = user_bucket(room_id)
     EmbedChat.Room.Bucket.get(bucket)
   end
 
   defp online(room_id, distinct_id) do
-    reg = EmbedChat.Room.Registry
-    EmbedChat.Room.Registry.create(reg, "rooms:#{room_id}")
-    {:ok, bucket} = EmbedChat.Room.Registry.lookup(reg, "rooms:#{room_id}")
+    {:ok, bucket} = user_bucket(room_id)
     EmbedChat.Room.Bucket.add(bucket, distinct_id)
   end
 
   defp offline(room_id, distinct_id) do
-    {:ok, bucket} = bucket(room_id)
+    {:ok, bucket} = user_bucket(room_id)
     EmbedChat.Room.Bucket.delete(bucket, distinct_id)
   end
 
-  defp bucket(room_id) do
+  defp online_admins(room_id) do
+    {:ok, bucket} = admin_bucket(room_id)
+    EmbedChat.Room.Bucket.get(bucket)
+  end
+
+  defp admin_online(room_id, distinct_id) do
+    {:ok, bucket} = admin_bucket(room_id)
+    EmbedChat.Room.Bucket.add(bucket, distinct_id)
+  end
+
+  defp admin_offline(room_id, distinct_id) do
+    {:ok, bucket} = admin_bucket(room_id)
+    EmbedChat.Room.Bucket.delete(bucket, distinct_id)
+  end
+
+  defp user_bucket(room_id) do
+    bucket(room_id)
+  end
+
+  defp admin_bucket(room_id) do
+    bucket("admin:#{room_id}")
+  end
+
+  defp bucket(id) do
     reg = EmbedChat.Room.Registry
-    {:ok, bucket} = EmbedChat.Room.Registry.lookup(reg, "rooms:#{room_id}")
+    case EmbedChat.Room.Registry.lookup(reg, "rooms:#{id}") do
+      {:ok, bucket} ->
+        {:ok, bucket}
+      :error ->
+        EmbedChat.Room.Registry.create(reg, "rooms:#{id}")
+        EmbedChat.Room.Registry.lookup(reg, "rooms:#{id}")
+    end
   end
 
   defp receiver(socket, to) do
@@ -167,7 +200,7 @@ defmodule EmbedChat.RoomChannel do
     Repo.insert(changeset)
   end
 
-  defp create_admin_adress(socket) do
+  defp create_admin_address(socket) do
     if socket.assigns[:user_id] do
       sender(socket)
     end
