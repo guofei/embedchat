@@ -171,23 +171,14 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp admin_address(room_id) do
-    # TODO get online admin address
-    user = EmbedChat.Repo.preload(admin(room_id), :addresses)
+    # TODO multi users
+    admin = List.first online_admins(room_id)
     cond do
-      address = List.first(user.addresses) ->
+      address = get_address(room_id, admin, nil) ->
         {:ok, address}
       true ->
-        {:error, "unknown receiver"}
+        {:error, %{reason: "unknown address"}}
     end
-  end
-
-  defp admin(room_id) do
-    # TODO change admin user
-    room =
-      EmbedChat.Repo.get(EmbedChat.Room, room_id)
-    |> EmbedChat.Repo.preload(:users)
-
-    List.first(room.users)
   end
 
   defp create_message(sender, receiver, text) do
@@ -213,6 +204,10 @@ defmodule EmbedChat.RoomChannel do
     true ->
       create_address(room_id, distinct_id, user_id)
     end
+  end
+
+  defp get_address(room_id, distinct_id, user_id) when is_nil(distinct_id) do
+    nil
   end
 
   defp get_address(room_id, distinct_id, user_id) when is_nil(user_id) do
