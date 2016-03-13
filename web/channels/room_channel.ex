@@ -207,17 +207,28 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp get_or_create_address(room_id, distinct_id, user_id) do
-    room = EmbedChat.Repo.get(EmbedChat.Room, room_id)
-
-    from_address = cond do
-      address = EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id) ->
+    cond do
+      address = get_address(room_id, distinct_id, user_id) ->
         {:ok, address}
-      true ->
-        changeset =
-          room
-        |> build_assoc(:addresses, user_id: user_id)
-        |> EmbedChat.Address.changeset(%{uuid: distinct_id})
-        EmbedChat.Repo.insert(changeset)
+    true ->
+      create_address(room_id, distinct_id, user_id)
     end
+  end
+
+  defp get_address(room_id, distinct_id, user_id) when is_nil(user_id) do
+    EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id)
+  end
+
+  defp get_address(room_id, distinct_id, user_id) do
+    EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id, user_id: user_id)
+  end
+
+  defp create_address(room_id, distinct_id, user_id) do
+    room = EmbedChat.Repo.get(EmbedChat.Room, room_id)
+    changeset =
+      room
+    |> build_assoc(:addresses, user_id: user_id)
+    |> EmbedChat.Address.changeset(%{uuid: distinct_id})
+    EmbedChat.Repo.insert(changeset)
   end
 end
