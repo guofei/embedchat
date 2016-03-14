@@ -68,16 +68,19 @@ class ChatWebmaster extends React.Component {
     }
   }
 
-  //    { id: 1, name: 'abc', text: 'helll', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
   handleReceiveMessage(msg) {
     if (!this.state.currentUser) {
       this.setState({ currentUser: msg.from });
     }
-    const data = this.state.data;
-    const newMsg = msg;
-    newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : shortName(msg.from);
-    const newData = data.concat([newMsg]);
-    this.setState({ data: newData });
+    if (this.state.currentUser === msg.from) {
+      const data = this.state.data;
+      const newMsg = msg;
+      newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : shortName(msg.from);
+      const newData = data.concat([newMsg]);
+      this.setState({ data: newData });
+    } else {
+      // TODO
+    }
   }
 
   handleUserJoin(user) {
@@ -107,11 +110,26 @@ class ChatWebmaster extends React.Component {
   }
 
   handleSelectUser(userName) {
-    this.setState({ currentUser: userName });
-    this.setState({ data: [] });
+    if (userName !== this.state.currentUser) {
+      this.setState({ currentUser: userName });
+      this.setState({ data: [] });
+    }
   }
 
   render() {
+    let paper = null;
+    if (this.state.currentUser) {
+      paper = (
+        <Paper zDepth={1}>
+          <ListMessages messages={this.state.data} />
+          <MessageForm onInputMessage={this.handleInputMessage} />
+        </Paper>
+      );
+    } else {
+      paper = (
+        <Paper />
+      );
+    }
     return (
       <div className="row">
         <div className="col-xs-3">
@@ -124,10 +142,7 @@ class ChatWebmaster extends React.Component {
           </Paper>
         </div>
         <div className="col-xs-9">
-          <Paper zDepth={1}>
-            <ListMessages messages={this.state.data} />
-            <MessageForm onInputMessage={this.handleInputMessage} />
-          </Paper>
+          {paper}
         </div>
       </div>
     );
