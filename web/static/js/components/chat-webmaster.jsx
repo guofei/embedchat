@@ -124,6 +124,18 @@ class ChatWebmaster extends React.Component {
       this.setState({ currentUser: userName });
       this.setState({ data: [] });
     }
+    const find = (u) => {
+      const user = u;
+      if (user.uid === userName) {
+        user.numMessages = 0;
+      }
+      return user;
+    };
+    const onlines = this.state.onlineUsers.map(find);
+    this.setState({ onlineUsers: onlines });
+
+    const offlines = this.state.offlineUsers.map(find);
+    this.setState({ offlineUsers: offlines });
   }
 
   render() {
