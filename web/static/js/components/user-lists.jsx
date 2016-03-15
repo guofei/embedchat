@@ -11,12 +11,12 @@ function shortName(fullName) {
   return fullName.substring(0, 7);
 }
 
-function User({ name, onSelected }) {
+function User({ name, numMessages, onSelected }) {
   return (
     <ListItem
       primaryText={
         <p>{shortName(name)}&nbsp;&nbsp;
-          <span style={{ color: Colors.lightBlack }}>4</span>
+          <span style={{ color: Colors.lightBlack }}>{numMessages}</span>
         </p>
       }
       rightIcon={<CommunicationChatBubble />}
@@ -28,10 +28,18 @@ function User({ name, onSelected }) {
 
 function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
   const onlines = onlineUsers.map((user) =>
-    (<User name={user.uid} key={user.uid} onSelected={onUserSelected} />)
+    (<User name={user.uid}
+      key={user.uid}
+      numMessages={user.numMessages}
+      onSelected={onUserSelected}
+    />)
   );
   const offlines = offlineUsers.map((user) =>
-    (<User name={user.uid} key={user.uid} onSelected={onUserSelected} />)
+    (<User name={user.uid}
+      key={user.uid}
+      numMessages={user.numMessages}
+      onSelected={onUserSelected}
+    />)
   );
   return (
     <div>

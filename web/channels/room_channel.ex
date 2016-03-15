@@ -16,7 +16,7 @@ defmodule EmbedChat.RoomChannel do
       admin_online(socket.assigns.room_id, socket.assigns.distinct_id)
       create_admin_address(socket)
     end
-    broadcast! socket, "user_join", %{distinct_id: socket.assigns.distinct_id}
+    broadcast! socket, "user_join", %{uid: socket.assigns.distinct_id}
     {:noreply, socket}
   end
 
@@ -93,7 +93,7 @@ defmodule EmbedChat.RoomChannel do
 
   def terminate(reason, socket) do
     distinct_id = socket.assigns.distinct_id
-    broadcast! socket, "user_left", %{distinct_id: distinct_id}
+    broadcast! socket, "user_left", %{uid: distinct_id}
     offline(socket.assigns.room_id, distinct_id)
     if socket.assigns[:user_id] do
       admin_offline(socket.assigns.room_id, distinct_id)

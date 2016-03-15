@@ -34,7 +34,7 @@ function room(socket, roomID) {
           channel.push('contact_list')
           .receive('ok', listResp => {
             for (const user of listResp.users) {
-              onUserJoinCallback({ distinct_id: user });
+              onUserJoinCallback({ uid: user });
             }
           });
         });

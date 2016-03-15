@@ -33,6 +33,13 @@ function remove(arr, uid) {
   return arr.filter(x => uid !== x.uid);
 }
 
+function createNewUsers(searched, merged, id) {
+  const oldUser = searched.find((u) => u.uid === id);
+  const num = oldUser ? oldUser.numMessages : 0;
+  const newUser = { uid: id, numMessages: num };
+  return mergeDup(merged.concat([newUser]));
+}
+
 class ChatWebmaster extends React.Component {
   constructor(props) {
     super(props);
@@ -75,37 +82,44 @@ class ChatWebmaster extends React.Component {
     if (this.state.currentUser === msg.from) {
       const data = this.state.data;
       const newMsg = msg;
-      newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : shortName(msg.from);
+      newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : msg.from;
       const newData = data.concat([newMsg]);
       this.setState({ data: newData });
-    } else {
-      // TODO
+    }
+    const users = this.state.onlineUsers + this.state.offlineUsers;
+    const oldUser = users.find((u) => u.uid === msg.from);
+    if (oldUser) {
+      oldUser.numMessages += 1;
+      const newUsers = mergeDup(users.concat([oldUser]));
+      this.setState({ onlineUsers: newUsers });
     }
   }
 
   handleUserJoin(user) {
-    if (this.props.room.isSelf(user.distinct_id)) {
+    if (this.props.room.isSelf(user.uid)) {
       return;
     }
-    const users = this.state.onlineUsers;
-    const newUser = { uid: user.distinct_id };
-    const newUsers = mergeDup(users.concat([newUser]));
+    const newUsers = createNewUsers(
+      this.state.offlineUsers,
+      this.state.onlineUsers,
+      user.uid);
     this.setState({ onlineUsers: newUsers });
 
-    const offlines = remove(this.state.offlineUsers, user.distinct_id);
+    const offlines = remove(this.state.offlineUsers, user.uid);
     this.setState({ offlineUsers: offlines });
   }
 
   handleUserLeft(user) {
-    if (this.props.room.isSelf(user.distinct_id)) {
+    if (this.props.room.isSelf(user.uid)) {
       return;
     }
-    const users = this.state.offlineUsers;
-    const newUser = { uid: user.distinct_id };
-    const newUsers = mergeDup(users.concat([newUser]));
+    const newUsers = createNewUsers(
+      this.state.onlineUsers,
+      this.state.offlineUsers,
+      user.uid);
     this.setState({ offlineUsers: newUsers });
 
-    const onlines = remove(this.state.onlineUsers, user.distinct_id);
+    const onlines = remove(this.state.onlineUsers, user.uid);
     this.setState({ onlineUsers: onlines });
   }
 
