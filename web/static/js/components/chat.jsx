@@ -36,11 +36,6 @@ const styles = {
   },
 };
 
-// TODO refactoring
-function shortName(fullName) {
-  return fullName.substring(0, 7);
-}
-
 class Chat extends React.Component {
   constructor(props) {
     super(props);
@@ -80,7 +75,7 @@ class Chat extends React.Component {
   handleReceiveMessage(msg) {
     const msgs = this.state.data;
     const newMsg = msg;
-    newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : shortName(msg.from);
+    newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : msg.from;
     const newMsgs = msgs.concat([newMsg]);
     this.setState({ data: newMsgs });
   }

@@ -11,11 +11,6 @@ import MessageForm from './message-form';
 //   { id: 3, name: 'dds', text: 'abcd lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
 // ];
 
-// TODO refactoring
-function shortName(fullName) {
-  return fullName.substring(0, 7);
-}
-
 function mergeDup(arr) {
   return arr.reduce((prev, current, index) => {
     const newArr = prev;
@@ -79,14 +74,15 @@ class ChatWebmaster extends React.Component {
     if (!this.state.currentUser) {
       this.setState({ currentUser: msg.from });
     }
-    if (this.state.currentUser === msg.from) {
+    if (this.state.currentUser === msg.from
+      || this.state.currentUser === msg.to) {
       const data = this.state.data;
       const newMsg = msg;
       newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : msg.from;
       const newData = data.concat([newMsg]);
       this.setState({ data: newData });
     }
-    const users = this.state.onlineUsers + this.state.offlineUsers;
+    const users = this.state.onlineUsers.concat(this.state.offlineUsers);
     const oldUser = users.find((u) => u.uid === msg.from);
     if (oldUser) {
       oldUser.numMessages += 1;
