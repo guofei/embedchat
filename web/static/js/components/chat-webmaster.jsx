@@ -70,6 +70,7 @@ class ChatWebmaster extends React.Component {
     }
   }
 
+  // FIXME bug
   handleReceiveMessage(msg) {
     if (!this.state.currentUser) {
       this.setState({ currentUser: msg.from });
@@ -82,13 +83,25 @@ class ChatWebmaster extends React.Component {
       const newData = data.concat([newMsg]);
       this.setState({ data: newData });
     }
-    const users = this.state.onlineUsers.concat(this.state.offlineUsers);
-    const oldUser = users.find((u) => u.uid === msg.from);
-    if (oldUser) {
-      oldUser.numMessages += 1;
-      const newUsers = mergeDup(users.concat([oldUser]));
-      this.setState({ onlineUsers: newUsers });
-    }
+    const find = (u) => {
+      const user = u;
+      if (user.uid === msg.from) {
+        user.numMessages += 1;
+      }
+      return user;
+    };
+    const onlines = this.state.onlineUsers.map(find);
+    this.setState({ onlineUsers: onlines });
+
+    const offlines = this.state.offlineUsers.map(find);
+    this.setState({ offlineUsers: offlines });
+    // const users = this.state.onlineUsers.concat(this.state.offlineUsers);
+    // const oldUser = users.find((u) => u.uid === msg.from);
+    // if (oldUser) {
+    //   oldUser.numMessages += 1;
+    //   const newUsers = mergeDup(users.concat([oldUser]));
+    //   this.setState({ onlineUsers: newUsers });
+    // }
   }
 
   handleUserJoin(user) {
