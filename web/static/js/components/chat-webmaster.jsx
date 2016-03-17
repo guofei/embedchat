@@ -43,6 +43,7 @@ class ChatWebmaster extends React.Component {
     this.handleSelectUser = this.handleSelectUser.bind(this);
     this.handleUserJoin = this.handleUserJoin.bind(this);
     this.handleUserLeft = this.handleUserLeft.bind(this);
+    this.handleHistory = this.handleHistory.bind(this);
   }
 
   componentDidMount() {
@@ -54,6 +55,9 @@ class ChatWebmaster extends React.Component {
     });
     this.props.room.onUserLeft((user) => {
       this.handleUserLeft(user);
+    });
+    this.props.room.onHistory((his) => {
+      this.handleHistory(his);
     });
     this.props.room.join();
   }
@@ -118,6 +122,21 @@ class ChatWebmaster extends React.Component {
     this.setState({ onlineUsers: onlines });
   }
 
+  handleHistory(history) {
+    if (this.state.currentUser !== history.uid) {
+      return;
+    }
+    const messages = history.messages.map((m) => {
+      if (this.props.room.isSelf(m.from_id)) {
+        const newMsg = m;
+        newMsg.from_id = 'You';
+        return newMsg;
+      }
+      return m;
+    });
+    this.setState({ data: messages });
+  }
+
   handleSelectUser(userName) {
     if (userName !== this.state.currentUser) {
       this.setState({ currentUser: userName });
@@ -136,18 +155,7 @@ class ChatWebmaster extends React.Component {
     const offlines = this.state.offlineUsers.map(find);
     this.setState({ offlineUsers: offlines });
 
-    this.props.room.history(userName)
-    .receive('ok', resp => {
-      const messages = resp.messages.map((m) => {
-        if (this.props.room.isSelf(m.from_id)) {
-          const newMsg = m;
-          newMsg.from_id = 'You';
-          return newMsg;
-        }
-        return m;
-      });
-      this.setState({ data: messages });
-    });
+    this.props.room.history(userName);
   }
 
   render() {

@@ -45,7 +45,7 @@ defmodule EmbedChat.RoomChannel do
         where: m.from_id == ^(address.id) or m.to_id == ^(address.id),
         preload: [:from, :to]
         messages = EmbedChat.Repo.all(query)
-        resp = %{messages: Phoenix.View.render_many(messages,
+        resp = %{uid: uuid, messages: Phoenix.View.render_many(messages,
                                                     EmbedChat.MessageView,
                                                     "message.json")}
         {:reply, {:ok, resp}, socket}

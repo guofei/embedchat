@@ -46,11 +46,16 @@ class Chat extends React.Component {
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleInputMessage = this.handleInputMessage.bind(this);
+    this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
+    this.handleHistory = this.handleHistory.bind(this);
   }
 
   componentDidMount() {
     this.props.room.onMessage((msg) => {
       this.handleReceiveMessage(msg);
+    });
+    this.props.room.onHistory((history) => {
+      this.handleHistory(history);
     });
     this.props.room.join();
   }
@@ -77,6 +82,18 @@ class Chat extends React.Component {
     const newMsg = msg;
     newMsg.from_id = this.props.room.isSelf(msg.from_id) ? 'You' : msg.from_id;
     const newMsgs = msgs.concat([newMsg]);
+    this.setState({ data: newMsgs });
+  }
+
+  handleHistory(history) {
+    const newMsgs = history.messages.map((m) => {
+      if (this.props.room.isSelf(m.from_id)) {
+        const newMsg = m;
+        newMsg.from_id = 'You';
+        return newMsg;
+      }
+      return m;
+    });
     this.setState({ data: newMsgs });
   }
 

@@ -9,6 +9,7 @@ function room(socket, roomID) {
   let onMessageCallback = function func(res) { return res; };
   let onUserJoinCallback = function func(res) { return res; };
   let onUserLeftCallback = function func(res) { return res; };
+  let onHistoryMessagesCallback = function func(res) { return res; };
 
   return {
     join() {
@@ -29,16 +30,18 @@ function room(socket, roomID) {
       });
 
       channel.join()
-        .receive('ok', resp => {
-          console.log('Joined successfully', resp);
+        .receive('ok', () => {
           channel.push('contact_list')
-          .receive('ok', listResp => {
-            for (const user of listResp.users) {
-              onUserJoinCallback({ uid: user });
-            }
-          });
+            .receive('ok', listResp => {
+              for (const user of listResp.users) {
+                onUserJoinCallback({ uid: user });
+              }
+            });
+          channel.push('messages', { uid: DistinctID })
+            .receive('ok', msgsResp => {
+              onHistoryMessagesCallback(msgsResp);
+            });
         });
-        // .receive('error', resp => { console.log('Unable to join', resp); });
     },
 
     onMessage(callback) {
@@ -56,9 +59,19 @@ function room(socket, roomID) {
 
     history(userID) {
       if (typeof userID === 'undefined') {
-        return channel.push('messages');
+        return channel.push('messages')
+        .receive('ok', msgsResp => {
+          onHistoryMessagesCallback(msgsResp);
+        });
       }
-      return channel.push('messages', { uid: userID });
+      channel.push('messages', { uid: userID })
+      .receive('ok', msgsResp => {
+        onHistoryMessagesCallback(msgsResp);
+      });
+    },
+
+    onHistory(callback) {
+      onHistoryMessagesCallback = callback;
     },
 
     onUserJoin(callback) {
