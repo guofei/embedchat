@@ -50,8 +50,15 @@ function room(socket, roomID) {
     },
 
     send(text, toUser) {
-      const message = { body: text, to: toUser };
-      channel.push(messageEvent, message);
+      const message = { body: text, to_id: toUser };
+      return channel.push(messageEvent, message);
+    },
+
+    history(userID) {
+      if (typeof userID === 'undefined') {
+        return channel.push('messages');
+      }
+      return channel.push('messages', { uid: userID });
     },
 
     onUserJoin(callback) {

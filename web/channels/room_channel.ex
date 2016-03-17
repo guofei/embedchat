@@ -27,17 +27,28 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("messages", payload, socket) do
-    uuid = socket.assigns.distinct_id
     room_id = socket.assigns.room_id
-    address = get_address(room_id, uuid, nil)
-    cond do
-      query = from m in EmbedChat.Message, where: m.from_id == ^(address.id) or m.to_id == ^(address.id) ->
-        cond do
-          messages = EmbedChat.Repo.all(query) ->
-            {:reply, {:ok, %{messages: messages}}, socket}
-          true ->
-            {:reply, {:error, %{reason: "0 messages"}}, socket}
+    uuid = cond do
+      payload["uid"] ->
+        if socket.assigns[:user_id] do
+          payload["uid"]
+        else
+          socket.assigns.distinct_id
         end
+      true ->
+        socket.assigns.distinct_id
+    end
+
+    cond do
+      address = get_address(room_id, uuid, nil) ->
+        query = from m in EmbedChat.Message,
+        where: m.from_id == ^(address.id) or m.to_id == ^(address.id),
+        preload: [:from, :to]
+        messages = EmbedChat.Repo.all(query)
+        resp = %{messages: Phoenix.View.render_many(messages,
+                                                    EmbedChat.MessageView,
+                                                    "message.json")}
+        {:reply, {:ok, resp}, socket}
       true ->
         {:reply, {:error, %{reason: "address error"}}, socket}
     end
@@ -61,11 +72,15 @@ defmodule EmbedChat.RoomChannel do
   def handle_in("new_message", payload, socket) do
     case sender(socket) do
       {:ok, sender} ->
-        case receiver(socket, payload["to"]) do
+        case receiver(socket, payload["to_id"]) do
           {:ok, receiver} ->
             case create_message(sender, receiver, payload["body"]) do
               {:ok, msg} ->
-                broadcast! socket, "new_message", msg
+                msg = Repo.preload msg, [:from, :to]
+                resp = Phoenix.View.render(EmbedChat.MessageView,
+                                           "message.json",
+                                           message: msg)
+                broadcast! socket, "new_message", resp
                 {:noreply, socket}
               {:error, changeset} ->
                 {:reply, {:error, changeset.errors}, socket}
@@ -82,10 +97,10 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_out("new_message", payload, socket) do
     cond do
-      payload[:to] == socket.assigns.distinct_id ->
+      payload[:to_id] == socket.assigns.distinct_id ->
         push socket, "new_message", payload
         {:noreply, socket}
-      payload[:from] == socket.assigns.distinct_id ->
+      payload[:from_id] == socket.assigns.distinct_id ->
         push socket, "new_message", payload
         {:noreply, socket}
       true ->
@@ -194,7 +209,7 @@ defmodule EmbedChat.RoomChannel do
   defp create_message(sender, receiver, text) do
     changeset =
       sender
-    |> build_assoc(:outgoing_messages, %{from_id: receiver.id})
+    |> build_assoc(:outgoing_messages, %{to_id: receiver.id})
     |> EmbedChat.Message.changeset(%{
           message_type: "message",
           body: text})

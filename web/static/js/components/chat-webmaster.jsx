@@ -135,6 +135,19 @@ class ChatWebmaster extends React.Component {
 
     const offlines = this.state.offlineUsers.map(find);
     this.setState({ offlineUsers: offlines });
+
+    this.props.room.history(userName)
+    .receive('ok', resp => {
+      const messages = resp.messages.map((m) => {
+        if (this.props.room.isSelf(m.from_id)) {
+          const newMsg = m;
+          newMsg.from_id = 'You';
+          return newMsg;
+        }
+        return m;
+      });
+      this.setState({ data: messages });
+    });
   }
 
   render() {
