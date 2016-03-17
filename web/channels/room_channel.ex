@@ -26,6 +26,23 @@ defmodule EmbedChat.RoomChannel do
     {:reply, {:ok, payload}, socket}
   end
 
+  def handle_in("messages", payload, socket) do
+    uuid = socket.assigns.distinct_id
+    room_id = socket.assigns.room_id
+    address = get_address(room_id, uuid, nil)
+    cond do
+      query = from m in EmbedChat.Message, where: m.from_id == ^(address.id) or m.to_id == ^(address.id) ->
+        cond do
+          messages = EmbedChat.Repo.all(query) ->
+            {:reply, {:ok, %{messages: messages}}, socket}
+          true ->
+            {:reply, {:error, %{reason: "0 messages"}}, socket}
+        end
+      true ->
+        {:reply, {:error, %{reason: "address error"}}, socket}
+    end
+  end
+
   def handle_in("contact_list", payload, socket) do
     if socket.assigns[:user_id] do
       {:reply, {:ok, %{users: online_users(socket.assigns.room_id)}}, socket}
@@ -48,14 +65,7 @@ defmodule EmbedChat.RoomChannel do
           {:ok, receiver} ->
             case create_message(sender, receiver, payload["body"]) do
               {:ok, msg} ->
-                param = %{
-                  id: msg.id,
-                  body: msg.body,
-                  inserted_at: msg.inserted_at,
-                  from: sender.uuid,
-                  to: receiver.uuid
-                }
-                broadcast! socket, "new_message", param
+                broadcast! socket, "new_message", msg
                 {:noreply, socket}
               {:error, changeset} ->
                 {:reply, {:error, changeset.errors}, socket}
@@ -184,7 +194,7 @@ defmodule EmbedChat.RoomChannel do
   defp create_message(sender, receiver, text) do
     changeset =
       sender
-    |> build_assoc(:sent_messages, %{incoming_id: receiver.id})
+    |> build_assoc(:outgoing_messages, %{from_id: receiver.id})
     |> EmbedChat.Message.changeset(%{
           message_type: "message",
           body: text})
@@ -211,11 +221,11 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp get_address(room_id, distinct_id, user_id) when is_nil(user_id) do
-    EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id)
+    EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id, room_id: room_id)
   end
 
   defp get_address(room_id, distinct_id, user_id) do
-    EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id, user_id: user_id)
+    EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id, room_id: room_id, user_id: user_id)
   end
 
   defp create_address(room_id, distinct_id, user_id) do

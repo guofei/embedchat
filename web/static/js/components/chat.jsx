@@ -75,7 +75,7 @@ class Chat extends React.Component {
   handleReceiveMessage(msg) {
     const msgs = this.state.data;
     const newMsg = msg;
-    newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : msg.from;
+    newMsg.from_id = this.props.room.isSelf(msg.from_id) ? 'You' : msg.from_id;
     const newMsgs = msgs.concat([newMsg]);
     this.setState({ data: newMsgs });
   }

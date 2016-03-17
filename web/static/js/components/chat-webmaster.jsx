@@ -5,12 +5,6 @@ import UserLists from './user-lists';
 import ListMessages from './list-messages';
 import MessageForm from './message-form';
 
-// const dataMoc = [
-//   { id: 1, name: 'abc', text: 'helll', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
-//   { id: 2, name: 'aghh', text: 'fsadf lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
-//   { id: 3, name: 'dds', text: 'abcd lkj sdlf ', createdAt: 'Thu, 11 Feb 2016 14:54:07 GMT' },
-// ];
-
 function mergeDup(arr) {
   return arr.reduce((prev, current, index) => {
     const newArr = prev;
@@ -70,22 +64,21 @@ class ChatWebmaster extends React.Component {
     }
   }
 
-  // FIXME bug
   handleReceiveMessage(msg) {
     if (!this.state.currentUser) {
-      this.setState({ currentUser: msg.from });
+      this.setState({ currentUser: msg.from_id });
     }
-    if (this.state.currentUser === msg.from
-      || this.state.currentUser === msg.to) {
+    if (this.state.currentUser === msg.from_id
+      || this.state.currentUser === msg.to_id) {
       const data = this.state.data;
       const newMsg = msg;
-      newMsg.from = this.props.room.isSelf(msg.from) ? 'You' : msg.from;
+      newMsg.from_id = this.props.room.isSelf(msg.from_id) ? 'You' : msg.from_id;
       const newData = data.concat([newMsg]);
       this.setState({ data: newData });
     }
     const find = (u) => {
       const user = u;
-      if (user.uid === msg.from) {
+      if (user.uid === msg.from_id) {
         user.numMessages += 1;
       }
       return user;
@@ -95,13 +88,6 @@ class ChatWebmaster extends React.Component {
 
     const offlines = this.state.offlineUsers.map(find);
     this.setState({ offlineUsers: offlines });
-    // const users = this.state.onlineUsers.concat(this.state.offlineUsers);
-    // const oldUser = users.find((u) => u.uid === msg.from);
-    // if (oldUser) {
-    //   oldUser.numMessages += 1;
-    //   const newUsers = mergeDup(users.concat([oldUser]));
-    //   this.setState({ onlineUsers: newUsers });
-    // }
   }
 
   handleUserJoin(user) {

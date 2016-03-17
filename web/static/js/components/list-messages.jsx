@@ -14,7 +14,7 @@ class ListMessages extends React.Component {
       (
         <ListItemMessage
           key={msg.id}
-          name={shortName(msg.from)}
+          name={shortName(msg.from_id)}
           createdAt={msg.inserted_at}
         >
           {msg.body}

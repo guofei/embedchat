@@ -1,12 +1,13 @@
 defmodule EmbedChat.Message do
   use EmbedChat.Web, :model
 
+  @derive {Poison.Encoder, only: [:id, :body, :from_id, :to_id, :inserted_at]}
   schema "messages" do
     field :message_type, :string
     field :subject, :string
     field :body, :string
-    belongs_to :incoming, EmbedChat.Address
-    belongs_to :outgoing, EmbedChat.Address
+    belongs_to :from, EmbedChat.Address
+    belongs_to :to, EmbedChat.Address
 
     timestamps
   end
