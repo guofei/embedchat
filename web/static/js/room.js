@@ -52,6 +52,10 @@ function room(socket, roomID) {
       return uid === DistinctID;
     },
 
+    currentUser() {
+      return DistinctID;
+    },
+
     send(text, toUser) {
       const message = { body: text, to_id: toUser };
       return channel.push(messageEvent, message);

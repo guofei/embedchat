@@ -79,22 +79,12 @@ class Chat extends React.Component {
 
   handleReceiveMessage(msg) {
     const msgs = this.state.data;
-    const newMsg = msg;
-    newMsg.from_id = this.props.room.isSelf(msg.from_id) ? 'You' : msg.from_id;
-    const newMsgs = msgs.concat([newMsg]);
+    const newMsgs = msgs.concat([msg]);
     this.setState({ data: newMsgs });
   }
 
   handleHistory(history) {
-    const newMsgs = history.messages.map((m) => {
-      if (this.props.room.isSelf(m.from_id)) {
-        const newMsg = m;
-        newMsg.from_id = 'You';
-        return newMsg;
-      }
-      return m;
-    });
-    this.setState({ data: newMsgs });
+    this.setState({ data: history.messages });
   }
 
   render() {
@@ -119,7 +109,10 @@ class Chat extends React.Component {
           </div>
           <div style={styles.messagesAndForm}>
             <div ref="messages" style={styles.messages}>
-              <ListMessages messages={this.state.data} />
+              <ListMessages
+                messages={this.state.data}
+                currentUser={this.props.room.currentUser()}
+              />
             </div>
             <div style={styles.messageForm}>
               <MessageForm onInputMessage={this.handleInputMessage} />

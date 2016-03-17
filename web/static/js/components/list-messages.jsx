@@ -3,18 +3,14 @@ import List from 'material-ui/lib/lists/list';
 
 import ListItemMessage from './list-item-message';
 
-// TODO refactoring
-function shortName(fullName) {
-  return fullName.substring(0, 7);
-}
-
 class ListMessages extends React.Component {
   render() {
     const messages = this.props.messages.map((msg) =>
       (
         <ListItemMessage
+          currentUser={this.props.currentUser}
           key={msg.id}
-          name={shortName(msg.from_id)}
+          from={msg.from_id}
           createdAt={msg.inserted_at}
         >
           {msg.body}
@@ -30,6 +26,7 @@ class ListMessages extends React.Component {
 }
 
 ListMessages.propTypes = {
+  currentUser: React.PropTypes.string.isRequired,
   messages: React.PropTypes.array.isRequired,
 };
 

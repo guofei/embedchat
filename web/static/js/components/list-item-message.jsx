@@ -5,8 +5,18 @@ import Avatar from 'material-ui/lib/avatar';
 
 class ListItemMessage extends React.Component {
   avatar() {
-    if (this.props.name.length > 0) {
-      return this.props.name[0].toUpperCase();
+    if (this.props.from.length > 0) {
+      return this.props.from[0].toUpperCase();
+    }
+    return 'A';
+  }
+
+  shortName() {
+    if (this.props.currentUser === this.props.from) {
+      return 'You';
+    }
+    if (this.props.from.length > 0) {
+      return this.props.from.substring(0, 7);
     }
     return 'A';
   }
@@ -16,7 +26,7 @@ class ListItemMessage extends React.Component {
       <ListItem
         secondaryTextLines={2}
         leftAvatar={<Avatar>{this.avatar()}</Avatar>}
-        primaryText={this.props.name}
+        primaryText={this.shortName()}
         secondaryText={
           <div>
             {this.props.createdAt}<br />
@@ -29,7 +39,8 @@ class ListItemMessage extends React.Component {
 }
 
 ListItemMessage.propTypes = {
-  name: React.PropTypes.string.isRequired,
+  currentUser: React.PropTypes.string.isRequired,
+  from: React.PropTypes.string.isRequired,
   createdAt: React.PropTypes.string.isRequired,
   children: React.PropTypes.string,
 };

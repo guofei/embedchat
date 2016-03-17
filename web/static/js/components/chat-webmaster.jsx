@@ -36,7 +36,7 @@ class ChatWebmaster extends React.Component {
       data: [],
       onlineUsers: [],
       offlineUsers: [],
-      currentUser: null,
+      selectedUser: null,
     };
     this.handleInputMessage = this.handleInputMessage.bind(this);
     this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
@@ -63,21 +63,19 @@ class ChatWebmaster extends React.Component {
   }
 
   handleInputMessage(inputText) {
-    if (this.state.currentUser) {
-      this.props.room.send(inputText, this.state.currentUser);
+    if (this.state.selectedUser) {
+      this.props.room.send(inputText, this.state.selectedUser);
     }
   }
 
   handleReceiveMessage(msg) {
-    if (!this.state.currentUser) {
-      this.setState({ currentUser: msg.from_id });
+    if (!this.state.selectedUser) {
+      this.setState({ selectedUser: msg.from_id });
     }
-    if (this.state.currentUser === msg.from_id
-      || this.state.currentUser === msg.to_id) {
+    if (this.state.selectedUser === msg.from_id
+      || this.state.selectedUser === msg.to_id) {
       const data = this.state.data;
-      const newMsg = msg;
-      newMsg.from_id = this.props.room.isSelf(msg.from_id) ? 'You' : msg.from_id;
-      const newData = data.concat([newMsg]);
+      const newData = data.concat([msg]);
       this.setState({ data: newData });
     }
     const find = (u) => {
@@ -123,23 +121,15 @@ class ChatWebmaster extends React.Component {
   }
 
   handleHistory(history) {
-    if (this.state.currentUser !== history.uid) {
+    if (this.state.selectedUser !== history.uid) {
       return;
     }
-    const messages = history.messages.map((m) => {
-      if (this.props.room.isSelf(m.from_id)) {
-        const newMsg = m;
-        newMsg.from_id = 'You';
-        return newMsg;
-      }
-      return m;
-    });
-    this.setState({ data: messages });
+    this.setState({ data: history.messages });
   }
 
   handleSelectUser(userName) {
-    if (userName !== this.state.currentUser) {
-      this.setState({ currentUser: userName });
+    if (userName !== this.state.selectedUser) {
+      this.setState({ selectedUser: userName });
       this.setState({ data: [] });
     }
     const find = (u) => {
@@ -160,10 +150,13 @@ class ChatWebmaster extends React.Component {
 
   render() {
     let paper = null;
-    if (this.state.currentUser) {
+    if (this.state.selectedUser) {
       paper = (
         <Paper zDepth={1}>
-          <ListMessages messages={this.state.data} />
+          <ListMessages
+            messages={this.state.data}
+            currentUser={this.props.room.currentUser()}
+          />
           <MessageForm onInputMessage={this.handleInputMessage} />
         </Paper>
       );
