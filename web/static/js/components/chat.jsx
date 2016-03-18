@@ -18,6 +18,9 @@ const styles = {
     bottom: '20px',
     right: '40px',
   },
+  abs: {
+    position: 'absolute',
+  },
   messagesAndForm: {
     position: 'fixed',
     height: '100%',
@@ -101,13 +104,12 @@ class Chat extends React.Component {
           </FloatingActionButton>
         </div>
         <LeftNav
+          style={styles.abs}
           width={300}
           openRight
           open={this.state.open}
         >
-          <div style={styles.menu}>
-            <MenuBar onClose={this.handleClose}/>
-          </div>
+          <MenuBar onClose={this.handleClose}/>
           <div style={styles.messagesAndForm}>
             <div ref="messages" style={styles.messages}>
               <ListMessages

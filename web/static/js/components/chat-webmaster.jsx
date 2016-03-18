@@ -166,18 +166,20 @@ class ChatWebmaster extends React.Component {
       );
     }
     return (
-      <div className="row">
-        <div className="col-xs-3">
-          <Paper zDepth={1}>
-            <UserLists
-              onlineUsers={this.state.onlineUsers}
-              offlineUsers={this.state.offlineUsers}
-              onUserSelected={this.handleSelectUser}
-            />
-          </Paper>
-        </div>
-        <div className="col-xs-9">
-          {paper}
+      <div>
+        <div className="mdl-grid">
+          <div className="mdl-cell mdl-cell--1-col"></div>
+          <div className="mdl-cell mdl-cell--10-col">
+            <Paper zDepth={1}>
+              <UserLists
+                onlineUsers={this.state.onlineUsers}
+                offlineUsers={this.state.offlineUsers}
+                onUserSelected={this.handleSelectUser}
+              />
+            </Paper>
+            {paper}
+          </div>
+          <div className="mdl-cell mdl-cell--1-col"></div>
         </div>
       </div>
     );
