@@ -23,14 +23,16 @@ const styles = {
     height: '100%',
     top: '0px',
     marginTop: '60px',
+    paddingBottom: '130px',
   },
   messages: {
     overflow: 'auto',
-    height: '77%',
+    height: '100%',
+    minWidth: '300px',
   },
   messageForm: {
     minWidth: '300px',
-    height: '23%',
+    height: '130px',
     backgroundColor: 'white',
     marginLeft: '10px',
   },
@@ -103,7 +105,6 @@ class Chat extends React.Component {
           openRight
           open={this.state.open}
         >
-          <div>
           <div style={styles.menu}>
             <MenuBar onClose={this.handleClose}/>
           </div>
@@ -117,7 +118,6 @@ class Chat extends React.Component {
             <div style={styles.messageForm}>
               <MessageForm onInputMessage={this.handleInputMessage} />
             </div>
-          </div>
           </div>
         </LeftNav>
       </div>
