@@ -24,9 +24,11 @@ const styles = {
   messagesAndForm: {
     position: 'fixed',
     height: '100%',
-    top: '0px',
-    marginTop: '60px',
+    top: '60px',
     paddingBottom: '130px',
+    boxSizing: 'border-box',
+    WebkitBoxSizing: 'border-box',
+    MozBoxSizing: 'border-box',
   },
   messages: {
     overflow: 'auto',
