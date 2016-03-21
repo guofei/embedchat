@@ -43,6 +43,7 @@ class ChatWebmaster extends React.Component {
     this.handleUserJoin = this.handleUserJoin.bind(this);
     this.handleUserLeft = this.handleUserLeft.bind(this);
     this.handleHistory = this.handleHistory.bind(this);
+    this.handleCloseMessages = this.handleCloseMessages.bind(this);
   }
 
   componentDidMount() {
@@ -147,23 +148,30 @@ class ChatWebmaster extends React.Component {
     this.props.room.history(userName);
   }
 
+  handleCloseMessages() {
+    this.setState({ selectedUser: null });
+  }
+
   render() {
     let paper = null;
     if (this.state.selectedUser) {
       paper = (
-        <Messages
-          messages={this.state.data}
-          currentUser={this.props.room.currentUser()}
-          onInputMessage={this.handleInputMessage}
-        />
+        <div className="mdl-grid">
+          <div className="mdl-cell mdl-cell--8-col">
+            <Messages
+              messages={this.state.data}
+              currentUser={this.props.room.currentUser()}
+              onInputMessage={this.handleInputMessage}
+              onClose={this.handleCloseMessages}
+            />
+          </div>
+          <div className="mdl-cell mdl-cell--4-col">
+            access log
+          </div>
+        </div>
       );
     } else {
       paper = (
-        <Paper />
-      );
-    }
-    return (
-      <div>
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--1-col"></div>
           <div className="mdl-cell mdl-cell--10-col">
@@ -174,10 +182,14 @@ class ChatWebmaster extends React.Component {
                 onUserSelected={this.handleSelectUser}
               />
             </Paper>
-            {paper}
           </div>
           <div className="mdl-cell mdl-cell--1-col"></div>
         </div>
+      );
+    }
+    return (
+      <div>
+        { paper }
       </div>
     );
   }
