@@ -1,9 +1,8 @@
 import React from 'react';
 import Paper from 'material-ui/lib/paper';
 
-import UserLists from './user-lists';
-import ListMessages from './list-messages';
-import MessageForm from './message-form';
+import UserLists from './webmaster/user-lists';
+import Messages from './webmaster/messages';
 
 function mergeDup(arr) {
   return arr.reduce((prev, current, index) => {
@@ -152,13 +151,11 @@ class ChatWebmaster extends React.Component {
     let paper = null;
     if (this.state.selectedUser) {
       paper = (
-        <Paper zDepth={1}>
-          <ListMessages
-            messages={this.state.data}
-            currentUser={this.props.room.currentUser()}
-          />
-          <MessageForm onInputMessage={this.handleInputMessage} />
-        </Paper>
+        <Messages
+          messages={this.state.data}
+          currentUser={this.props.room.currentUser()}
+          onInputMessage={this.handleInputMessage}
+        />
       );
     } else {
       paper = (
