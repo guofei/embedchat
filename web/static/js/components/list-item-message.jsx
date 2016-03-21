@@ -5,10 +5,7 @@ import Avatar from 'material-ui/lib/avatar';
 
 class ListItemMessage extends React.Component {
   avatar() {
-    if (this.props.from.length > 0) {
-      return this.props.from[0].toUpperCase();
-    }
-    return 'A';
+    return this.shortName()[0].toUpperCase();
   }
 
   shortName() {

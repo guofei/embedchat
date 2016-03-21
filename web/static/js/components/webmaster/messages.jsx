@@ -6,7 +6,7 @@ import MessageForm from '../message-form';
 class Messages extends React.Component {
   render() {
     return (
-      <Paper zDepth={1}>
+      <Paper zDepth={2}>
         <ListMessages
           messages={this.props.messages}
           currentUser={this.props.currentUser}
