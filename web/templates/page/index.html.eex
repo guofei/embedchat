@@ -1,10 +1,12 @@
-<div class="jumbotron">
-  <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
-  <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
-</div>
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--12-col">
+    <h2><%= gettext "Welcome to %{name}", name: "Phoenix!" %></h2>
+    <p class="lead">
+      A productive web framework that<br />does not compromise speed and maintainability.
+    </p>
+  </div>
 
-<div class="row marketing">
-  <div class="col-lg-6">
+  <div class="mdl-cell mdl-cell--6-col">
     <h4>Resources</h4>
     <ul>
       <li>
@@ -18,8 +20,7 @@
       </li>
     </ul>
   </div>
-
-  <div class="col-lg-6">
+  <div class="mdl-cell mdl-cell--6-col">
     <h4>Help</h4>
     <ul>
       <li>
