@@ -24,7 +24,7 @@ const styles = {
   messagesAndForm: {
     position: 'fixed',
     height: '100%',
-    top: '60px',
+    top: '40px',
     paddingBottom: '130px',
     boxSizing: 'border-box',
     WebkitBoxSizing: 'border-box',
