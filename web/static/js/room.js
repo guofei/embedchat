@@ -5,6 +5,7 @@ function room(socket, roomID) {
   const messageEvent = 'new_message';
   const userLeft = 'user_left';
   const userJoin = 'user_join';
+  const messages = 'messages';
   const userInfo = 'user_info';
 
   let channel = null;
@@ -44,7 +45,7 @@ function room(socket, roomID) {
                 onUserJoinCallback({ uid: user });
               }
             });
-          channel.push('messages', { uid: DistinctID })
+          channel.push(messages, { uid: DistinctID })
             .receive('ok', msgsResp => {
               onHistoryMessagesCallback(msgsResp);
             });
@@ -74,12 +75,12 @@ function room(socket, roomID) {
 
     history(userID) {
       if (typeof userID === 'undefined') {
-        return channel.push('messages')
+        return channel.push(messages)
         .receive('ok', msgsResp => {
           onHistoryMessagesCallback(msgsResp);
         });
       }
-      channel.push('messages', { uid: userID })
+      channel.push(messages, { uid: userID })
       .receive('ok', msgsResp => {
         onHistoryMessagesCallback(msgsResp);
       });
