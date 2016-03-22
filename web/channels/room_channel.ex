@@ -140,6 +140,7 @@ defmodule EmbedChat.RoomChannel do
 
   # Add authorization logic here as required.
   defp authorized?(_payload) do
+    # TODO
     true
   end
 

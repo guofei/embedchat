@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import Paper from 'material-ui/lib/paper';
+import Toolbar from 'material-ui/lib/toolbar/toolbar';
+import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 
@@ -30,11 +32,14 @@ class AccessLog extends React.Component {
     );
     return (
       <Paper zDepth={2}>
+        <Toolbar>
+          <ToolbarTitle text="Real Time Log" />
+        </Toolbar>
         <div
           ref="logs"
           style={styles.logs}
         >
-          <List subheader="Real Time Log">
+          <List>
             { logs }
           </List>
         </div>

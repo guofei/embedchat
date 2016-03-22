@@ -2,8 +2,19 @@ import React from 'react';
 
 import ListItem from 'material-ui/lib/lists/list-item';
 import Avatar from 'material-ui/lib/avatar';
+import Popover from 'material-ui/lib/popover/popover';
+import Card from 'material-ui/lib/card/card';
+import CardText from 'material-ui/lib/card/card-text';
 
 class ListItemMessage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false,
+    };
+  }
+
   avatar() {
     return this.shortName()[0].toUpperCase();
   }
@@ -20,17 +31,44 @@ class ListItemMessage extends React.Component {
 
   render() {
     return (
-      <ListItem
-        secondaryTextLines={2}
-        leftAvatar={<Avatar>{this.avatar()}</Avatar>}
-        primaryText={this.shortName()}
-        secondaryText={
-          <div>
-            {this.props.createdAt}<br />
-            {this.props.children}
-          </div>
-        }
-      />
+      <div>
+        <ListItem
+          secondaryTextLines={2}
+          leftAvatar={<Avatar>{this.avatar()}</Avatar>}
+          primaryText={this.shortName()}
+          onTouchTap={(event) => {
+            this.setState({
+              open: true,
+              anchorEl: event.currentTarget,
+            });
+          }}
+          secondaryText={
+            <div>
+              {this.props.createdAt}<br />
+              {this.props.children}
+            </div>
+          }
+        />
+        <Popover
+          open={this.state.open}
+          anchorEl={this.state.anchorEl}
+          anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
+          targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+          onRequestClose={() => {
+            this.setState({
+              open: false,
+            });
+          }}
+        >
+        <div>
+          <Card>
+            <CardText>
+              { this.props.children }
+            </CardText>
+          </Card>
+        </div>
+        </Popover>
+      </div>
     );
   }
 }
