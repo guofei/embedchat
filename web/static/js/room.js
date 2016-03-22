@@ -1,15 +1,18 @@
 import DistinctID from './distinct_id';
+import UserInfo from './user_info';
 
 function room(socket, roomID) {
   const messageEvent = 'new_message';
   const userLeft = 'user_left';
   const userJoin = 'user_join';
+  const userInfo = 'user_info';
 
   let channel = null;
   let onMessageCallback = function func(res) { return res; };
   let onUserJoinCallback = function func(res) { return res; };
   let onUserLeftCallback = function func(res) { return res; };
   let onHistoryMessagesCallback = function func(res) { return res; };
+  let onUserInfoCallback = function func(res) { return res; };
 
   return {
     join() {
@@ -29,6 +32,10 @@ function room(socket, roomID) {
         onUserJoinCallback(resp);
       });
 
+      channel.on(userInfo, (resp) => {
+        onUserInfoCallback(resp);
+      });
+
       channel.join()
         .receive('ok', () => {
           channel.push('contact_list')
@@ -40,6 +47,10 @@ function room(socket, roomID) {
           channel.push('messages', { uid: DistinctID })
             .receive('ok', msgsResp => {
               onHistoryMessagesCallback(msgsResp);
+            });
+          channel.push(userInfo, UserInfo)
+            .receive('ok', info => {
+              onUserInfoCallback(info);
             });
         });
     },
@@ -84,6 +95,10 @@ function room(socket, roomID) {
 
     onUserLeft(callback) {
       onUserLeftCallback = callback;
+    },
+
+    onUserInfo(callback) {
+      onUserInfoCallback = callback;
     },
   };
 }

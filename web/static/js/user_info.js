@@ -1,7 +1,7 @@
 function lang() {
-  if (navigator.userLanguage === 'string') {
+  if (navigator.userLanguage !== undefined) {
     return navigator.userLanguage;
-  } else if (navigator.language === 'string') {
+  } else if (navigator.language !== undefined) {
     return navigator.language;
   }
   return '(Not supported)';

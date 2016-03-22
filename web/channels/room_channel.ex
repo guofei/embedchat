@@ -26,6 +26,11 @@ defmodule EmbedChat.RoomChannel do
     {:reply, {:ok, payload}, socket}
   end
 
+  def handle_in("user_info", payload, socket) do
+    broadcast! socket, "user_info", %{uid: socket.assigns.distinct_id, info: payload}
+    {:noreply, socket}
+  end
+
   def handle_in("messages", payload, socket) do
     room_id = socket.assigns.room_id
     uuid = cond do
@@ -93,7 +98,14 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-  intercept ["new_message"]
+  intercept ["new_message", "user_info"]
+
+  def handle_out("user_info", payload, socket) do
+    if socket.assigns[:user_id] do
+      push socket, "user_info", payload
+    end
+    {:noreply, socket}
+  end
 
   def handle_out("new_message", payload, socket) do
     cond do

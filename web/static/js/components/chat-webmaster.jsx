@@ -44,6 +44,7 @@ class ChatWebmaster extends React.Component {
     this.handleUserLeft = this.handleUserLeft.bind(this);
     this.handleHistory = this.handleHistory.bind(this);
     this.handleCloseMessages = this.handleCloseMessages.bind(this);
+    this.handleUserInfo = this.handleUserInfo.bind(this);
   }
 
   componentDidMount() {
@@ -58,6 +59,9 @@ class ChatWebmaster extends React.Component {
     });
     this.props.room.onHistory((his) => {
       this.handleHistory(his);
+    });
+    this.props.room.onUserInfo((info) => {
+      this.handleUserInfo(info);
     });
     this.props.room.join();
   }
@@ -118,6 +122,10 @@ class ChatWebmaster extends React.Component {
 
     const onlines = remove(this.state.onlineUsers, user.uid);
     this.setState({ onlineUsers: onlines });
+  }
+
+  handleUserInfo(info) {
+    console.log(info);
   }
 
   handleHistory(history) {
