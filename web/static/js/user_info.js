@@ -14,6 +14,7 @@ const UserInfo = {
   screenidth: screen.width,
   screenHeight: screen.height,
   language: lang(),
+  createdAt: new Date().toLocaleTimeString(),
 };
 
 export default UserInfo;

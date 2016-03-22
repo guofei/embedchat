@@ -3,6 +3,7 @@ import Paper from 'material-ui/lib/paper';
 
 import UserLists from './webmaster/user-lists';
 import Messages from './webmaster/messages';
+import AccessLog from './webmaster/access-log';
 
 function mergeDup(arr) {
   return arr.reduce((prev, current, index) => {
@@ -33,6 +34,7 @@ class ChatWebmaster extends React.Component {
     super(props);
     this.state = {
       data: [],
+      logs: [],
       onlineUsers: [],
       offlineUsers: [],
       selectedUser: null,
@@ -125,7 +127,11 @@ class ChatWebmaster extends React.Component {
   }
 
   handleUserInfo(info) {
-    console.log(info);
+    if (this.state.selectedUser !== info.uid) {
+      return;
+    }
+    const newLogs = this.state.logs.concat(info);
+    this.setState({ logs: newLogs });
   }
 
   handleHistory(history) {
@@ -139,6 +145,7 @@ class ChatWebmaster extends React.Component {
     if (userName !== this.state.selectedUser) {
       this.setState({ selectedUser: userName });
       this.setState({ data: [] });
+      this.setState({ logs: [] });
     }
     const find = (u) => {
       const user = u;
@@ -174,7 +181,10 @@ class ChatWebmaster extends React.Component {
             />
           </div>
           <div className="mdl-cell mdl-cell--4-col">
-            access log
+            <AccessLog
+              currentUser={this.props.room.currentUser()}
+              logs={this.state.logs}
+            />
           </div>
         </div>
       );
