@@ -1,4 +1,6 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+
 import Paper from 'material-ui/lib/paper';
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
@@ -8,10 +10,26 @@ import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
 import ListMessages from '../list-messages';
 import MessageForm from '../message-form';
 
+const styles = {
+  messages: {
+    overflow: 'auto',
+    maxHeight: '700px',
+  },
+  messageForm: {
+    backgroundColor: 'white',
+    marginLeft: '10px',
+  },
+};
+
 class Messages extends React.Component {
   constructor(props) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
+  }
+
+  componentDidUpdate() {
+    const node = ReactDOM.findDOMNode(this.refs.messages);
+    node.scrollTop = node.scrollHeight;
   }
 
   handleTouchTap() {
@@ -28,11 +46,18 @@ class Messages extends React.Component {
             </IconButton>
           </ToolbarGroup>
         </Toolbar>
-        <ListMessages
-          messages={this.props.messages}
-          currentUser={this.props.currentUser}
-        />
-        <MessageForm onInputMessage={this.props.onInputMessage} />
+        <div
+          ref="messages"
+          style={styles.messages}
+        >
+          <ListMessages
+            messages={this.props.messages}
+            currentUser={this.props.currentUser}
+          />
+          <div style={styles.messageForm}>
+            <MessageForm onInputMessage={this.props.onInputMessage} />
+          </div>
+        </div>
       </Paper>
     );
   }
