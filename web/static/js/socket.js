@@ -4,12 +4,18 @@
 // To use Phoenix channels, the first step is to import Socket
 // and connect at the socket path in 'lib/my_app/endpoint.ex':
 import { Socket } from 'phoenix';
-import DistinctID from './distinct_id';
+import { clientID, masterID } from './distinct_id';
 
-const socket = new Socket('/socket', {
+const clientSocket = new Socket('/socket', {
+  params: {
+    distinct_id: clientID,
+  },
+});
+
+const masterSocket = new Socket('/socket', {
   params: {
     token: window.userToken,
-    distinct_id: DistinctID,
+    distinct_id: masterID,
   },
 });
 
@@ -65,4 +71,4 @@ const socket = new Socket('/socket', {
 //   .receive('ok', resp => { console.log('Joined successfully', resp) })
 //   .receive('error', resp => { console.log('Unable to join', resp) })
 
-export default socket;
+export { clientSocket, masterSocket };

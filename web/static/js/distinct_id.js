@@ -1,13 +1,13 @@
 import uuid from 'uuid';
 
 const Distinct = {
-  visitor(resource) {
-    const key = `lwn_${resource}`;
+  getClient() {
+    const key = 'distinct_id';
     return this.getID(key);
   },
 
-  get() {
-    const key = 'distinct_id';
+  getMaster() {
+    const key = 'm_distinct_id';
     return this.getID(key);
   },
 
@@ -43,10 +43,5 @@ const Distinct = {
   },
 };
 
-function distinct() {
-  return Distinct.get();
-}
-
-const DistinctID = distinct();
-
-export default DistinctID;
+export const clientID = Distinct.getClient();
+export const masterID = Distinct.getMaster();

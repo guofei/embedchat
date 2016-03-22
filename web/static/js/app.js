@@ -21,7 +21,8 @@ import 'bootstrap-sass/assets/javascripts/bootstrap.min.js';
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import socket from './socket';
+import { clientID, masterID } from './distinct_id';
+import { clientSocket, masterSocket } from './socket';
 import room from './room';
 
 import React from 'react';
@@ -32,7 +33,7 @@ import ChatWebmaster from './components/chat-webmaster';
 const roomElement = document.getElementById('chat-room');
 if (roomElement) {
   const roomID = roomElement.getAttribute('data-id');
-  const chatRoom = room(socket, roomID);
+  const chatRoom = room(clientSocket, roomID, clientID);
 
   ReactDOM.render(
     <Chat room={chatRoom} />,
@@ -43,7 +44,7 @@ if (roomElement) {
 const masterRoomElement = document.getElementById('webmaster-chat-room');
 if (masterRoomElement) {
   const roomID = masterRoomElement.getAttribute('data-id');
-  const chatRoom = room(socket, roomID);
+  const chatRoom = room(masterSocket, roomID, masterID);
   ReactDOM.render(
     <ChatWebmaster room={chatRoom} />,
     document.getElementById('webmaster-chat-room')

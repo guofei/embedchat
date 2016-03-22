@@ -1,7 +1,6 @@
-import DistinctID from './distinct_id';
 import UserInfo from './user_info';
 
-function room(socket, roomID) {
+function room(socket, roomID, distinctID) {
   const messageEvent = 'new_message';
   const userLeft = 'user_left';
   const userJoin = 'user_join';
@@ -45,7 +44,7 @@ function room(socket, roomID) {
                 onUserJoinCallback({ uid: user });
               }
             });
-          channel.push(messages, { uid: DistinctID })
+          channel.push(messages, { uid: distinctID })
             .receive('ok', msgsResp => {
               onHistoryMessagesCallback(msgsResp);
             });
@@ -61,11 +60,11 @@ function room(socket, roomID) {
     },
 
     isSelf(uid) {
-      return uid === DistinctID;
+      return uid === distinctID;
     },
 
     currentUser() {
-      return DistinctID;
+      return distinctID;
     },
 
     send(text, toUser) {
