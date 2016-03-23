@@ -7,6 +7,7 @@ defmodule EmbedChat.Message do
     field :body, :string
     belongs_to :from, EmbedChat.Address
     belongs_to :to, EmbedChat.Address
+    has_one :from_user, through: [:from, :user]
 
     timestamps
   end

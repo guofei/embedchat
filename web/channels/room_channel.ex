@@ -1,8 +1,14 @@
 defmodule EmbedChat.RoomChannel do
   use EmbedChat.Web, :channel
+  alias EmbedChat.Room.Bucket
+  alias EmbedChat.Room.Registry
+  alias EmbedChat.Message
+  alias EmbedChat.User
+  alias EmbedChat.Address
+  alias EmbedChat.Room
 
-  def join("rooms:" <> room_id, payload, socket) do
-    if authorized?(payload) do
+  def join("rooms:" <> room_id, _payload, socket) do
+    if authorized?(socket, room_id) do
       send(self, :after_join)
       {:ok, assign(socket, :room_id, room_id)}
     else
@@ -31,9 +37,8 @@ defmodule EmbedChat.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("messages", payload, socket) do
-    room_id = socket.assigns.room_id
-    uuid = cond do
+  defp messages_owner(payload, socket) do
+    cond do
       payload["uid"] ->
         if socket.assigns[:user_id] do
           payload["uid"]
@@ -43,16 +48,21 @@ defmodule EmbedChat.RoomChannel do
       true ->
         socket.assigns.distinct_id
     end
+  end
+
+  def handle_in("messages", payload, socket) do
+    room_id = socket.assigns.room_id
+    uuid = messages_owner(payload, socket)
 
     cond do
       address = get_address(room_id, uuid, nil) ->
-        query = from m in EmbedChat.Message,
+        query = from m in Message,
         where: m.from_id == ^(address.id) or m.to_id == ^(address.id),
-        preload: [:from, :to]
-        messages = EmbedChat.Repo.all(query)
+        preload: [:from, :to, :from_user]
+        messages = Repo.all(query)
         resp = %{uid: uuid, messages: Phoenix.View.render_many(messages,
-                                                    EmbedChat.MessageView,
-                                                    "message.json")}
+                                                               EmbedChat.MessageView,
+                                                               "message.json")}
         {:reply, {:ok, resp}, socket}
       true ->
         {:reply, {:error, %{reason: "address error"}}, socket}
@@ -81,10 +91,11 @@ defmodule EmbedChat.RoomChannel do
           {:ok, receiver} ->
             case create_message(sender, receiver, payload["body"]) do
               {:ok, msg} ->
-                msg = Repo.preload msg, [:from, :to]
+                msg = Repo.preload msg, [:from, :to, :from_user]
+                sender = Repo.preload sender, [:user]
                 resp = Phoenix.View.render(EmbedChat.MessageView,
                                            "message.json",
-                                           message: msg)
+                                           message: msg, user: sender.user)
                 broadcast! socket, "new_message", resp
                 {:noreply, socket}
               {:error, changeset} ->
@@ -139,39 +150,47 @@ defmodule EmbedChat.RoomChannel do
   end
 
   # Add authorization logic here as required.
-  defp authorized?(_payload) do
-    # TODO
-    true
+  defp authorized?(socket, room_id) do
+    cond do
+      user_id = socket.assigns[:user_id] ->
+        room = Repo.get(Room, room_id)
+        room = Repo.preload room, :users
+        users = room.users
+        user = Repo.get!(User, user_id)
+        Enum.any?(users, &(&1.id == user.id))
+      true ->
+        true
+    end
   end
 
   defp online_users(room_id) do
     {:ok, bucket} = user_bucket(room_id)
-    EmbedChat.Room.Bucket.get(bucket)
+    Bucket.get(bucket)
   end
 
   defp online(room_id, distinct_id) do
     {:ok, bucket} = user_bucket(room_id)
-    EmbedChat.Room.Bucket.add(bucket, distinct_id)
+    Bucket.add(bucket, distinct_id)
   end
 
   defp offline(room_id, distinct_id) do
     {:ok, bucket} = user_bucket(room_id)
-    EmbedChat.Room.Bucket.delete(bucket, distinct_id)
+    Bucket.delete(bucket, distinct_id)
   end
 
   defp online_admins(room_id) do
     {:ok, bucket} = admin_bucket(room_id)
-    EmbedChat.Room.Bucket.get(bucket)
+    Bucket.get(bucket)
   end
 
   defp admin_online(room_id, distinct_id) do
     {:ok, bucket} = admin_bucket(room_id)
-    EmbedChat.Room.Bucket.add(bucket, distinct_id)
+    Bucket.add(bucket, distinct_id)
   end
 
   defp admin_offline(room_id, distinct_id) do
     {:ok, bucket} = admin_bucket(room_id)
-    EmbedChat.Room.Bucket.delete(bucket, distinct_id)
+    Bucket.delete(bucket, distinct_id)
   end
 
   defp user_bucket(room_id) do
@@ -183,13 +202,13 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp bucket(id) do
-    reg = EmbedChat.Room.Registry
-    case EmbedChat.Room.Registry.lookup(reg, "rooms:#{id}") do
+    reg = Registry
+    case Registry.lookup(reg, "rooms:#{id}") do
       {:ok, bucket} ->
         {:ok, bucket}
       :error ->
-        EmbedChat.Room.Registry.create(reg, "rooms:#{id}")
-        EmbedChat.Room.Registry.lookup(reg, "rooms:#{id}")
+        Registry.create(reg, "rooms:#{id}")
+        Registry.lookup(reg, "rooms:#{id}")
     end
   end
 
@@ -223,7 +242,7 @@ defmodule EmbedChat.RoomChannel do
     changeset =
       sender
     |> build_assoc(:outgoing_messages, %{to_id: receiver.id})
-    |> EmbedChat.Message.changeset(%{
+    |> Message.changeset(%{
           message_type: "message",
           body: text})
     Repo.insert(changeset)
@@ -249,19 +268,19 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp get_address(room_id, distinct_id, user_id) when is_nil(user_id) do
-    EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id, room_id: room_id)
+    Repo.get_by(Address, uuid: distinct_id, room_id: room_id)
   end
 
   defp get_address(room_id, distinct_id, user_id) do
-    EmbedChat.Repo.get_by(EmbedChat.Address, uuid: distinct_id, room_id: room_id, user_id: user_id)
+    Repo.get_by(Address, uuid: distinct_id, room_id: room_id, user_id: user_id)
   end
 
   defp create_address(room_id, distinct_id, user_id) do
-    room = EmbedChat.Repo.get(EmbedChat.Room, room_id)
+    room = Repo.get(Room, room_id)
     changeset =
       room
     |> build_assoc(:addresses, user_id: user_id)
-    |> EmbedChat.Address.changeset(%{uuid: distinct_id})
-    EmbedChat.Repo.insert(changeset)
+    |> Address.changeset(%{uuid: distinct_id})
+    Repo.insert(changeset)
   end
 end

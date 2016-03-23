@@ -23,6 +23,9 @@ class ListItemMessage extends React.Component {
     if (this.props.currentUser === this.props.from) {
       return 'You';
     }
+    if (this.props.from_name !== this.props.from) {
+      return this.props.from_name;
+    }
     if (this.props.from.length > 0) {
       return this.props.from.substring(0, 7);
     }
@@ -76,6 +79,7 @@ class ListItemMessage extends React.Component {
 ListItemMessage.propTypes = {
   currentUser: React.PropTypes.string.isRequired,
   from: React.PropTypes.string.isRequired,
+  from_name: React.PropTypes.string.isRequired,
   createdAt: React.PropTypes.string.isRequired,
   children: React.PropTypes.string,
 };
