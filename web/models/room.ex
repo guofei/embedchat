@@ -4,7 +4,7 @@ defmodule EmbedChat.Room do
   schema "rooms" do
     field :uuid, Ecto.UUID
 
-    has_many :addresses, EmbedChat.Address
+    has_many :messages, EmbedChat.Message
     has_many :userrooms, EmbedChat.UserRoom
     has_many :users, through: [:userrooms, :user]
 

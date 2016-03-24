@@ -6,7 +6,7 @@ defmodule EmbedChat.RoomChannelTest do
   setup do
     {:ok, _, socket} =
       socket("user_id", %{some: :assign, distinct_id: "id"})
-      |> subscribe_and_join(RoomChannel, "rooms:lobby")
+      |> subscribe_and_join(RoomChannel, "rooms:1")
 
     {:ok, socket: socket}
   end

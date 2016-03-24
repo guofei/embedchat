@@ -2,18 +2,17 @@ defmodule EmbedChat.Message do
   use EmbedChat.Web, :model
 
   schema "messages" do
-    field :message_type, :string
-    field :subject, :string
     field :body, :string
     belongs_to :from, EmbedChat.Address
     belongs_to :to, EmbedChat.Address
+    belongs_to :room, EmbedChat.Room
     has_one :from_user, through: [:from, :user]
 
     timestamps
   end
 
-  @required_fields ~w(message_type body)
-  @optional_fields ~w(subject)
+  @required_fields ~w(body)
+  @optional_fields ~w()
 
   @doc """
   Creates a changeset based on the `model` and `params`.

@@ -4,6 +4,7 @@ defmodule EmbedChat.Repo.Migrations.CreateUser do
   def change do
     create table(:users) do
       add :email, :string
+      add :name, :string
       add :crypted_password, :string
 
       timestamps

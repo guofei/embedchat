@@ -10,6 +10,7 @@ import ListItem from 'material-ui/lib/lists/list-item';
 const styles = {
   logs: {
     overflow: 'auto',
+    minHeight: '300px',
     maxHeight: '700px',
   },
 };

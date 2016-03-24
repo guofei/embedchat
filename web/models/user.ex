@@ -3,6 +3,7 @@ defmodule EmbedChat.User do
 
   schema "users" do
     field :email, :string
+    field :name, :string
     field :password, :string, virtual: true
     field :crypted_password, :string
 
@@ -16,7 +17,7 @@ defmodule EmbedChat.User do
   end
 
   @required_fields ~w(email password)
-  @optional_fields ~w()
+  @optional_fields ~w(name)
 
   def registration_changeset(model, params) do
     model

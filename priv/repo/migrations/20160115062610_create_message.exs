@@ -3,8 +3,6 @@ defmodule EmbedChat.Repo.Migrations.CreateMessage do
 
   def change do
     create table(:messages) do
-      add :message_type, :string
-      add :subject, :string
       add :body, :text
       add :from_id, references(:addresses, on_delete: :nothing), null: false
       add :to_id, references(:addresses, on_delete: :nothing), null: false
