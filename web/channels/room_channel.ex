@@ -73,27 +73,11 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("new_message", payload, socket) do
-    # with {:ok, sender} <- sender(socket),
-    case sender(socket) do
-      {:ok, sender} ->
-        case receiver(socket, payload["to_id"]) do
-          {:ok, receiver} ->
-            room_id = socket.assigns.room_id
-            case create_message(sender, receiver, room_id, payload["body"]) do
-              {:ok, msg} ->
-                msg = Repo.preload msg, [:from, :to, :from_user]
-                sender = Repo.preload sender, [:user]
-                resp = Phoenix.View.render(EmbedChat.MessageView,
-                                           "message.json",
-                                           message: msg, user: sender.user)
-                broadcast! socket, "new_message", resp
-                {:reply, {:ok, %{status: "sent"}}, socket}
-              {:error, changeset} ->
-                {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}
-            end
-          {:error, changeset } ->
-            {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}
-        end
+    case new_message(payload, socket) do
+      {:ok, resp} ->
+        broadcast! socket, "new_message", resp
+        # {:reply, {:ok, %{status: "sent"}}, socket}
+        {:noreply, socket}
       {:error, changeset} ->
         {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}
     end
@@ -227,6 +211,19 @@ defmodule EmbedChat.RoomChannel do
         changeset = Ecto.Changeset.add_error(changeset, :uuid, "not find")
         {:error, changeset}
     end
+  end
+
+  defp new_message(payload, socket) do
+    room_id = socket.assigns.room_id
+    with {:ok, sender} <- sender(socket),
+         {:ok, receiver} <- receiver(socket, payload["to_id"]),
+         {:ok, msg} <- create_message(sender, receiver, room_id, payload["body"]),
+         msg = Repo.preload(msg, [:from, :to, :from_user]),
+         sender = Repo.preload(sender, [:user]),
+         resp = Phoenix.View.render(EmbedChat.MessageView,
+                                    "message.json",
+                                    message: msg, user: sender.user),
+     do: {:ok, resp}
   end
 
   defp create_message(sender, receiver, room_id, text) do
