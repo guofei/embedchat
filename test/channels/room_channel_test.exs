@@ -44,6 +44,18 @@ defmodule EmbedChat.RoomChannelTest do
     assert_push "broadcast", %{"some" => "data"}
   end
 
+  test "send user info to master", %{socket: socket} do
+    {:ok, _, visitor} = socket(@to, %{distinct_id: @to})
+    |> subscribe_and_join(RoomChannel, "rooms:#{socket.assigns.room_id}")
+    info = %{uid: @to, info: %{userAgent: "IE", href: "abc.com"}}
+    push visitor, "user_info", info
+    assert_broadcast "user_info", info
+  end
+
+  test "get history messages", %{socket: socket} do
+    # TODO
+  end
+
   test "visitor send message to offline master", %{socket: socket} do
     ref = push socket, "new_message", @valid_message
     assert_reply ref, :error

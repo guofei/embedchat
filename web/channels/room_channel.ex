@@ -76,7 +76,6 @@ defmodule EmbedChat.RoomChannel do
     case new_message(payload, socket) do
       {:ok, resp} ->
         broadcast! socket, "new_message", resp
-        # {:reply, {:ok, %{status: "sent"}}, socket}
         {:noreply, socket}
       {:error, changeset} ->
         {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}
