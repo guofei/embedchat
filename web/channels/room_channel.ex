@@ -73,6 +73,7 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("new_message", payload, socket) do
+    # with {:ok, sender} <- sender(socket),
     case sender(socket) do
       {:ok, sender} ->
         case receiver(socket, payload["to_id"]) do
@@ -86,15 +87,15 @@ defmodule EmbedChat.RoomChannel do
                                            "message.json",
                                            message: msg, user: sender.user)
                 broadcast! socket, "new_message", resp
-                {:noreply, socket}
+                {:reply, {:ok, %{status: "sent"}}, socket}
               {:error, changeset} ->
-                {:reply, {:error, changeset.errors}, socket}
+                {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}
             end
-          {:error, _ } ->
-            {:reply, {:error, %{reason: "unknown receiver"}}, socket}
+          {:error, changeset } ->
+            {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}
         end
       {:error, changeset} ->
-        {:reply, {:error, changeset.errors}, socket}
+        {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}
     end
   end
 
@@ -222,7 +223,9 @@ defmodule EmbedChat.RoomChannel do
       address = get_address(admin) ->
         {:ok, address}
       true ->
-        {:error, %{reason: "unknown address"}}
+        changeset = Address.changeset(%Address{}, %{uuid: admin})
+        changeset = Ecto.Changeset.add_error(changeset, :uuid, "not find")
+        {:error, changeset}
     end
   end
 
@@ -238,7 +241,8 @@ defmodule EmbedChat.RoomChannel do
 
   defp create_admin_address(socket) do
     if socket.assigns[:user_id] do
-      sender(socket)
+      get_or_create_address(socket.assigns.distinct_id,
+                            socket.assigns[:user_id])
     end
   end
 

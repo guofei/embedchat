@@ -4,6 +4,7 @@ defmodule EmbedChat.TestHelpers do
   def insert_user(attrs \\ %{}) do
     changes = Dict.merge(%{
           email:    "user#{Base.encode16(:crypto.rand_bytes(8))}@email.com",
+          name:     "name",
           password: "supersecret",
                      }, attrs)
 
