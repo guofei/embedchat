@@ -2,30 +2,19 @@ defmodule EmbedChat.RoomChannelTest do
   use EmbedChat.ChannelCase
   alias EmbedChat.RoomChannel
 
-  @from "1ecf9637-bb8e-413c-bec5-8c5955d40406"
-  @to "804f2df3-afe4-4018-83e2-c7129b3cbf08"
-  @valid_message %{"body" => "some content", "to_id" => @to}
-
-  setup do
-    owner = insert_user(username: "sneaky")
-    room = insert_room(owner, %{})
-    socket = socket(@from, %{distinct_id: @from})
-
-    {:ok, socket: socket, room: room, owner: owner}
-  end
-
-  setup %{socket: socket, room: room, owner: owner} = config do
-    if config[:master] do
-      {:ok, _, socket} =
-        socket
-      |> Phoenix.Socket.assign(:user_id, owner.id)
-      |> subscribe_and_join(RoomChannel, "rooms:#{room.id}")
-      {:ok, socket: socket}
-    else
-      {:ok, _, socket} =
-        socket
-      |> subscribe_and_join(RoomChannel, "rooms:#{room.id}")
-      {:ok, socket: socket}
+  setup config do
+    {room_id, owner_id} = create_room
+    cond do
+      config[:master] && config[:visitor] ->
+        {:ok, _, master} = join_room(owner_id, uuid(), room_id)
+        {:ok, _, visitor} = join_room(uuid(), room_id)
+        {:ok, master: master, visitor: visitor}
+      config[:master] ->
+        {:ok, _, master} = join_room(owner_id, uuid(), room_id)
+        {:ok, socket: master}
+      true ->
+        {:ok, _, visitor} = join_room(uuid(), room_id)
+        {:ok, socket: visitor}
     end
   end
 
@@ -44,35 +33,84 @@ defmodule EmbedChat.RoomChannelTest do
     assert_push "broadcast", %{"some" => "data"}
   end
 
-  test "send user info to master", %{socket: socket} do
-    {:ok, _, visitor} = socket(@to, %{distinct_id: @to})
-    |> subscribe_and_join(RoomChannel, "rooms:#{socket.assigns.room_id}")
-    info = %{uid: @to, info: %{userAgent: "IE", href: "abc.com"}}
-    push visitor, "user_info", info
+  @tag master: true, visitor: true
+  test "visitor send accesslog to master", %{visitor: v} do
+    info = %{uid: v.assigns.distinct_id, info: %{userAgent: "IE", href: "abc.com"}}
+    push v, "user_info", info
     assert_broadcast "user_info", info
   end
 
-  test "get history messages", %{socket: socket} do
-    # TODO
+  @tag master: true, visitor: true
+  test "get history messages by master", %{master: m, visitor: v} do
+    to_master = %{"body" => "some content", "to_id" => m.assigns.distinct_id}
+    to_vistor = %{"body" => "some content", "to_id" => v.assigns.distinct_id}
+    push v, "new_message", to_master
+    push m, "new_message", to_vistor
+    ref = push m, "messages", %{uid: v.assigns.distinct_id}
+    assert_reply ref, :ok, %{messages: [m1, m2]}
   end
 
-  test "visitor send message to offline master", %{socket: socket} do
-    ref = push socket, "new_message", @valid_message
+  @tag master: true, visitor: true
+  test "get history messages by visitor", %{master: m, visitor: v} do
+    to_master = %{"body" => "some content", "to_id" => m.assigns.distinct_id}
+    to_vistor = %{"body" => "some content", "to_id" => v.assigns.distinct_id}
+    push v, "new_message", to_master
+    push m, "new_message", to_vistor
+    ref = push v, "messages", %{uid: v.assigns.distinct_id}
+    assert_reply ref, :ok, %{messages: [m1, m2]}
+  end
+
+#  test "get history messages by visitor with invalid data", %{master: m, visitor: v} do
+#  end
+
+  @tag master: true, visitor: true
+  test "get contact list by master", %{master: m, visitor: _v} do
+    ref = push m, "contact_list", %{}
+    assert_reply ref, :ok, %{users: [u1, u2]}
+  end
+
+  test "get contact list by visitor", %{socket: socket} do
+    ref = push socket, "contact_list", %{}
     assert_reply ref, :error
   end
 
-  @tag master: true
-  test "visitor send message to online master", %{socket: socket} do
-    {:ok, _, visitor} = socket(@to, %{distinct_id: @to})
-    |> subscribe_and_join(RoomChannel, "rooms:#{socket.assigns.room_id}")
-    message = %{"body" => "some content", "to_id" => @from}
-    push visitor, "new_message", message
+  @tag master: false, visitor: true
+  test "visitor send message to offline master", %{socket: socket} do
+    msg = %{"body" => "some content", "to_id" => socket.assigns.distinct_id}
+    ref = push socket, "new_message", msg
+    assert_reply ref, :error
+  end
+
+  @tag master: true, visitor: true
+  test "visitor send message to online master", %{master: m, visitor: v} do
+    message = %{"body" => "some content", "to_id" => m.assigns.distinct_id}
+    push v, "new_message", message
     assert_broadcast "new_message", message
   end
 
   @tag master: true
-  test "master send message to visitor", %{socket: socket} do
-    push socket, "new_message", @valid_message
+  test "master send message to visitor", %{socket: s} do
+    to_visitor = %{"body" => "some content", "to_id" => s.assigns.distinct_id}
+    push s, "new_message", to_visitor
     assert_broadcast "new_message", %{}
+  end
+
+  defp create_room do
+    owner = insert_user(username: "sneaky")
+    room = insert_room(owner, %{})
+    {room.id, owner.id}
+  end
+
+  defp join_room(distinct_id, room_id) do
+    socket = socket(distinct_id, %{distinct_id: distinct_id})
+    socket
+    |> subscribe_and_join(RoomChannel, "rooms:#{room_id}")
+  end
+
+  defp join_room(user_id, distinct_id, room_id) do
+    socket = socket(distinct_id, %{distinct_id: distinct_id})
+    socket
+    |> Phoenix.Socket.assign(:user_id, user_id)
+    |> subscribe_and_join(RoomChannel, "rooms:#{room_id}")
   end
 end

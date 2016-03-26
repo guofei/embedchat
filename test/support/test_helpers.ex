@@ -13,9 +13,13 @@ defmodule EmbedChat.TestHelpers do
     |> Repo.insert!()
   end
 
-  def insert_room(user, attrs \\ %{}) do
-    {_, room} = Repo.insert(%EmbedChat.Room{uuid: Ecto.UUID.generate()})
+  def insert_room(user, _attrs \\ %{}) do
+    {_, room} = Repo.insert(%EmbedChat.Room{uuid: uuid()})
     Repo.insert(%EmbedChat.UserRoom{user_id: user.id, room_id: room.id})
     room
+  end
+
+  def uuid do
+    Ecto.UUID.generate()
   end
 end
