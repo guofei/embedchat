@@ -56,14 +56,16 @@ defmodule EmbedChat.RoomChannelTest do
   test "get history messages by visitor", %{master: m, visitor: v} do
     to_master = %{"body" => "some content", "to_id" => m.assigns.distinct_id}
     to_vistor = %{"body" => "some content", "to_id" => v.assigns.distinct_id}
-    push v, "new_message", to_master
-    push m, "new_message", to_vistor
+    ref = push v, "new_message", to_master
+    assert_reply ref, :ok
+    ref = push m, "new_message", to_vistor
+    assert_reply ref, :ok
     ref = push v, "messages", %{uid: v.assigns.distinct_id}
     assert_reply ref, :ok, %{messages: [m1, m2]}
   end
 
-#  test "get history messages by visitor with invalid data", %{master: m, visitor: v} do
-#  end
+  #test "get history messages by visitor with invalid data", %{master: m, visitor: v} do
+  #end
 
   @tag master: true, visitor: true
   test "get contact list by master", %{master: m, visitor: _v} do
