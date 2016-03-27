@@ -76,7 +76,7 @@ defmodule EmbedChat.RoomChannel do
     case new_message(payload, socket) do
       {:ok, resp} ->
         broadcast! socket, "new_message", resp
-        {:noreply, socket}
+        {:reply, {:ok, resp}, socket}
       {:error, changeset} ->
         {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}
     end
@@ -262,7 +262,17 @@ defmodule EmbedChat.RoomChannel do
   defp create_address(distinct_id, user_id) do
     changeset =
       Address.changeset(%Address{user_id: user_id}, %{uuid: distinct_id})
-    Repo.insert(changeset)
+    case Repo.insert(changeset) do
+      {:ok, model} ->
+        {:ok, model}
+      {:error, changeset} ->
+        cond do
+          address = get_address(distinct_id) ->
+            {:ok, address}
+          true ->
+            {:error, changeset}
+        end
+    end
   end
 
   defp messages_owner(payload, socket) do
