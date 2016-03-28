@@ -5,7 +5,7 @@ defmodule EmbedChat.Repo.Migrations.CreateMessage do
     create table(:messages) do
       add :body, :text
       add :from_id, references(:addresses, on_delete: :nothing), null: false
-      add :to_id, references(:addresses, on_delete: :nothing), null: false
+      add :to_id, references(:addresses, on_delete: :nothing)
 
       timestamps
     end

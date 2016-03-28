@@ -206,16 +206,17 @@ defmodule EmbedChat.RoomChannel do
       address = get_address(admin) ->
         {:ok, address}
       true ->
-        changeset = Address.changeset(%Address{}, %{uuid: admin})
-        changeset = Ecto.Changeset.add_error(changeset, :uuid, "not find")
-        {:error, changeset}
+        model = %Address{}
+        {:error, model}
+        # changeset = Address.changeset(%Address{}, %{uuid: admin})
+        # changeset = Ecto.Changeset.add_error(changeset, :uuid, "not find")
     end
   end
 
   defp new_message(payload, socket) do
     room_id = socket.assigns.room_id
     with {:ok, sender} <- sender(socket),
-         {:ok, receiver} <- receiver(socket, payload["to_id"]),
+         {_, receiver} <- receiver(socket, payload["to_id"]),
          {:ok, msg} <- create_message(sender, receiver, room_id, payload["body"]),
          msg = Repo.preload(msg, [:from, :to, :from_user]),
          sender = Repo.preload(sender, [:user]),

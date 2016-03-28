@@ -4,16 +4,26 @@ defmodule EmbedChat.MessageView do
   def render("message.json", %{message: msg}) do
     from_name = cond do
       user = msg.from_user ->
-        user.name
+        if String.length(user.name) > 0 do
+          user.name
+        else
+          user.email
+        end
       true ->
         msg.from.uuid
+    end
+    to_id = cond do
+      to = msg.to ->
+        to.uuid
+      true ->
+        ""
     end
     %{
       id: msg.id,
       body: msg.body,
       from_id: msg.from.uuid,
       from_name: from_name,
-      to_id: msg.to.uuid,
+      to_id: to_id,
       inserted_at: Ecto.DateTime.to_string(msg.inserted_at)
     }
   end

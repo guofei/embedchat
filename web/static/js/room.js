@@ -13,6 +13,7 @@ function room(socket, roomID, distinctID) {
   let onUserLeftCallback = function func(res) { return res; };
   let onHistoryMessagesCallback = function func(res) { return res; };
   let onUserInfoCallback = function func(res) { return res; };
+  let onUserJoinedCallback = function func() { };
 
   return {
     join() {
@@ -38,6 +39,7 @@ function room(socket, roomID, distinctID) {
 
       channel.join()
         .receive('ok', () => {
+          onUserJoinedCallback();
           channel.push('contact_list')
             .receive('ok', listResp => {
               for (const user of listResp.users) {
@@ -91,6 +93,10 @@ function room(socket, roomID, distinctID) {
 
     onUserJoin(callback) {
       onUserJoinCallback = callback;
+    },
+
+    onUserJoined(callback) {
+      onUserJoinedCallback = callback;
     },
 
     onUserLeft(callback) {

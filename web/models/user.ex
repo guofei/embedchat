@@ -16,7 +16,7 @@ defmodule EmbedChat.User do
     timestamps
   end
 
-  @required_fields ~w(email password)
+  @required_fields ~w(email password name)
   @optional_fields ~w(name)
 
   def registration_changeset(model, params) do
