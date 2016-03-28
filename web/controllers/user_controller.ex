@@ -4,7 +4,7 @@ defmodule EmbedChat.UserController do
   alias EmbedChat.Room
   alias EmbedChat.UserRoom
 
-  # plug :authenticate when action in [:index, :show]
+  plug :authenticate_user when action in [:show]
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
@@ -23,6 +23,12 @@ defmodule EmbedChat.UserController do
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
+  end
+
+  def show(conn, %{"id" => id}) do
+    user = Repo.get!(User, id)
+    user = Repo.preload user, :rooms
+    render(conn, "show.html", user: user)
   end
 
   defp add_room(user) do
