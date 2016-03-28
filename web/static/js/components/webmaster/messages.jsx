@@ -14,7 +14,7 @@ const styles = {
   messages: {
     overflow: 'auto',
     minHeight: '300px',
-    maxHeight: '700px',
+    maxHeight: '600px',
   },
   messageForm: {
     backgroundColor: 'white',
