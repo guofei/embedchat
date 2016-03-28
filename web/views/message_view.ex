@@ -4,11 +4,7 @@ defmodule EmbedChat.MessageView do
   def render("message.json", %{message: msg}) do
     from_name = cond do
       user = msg.from_user ->
-        if String.length(user.name) > 0 do
-          user.name
-        else
-          user.email
-        end
+        EmbedChat.User.get_name(user)
       true ->
         msg.from.uuid
     end

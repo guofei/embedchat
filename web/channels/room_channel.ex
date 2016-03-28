@@ -7,13 +7,17 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.Address
   alias EmbedChat.Room
 
-  def join("rooms:" <> room_id, _payload, socket) do
-    room_id = String.to_integer(room_id)
-    if authorized?(socket, room_id) do
-      send(self, :after_join)
-      {:ok, assign(socket, :room_id, room_id)}
-    else
-      {:error, %{reason: "unauthorized"}}
+  def join("rooms:" <> room_uuid, _payload, socket) do
+    cond do
+      room = Repo.get_by(Room, uuid: room_uuid) ->
+        if authorized?(socket, room) do
+          send(self, :after_join)
+          {:ok, assign(socket, :room_id, room.id)}
+        else
+          {:error, %{reason: "unauthorized"}}
+        end
+      true ->
+        {:error, %{reason: "unauthorized"}}
     end
   end
 
@@ -123,10 +127,9 @@ defmodule EmbedChat.RoomChannel do
   end
 
   # Add authorization logic here as required.
-  defp authorized?(socket, room_id) do
+  defp authorized?(socket, room) do
     cond do
       user_id = socket.assigns[:user_id] ->
-        room = Repo.get(Room, room_id)
         room = Repo.preload room, :users
         users = room.users
         user = Repo.get!(User, user_id)

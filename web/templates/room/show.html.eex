@@ -1,8 +1,8 @@
 <div>
   <%= if @current_user do %>
-    <%= content_tag :div, "", id: "webmaster-chat-room", data: [id: 1] %>
+    <%= content_tag :div, "", id: "webmaster-chat-room", data: [id: @room.uuid] %>
   <% else %>
-    <%= content_tag :div, "", id: "chat-room", data: [id: 1] %>
+    <%= content_tag :div, "", id: "chat-room", data: [id: @room.uuid] %>
   <% end %>
 </div>
 
