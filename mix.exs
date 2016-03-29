@@ -19,7 +19,7 @@ defmodule EmbedChat.Mixfile do
   def application do
     [mod: {EmbedChat, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex]]
+                    :phoenix_ecto, :postgrex, :comeonin]]
   end
 
   # Specifies which paths to compile per environment.
@@ -37,7 +37,8 @@ defmodule EmbedChat.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.10"},
      {:cowboy, "~> 1.0"},
-     {:comeonin, "~> 2.0"}]
+     {:comeonin, "~> 2.3"},
+     {:exrm, "~> 1.0.3"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
