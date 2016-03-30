@@ -38,7 +38,10 @@ defmodule EmbedChat.Mixfile do
      {:gettext, "~> 0.10"},
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 2.3"},
-     {:exrm, "~> 1.0.3"}]
+     {:exrm, "~> 1.0.3", override: true},
+     {:conform, "~> 2.0", override: true},
+     {:conform_exrm, "~> 1.0"}
+    ]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
