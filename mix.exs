@@ -37,10 +37,7 @@ defmodule EmbedChat.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.10"},
      {:cowboy, "~> 1.0"},
-     {:comeonin, "~> 2.3"},
-     {:exrm, "~> 1.0.3", override: true},
-     {:conform, "~> 2.0", override: true},
-     {:conform_exrm, "~> 1.0"}
+     {:comeonin, "~> 2.3"}
     ]
   end
 
