@@ -13,7 +13,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :embed_chat, EmbedChat.Endpoint,
   http: [port: {:system, "PORT"}],
-  url: [host: {:system, "HOST"}, port: 80],
+  url: [host: System.get_env("HOST"), port: 80],
   cache_static_manifest: "priv/static/manifest.json",
   server: true
 
