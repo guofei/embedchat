@@ -14,7 +14,7 @@
 // import "deps/phoenix_html/web/static/js/phoenix_html"
 import 'phoenix_html';
 
-import 'bootstrap-sass/assets/javascripts/bootstrap.min.js';
+// import 'bootstrap-sass/assets/javascripts/bootstrap.min.js';
 
 // Import local files
 //
