@@ -18,14 +18,16 @@ const styles = {
     bottom: '20px',
     right: '40px',
   },
-  abs: {
-    position: 'absolute',
+  messageMenu: {
+    minWidth: '300px',
+    position: 'fixed',
+    top: '0px',
   },
-  messagesAndForm: {
+  messagesBox: {
     position: 'fixed',
     height: '100%',
-    top: '40px',
-    paddingBottom: '130px',
+    paddingTop: '40px',
+    paddingBottom: '80px',
     boxSizing: 'border-box',
     WebkitBoxSizing: 'border-box',
     MozBoxSizing: 'border-box',
@@ -36,8 +38,10 @@ const styles = {
     minWidth: '300px',
   },
   messageForm: {
-    minWidth: '300px',
-    height: '130px',
+    position: 'fixed',
+    bottom: '0px',
+    minWidth: '290px',
+    height: '80px',
     backgroundColor: 'white',
     marginLeft: '10px',
   },
@@ -111,17 +115,19 @@ class Chat extends React.Component {
           openRight
           open={this.state.open}
         >
-          <MenuBar onClose={this.handleClose}/>
-          <div style={styles.messagesAndForm}>
+          <div style={styles.messageMenu}>
+            <MenuBar onClose={this.handleClose}/>
+          </div>
+          <div style={styles.messagesBox}>
             <div ref="messages" style={styles.messages}>
               <ListMessages
                 messages={this.state.data}
                 currentUser={this.props.room.currentUser()}
               />
             </div>
-            <div style={styles.messageForm}>
-              <MessageForm onInputMessage={this.handleInputMessage} />
-            </div>
+          </div>
+          <div style={styles.messageForm}>
+            <MessageForm onInputMessage={this.handleInputMessage} />
           </div>
         </LeftNav>
       </div>
