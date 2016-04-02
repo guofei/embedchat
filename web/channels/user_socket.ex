@@ -5,8 +5,8 @@ defmodule EmbedChat.UserSocket do
   channel "rooms:*", EmbedChat.RoomChannel
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket
-  transport :longpoll, Phoenix.Transports.LongPoll
+  transport :websocket, Phoenix.Transports.WebSocket, check_origin: false
+  transport :longpoll, Phoenix.Transports.LongPoll, check_origin: false
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

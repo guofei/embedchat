@@ -110,14 +110,10 @@ class Chat extends React.Component {
           </FloatingActionButton>
         </div>
         <LeftNav
-          style={styles.abs}
           width={300}
           openRight
           open={this.state.open}
         >
-          <div style={styles.messageMenu}>
-            <MenuBar onClose={this.handleClose}/>
-          </div>
           <div style={styles.messagesBox}>
             <div ref="messages" style={styles.messages}>
               <ListMessages
@@ -125,6 +121,9 @@ class Chat extends React.Component {
                 currentUser={this.props.room.currentUser()}
               />
             </div>
+          </div>
+          <div style={styles.messageMenu}>
+            <MenuBar onClose={this.handleClose}/>
           </div>
           <div style={styles.messageForm}>
             <MessageForm onInputMessage={this.handleInputMessage} />

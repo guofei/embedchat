@@ -12,9 +12,7 @@
 // If you no longer want to use a dependency, remember
 // to also remove its path from "config.paths.watched".
 // import "deps/phoenix_html/web/static/js/phoenix_html"
-import 'phoenix_html';
-
-require('../css/app.scss');
+// import 'phoenix_html';
 
 // import 'bootstrap-sass/assets/javascripts/bootstrap.min.js';
 
@@ -23,14 +21,13 @@ require('../css/app.scss');
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import { clientID, masterID } from './distinct_id';
-import { clientSocket, masterSocket } from './socket';
+import { clientID } from './distinct_id';
+import { clientSocket } from './socket';
 import room from './room';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chat from './components/chat';
-import ChatWebmaster from './components/chat-webmaster';
 
 const roomElement = document.getElementById('chat-room');
 if (roomElement) {
@@ -46,15 +43,5 @@ if (roomElement) {
   ReactDOM.render(
     <Chat room={chatRoom} />,
     document.getElementById('chat-room-id')
-  );
-}
-
-const masterRoomElement = document.getElementById('webmaster-chat-room');
-if (masterRoomElement) {
-  const roomID = masterRoomElement.getAttribute('data-id');
-  const chatRoom = room(masterSocket, roomID, masterID);
-  ReactDOM.render(
-    <ChatWebmaster room={chatRoom} />,
-    document.getElementById('webmaster-chat-room')
   );
 }
