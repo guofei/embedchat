@@ -12,6 +12,14 @@ defmodule EmbedChat.RoomChannel do
       room = Repo.get_by(Room, uuid: room_uuid) ->
         if authorized?(socket, room) do
           send(self, :after_join)
+          EmbedChat.ChannelWatcher.monitor(
+            :rooms,
+            self(),
+            {__MODULE__, :leave, [
+                room.id,
+                socket.assigns[:user_id],
+                socket.assigns.distinct_id]
+            })
           {:ok, assign(socket, :room_id, room.id)}
         else
           {:error, %{reason: "unauthorized"}}
@@ -117,13 +125,25 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def terminate(_reason, socket) do
+    EmbedChat.ChannelWatcher.demonitor(:rooms, self())
+
     distinct_id = socket.assigns.distinct_id
     broadcast! socket, "user_left", %{uid: distinct_id}
-    offline(socket.assigns.room_id, distinct_id)
-    if socket.assigns[:user_id] do
-      admin_offline(socket.assigns.room_id, distinct_id)
-    end
+
+    leave(socket.assigns.room_id, socket.assigns[:user_id], distinct_id)
+
     {:noreply, socket}
+  end
+
+  def leave(room_id, user_id, distinct_id) when is_nil(user_id) do
+    # TODO : broadcast "user_left" event
+    offline(room_id, distinct_id)
+  end
+
+  def leave(room_id, user_id, distinct_id) do
+    # TODO : broadcast "user_left" event
+    offline(room_id, distinct_id)
+    admin_offline(room_id, distinct_id)
   end
 
   # Add authorization logic here as required.
@@ -211,8 +231,6 @@ defmodule EmbedChat.RoomChannel do
       true ->
         model = %Address{}
         {:error, model}
-        # changeset = Address.changeset(%Address{}, %{uuid: admin})
-        # changeset = Ecto.Changeset.add_error(changeset, :uuid, "not find")
     end
   end
 
