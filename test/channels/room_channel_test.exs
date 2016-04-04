@@ -3,17 +3,17 @@ defmodule EmbedChat.RoomChannelTest do
   alias EmbedChat.RoomChannel
 
   setup config do
-    {room_id, owner_id} = create_room
+    {room, owner} = create_room
     cond do
       config[:master] && config[:visitor] ->
-        {:ok, _, master} = join_room(owner_id, uuid(), room_id)
-        {:ok, _, visitor} = join_room(uuid(), room_id)
+        {:ok, _, master} = join_room(owner.id, uuid(), room.uuid)
+        {:ok, _, visitor} = join_room(uuid(), room.uuid)
         {:ok, master: master, visitor: visitor}
       config[:master] ->
-        {:ok, _, master} = join_room(owner_id, uuid(), room_id)
+        {:ok, _, master} = join_room(owner.id, uuid(), room.uuid)
         {:ok, socket: master}
       true ->
-        {:ok, _, visitor} = join_room(uuid(), room_id)
+        {:ok, _, visitor} = join_room(uuid(), room.uuid)
         {:ok, socket: visitor}
     end
   end
@@ -80,9 +80,9 @@ defmodule EmbedChat.RoomChannelTest do
 
   @tag master: false, visitor: true
   test "visitor send message to offline master", %{socket: socket} do
-    msg = %{"body" => "some content", "to_id" => socket.assigns.distinct_id}
+    msg = %{"body" => "some content", "to_id" => uuid()}
     ref = push socket, "new_message", msg
-    assert_reply ref, :error
+    assert_reply ref, :ok
   end
 
   @tag master: true, visitor: true
@@ -102,19 +102,19 @@ defmodule EmbedChat.RoomChannelTest do
   defp create_room do
     owner = insert_user(username: "sneaky")
     room = insert_room(owner, %{})
-    {room.id, owner.id}
+    {room, owner}
   end
 
-  defp join_room(distinct_id, room_id) do
+  defp join_room(distinct_id, room_uuid) do
     socket = socket(distinct_id, %{distinct_id: distinct_id})
     socket
-    |> subscribe_and_join(RoomChannel, "rooms:#{room_id}")
+    |> subscribe_and_join(RoomChannel, "rooms:#{room_uuid}")
   end
 
-  defp join_room(user_id, distinct_id, room_id) do
+  defp join_room(user_id, distinct_id, room_uuid) do
     socket = socket(distinct_id, %{distinct_id: distinct_id})
     socket
     |> Phoenix.Socket.assign(:user_id, user_id)
-    |> subscribe_and_join(RoomChannel, "rooms:#{room_id}")
+    |> subscribe_and_join(RoomChannel, "rooms:#{room_uuid}")
   end
 end
