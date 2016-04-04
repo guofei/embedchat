@@ -12,8 +12,8 @@ defmodule EmbedChat.Room.RegistryTest do
     EmbedChat.Room.Registry.create(registry, "room1")
     assert {:ok, bucket} = EmbedChat.Room.Registry.lookup(registry, "room1")
 
-    EmbedChat.Room.Bucket.add(bucket, 1)
-    assert EmbedChat.Room.Bucket.get(bucket) == [1]
+    EmbedChat.Room.Bucket.put(bucket, 1, 1)
+    assert EmbedChat.Room.Bucket.map(bucket) == %{1 => 1}
   end
 
   test "removes buckets on exit", %{registry: registry} do

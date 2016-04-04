@@ -140,7 +140,7 @@ defmodule EmbedChat.RoomChannel do
     offline(room_id, distinct_id)
   end
 
-  def leave(room_id, user_id, distinct_id) do
+  def leave(room_id, _user_id, distinct_id) do
     # TODO : broadcast "user_left" event
     offline(room_id, distinct_id)
     admin_offline(room_id, distinct_id)
@@ -161,12 +161,12 @@ defmodule EmbedChat.RoomChannel do
 
   defp online_users(room_id) do
     {:ok, bucket} = user_bucket(room_id)
-    Bucket.get(bucket)
+    Map.keys(Bucket.map(bucket))
   end
 
   defp online(room_id, distinct_id) do
     {:ok, bucket} = user_bucket(room_id)
-    Bucket.add(bucket, distinct_id)
+    Bucket.put(bucket, distinct_id, nil)
   end
 
   defp offline(room_id, distinct_id) do
@@ -176,12 +176,12 @@ defmodule EmbedChat.RoomChannel do
 
   defp online_admins(room_id) do
     {:ok, bucket} = admin_bucket(room_id)
-    Bucket.get(bucket)
+    Map.keys(Bucket.map(bucket))
   end
 
   defp admin_online(room_id, distinct_id) do
     {:ok, bucket} = admin_bucket(room_id)
-    Bucket.add(bucket, distinct_id)
+    Bucket.put(bucket, distinct_id, "")
   end
 
   defp admin_offline(room_id, distinct_id) do

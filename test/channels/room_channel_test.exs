@@ -106,13 +106,15 @@ defmodule EmbedChat.RoomChannelTest do
   end
 
   defp join_room(distinct_id, room_uuid) do
-    socket = socket(distinct_id, %{distinct_id: distinct_id})
+    info = %{"userAgent" => "IE", "href" => "http://a.com"}
+    socket = socket(distinct_id, %{distinct_id: distinct_id, info: info})
     socket
     |> subscribe_and_join(RoomChannel, "rooms:#{room_uuid}")
   end
 
   defp join_room(user_id, distinct_id, room_uuid) do
-    socket = socket(distinct_id, %{distinct_id: distinct_id})
+    info = %{"userAgent" => "IE", "href" => "http://a.com"}
+    socket = socket(distinct_id, %{distinct_id: distinct_id, info: info})
     socket
     |> Phoenix.Socket.assign(:user_id, user_id)
     |> subscribe_and_join(RoomChannel, "rooms:#{room_uuid}")
