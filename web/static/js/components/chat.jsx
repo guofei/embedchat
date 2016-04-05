@@ -99,7 +99,7 @@ class Chat extends React.Component {
   }
 
   render() {
-    let left = <div></div>;
+    let left = null;
     if (this.state.open) {
       left =
         (
@@ -122,6 +122,17 @@ class Chat extends React.Component {
             <div style={styles.messageForm}>
               <MessageForm onInputMessage={this.handleInputMessage} />
             </div>
+          </LeftNav>
+        );
+    } else {
+      left =
+        (
+          <LeftNav
+            width={300}
+            openRight
+            open={this.state.open}
+          >
+            <div></div>
           </LeftNav>
         );
     }
