@@ -99,6 +99,32 @@ class Chat extends React.Component {
   }
 
   render() {
+    let left = <div></div>;
+    if (this.state.open) {
+      left =
+        (
+          <LeftNav
+            width={300}
+            openRight
+            open={this.state.open}
+          >
+            <div style={styles.messagesBox}>
+              <div ref="messages" style={styles.messages}>
+                <ListMessages
+                  messages={this.state.data}
+                  currentUser={this.props.room.currentUser()}
+                />
+              </div>
+            </div>
+            <div style={styles.messageMenu}>
+              <MenuBar onClose={this.handleClose}/>
+            </div>
+            <div style={styles.messageForm}>
+              <MessageForm onInputMessage={this.handleInputMessage} />
+            </div>
+          </LeftNav>
+        );
+    }
     return (
       <div>
         <div style={styles.fixed}>
@@ -109,26 +135,7 @@ class Chat extends React.Component {
             <CommunicationMessage />
           </FloatingActionButton>
         </div>
-        <LeftNav
-          width={300}
-          openRight
-          open={this.state.open}
-        >
-          <div style={styles.messagesBox}>
-            <div ref="messages" style={styles.messages}>
-              <ListMessages
-                messages={this.state.data}
-                currentUser={this.props.room.currentUser()}
-              />
-            </div>
-          </div>
-          <div style={styles.messageMenu}>
-            <MenuBar onClose={this.handleClose}/>
-          </div>
-          <div style={styles.messageForm}>
-            <MessageForm onInputMessage={this.handleInputMessage} />
-          </div>
-        </LeftNav>
+        { left }
       </div>
     );
   }

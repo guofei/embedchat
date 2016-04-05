@@ -7,7 +7,7 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.Address
   alias EmbedChat.Room
 
-  def join("rooms:" <> room_uuid, _payload, socket) do
+  def join("rooms:" <> room_uuid, payload, socket) do
     cond do
       room = Repo.get_by(Room, uuid: room_uuid) ->
         if authorized?(socket, room) do
@@ -30,7 +30,7 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_info(:after_join, socket) do
-    online(socket.assigns.room_id, socket.assigns.distinct_id)
+    online(socket.assigns.room_id, socket.assigns.distinct_id, socket.assigns[:info])
     if socket.assigns[:user_id] do
       admin_online(socket.assigns.room_id, socket.assigns.distinct_id)
       create_admin_address(socket)
@@ -46,6 +46,7 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("user_info", payload, socket) do
+    online(socket.assigns.room_id, socket.assigns.distinct_id, payload)
     broadcast! socket, "user_info", %{uid: socket.assigns.distinct_id, info: payload}
     {:noreply, socket}
   end
@@ -161,12 +162,12 @@ defmodule EmbedChat.RoomChannel do
 
   defp online_users(room_id) do
     {:ok, bucket} = user_bucket(room_id)
-    Map.keys(Bucket.map(bucket))
+    Bucket.map(bucket)
   end
 
-  defp online(room_id, distinct_id) do
+  defp online(room_id, distinct_id, info) do
     {:ok, bucket} = user_bucket(room_id)
-    Bucket.put(bucket, distinct_id, nil)
+    Bucket.put(bucket, distinct_id, info)
   end
 
   defp offline(room_id, distinct_id) do

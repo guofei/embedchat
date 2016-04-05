@@ -40,19 +40,22 @@ function room(socket, roomID, distinctID) {
       channel.join()
         .receive('ok', () => {
           onUserJoinedCallback();
-          channel.push('contact_list')
+          channel.push(userInfo, UserInfo)
+            .receive('ok', info => {
+              onUserInfoCallback(info);
+            });
+          const contactList = 'contact_list';
+          channel.push(contactList)
             .receive('ok', listResp => {
-              for (const user of listResp.users) {
-                onUserJoinCallback({ uid: user });
+              const users = listResp.users;
+              console.log(users);
+              for (const key of Object.keys(users)) {
+                onUserJoinCallback({ uid: key });
               }
             });
           channel.push(messages, { uid: distinctID })
             .receive('ok', msgsResp => {
               onHistoryMessagesCallback(msgsResp);
-            });
-          channel.push(userInfo, UserInfo)
-            .receive('ok', info => {
-              onUserInfoCallback(info);
             });
         });
     },
