@@ -13,6 +13,7 @@ let state_tree = {
     1: {
       id: 1,
       from_id: 'xxx-xxx-xxx',
+      from_name: 'name',
       to_id: 'xxx-xxx-xxx',
       body: 'hi',
       inserted_at: '11:10'
@@ -20,10 +21,7 @@ let state_tree = {
   },
   users: {
     xxx-xxx-xxx: {
-      id: 1,
       uuid: 'xxx-xxx-xxx',
-      name: 'name',
-      email: 'a@a.com',
       online: false,
     },
   },
