@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
-import { NEW_MESSAGE, USER_ONLINE, NEW_ACCESS_LOG } from './actions';
+import {
+  RECEIVE_MESSAGE,
+  RECEIVE_USER_ONLINE,
+  RECEIVE_USER_OFFLINE,
+  RECEIVE_ACCESS_LOG,
+} from './actions';
 
 // state tree sample
 /*
@@ -14,25 +19,40 @@ let state_tree = {
     },
   },
   users: {
-    1: {
+    xxx-xxx-xxx: {
       id: 1,
       uuid: 'xxx-xxx-xxx',
       name: 'name',
       email: 'a@a.com',
+      online: false,
     },
   },
   logs: {
     1: { id: 1, inserted_at: '11:12', href: 'http://abc.com', user_id: 1 },
   },
+  // ui state
+  masterUUID: 'xxx-xxx-xxx',
+  visitorUUID: 'xxx-xxx-xxx',
+  selectedUser: 'xxx-xxx-xxx',
 }
 */
 
 function messages(state = {}, action) {
   switch (action.type) {
-    case NEW_MESSAGE:
-      return Object.assign(state,
-        { [Object.keys(state).length + 1]: action.message }
-      );
+    case RECEIVE_MESSAGE:
+      return Object.assign({}, state,
+        { [action.message.id]: action.message });
+    default:
+      return state;
+  }
+}
+
+function user(state = {}, action) {
+  switch (action.type) {
+    case RECEIVE_USER_ONLINE:
+      return Object.assign({}, action.user, { online: true });
+    case RECEIVE_USER_OFFLINE:
+      return Object.assign({}, action.user, { online: false });
     default:
       return state;
   }
@@ -40,10 +60,10 @@ function messages(state = {}, action) {
 
 function users(state = {}, action) {
   switch (action.type) {
-    case USER_ONLINE:
-      return Object.assign(state,
-        { [Object.keys(state).length + 1]: action.user }
-      );
+    case RECEIVE_USER_ONLINE:
+    case RECEIVE_USER_OFFLINE:
+      return Object.assign({}, state,
+        { [action.user.uuid]: user(state[action.user.uuid], action) });
     default:
       return state;
   }
@@ -51,10 +71,9 @@ function users(state = {}, action) {
 
 function logs(state = {}, action) {
   switch (action.type) {
-    case NEW_ACCESS_LOG:
-      return Object.assign(state,
-        { [Object.keys(state).length + 1]: action.log }
-      );
+    case RECEIVE_ACCESS_LOG:
+      return Object.assign({}, state,
+        { [Object.keys(state).length + 1]: action.log });
     default:
       return state;
   }

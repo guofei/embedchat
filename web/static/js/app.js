@@ -13,6 +13,8 @@
 // to also remove its path from "config.paths.watched".
 // import "deps/phoenix_html/web/static/js/phoenix_html"
 import 'phoenix_html';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 require('../css/app.scss');
 
@@ -32,10 +34,14 @@ import ReactDOM from 'react-dom';
 import Chat from './components/chat';
 import ChatWebmaster from './components/chat-webmaster';
 
+import chatApp from './reducers';
+
+const store = createStore(chatApp);
+
 const roomElement = document.getElementById('chat-room');
 if (roomElement) {
   const roomID = roomElement.getAttribute('data-id');
-  const chatRoom = room(clientSocket, roomID, clientID);
+  const chatRoom = room(clientSocket, roomID, clientID, store);
 
   document.body.innerHTML += ('<div style="position:relative;">' +
     '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
@@ -44,7 +50,9 @@ if (roomElement) {
     '</div>');
 
   ReactDOM.render(
-    <Chat room={chatRoom} />,
+    <Provider store={store}>
+      <Chat room={chatRoom} />
+    </Provider>,
     document.getElementById('chat-room-id')
   );
 }
@@ -52,7 +60,7 @@ if (roomElement) {
 const masterRoomElement = document.getElementById('webmaster-chat-room');
 if (masterRoomElement) {
   const roomID = masterRoomElement.getAttribute('data-id');
-  const chatRoom = room(masterSocket, roomID, masterID);
+  const chatRoom = room(masterSocket, roomID, masterID, store);
   ReactDOM.render(
     <ChatWebmaster room={chatRoom} />,
     document.getElementById('webmaster-chat-room')

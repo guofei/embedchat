@@ -1,6 +1,12 @@
 import UserInfo from './user_info';
+import {
+  receiveMessage,
+  receiveUserOnline,
+  receiveUserOffline,
+  receiveAccessLog
+} from './actions';
 
-function room(socket, roomID, distinctID) {
+function room(socket, roomID, distinctID, store) {
   const messageEvent = 'new_message';
   const userLeft = 'user_left';
   const userJoin = 'user_join';
@@ -21,19 +27,23 @@ function room(socket, roomID, distinctID) {
       socket.connect();
       channel = socket.channel(`rooms:${roomID}`);
 
-      channel.on(messageEvent, (resp) => {
-        onMessageCallback(resp);
+      channel.on(messageEvent, (user) => {
+        store.dispatch(user);
+        onMessageCallback(user);
       });
 
       channel.on(userLeft, (resp) => {
+        console.log(resp);
         onUserLeftCallback(resp);
       });
 
       channel.on(userJoin, (resp) => {
+        console.log(resp);
         onUserJoinCallback(resp);
       });
 
       channel.on(userInfo, (resp) => {
+        console.log(resp);
         onUserInfoCallback(resp);
       });
 
@@ -53,8 +63,10 @@ function room(socket, roomID, distinctID) {
                 onUserJoinCallback({ uid: key });
               }
             });
+          // FIXME master need not do this
           channel.push(messages, { uid: distinctID })
             .receive('ok', msgsResp => {
+              msgsResp.messages.map(m => store.dispatch(receiveMessage(m)));
               onHistoryMessagesCallback(msgsResp);
             });
         });
@@ -80,12 +92,14 @@ function room(socket, roomID, distinctID) {
     history(userID) {
       if (typeof userID === 'undefined') {
         return channel.push(messages)
-        .receive('ok', msgsResp => {
-          onHistoryMessagesCallback(msgsResp);
-        });
+          .receive('ok', msgsResp => {
+            msgsResp.messages.map(m => store.dispatch(receiveMessage(m)));
+            onHistoryMessagesCallback(msgsResp);
+          });
       }
       channel.push(messages, { uid: userID })
       .receive('ok', msgsResp => {
+        msgsResp.messages.map(m => store.dispatch(receiveMessage(m)));
         onHistoryMessagesCallback(msgsResp);
       });
     },
