@@ -37,7 +37,7 @@ const store = createStore(chatApp);
 const roomElement = document.getElementById('chat-room');
 if (roomElement) {
   const roomID = roomElement.getAttribute('data-id');
-  const chatRoom = room(clientSocket, roomID, clientID);
+  const chatRoom = room(clientSocket, roomID, clientID, store);
 
   document.body.innerHTML += ('<div style="position:relative;">' +
     '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
