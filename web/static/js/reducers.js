@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 import {
   RECEIVE_MESSAGE,
+  CURRENT_USER,
+  SELECT_USER,
   RECEIVE_USER_ONLINE,
   RECEIVE_USER_OFFLINE,
   RECEIVE_ACCESS_LOG,
@@ -21,16 +23,15 @@ let state_tree = {
   },
   users: {
     xxx-xxx-xxx: {
-      uuid: 'xxx-xxx-xxx',
+      uid: 'xxx-xxx-xxx',
       online: false,
     },
   },
   logs: {
-    1: { id: 1, inserted_at: '11:12', href: 'http://abc.com', user_id: 1 },
+    1: { id: 1, inserted_at: '11:12', href: 'http://abc.com', uid: 'xxx' },
   },
   // ui state
-  masterUUID: 'xxx-xxx-xxx',
-  visitorUUID: 'xxx-xxx-xxx',
+  currentUser: 'xxx-xxx-xxx',
   selectedUser: 'xxx-xxx-xxx',
 }
 */
@@ -61,7 +62,25 @@ function users(state = {}, action) {
     case RECEIVE_USER_ONLINE:
     case RECEIVE_USER_OFFLINE:
       return Object.assign({}, state,
-        { [action.user.uuid]: user(state[action.user.uuid], action) });
+        { [action.user.uid]: user(state[action.user.uid], action) });
+    default:
+      return state;
+  }
+}
+
+function currentUser(state = '', action) {
+  switch (action.type) {
+    case CURRENT_USER:
+      return action.uid;
+    default:
+      return state;
+  }
+}
+
+function selectedUser(state = '', action) {
+  switch (action.type) {
+    case SELECT_USER:
+      return action.uid;
     default:
       return state;
   }
@@ -78,6 +97,8 @@ function logs(state = {}, action) {
 }
 
 const chatApp = combineReducers({
+  currentUser,
+  selectedUser,
   users,
   messages,
   logs,

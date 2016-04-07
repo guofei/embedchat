@@ -16,18 +16,28 @@ const styles = {
 };
 
 class AccessLog extends React.Component {
+  componentDidMount() {
+    this.scrollLogs();
+  }
+
   componentDidUpdate() {
+    this.scrollLogs();
+  }
+
+  scrollLogs() {
     const node = ReactDOM.findDOMNode(this.refs.logs);
-    node.scrollTop = node.scrollHeight;
+    if (node) {
+      node.scrollTop = node.scrollHeight;
+    }
   }
 
   render() {
     const logs = this.props.logs.map((log, index) =>
       (
         <ListItem
-          key={index + 1}
-          primaryText={ log.info.createdAt }
-          secondaryText={ log.info.href }
+          key={index}
+          primaryText={ log.inserted_at }
+          secondaryText={ log.href }
         />
       )
     );

@@ -1,189 +1,60 @@
 import React from 'react';
 import Paper from 'material-ui/lib/paper';
+import { connect } from 'react-redux';
+
+import { selectUser } from '../actions';
 
 import UserLists from './webmaster/user-lists';
 import Messages from './webmaster/messages';
 import AccessLog from './webmaster/access-log';
 
-function mergeDup(arr) {
-  return arr.reduce((prev, current, index) => {
-    const newArr = prev;
-    if (!(current.uid in prev.keys)) {
-      newArr.keys[current.uid] = index;
-      newArr.result.push(current);
-    } else {
-      newArr.result[newArr.keys[current.uid]] = current;
-    }
-    return prev;
-  }, { result: [], keys: {} }).result;
-}
-
-function remove(arr, uid) {
-  return arr.filter(x => uid !== x.uid);
-}
-
-function createNewUsers(searched, merged, id) {
-  const oldUser = searched.find((u) => u.uid === id);
-  const num = oldUser ? oldUser.numMessages : 0;
-  const newUser = { uid: id, numMessages: num };
-  return mergeDup(merged.concat([newUser]));
-}
-
 class ChatWebmaster extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: [],
-      logs: [],
-      onlineUsers: [],
-      offlineUsers: [],
-      selectedUser: null,
-    };
     this.handleInputMessage = this.handleInputMessage.bind(this);
-    this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
     this.handleSelectUser = this.handleSelectUser.bind(this);
-    this.handleUserJoin = this.handleUserJoin.bind(this);
-    this.handleUserLeft = this.handleUserLeft.bind(this);
-    this.handleHistory = this.handleHistory.bind(this);
     this.handleCloseMessages = this.handleCloseMessages.bind(this);
-    this.handleUserInfo = this.handleUserInfo.bind(this);
   }
 
   componentDidMount() {
-    this.props.room.onMessage((msg) => {
-      this.handleReceiveMessage(msg);
-    });
-    this.props.room.onUserJoin((user) => {
-      this.handleUserJoin(user);
-    });
-    this.props.room.onUserLeft((user) => {
-      this.handleUserLeft(user);
-    });
-    this.props.room.onHistory((his) => {
-      this.handleHistory(his);
-    });
-    this.props.room.onUserInfo((info) => {
-      this.handleUserInfo(info);
-    });
     this.props.room.join();
   }
 
   handleInputMessage(inputText) {
-    if (this.state.selectedUser) {
-      this.props.room.send(inputText, this.state.selectedUser);
+    if (this.props.selectedUser) {
+      this.props.room.send(inputText, this.props.selectedUser);
     }
-  }
-
-  handleReceiveMessage(msg) {
-    if (!this.state.selectedUser) {
-      this.setState({ selectedUser: msg.from_id });
-    }
-    if (this.state.selectedUser === msg.from_id
-      || this.state.selectedUser === msg.to_id) {
-      const data = this.state.data;
-      const newData = data.concat([msg]);
-      this.setState({ data: newData });
-    }
-    const find = (u) => {
-      const user = u;
-      if (user.uid === msg.from_id) {
-        user.numMessages += 1;
-      }
-      return user;
-    };
-    const onlines = this.state.onlineUsers.map(find);
-    this.setState({ onlineUsers: onlines });
-
-    const offlines = this.state.offlineUsers.map(find);
-    this.setState({ offlineUsers: offlines });
-  }
-
-  handleUserJoin(user) {
-    if (this.props.room.isSelf(user.uid)) {
-      return;
-    }
-    const newUsers = createNewUsers(
-      this.state.offlineUsers,
-      this.state.onlineUsers,
-      user.uid);
-    this.setState({ onlineUsers: newUsers });
-
-    const offlines = remove(this.state.offlineUsers, user.uid);
-    this.setState({ offlineUsers: offlines });
-  }
-
-  handleUserLeft(user) {
-    if (this.props.room.isSelf(user.uid)) {
-      return;
-    }
-    const newUsers = createNewUsers(
-      this.state.onlineUsers,
-      this.state.offlineUsers,
-      user.uid);
-    this.setState({ offlineUsers: newUsers });
-
-    const onlines = remove(this.state.onlineUsers, user.uid);
-    this.setState({ onlineUsers: onlines });
-  }
-
-  handleUserInfo(info) {
-    if (this.state.selectedUser !== info.uid) {
-      return;
-    }
-    const newLogs = this.state.logs.concat(info);
-    this.setState({ logs: newLogs });
-  }
-
-  handleHistory(history) {
-    if (this.state.selectedUser !== history.uid) {
-      return;
-    }
-    this.setState({ data: history.messages });
   }
 
   handleSelectUser(userName) {
-    if (userName !== this.state.selectedUser) {
-      this.setState({ selectedUser: userName });
-      this.setState({ data: [] });
-      this.setState({ logs: [] });
-    }
-    const find = (u) => {
-      const user = u;
-      if (user.uid === userName) {
-        user.numMessages = 0;
-      }
-      return user;
-    };
-    const onlines = this.state.onlineUsers.map(find);
-    this.setState({ onlineUsers: onlines });
-
-    const offlines = this.state.offlineUsers.map(find);
-    this.setState({ offlineUsers: offlines });
-
-    this.props.room.history(userName);
+    this.props.dispatch(selectUser(userName));
   }
 
   handleCloseMessages() {
-    this.setState({ selectedUser: null });
+    this.props.dispatch(selectUser(''));
   }
 
   render() {
+    const {
+      onlineUsers, offlineUsers, messages, currentUser, selectedUser, logs,
+    } = this.props;
+
     let paper = null;
-    if (this.state.selectedUser) {
+    if (selectedUser) {
       paper = (
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--8-col">
             <Messages
-              messages={this.state.data}
-              currentUser={this.props.room.currentUser()}
+              messages={messages}
+              currentUser={currentUser}
               onInputMessage={this.handleInputMessage}
               onClose={this.handleCloseMessages}
             />
           </div>
           <div className="mdl-cell mdl-cell--4-col">
             <AccessLog
-              currentUser={this.props.room.currentUser()}
-              logs={this.state.logs}
+              currentUser={currentUser}
+              logs={logs}
             />
           </div>
         </div>
@@ -195,8 +66,8 @@ class ChatWebmaster extends React.Component {
           <div className="mdl-cell mdl-cell--10-col">
             <Paper zDepth={1}>
               <UserLists
-                onlineUsers={this.state.onlineUsers}
-                offlineUsers={this.state.offlineUsers}
+                onlineUsers={onlineUsers}
+                offlineUsers={offlineUsers}
                 onUserSelected={this.handleSelectUser}
               />
             </Paper>
@@ -215,6 +86,34 @@ class ChatWebmaster extends React.Component {
 
 ChatWebmaster.propTypes = {
   room: React.PropTypes.object.isRequired,
+  dispatch: React.PropTypes.func.isRequired,
+  messages: React.PropTypes.array.isRequired,
+  onlineUsers: React.PropTypes.array.isRequired,
+  offlineUsers: React.PropTypes.array.isRequired,
+  currentUser: React.PropTypes.string.isRequired,
+  selectedUser: React.PropTypes.string.isRequired,
+  logs: React.PropTypes.array.isRequired,
 };
 
-export default ChatWebmaster;
+// TODO refactoring
+function toArr(obj) {
+  return Object.keys(obj).map((k) => obj[k]);
+}
+
+function select(state) {
+  const current = state.currentUser;
+  const users = state.users;
+  const selected = state.selectedUser;
+  return {
+    messages: toArr(state.messages).filter(x =>
+      x.from_id === selected || x.to_id === selected
+    ),
+    onlineUsers: toArr(users).filter(x => x.online && x.uid !== current),
+    offlineUsers: toArr(users).filter(x => !x.online && x.uid !== current),
+    logs: toArr(state.logs).filter(x => x.uid === selected),
+    currentUser: current,
+    selectedUser: selected,
+  };
+}
+
+export default connect(select)(ChatWebmaster);

@@ -1,9 +1,10 @@
 import UserInfo from './user_info';
 import {
+  setCurrentUser,
   receiveMessage,
   receiveUserOnline,
   receiveUserOffline,
-  receiveAccessLog
+  receiveAccessLog,
 } from './actions';
 
 function room(socket, roomID, distinctID, store) {
@@ -14,12 +15,22 @@ function room(socket, roomID, distinctID, store) {
   const userInfo = 'user_info';
 
   let channel = null;
-  let onMessageCallback = function func(res) { return res; };
-  let onUserJoinCallback = function func(res) { return res; };
-  let onUserLeftCallback = function func(res) { return res; };
-  let onHistoryMessagesCallback = function func(res) { return res; };
-  let onUserInfoCallback = function func(res) { return res; };
   let onUserJoinedCallback = function func() { };
+
+  function getHistory(userID) {
+    if (typeof userID === 'undefined') {
+      return channel.push(messages)
+        .receive('ok', msgsResp => {
+          msgsResp.messages.map(m => store.dispatch(receiveMessage(m)));
+        });
+    }
+    channel.push(messages, { uid: userID })
+    .receive('ok', msgsResp => {
+      msgsResp.messages.map(m => store.dispatch(receiveMessage(m)));
+    });
+  }
+
+  store.dispatch(setCurrentUser(distinctID));
 
   return {
     join() {
@@ -27,61 +38,52 @@ function room(socket, roomID, distinctID, store) {
       socket.connect();
       channel = socket.channel(`rooms:${roomID}`);
 
-      channel.on(messageEvent, (user) => {
-        store.dispatch(user);
-        onMessageCallback(user);
+      channel.on(messageEvent, (msg) => {
+        store.dispatch(receiveMessage(msg));
       });
 
-      channel.on(userLeft, (resp) => {
-        console.log(resp);
-        onUserLeftCallback(resp);
+      channel.on(userLeft, (user) => {
+        store.dispatch(receiveUserOffline(user));
       });
 
-      channel.on(userJoin, (resp) => {
-        console.log(resp);
-        onUserJoinCallback(resp);
+      channel.on(userJoin, (user) => {
+        store.dispatch(receiveUserOnline(user));
+        getHistory(user.uid);
       });
 
       channel.on(userInfo, (resp) => {
-        console.log(resp);
-        onUserInfoCallback(resp);
+        const accesslog = Object.assign({}, resp.info, { uid: resp.uid });
+        store.dispatch(receiveAccessLog(accesslog));
       });
 
       channel.join()
         .receive('ok', () => {
           onUserJoinedCallback();
-          channel.push(userInfo, UserInfo)
-            .receive('ok', info => {
-              onUserInfoCallback(info);
-            });
+          channel.push(userInfo, UserInfo);
           const contactList = 'contact_list';
           channel.push(contactList)
             .receive('ok', listResp => {
               const users = listResp.users;
-              console.log(users);
-              for (const key of Object.keys(users)) {
-                onUserJoinCallback({ uid: key });
+              for (const key in users) {
+                if (users.hasOwnProperty(key)) {
+                  const log = Object.assign({}, users[key], { uid: key });
+                  store.dispatch(receiveAccessLog(log));
+                  const user = { uid: key };
+                  store.dispatch(receiveUserOnline(user));
+                  getHistory(key);
+                }
               }
             });
           // FIXME master need not do this
           channel.push(messages, { uid: distinctID })
             .receive('ok', msgsResp => {
               msgsResp.messages.map(m => store.dispatch(receiveMessage(m)));
-              onHistoryMessagesCallback(msgsResp);
             });
         });
     },
 
-    onMessage(callback) {
-      onMessageCallback = callback;
-    },
-
     isSelf(uid) {
       return uid === distinctID;
-    },
-
-    currentUser() {
-      return distinctID;
     },
 
     send(text, toUser) {
@@ -89,39 +91,8 @@ function room(socket, roomID, distinctID, store) {
       return channel.push(messageEvent, message);
     },
 
-    history(userID) {
-      if (typeof userID === 'undefined') {
-        return channel.push(messages)
-          .receive('ok', msgsResp => {
-            msgsResp.messages.map(m => store.dispatch(receiveMessage(m)));
-            onHistoryMessagesCallback(msgsResp);
-          });
-      }
-      channel.push(messages, { uid: userID })
-      .receive('ok', msgsResp => {
-        msgsResp.messages.map(m => store.dispatch(receiveMessage(m)));
-        onHistoryMessagesCallback(msgsResp);
-      });
-    },
-
-    onHistory(callback) {
-      onHistoryMessagesCallback = callback;
-    },
-
-    onUserJoin(callback) {
-      onUserJoinCallback = callback;
-    },
-
     onUserJoined(callback) {
       onUserJoinedCallback = callback;
-    },
-
-    onUserLeft(callback) {
-      onUserLeftCallback = callback;
-    },
-
-    onUserInfo(callback) {
-      onUserInfoCallback = callback;
     },
   };
 }

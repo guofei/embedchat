@@ -62,7 +62,9 @@ if (masterRoomElement) {
   const roomID = masterRoomElement.getAttribute('data-id');
   const chatRoom = room(masterSocket, roomID, masterID, store);
   ReactDOM.render(
-    <ChatWebmaster room={chatRoom} />,
+    <Provider store={store}>
+      <ChatWebmaster room={chatRoom} />
+    </Provider>,
     document.getElementById('webmaster-chat-room')
   );
 }

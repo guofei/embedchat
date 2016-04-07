@@ -28,9 +28,19 @@ class Messages extends React.Component {
     this.handleTouchTap = this.handleTouchTap.bind(this);
   }
 
+  componentDidMount() {
+    this.scrollMessages();
+  }
+
   componentDidUpdate() {
+    this.scrollMessages();
+  }
+
+  scrollMessages() {
     const node = ReactDOM.findDOMNode(this.refs.messages);
-    node.scrollTop = node.scrollHeight;
+    if (node) {
+      node.scrollTop = node.scrollHeight;
+    }
   }
 
   handleTouchTap() {

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 
 import LeftNav from 'material-ui/lib/left-nav';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
@@ -52,28 +53,26 @@ class Chat extends React.Component {
     super(props);
     this.state = {
       open: false,
-      data: [],
     };
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleInputMessage = this.handleInputMessage.bind(this);
-    this.handleReceiveMessage = this.handleReceiveMessage.bind(this);
-    this.handleHistory = this.handleHistory.bind(this);
   }
 
   componentDidMount() {
-    this.props.room.onMessage((msg) => {
-      this.handleReceiveMessage(msg);
-    });
-    this.props.room.onHistory((history) => {
-      this.handleHistory(history);
-    });
+    this.scrollMessages();
     this.props.room.join();
   }
 
   componentDidUpdate() {
+    this.scrollMessages();
+  }
+
+  scrollMessages() {
     const node = ReactDOM.findDOMNode(this.refs.messages);
-    node.scrollTop = node.scrollHeight;
+    if (node) {
+      node.scrollTop = node.scrollHeight;
+    }
   }
 
   handleTouchTap() {
@@ -86,16 +85,6 @@ class Chat extends React.Component {
 
   handleInputMessage(inputText) {
     this.props.room.send(inputText, 'admin');
-  }
-
-  handleReceiveMessage(msg) {
-    const msgs = this.state.data;
-    const newMsgs = msgs.concat([msg]);
-    this.setState({ data: newMsgs });
-  }
-
-  handleHistory(history) {
-    this.setState({ data: history.messages });
   }
 
   render() {
@@ -111,8 +100,8 @@ class Chat extends React.Component {
             <div style={styles.messagesBox}>
               <div ref="messages" style={styles.messages}>
                 <ListMessages
-                  messages={this.state.data}
-                  currentUser={this.props.room.currentUser()}
+                  messages={this.props.messages}
+                  currentUser={this.props.currentUser}
                 />
               </div>
             </div>
@@ -154,6 +143,22 @@ class Chat extends React.Component {
 
 Chat.propTypes = {
   room: React.PropTypes.object.isRequired,
+  messages: React.PropTypes.array.isRequired,
+  currentUser: React.PropTypes.string.isRequired,
 };
 
-export default Chat;
+// TODO refactoring
+function toArr(obj) {
+  return Object.keys(obj).map((k) => obj[k]);
+}
+
+function select(state) {
+  return {
+    messages: toArr(state.messages).filter(x =>
+      x.from_id === state.currentUser || x.to_id === state.currentUser
+    ),
+    currentUser: state.currentUser,
+  };
+}
+
+export default connect(select)(Chat);
