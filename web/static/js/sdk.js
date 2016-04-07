@@ -20,6 +20,8 @@
 //
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 import { clientID } from './distinct_id';
 import { clientSocket } from './socket';
@@ -28,6 +30,9 @@ import room from './room';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Chat from './components/chat';
+
+import chatApp from './reducers';
+const store = createStore(chatApp);
 
 const roomElement = document.getElementById('chat-room');
 if (roomElement) {
@@ -41,7 +46,9 @@ if (roomElement) {
     '</div>');
 
   ReactDOM.render(
-    <Chat room={chatRoom} />,
+    <Provider store={store}>
+      <Chat room={chatRoom} />
+    </Provider>,
     document.getElementById('chat-room-id')
   );
 }
