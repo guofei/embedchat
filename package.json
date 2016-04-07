@@ -29,6 +29,6 @@
     "webpack": "^1.12.12"
   },
   "scripts": {
-    "compile": "webpack -p"
+    "compile": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors"
   }
 }

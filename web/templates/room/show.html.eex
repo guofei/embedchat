@@ -3,6 +3,7 @@
     <%= content_tag :div, "", id: "webmaster-chat-room", data: [id: @room.uuid] %>
   <% else %>
     <%= content_tag :div, "", id: "chat-room", data: [id: @room.uuid] %>
+    <script src="<%= static_path(@conn, "/js/sdk.js") %>"></script>
   <% end %>
 </div>
 
