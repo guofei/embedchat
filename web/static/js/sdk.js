@@ -34,14 +34,14 @@ import Chat from './components/chat';
 import chatApp from './reducers';
 const store = createStore(chatApp);
 
-const roomElement = document.getElementById('lewini-chat-room');
+const roomElement = document.getElementById('lewini-chat');
 if (roomElement) {
   const roomID = roomElement.getAttribute('data-id');
   const chatRoom = room(clientSocket, roomID, clientID, store);
 
   document.body.innerHTML += ('<div style="position:relative;">' +
     '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
-    '<div id="lewini-chat-room-id"></div>' +
+    '<div id="lewini-chat-id"></div>' +
     '</div>' +
     '</div>');
 
@@ -49,6 +49,6 @@ if (roomElement) {
     <Provider store={store}>
       <Chat room={chatRoom} />
     </Provider>,
-    document.getElementById('lewini-chat-room-id')
+    document.getElementById('lewini-chat-id')
   );
 }
