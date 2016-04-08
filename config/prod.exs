@@ -13,6 +13,9 @@ use Mix.Config
 # which you typically run after static files are built.
 config :embed_chat, EmbedChat.Endpoint,
   http: [port: {:system, "PORT"}],
+  https: [port: 443,
+          keyfile: System.get_env("SSL_KEY_PATH"),
+          certfile: System.get_env("SSL_CERT_PATH")],
   url: [host: System.get_env("HOST"), port: 80],
   cache_static_manifest: "priv/static/manifest.json",
   server: true

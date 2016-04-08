@@ -11,6 +11,8 @@ RUN curl -sL https://deb.nodesource.com/setup_5.x | bash - && apt-get install -y
 ENV PORT 80
 ENV HOST lewini.com
 ENV MIX_ENV prod
+ENV SSL_KEY_PATH /myapp/ssl/private.key
+ENV SSL_CERT_PATH /myapp/ssl/lewini_com.crt
 
 RUN mkdir /myapp
 WORKDIR /myapp
