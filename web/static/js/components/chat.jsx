@@ -20,12 +20,11 @@ const styles = {
     right: '40px',
   },
   messageMenu: {
+    position: 'absolute',
     minWidth: '300px',
-    position: 'fixed',
     top: '0px',
   },
   messagesBox: {
-    position: 'fixed',
     height: '100%',
     paddingTop: '40px',
     paddingBottom: '80px',
@@ -39,7 +38,7 @@ const styles = {
     minWidth: '300px',
   },
   messageForm: {
-    position: 'fixed',
+    position: 'absolute',
     bottom: '0px',
     minWidth: '290px',
     height: '80px',
@@ -88,9 +87,7 @@ class Chat extends React.Component {
   }
 
   render() {
-    let left = null;
-    if (this.state.open) {
-      left =
+    const left =
         (
           <LeftNav
             width={300}
@@ -113,18 +110,6 @@ class Chat extends React.Component {
             </div>
           </LeftNav>
         );
-    } else {
-      left =
-        (
-          <LeftNav
-            width={300}
-            openRight
-            open={this.state.open}
-          >
-            <div></div>
-          </LeftNav>
-        );
-    }
     return (
       <div>
         <div style={styles.fixed}>
