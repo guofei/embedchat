@@ -6,11 +6,6 @@ import LightRawTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
 import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
 
 class MenuBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleTouchTap = this.handleTouchTap.bind(this);
-  }
-
   getChildContext() {
     const appCustom = getMuiTheme(LightRawTheme);
     appCustom.appBar.height = 40;
@@ -19,16 +14,12 @@ class MenuBar extends React.Component {
     };
   }
 
-  handleTouchTap() {
-    this.props.onClose();
-  }
-
   render() {
     return (
       <AppBar
         title="Chat"
         iconElementRight={
-          <IconButton onTouchTap={this.handleTouchTap}>
+          <IconButton onTouchTap={this.props.onClose}>
             <NavigationClose />
           </IconButton>
         }
