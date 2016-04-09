@@ -11,9 +11,9 @@ class License extends React.Component {
           Powered by&nbsp;
           <a
             style={{ color: Colors.grey500 }}
-            href="http://lewini.com"
+            href="https://www.lewini.com"
           >
-            lewini chat
+            lewini
           </a>
         </center>
       </div>

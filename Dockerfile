@@ -22,6 +22,7 @@ RUN mix deps.get && npm install && mix local.rebar
 RUN npm run compile
 RUN mix compile
 RUN mix phoenix.digest
-RUN mix release
+# RUN mix release
 
-CMD ["/myapp/rel/embed_chat/bin/embed_chat", "foreground"]
+# CMD ["/myapp/rel/embed_chat/bin/embed_chat", "foreground"]
+CMD ["mix", "phoenix.server"]

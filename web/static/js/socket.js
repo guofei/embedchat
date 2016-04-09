@@ -6,13 +6,13 @@
 import { Socket } from 'phoenix';
 import { clientID, masterID } from './distinct_id';
 
-const clientSocket = new Socket('ws://lewini.com/socket', {
+const clientSocket = new Socket('wss://lewini.com/socket', {
   params: {
     distinct_id: clientID,
   },
 });
 
-const masterSocket = new Socket('ws://lewini.com/socket', {
+const masterSocket = new Socket('wss://lewini.com/socket', {
   params: {
     token: window.userToken,
     distinct_id: masterID,

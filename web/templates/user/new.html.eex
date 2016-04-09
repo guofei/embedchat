@@ -1,33 +1,39 @@
-<h1>Create an account</h1>
+<div class="page-content-max">
+  <h2>Create an account</h2>
 
-<%= form_for @changeset, user_path(@conn, :create), fn f -> %>
-  <%= if f.errors != [] do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below:</p>
-      <ul>
-        <%= for {attr, message} <- f.errors do %>
-          <li><%= humanize(attr) %> <%= translate_error(message) %></li>
-        <% end %>
-      </ul>
+  <%= form_for @changeset, user_path(@conn, :create), fn f -> %>
+    <%= if f.errors != [] do %>
+      <div class="alert alert-danger">
+        <p>Oops, something went wrong! Please check the errors below:</p>
+        <ul>
+          <%= for {attr, message} <- f.errors do %>
+            <li><%= humanize(attr) %> <%= translate_error(message) %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mdl-textfield mdl-js-textfield">
+      <%= text_input f, :email, class: "mdl-textfield__input", type: "email", id: "email" %>
+      <label class="mdl-textfield__label" for="email">Email...</label>
     </div>
+
+    <br/>
+
+    <div class="mdl-textfield mdl-js-textfield">
+      <%= text_input f, :name, class: "mdl-textfield__input", type: "text", id: "name" %>
+      <label class="mdl-textfield__label" for="name">Name...</label>
+    </div>
+
+    <br/>
+
+    <div class="mdl-textfield mdl-js-textfield">
+      <%= password_input f, :password, class: "mdl-textfield__input", type: "password", id: "password" %>
+      <label class="mdl-textfield__label" for="password">Password...</label>
+    </div>
+
+    <br/>
+
+    <%= submit "Signup", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
   <% end %>
-
-  <div class="form-group">
-    <label>Email</label>
-    <%= email_input f, :email, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <label>Name</label>
-    <%= text_input f, :name, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <label>Password</label>
-    <%= password_input f, :password, class: "form-control" %>
-  </div>
-
-  <div class="form-group">
-    <%= submit "Signup", class: "btn btn-primary" %>
-  </div>
-<% end %>
+</div>

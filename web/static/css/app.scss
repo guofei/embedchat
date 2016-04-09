@@ -1,2 +1,7 @@
 /* Phoenix flash messages */
 .alert:empty { display: none; }
+
+.page-content-max {
+    max-width: 900px;
+    margin: auto;
+}

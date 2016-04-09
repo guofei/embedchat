@@ -1,17 +1,23 @@
-<h2>Login</h2>
+<div class="page-content-max">
 
-<%= form_for @conn, session_path(@conn, :create), [as: :session], fn f -> %>
-  <div class="form-group">
-    <label>Email</label>
-    <%= text_input f, :email, class: "form-control" %>
-  </div>
+  <h2>Login</h2>
 
-  <div class="form-group">
-    <label>Password</label>
-    <%= password_input f, :password, class: "form-control" %>
-  </div>
+  <%= form_for @conn, session_path(@conn, :create), [as: :session], fn f -> %>
+    <div class="mdl-textfield mdl-js-textfield">
+      <%= text_input f, :email, class: "mdl-textfield__input", type: "email", id: "email" %>
+      <label class="mdl-textfield__label" for="email">Email...</label>
+    </div>
 
-  <div class="form-group">
-    <%= submit "Login", class: "btn btn-primary" %>
-  </div>
-<% end %>
+    <br/>
+
+    <div class="mdl-textfield mdl-js-textfield">
+      <%= password_input f, :password, class: "mdl-textfield__input", type: "password", id: "password" %>
+      <label class="mdl-textfield__label" for="password">Password...</label>
+    </div>
+
+    <br/>
+
+    <%= submit "Login", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
+  <% end %>
+
+</div>

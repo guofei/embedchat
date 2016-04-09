@@ -21,11 +21,12 @@
       <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
           <!-- Title -->
-          <span class="mdl-layout-title">Title</span>
+          <span class="mdl-layout-title">Lewini</span>
           <!-- Add spacer, to align navigation to the right -->
           <div class="mdl-layout-spacer"></div>
           <!-- Navigation -->
           <nav class="mdl-navigation">
+            <%= link "Home",    to: page_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= if @current_user do %>
               <%= link @current_user.email, to: "#", class: "mdl-navigation__link" %>
               <%= link "Logout", to: session_path(@conn, :delete, @current_user), method: :delete, class: "mdl-navigation__link" %>
@@ -50,15 +51,17 @@
       <main class="mdl-layout__content">
         <div class="page-content">
           <!-- Your content goes here -->
-          <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-          <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+          <div class="page-content-max">
+            <br/>
+            <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+            <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+          </div>
           <%= render @view_module, @view_template, assigns %>
         </div>
       </main>
     </div>
 
     <script>window.userToken = "<%= assigns[:user_token] %>"</script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
