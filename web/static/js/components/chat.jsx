@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import LeftNav from 'material-ui/lib/left-nav';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import CommunicationMessage from 'material-ui/lib/svg-icons/communication/message';
+import Badge from 'material-ui/lib/badge';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import MenuBar from './menu-bar';
@@ -113,12 +114,18 @@ class Chat extends React.Component {
     return (
       <div>
         <div style={styles.fixed}>
-          <FloatingActionButton
-            secondary
-            onTouchTap={this.handleTouchTap}
+          <Badge
+            badgeContent={"new"}
+            primary
+            badgeStyle={{ top: 18, right: 18 }}
           >
-            <CommunicationMessage />
-          </FloatingActionButton>
+            <FloatingActionButton
+              secondary
+              onTouchTap={this.handleTouchTap}
+            >
+              <CommunicationMessage />
+            </FloatingActionButton>
+          </Badge>
         </div>
         { left }
       </div>
