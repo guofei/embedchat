@@ -61,7 +61,7 @@
       </main>
     </div>
 
-    <%= if !@current_user && Enum.member?(@conn.path_info, 'room') do %>
+    <%= if !@current_user && !Enum.member?(@conn.path_info, 'room') do %>
       <div data-id="34f8904d-3495-4823-be36-35301c2aa97d" id="lewini-chat"></div>
     <% end %>
     <script>window.userToken = "<%= assigns[:user_token] %>"</script>
