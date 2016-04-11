@@ -25,12 +25,13 @@ require('../css/app.scss');
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import { masterID } from './distinct_id';
-import { masterSocket } from './socket';
+import { masterID, clientID } from './distinct_id';
+import { masterSocket, clientSocket } from './socket';
 import room from './room';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Chat from './components/chat';
 import ChatWebmaster from './components/chat-webmaster';
 
 import chatApp from './reducers';
@@ -45,5 +46,24 @@ if (masterRoomElement) {
       <ChatWebmaster room={chatRoom} />
     </Provider>,
     document.getElementById('webmaster-chat-room')
+  );
+}
+
+const roomElement = document.getElementById('lewini-chat');
+if (roomElement) {
+  const roomID = roomElement.getAttribute('data-id');
+  const chatRoom = room(clientSocket, roomID, clientID, store);
+
+  document.body.innerHTML += ('<div style="position:relative;">' +
+    '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
+    '<div id="lewini-chat-id"></div>' +
+    '</div>' +
+    '</div>');
+
+  ReactDOM.render(
+    <Provider store={store}>
+      <Chat room={chatRoom} />
+    </Provider>,
+    document.getElementById('lewini-chat-id')
   );
 }
