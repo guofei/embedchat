@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { readAllMessages } from '../actions';
+import { readAllMessages, openChat } from '../actions';
 
 import LeftNav from 'material-ui/lib/left-nav';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
 import CommunicationMessage from 'material-ui/lib/svg-icons/communication/message';
-import Badge from 'material-ui/lib/badge';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import MenuBar from './menu-bar';
@@ -52,9 +51,6 @@ const styles = {
 class Chat extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      open: false,
-    };
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleInputMessage = this.handleInputMessage.bind(this);
@@ -78,12 +74,12 @@ class Chat extends React.Component {
 
   handleTouchTap() {
     this.props.dispatch(readAllMessages());
-    this.setState({ open: true });
+    this.props.dispatch(openChat(true));
   }
 
   handleClose() {
     this.props.dispatch(readAllMessages());
-    this.setState({ open: false });
+    this.props.dispatch(openChat(false));
   }
 
   handleInputMessage(inputText) {
@@ -91,12 +87,13 @@ class Chat extends React.Component {
   }
 
   render() {
+    // console.log(this.props);
     const left =
         (
           <LeftNav
             width={300}
             openRight
-            open={this.state.open}
+            open={this.props.openChat}
           >
             <div style={styles.messagesBox}>
               <div ref="messages" style={styles.messages}>
@@ -114,38 +111,15 @@ class Chat extends React.Component {
             </div>
           </LeftNav>
         );
-    let floatButton = null;
-    if (this.props.unread > 0) {
-      floatButton =
-        (
-        <Badge
-          primary
-          badgeContent={this.props.unread}
-          badgeStyle={{ top: 18, right: 18 }}
-        >
-          <FloatingActionButton
-            secondary
-            onTouchTap={this.handleTouchTap}
-          >
-            <CommunicationMessage />
-          </FloatingActionButton>
-        </Badge>
-        );
-    } else {
-      floatButton =
-        (
-          <FloatingActionButton
-            secondary
-            onTouchTap={this.handleTouchTap}
-          >
-            <CommunicationMessage />
-          </FloatingActionButton>
-        );
-    }
     return (
       <div>
         <div style={styles.fixed}>
-          { floatButton }
+          <FloatingActionButton
+            secondary
+            onTouchTap={this.handleTouchTap}
+          >
+            <CommunicationMessage />
+          </FloatingActionButton>
         </div>
         { left }
       </div>
@@ -158,6 +132,7 @@ Chat.propTypes = {
   messages: React.PropTypes.array.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   unread: React.PropTypes.number.isRequired,
+  openChat: React.PropTypes.bool.isRequired,
   dispatch: React.PropTypes.func.isRequired,
 };
 
@@ -174,6 +149,7 @@ function select(state) {
     messages: msgs,
     currentUser: state.currentUser,
     unread: msgs.filter(x => x.unread).length,
+    openChat: state.openChat,
   };
 }
 

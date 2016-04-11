@@ -12,10 +12,15 @@ export const CURRENT_USER = 'CURRENT_USER';
 export const SELECT_USER = 'SELECT_USER';
 export const READ_MESSAGE = 'READ_MESSAGE';
 export const READ_ALL_MESSAGES = 'READ_ALL_MESSAGES';
+export const OPEN_CHAT = 'OPEN_CHAT';
 
 /*
  * action function
  */
+
+export function openChat(open) {
+  return { type: OPEN_CHAT, open };
+}
 
 export function setCurrentUser(uid) {
   return { type: CURRENT_USER, uid };

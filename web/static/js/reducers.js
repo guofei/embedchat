@@ -9,6 +9,7 @@ import {
   RECEIVE_USER_ONLINE,
   RECEIVE_USER_OFFLINE,
   RECEIVE_ACCESS_LOG,
+  OPEN_CHAT,
 } from './actions';
 
 // state tree sample
@@ -37,8 +38,18 @@ let state_tree = {
   // ui state
   currentUser: 'xxx-xxx-xxx',
   selectedUser: 'xxx-xxx-xxx',
+  openChat: false,
 }
 */
+
+function openChat(state = false, action) {
+  switch (action.type) {
+    case OPEN_CHAT:
+      return action.open;
+    default:
+      return state;
+  }
+}
 
 function readAll(obj) {
   const newObj = Object.assign({}, obj);
@@ -128,6 +139,7 @@ const chatApp = combineReducers({
   users,
   messages,
   logs,
+  openChat,
 });
 
 export default chatApp;

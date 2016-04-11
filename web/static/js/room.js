@@ -2,6 +2,7 @@ import UserInfo from './user_info';
 import {
   setCurrentUser,
   receiveMessage,
+  openChat,
   receiveHistoryMessage,
   receiveUserOnline,
   receiveUserOffline,
@@ -41,6 +42,7 @@ function room(socket, roomID, distinctID, store) {
 
       channel.on(messageEvent, (msg) => {
         store.dispatch(receiveMessage(msg));
+        store.dispatch(openChat(msg));
       });
 
       channel.on(userLeft, (user) => {
