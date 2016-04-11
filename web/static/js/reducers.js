@@ -1,6 +1,9 @@
 import { combineReducers } from 'redux';
 import {
   RECEIVE_MESSAGE,
+  RECEIVE_HISTORY_MESSAGE,
+  READ_MESSAGE,
+  READ_ALL_MESSAGES,
   CURRENT_USER,
   SELECT_USER,
   RECEIVE_USER_ONLINE,
@@ -18,7 +21,8 @@ let state_tree = {
       from_name: 'name',
       to_id: 'xxx-xxx-xxx',
       body: 'hi',
-      inserted_at: '11:10'
+      inserted_at: '11:10',
+      unread: true,
     },
   },
   users: {
@@ -36,11 +40,33 @@ let state_tree = {
 }
 */
 
+function readAll(obj) {
+  const newObj = Object.assign({}, obj);
+  for (const k in newObj) {
+    if (newObj.hasOwnProperty(k)) {
+      const unread = 'unread';
+      newObj[k][unread] = false;
+    }
+  }
+  return newObj;
+}
+
 function messages(state = {}, action) {
   switch (action.type) {
     case RECEIVE_MESSAGE:
       return Object.assign({}, state,
-        { [action.message.id]: action.message });
+        { [action.message.id]:
+          Object.assign({}, action.message, { unread: true }) });
+    case RECEIVE_HISTORY_MESSAGE:
+      return Object.assign({}, state,
+        { [action.message.id]:
+          Object.assign({}, action.message, { unread: false }) });
+    case READ_MESSAGE:
+      return Object.assign({}, state,
+        { [action.message.id]:
+          Object.assign({}, action.message, { unread: false }) });
+    case READ_ALL_MESSAGES:
+      return readAll(state);
     default:
       return state;
   }
@@ -49,9 +75,9 @@ function messages(state = {}, action) {
 function user(state = {}, action) {
   switch (action.type) {
     case RECEIVE_USER_ONLINE:
-      return Object.assign({}, action.user, { online: true });
+      return Object.assign({}, state, action.user, { online: true });
     case RECEIVE_USER_OFFLINE:
-      return Object.assign({}, action.user, { online: false });
+      return Object.assign({}, state, action.user, { online: false });
     default:
       return state;
   }

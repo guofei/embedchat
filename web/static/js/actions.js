@@ -4,11 +4,14 @@
 
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const RECEIVE_MESSAGE = 'RECEIVE_MESSAGE';
+export const RECEIVE_HISTORY_MESSAGE = 'RECEIVE_HISTORY_MESSAGE';
 export const RECEIVE_USER_ONLINE = 'RECEIVE_USER_ONLINE';
 export const RECEIVE_USER_OFFLINE = 'RECEIVE_USER_OFFLINE';
 export const RECEIVE_ACCESS_LOG = 'RECEIVE_ACCESS_LOG';
 export const CURRENT_USER = 'CURRENT_USER';
 export const SELECT_USER = 'SELECT_USER';
+export const READ_MESSAGE = 'READ_MESSAGE';
+export const READ_ALL_MESSAGES = 'READ_ALL_MESSAGES';
 
 /*
  * action function
@@ -28,6 +31,18 @@ export function sendMessage(message) {
 
 export function receiveMessage(message) {
   return { type: RECEIVE_MESSAGE, message };
+}
+
+export function receiveHistoryMessage(message) {
+  return { type: RECEIVE_HISTORY_MESSAGE, message };
+}
+
+export function readMessage(message) {
+  return { type: READ_MESSAGE, message };
+}
+
+export function readAllMessages() {
+  return { type: READ_ALL_MESSAGES };
 }
 
 export function receiveUserOnline(user) {

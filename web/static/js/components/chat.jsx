@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
+import { readAllMessages } from '../actions';
 
 import LeftNav from 'material-ui/lib/left-nav';
 import FloatingActionButton from 'material-ui/lib/floating-action-button';
@@ -76,10 +77,12 @@ class Chat extends React.Component {
   }
 
   handleTouchTap() {
+    this.props.dispatch(readAllMessages());
     this.setState({ open: true });
   }
 
   handleClose() {
+    this.props.dispatch(readAllMessages());
     this.setState({ open: false });
   }
 
@@ -111,21 +114,38 @@ class Chat extends React.Component {
             </div>
           </LeftNav>
         );
+    let floatButton = null;
+    if (this.props.unread > 0) {
+      floatButton =
+        (
+        <Badge
+          primary
+          badgeContent={this.props.unread}
+          badgeStyle={{ top: 18, right: 18 }}
+        >
+          <FloatingActionButton
+            secondary
+            onTouchTap={this.handleTouchTap}
+          >
+            <CommunicationMessage />
+          </FloatingActionButton>
+        </Badge>
+        );
+    } else {
+      floatButton =
+        (
+          <FloatingActionButton
+            secondary
+            onTouchTap={this.handleTouchTap}
+          >
+            <CommunicationMessage />
+          </FloatingActionButton>
+        );
+    }
     return (
       <div>
         <div style={styles.fixed}>
-          <Badge
-            badgeContent={"new"}
-            primary
-            badgeStyle={{ top: 18, right: 18 }}
-          >
-            <FloatingActionButton
-              secondary
-              onTouchTap={this.handleTouchTap}
-            >
-              <CommunicationMessage />
-            </FloatingActionButton>
-          </Badge>
+          { floatButton }
         </div>
         { left }
       </div>
@@ -137,6 +157,8 @@ Chat.propTypes = {
   room: React.PropTypes.object.isRequired,
   messages: React.PropTypes.array.isRequired,
   currentUser: React.PropTypes.string.isRequired,
+  unread: React.PropTypes.number.isRequired,
+  dispatch: React.PropTypes.func.isRequired,
 };
 
 // TODO refactoring
@@ -145,11 +167,13 @@ function toArr(obj) {
 }
 
 function select(state) {
+  const msgs = toArr(state.messages).filter(x =>
+    x.from_id === state.currentUser || x.to_id === state.currentUser
+  );
   return {
-    messages: toArr(state.messages).filter(x =>
-      x.from_id === state.currentUser || x.to_id === state.currentUser
-    ),
+    messages: msgs,
     currentUser: state.currentUser,
+    unread: msgs.filter(x => x.unread).length,
   };
 }
 
