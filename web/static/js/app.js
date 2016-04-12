@@ -16,7 +16,7 @@ import 'phoenix_html';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-require('../css/app.scss');
+require('../css/app.css');
 
 // import 'bootstrap-sass/assets/javascripts/bootstrap.min.js';
 
