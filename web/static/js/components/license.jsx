@@ -8,12 +8,12 @@ class License extends React.Component {
         style={{ color: Colors.grey500 }}
       >
         <center>
-          Powered by&nbsp;
+          We run on&nbsp;
           <a
             style={{ color: Colors.grey500 }}
             href="https://www.lewini.com"
           >
-            lewini
+            Lewini
           </a>
         </center>
       </div>
