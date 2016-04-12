@@ -70,8 +70,4 @@ defmodule EmbedChat.RoomController do
     |> put_flash(:info, "Room deleted successfully.")
     |> redirect(to: room_path(conn, :index))
   end
-
-  defp user_rooms(conn) do
-    conn.assigns.current_user |> assoc(:rooms)
-  end
 end

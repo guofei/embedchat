@@ -37,6 +37,9 @@ defmodule EmbedChat.Web do
       import EmbedChat.Router.Helpers
       import EmbedChat.Gettext
 
+      # common controller function module
+      import EmbedChat.Controllers
+
       import EmbedChat.Auth, only: [authenticate_user: 2]
     end
   end

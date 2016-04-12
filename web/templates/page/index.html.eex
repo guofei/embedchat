@@ -1,10 +1,15 @@
-<div class="page-content-max">
-  <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--12-col">
-      <h2><%= gettext "Welcome to %{name}", name: "Lewini!" %></h2>
-      <h3>
-        Chat with your customers!
-      </h3>
+<%= if @current_user do %>
+  <%= content_tag :div, "", id: "webmaster-chat-room", data: [id: @room.uuid] %>
+<% else %>
+  <div class="page-content-max">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--12-col">
+        <center>
+          <h2><%= gettext "A better chat tool to talk with your customers" %></h2>
+          <p><%= gettext "Start live chat with your website visitors" %></p>
+          <%= link "Get Start Now", to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+        </center>
+      </div>
     </div>
   </div>
-</div>
+<% end %>

@@ -1,8 +1,13 @@
-<div>
-  <%= if @current_user do %>
-    <%= content_tag :div, "", id: "webmaster-chat-room", data: [id: @room.uuid] %>
-  <% else %>
-    <%= content_tag :div, "", id: "lewini-chat", data: [id: @room.uuid] %>
-  <% end %>
-</div>
+<%= if @current_user do %>
+  <div class="page-content-max">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--12-col">
+        setup
+      </div>
+    </div>
+  </div>
+<% else %>
+  <%= content_tag :div, "", id: "lewini-chat", data: [id: @room.uuid] %>
+<% end %>
+
 

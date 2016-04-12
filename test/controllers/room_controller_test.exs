@@ -81,7 +81,7 @@ defmodule EmbedChat.RoomControllerTest do
     user = insert_user()
     room = insert_room user, @valid_attrs
     conn = get conn, room_path(conn, :show, room)
-    assert html_response(conn, 200) =~ "chat-room"
+    assert html_response(conn, 200) =~ "lewini-chat"
   end
 
   @tag login_as: "max"

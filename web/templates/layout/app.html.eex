@@ -28,8 +28,9 @@
           <nav class="mdl-navigation">
             <%= link "Home",    to: page_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= if @current_user do %>
-              <%= link @current_user.email, to: "#", class: "mdl-navigation__link" %>
+              <%= link "Setup", to: room_path(@conn, :index), class: "mdl-navigation__link" %>
               <%= link "Logout", to: session_path(@conn, :delete, @current_user), method: :delete, class: "mdl-navigation__link" %>
+              <%= link @current_user.email, to: "#", class: "mdl-navigation__link" %>
             <% else %>
               <%= link "Login",    to: session_path(@conn, :new), class: "mdl-navigation__link" %>
               <%= link "Register", to: user_path(@conn, :new), class: "mdl-navigation__link" %>
