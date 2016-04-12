@@ -7,7 +7,7 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.Address
   alias EmbedChat.Room
 
-  def join("rooms:" <> room_uuid, payload, socket) do
+  def join("rooms:" <> room_uuid, _payload, socket) do
     cond do
       room = Repo.get_by(Room, uuid: room_uuid) ->
         if authorized?(socket, room) do
