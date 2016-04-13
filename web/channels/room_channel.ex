@@ -33,6 +33,7 @@ defmodule EmbedChat.RoomChannel do
     if socket.assigns[:user_id] do
       admin_online(socket.assigns.room_id, socket.assigns.distinct_id)
       create_admin_address(socket)
+      broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id}
     else
       online(socket.assigns.room_id, socket.assigns.distinct_id, socket.assigns[:info])
       broadcast! socket, "user_join", %{uid: socket.assigns.distinct_id}
@@ -80,7 +81,7 @@ defmodule EmbedChat.RoomChannel do
     if socket.assigns[:user_id] do
       {:reply, {:ok, %{users: online_users(socket.assigns.room_id)}}, socket}
     else
-      {:reply, {:error, %{reason: "unauthorized"}}, socket}
+      {:reply, {:ok, %{admins: online_admins(socket.assigns.room_id)}}, socket}
     end
   end
 
@@ -135,7 +136,9 @@ defmodule EmbedChat.RoomChannel do
     EmbedChat.ChannelWatcher.demonitor(:rooms, self())
 
     distinct_id = socket.assigns.distinct_id
-    if !socket.assigns[:user_id] do
+    if socket.assigns[:user_id] do
+      broadcast! socket, "admin_left", %{uid: distinct_id}
+    else
       broadcast! socket, "user_left", %{uid: distinct_id}
     end
 

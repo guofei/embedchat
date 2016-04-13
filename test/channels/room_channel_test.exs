@@ -75,7 +75,7 @@ defmodule EmbedChat.RoomChannelTest do
 
   test "get contact list by visitor", %{socket: socket} do
     ref = push socket, "contact_list", %{}
-    assert_reply ref, :error
+    assert_reply ref, :ok, %{admins: []}
   end
 
   @tag master: false, visitor: true
