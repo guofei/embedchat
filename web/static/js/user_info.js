@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 function lang() {
   if (navigator.userLanguage !== undefined) {
     return navigator.userLanguage;
@@ -14,7 +16,7 @@ const UserInfo = {
   screenidth: screen.width,
   screenHeight: screen.height,
   language: lang(),
-  inserted_at: new Date().toLocaleTimeString(),
+  inserted_at: moment.utc().format(),
 };
 
 export default UserInfo;

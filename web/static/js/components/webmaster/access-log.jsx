@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import moment from 'moment';
 
 import Paper from 'material-ui/lib/paper';
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
@@ -12,6 +13,11 @@ const styles = {
     overflow: 'auto',
     minHeight: '300px',
     maxHeight: '600px',
+  },
+  pullRight: {
+    float: 'right',
+    color: 'gray',
+    fontSize: 'small',
   },
 };
 
@@ -36,8 +42,20 @@ class AccessLog extends React.Component {
       (
         <ListItem
           key={index}
-          primaryText={ log.inserted_at }
-          secondaryText={ log.href }
+          secondaryTextLines={2}
+          primaryText={
+            <div style={{ fontSize: 'small' }}>
+              {log.href}
+              <div style={styles.pullRight}>
+                {moment.utc(log.inserted_at).fromNow()}
+              </div>
+            </div>
+          }
+          secondaryText={
+            <div>
+              <div style={{ fontSize: 'small' }}>{log.userAgent}</div>
+            </div>
+          }
         />
       )
     );

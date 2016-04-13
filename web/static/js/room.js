@@ -1,9 +1,9 @@
 import UserInfo from './user_info';
 import {
   setCurrentUser,
-  receiveMessage,
   openChat,
-  receiveHistoryMessage,
+  receiveMessage,
+  receiveHistoryMessages,
   receiveUserOnline,
   receiveUserOffline,
   receiveAccessLog,
@@ -23,12 +23,12 @@ function room(socket, roomID, distinctID, store) {
     if (typeof userID === 'undefined') {
       return channel.push(messages)
         .receive('ok', msgsResp => {
-          msgsResp.messages.map(m => store.dispatch(receiveHistoryMessage(m)));
+          store.dispatch(receiveHistoryMessages(msgsResp.messages));
         });
     }
     channel.push(messages, { uid: userID })
     .receive('ok', msgsResp => {
-      msgsResp.messages.map(m => store.dispatch(receiveHistoryMessage(m)));
+      store.dispatch(receiveHistoryMessages(msgsResp.messages));
     });
   }
 
@@ -80,7 +80,7 @@ function room(socket, roomID, distinctID, store) {
           // FIXME master need not do this
           channel.push(messages, { uid: distinctID })
             .receive('ok', msgsResp => {
-              msgsResp.messages.map(m => store.dispatch(receiveHistoryMessage(m)));
+              store.dispatch(receiveHistoryMessages(msgsResp.messages));
             });
         });
     },

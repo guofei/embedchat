@@ -55,12 +55,13 @@ defmodule EmbedChat.RoomChannel do
     room_id = socket.assigns.room_id
     uuid = messages_owner(payload, socket)
 
+    limit = 50
     cond do
       address = get_address(uuid) ->
         query = from m in Message,
         order_by: [desc: :inserted_at],
         where: m.room_id == ^(room_id) and (m.from_id == ^(address.id) or m.to_id == ^(address.id)),
-        limit: 50,
+        limit: ^limit,
         preload: [:from, :to, :from_user]
         messages = Repo.all(query)
         resp = %{uid: uuid, messages: Phoenix.View.render_many(messages,

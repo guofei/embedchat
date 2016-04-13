@@ -50,7 +50,7 @@ defmodule EmbedChat.RoomControllerTest do
   @tag login_as: "max"
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, room_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing rooms"
+    assert html_response(conn, 200) =~ "installing the chat code before the closing body tag"
   end
 
   @tag login_as: "max"

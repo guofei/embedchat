@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import {
   RECEIVE_MESSAGE,
   RECEIVE_HISTORY_MESSAGE,
+  RECEIVE_HISTORY_MESSAGES,
   READ_MESSAGE,
   READ_ALL_MESSAGES,
   CURRENT_USER,
@@ -62,6 +63,11 @@ function readAll(obj) {
   return newObj;
 }
 
+function arrToObj(messsages) {
+  return messsages.reduce((pre, cur) =>
+    Object.assign({}, pre, { [cur.id]: cur }), {});
+}
+
 function messages(state = {}, action) {
   switch (action.type) {
     case RECEIVE_MESSAGE:
@@ -72,6 +78,8 @@ function messages(state = {}, action) {
       return Object.assign({}, state,
         { [action.message.id]:
           Object.assign({}, action.message, { unread: false }) });
+    case RECEIVE_HISTORY_MESSAGES:
+      return Object.assign({}, state, arrToObj(action.messages));
     case READ_MESSAGE:
       return Object.assign({}, state,
         { [action.message.id]:

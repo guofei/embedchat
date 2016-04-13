@@ -1,10 +1,19 @@
 import React from 'react';
+import moment from 'moment';
 
 import ListItem from 'material-ui/lib/lists/list-item';
-import Avatar from 'material-ui/lib/avatar';
+// import Avatar from 'material-ui/lib/avatar';
 import Popover from 'material-ui/lib/popover/popover';
 import Card from 'material-ui/lib/card/card';
 import CardText from 'material-ui/lib/card/card-text';
+
+const styles = {
+  pullRight: {
+    float: 'right',
+    color: 'gray',
+    fontSize: 'small',
+  },
+};
 
 class ListItemMessage extends React.Component {
   constructor(props) {
@@ -37,8 +46,13 @@ class ListItemMessage extends React.Component {
       <div>
         <ListItem
           secondaryTextLines={2}
-          leftAvatar={<Avatar>{this.avatar()}</Avatar>}
-          primaryText={this.shortName()}
+          // leftAvatar={<Avatar>{this.avatar()}</Avatar>}
+          primaryText={
+            <div>
+              {this.shortName()}
+              <span style={styles.pullRight}>{moment.utc(this.props.createdAt).fromNow()}</span>
+            </div>
+          }
           onTouchTap={(event) => {
             this.setState({
               open: true,
@@ -47,7 +61,6 @@ class ListItemMessage extends React.Component {
           }}
           secondaryText={
             <div>
-              {this.props.createdAt}<br />
               {this.props.children}
             </div>
           }
