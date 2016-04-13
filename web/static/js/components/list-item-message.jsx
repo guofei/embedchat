@@ -45,12 +45,14 @@ class ListItemMessage extends React.Component {
     return (
       <div>
         <ListItem
-          secondaryTextLines={2}
+          secondaryTextLines={this.props.children.length > 15 ? 2 : 1}
           // leftAvatar={<Avatar>{this.avatar()}</Avatar>}
           primaryText={
             <div>
               {this.shortName()}
-              <span style={styles.pullRight}>{moment.utc(this.props.createdAt).fromNow()}</span>
+              <span style={styles.pullRight}>
+                {moment.utc(this.props.createdAt).fromNow()}
+              </span>
             </div>
           }
           onTouchTap={(event) => {
