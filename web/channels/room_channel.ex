@@ -30,12 +30,13 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_info(:after_join, socket) do
-    online(socket.assigns.room_id, socket.assigns.distinct_id, socket.assigns[:info])
     if socket.assigns[:user_id] do
       admin_online(socket.assigns.room_id, socket.assigns.distinct_id)
       create_admin_address(socket)
+    else
+      online(socket.assigns.room_id, socket.assigns.distinct_id, socket.assigns[:info])
+      broadcast! socket, "user_join", %{uid: socket.assigns.distinct_id}
     end
-    broadcast! socket, "user_join", %{uid: socket.assigns.distinct_id}
     {:noreply, socket}
   end
 
@@ -46,8 +47,10 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("user_info", payload, socket) do
-    online(socket.assigns.room_id, socket.assigns.distinct_id, payload)
-    broadcast! socket, "user_info", %{uid: socket.assigns.distinct_id, info: payload}
+    if !socket.assigns[:user_id] do
+      online_update(socket.assigns.room_id, socket.assigns.distinct_id, payload)
+      broadcast! socket, "user_info", %{uid: socket.assigns.distinct_id, info: payload}
+    end
     {:noreply, socket}
   end
 
@@ -132,7 +135,9 @@ defmodule EmbedChat.RoomChannel do
     EmbedChat.ChannelWatcher.demonitor(:rooms, self())
 
     distinct_id = socket.assigns.distinct_id
-    broadcast! socket, "user_left", %{uid: distinct_id}
+    if !socket.assigns[:user_id] do
+      broadcast! socket, "user_left", %{uid: distinct_id}
+    end
 
     leave(socket.assigns.room_id, socket.assigns[:user_id], distinct_id)
 
@@ -146,7 +151,7 @@ defmodule EmbedChat.RoomChannel do
 
   def leave(room_id, _user_id, distinct_id) do
     # TODO : broadcast "user_left" event
-    offline(room_id, distinct_id)
+    # offline(room_id, distinct_id)
     admin_offline(room_id, distinct_id)
   end
 
@@ -166,6 +171,10 @@ defmodule EmbedChat.RoomChannel do
   defp online_users(room_id) do
     {:ok, bucket} = user_bucket(room_id)
     Bucket.map(bucket)
+  end
+
+  defp online_update(room_id, distinct_id, info) do
+    online(room_id, distinct_id, info)
   end
 
   defp online(room_id, distinct_id, info) do
