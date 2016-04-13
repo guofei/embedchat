@@ -6,9 +6,9 @@
       <div class="mdl-cell mdl-cell--12-col">
         <center>
           <h2>
-            <%= gettext "An opensource chat tool to talk with your customers" %>
+            <%= gettext "A better chat tool to talk with your customers" %>
           </h2>
-          <p><%= link gettext("Source Code"), to: "https://github.com/guofei/embedchat" %></p>
+          <p><%= gettext "Lewini is open source:" %> <%= link gettext("source code"), to: "https://github.com/guofei/embedchat" %></p>
           <p><%= gettext "Start live chat with visitors on your website" %></p>
           <p><%= link gettext("Get Start Now"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %></p>
         </center>

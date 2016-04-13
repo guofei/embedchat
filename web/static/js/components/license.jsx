@@ -12,6 +12,7 @@ class License extends React.Component {
           <a
             style={{ color: Colors.grey500 }}
             href="https://www.lewini.com"
+            target="_blank"
           >
             Lewini
           </a>

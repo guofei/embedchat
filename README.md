@@ -1,6 +1,6 @@
 # Lewini Live Chat
 
-Live chat with visitors on your website.
+A web service that you can live chat with visitors on your website.
 
 [lewini.com](https://www.lewini.com)
 
