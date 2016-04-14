@@ -9,6 +9,7 @@ import {
   SELECT_USER,
   RECEIVE_USER_ONLINE,
   RECEIVE_USER_OFFLINE,
+  RECEIVE_MULTI_USERS_ONLINE,
   RECEIVE_ACCESS_LOG,
   OPEN_CHAT,
 } from './actions';
@@ -30,6 +31,7 @@ let state_tree = {
   users: {
     xxx-xxx-xxx: {
       uid: 'xxx-xxx-xxx',
+      name: 'name' // can be empty or null
       online: false,
     },
   },
@@ -63,8 +65,8 @@ function readAll(obj) {
   return newObj;
 }
 
-function arrToObj(messsages) {
-  return messsages.reduce((pre, cur) =>
+function arrWithIDToObj(arr) {
+  return arr.reduce((pre, cur) =>
     Object.assign({}, pre, { [cur.id]: cur }), {});
 }
 
@@ -79,7 +81,7 @@ function messages(state = {}, action) {
         { [action.message.id]:
           Object.assign({}, action.message, { unread: false }) });
     case RECEIVE_HISTORY_MESSAGES:
-      return Object.assign({}, state, arrToObj(action.messages));
+      return Object.assign({}, state, arrWithIDToObj(action.messages));
     case READ_MESSAGE:
       return Object.assign({}, state,
         { [action.message.id]:
@@ -102,12 +104,22 @@ function user(state = {}, action) {
   }
 }
 
+function onlineUsersArrToObj(arr) {
+  return arr.reduce((pre, cur) =>
+    Object.assign({}, pre, {
+      [cur.uid]:
+      Object.assign({}, cur, { online: true }),
+    }), {});
+}
+
 function users(state = {}, action) {
   switch (action.type) {
     case RECEIVE_USER_ONLINE:
     case RECEIVE_USER_OFFLINE:
       return Object.assign({}, state,
         { [action.user.uid]: user(state[action.user.uid], action) });
+    case RECEIVE_MULTI_USERS_ONLINE:
+      return Object.assign({}, state, onlineUsersArrToObj(action.users));
     default:
       return state;
   }

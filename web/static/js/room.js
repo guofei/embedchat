@@ -6,6 +6,7 @@ import {
   receiveHistoryMessages,
   receiveUserOnline,
   receiveUserOffline,
+  receiveMultiUsersOnline,
   receiveAccessLog,
 } from './actions';
 
@@ -67,14 +68,20 @@ function room(socket, roomID, distinctID, store) {
           channel.push(contactList)
             .receive('ok', listResp => {
               const users = listResp.users;
-              for (const key in users) {
-                if (users.hasOwnProperty(key)) {
-                  const log = Object.assign({}, users[key], { uid: key });
-                  store.dispatch(receiveAccessLog(log));
-                  const user = { uid: key };
-                  store.dispatch(receiveUserOnline(user));
-                  getHistory(key);
+              if (users) {
+                const newUsers = [];
+                const newLogs = [];
+                for (const key in users) {
+                  if (users.hasOwnProperty(key)) {
+                    const user = { uid: key };
+                    newUsers.push(user);
+                    const log = Object.assign({}, users[key], { uid: key });
+                    newLogs.push(log);
+                    store.dispatch(receiveAccessLog(log));
+                    getHistory(key);
+                  }
                 }
+                store.dispatch(receiveMultiUsersOnline(newUsers));
               }
             });
           // FIXME master need not do this
