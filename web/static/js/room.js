@@ -8,6 +8,7 @@ import {
   receiveUserOffline,
   receiveMultiUsersOnline,
   receiveAccessLog,
+  receiveMultiAccessLogs,
 } from './actions';
 
 function room(socket, roomID, distinctID, store) {
@@ -77,11 +78,11 @@ function room(socket, roomID, distinctID, store) {
                     newUsers.push(user);
                     const log = Object.assign({}, users[key], { uid: key });
                     newLogs.push(log);
-                    store.dispatch(receiveAccessLog(log));
                     getHistory(key);
                   }
                 }
                 store.dispatch(receiveMultiUsersOnline(newUsers));
+                store.dispatch(receiveMultiAccessLogs(newLogs));
               }
             });
           // FIXME master need not do this

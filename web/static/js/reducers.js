@@ -11,6 +11,7 @@ import {
   RECEIVE_USER_OFFLINE,
   RECEIVE_MULTI_USERS_ONLINE,
   RECEIVE_ACCESS_LOG,
+  RECEIVE_MULTI_ACCESS_LOGS,
   OPEN_CHAT,
 } from './actions';
 
@@ -143,11 +144,24 @@ function selectedUser(state = '', action) {
   }
 }
 
+function logsArrToObj(arr, startID) {
+  return arr.reduce((pre, cur, i) =>
+    Object.assign({}, pre, {
+      [startID + i]:
+      Object.assign({}, cur),
+    }), {});
+}
+
 function logs(state = {}, action) {
   switch (action.type) {
     case RECEIVE_ACCESS_LOG:
       return Object.assign({}, state,
         { [Object.keys(state).length + 1]: action.log });
+    case RECEIVE_MULTI_ACCESS_LOGS: {
+      const len = Object.keys(state).length + 1;
+      const obj = logsArrToObj(action.logs, len);
+      return Object.assign({}, state, obj);
+    }
     default:
       return state;
   }

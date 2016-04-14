@@ -10,6 +10,7 @@ export const RECEIVE_USER_ONLINE = 'RECEIVE_USER_ONLINE';
 export const RECEIVE_MULTI_USERS_ONLINE = 'RECEIVE_MULTI_USERS_ONLINE';
 export const RECEIVE_USER_OFFLINE = 'RECEIVE_USER_OFFLINE';
 export const RECEIVE_ACCESS_LOG = 'RECEIVE_ACCESS_LOG';
+export const RECEIVE_MULTI_ACCESS_LOGS = 'RECEIVE_MULTI_ACCESS_LOGS';
 export const CURRENT_USER = 'CURRENT_USER';
 export const SELECT_USER = 'SELECT_USER';
 export const READ_MESSAGE = 'READ_MESSAGE';
@@ -70,4 +71,8 @@ export function receiveUserOffline(user) {
 
 export function receiveAccessLog(log) {
   return { type: RECEIVE_ACCESS_LOG, log };
+}
+
+export function receiveMultiAccessLogs(logs) {
+  return { type: RECEIVE_MULTI_ACCESS_LOGS, logs };
 }
