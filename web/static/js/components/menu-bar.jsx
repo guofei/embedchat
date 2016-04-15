@@ -15,9 +15,15 @@ class MenuBar extends React.Component {
   }
 
   render() {
+    // TODO use a i18n library
+    let chat = 'Chat';
+    if ((window.navigator.userLanguage || window.navigator.language) === 'ja') {
+      chat = 'チャット';
+    }
     return (
       <AppBar
-        title="Chat"
+        title={chat}
+        titleStyle={{ fontSize: 18 }}
         iconElementRight={
           <IconButton onTouchTap={this.props.onClose}>
             <NavigationClose />

@@ -29,6 +29,11 @@ class MessageForm extends React.Component {
   }
 
   render() {
+    // TODO use a i18n library
+    let input = 'Input Message';
+    if ((window.navigator.userLanguage || window.navigator.language) === 'ja') {
+      input = 'メッセージを入力してください';
+    }
     return (
       <div>
         <TextField
@@ -36,7 +41,7 @@ class MessageForm extends React.Component {
           onChange={this.handleChange}
           fullWidth
           value={this.state.value}
-          hintText="Input Message"
+          hintText={input}
         />
         <License />
       </div>

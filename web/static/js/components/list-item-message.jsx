@@ -7,6 +7,8 @@ import Popover from 'material-ui/lib/popover/popover';
 import Card from 'material-ui/lib/card/card';
 import CardText from 'material-ui/lib/card/card-text';
 
+moment.locale(window.navigator.userLanguage || window.navigator.language);
+
 const styles = {
   pullRight: {
     float: 'right',

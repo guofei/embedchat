@@ -8,6 +8,8 @@ import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 
+// moment.locale(window.navigator.userLanguage || window.navigator.language);
+
 const styles = {
   logs: {
     overflow: 'auto',
