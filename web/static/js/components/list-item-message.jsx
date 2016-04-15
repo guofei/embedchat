@@ -44,9 +44,9 @@ class ListItemMessage extends React.Component {
     return 'A';
   }
 
-  handleTouchTap() {
+  handleTouchTap(event) {
     this.setState({
-      open: true,
+      open: !this.state.open,
       anchorEl: event.currentTarget,
     });
   }
