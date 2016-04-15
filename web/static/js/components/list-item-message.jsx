@@ -20,7 +20,8 @@ const styles = {
 class ListItemMessage extends React.Component {
   constructor(props) {
     super(props);
-
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     this.state = {
       open: false,
     };
@@ -43,6 +44,19 @@ class ListItemMessage extends React.Component {
     return 'A';
   }
 
+  handleTouchTap() {
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  }
+
+  handleClose() {
+    this.setState({
+      open: false,
+    });
+  }
+
   render() {
     return (
       <div>
@@ -57,12 +71,7 @@ class ListItemMessage extends React.Component {
               </span>
             </div>
           }
-          onTouchTap={(event) => {
-            this.setState({
-              open: true,
-              anchorEl: event.currentTarget,
-            });
-          }}
+          onTouchTap={this.handleTouchTap}
           secondaryText={
             <div>
               {this.props.children}
@@ -74,11 +83,7 @@ class ListItemMessage extends React.Component {
           anchorEl={this.state.anchorEl}
           anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-          onRequestClose={() => {
-            this.setState({
-              open: false,
-            });
-          }}
+          onRequestClose={this.handleClose}
         >
         <div>
           <Card>
