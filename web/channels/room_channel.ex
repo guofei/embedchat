@@ -31,7 +31,8 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_info(:after_join, socket) do
     if socket.assigns[:user_id] do
-      admin_online(socket.assigns.room_id, socket.assigns.distinct_id)
+      user = Repo.get!(User, socket.assigns.user_id)
+      admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user)
       create_admin_address(socket)
       broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id}
     else
@@ -195,9 +196,9 @@ defmodule EmbedChat.RoomChannel do
     Map.keys(Bucket.map(bucket))
   end
 
-  defp admin_online(room_id, distinct_id) do
+  defp admin_online(room_id, distinct_id, user) do
     {:ok, bucket} = admin_bucket(room_id)
-    Bucket.put(bucket, distinct_id, "")
+    Bucket.put(bucket, distinct_id, user)
   end
 
   defp admin_offline(room_id, distinct_id) do
