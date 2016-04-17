@@ -155,7 +155,6 @@ defmodule EmbedChat.RoomChannel do
 
   def leave(room_id, _user_id, distinct_id) do
     # TODO : broadcast "user_left" event
-    # offline(room_id, distinct_id)
     admin_offline(room_id, distinct_id)
   end
 
@@ -193,12 +192,22 @@ defmodule EmbedChat.RoomChannel do
 
   defp online_admins(room_id) do
     {:ok, bucket} = admin_bucket(room_id)
-    Map.keys(Bucket.map(bucket))
+    Bucket.map(bucket)
+  end
+
+  defp random_online_admin(room_id) do
+    admins = online_admins(room_id)
+    if Enum.empty?(admins) do
+      nil
+    else
+      {admin, _ } = Enum.random admins
+      admin
+    end
   end
 
   defp admin_online(room_id, distinct_id, user) do
     {:ok, bucket} = admin_bucket(room_id)
-    Bucket.put(bucket, distinct_id, user)
+    Bucket.put(bucket, distinct_id, %{id: user.id, name: user.name})
   end
 
   defp admin_offline(room_id, distinct_id) do
@@ -241,13 +250,12 @@ defmodule EmbedChat.RoomChannel do
 
   defp admin_address(room_id) do
     # TODO multi users
-    admin = List.first online_admins(room_id)
+    admin = random_online_admin room_id
     cond do
       address = get_address(admin) ->
         {:ok, address}
       true ->
-        model = %Address{}
-        {:error, model}
+        {:error, %Address{}}
     end
   end
 
