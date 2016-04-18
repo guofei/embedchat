@@ -88,7 +88,11 @@ class Chat extends React.Component {
   }
 
   handleInputMessage(inputText) {
-    this.props.room.send(inputText, 'admin');
+    if (this.props.selectedAdmin) {
+      this.props.room.send(inputText, this.props.selectedAdmin);
+    } else {
+      this.props.room.send(inputText, 'admin');
+    }
   }
 
   render() {
@@ -137,6 +141,7 @@ Chat.propTypes = {
   messages: React.PropTypes.array.isRequired,
   admins: React.PropTypes.array.isRequired,
   currentUser: React.PropTypes.string.isRequired,
+  selectedAdmin: React.PropTypes.string.isRequired,
   unread: React.PropTypes.number.isRequired,
   openChat: React.PropTypes.bool.isRequired,
   dispatch: React.PropTypes.func.isRequired,
