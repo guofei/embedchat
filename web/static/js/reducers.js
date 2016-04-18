@@ -10,6 +10,9 @@ import {
   RECEIVE_USER_ONLINE,
   RECEIVE_USER_OFFLINE,
   RECEIVE_MULTI_USERS_ONLINE,
+  RECEIVE_ADMIN_ONLINE,
+  RECEIVE_ADMIN_OFFLINE,
+  RECEIVE_MULTI_ADMINS_ONLINE,
   RECEIVE_ACCESS_LOG,
   RECEIVE_MULTI_ACCESS_LOGS,
   OPEN_CHAT,
@@ -34,6 +37,7 @@ let state_tree = {
       uid: 'xxx-xxx-xxx',
       name: 'name' // can be empty or null
       online: false,
+      admin: false,
     },
   },
   logs: {
@@ -97,19 +101,27 @@ function messages(state = {}, action) {
 function user(state = {}, action) {
   switch (action.type) {
     case RECEIVE_USER_ONLINE:
-      return Object.assign({}, state, action.user, { online: true });
+      return Object.assign({}, state,
+        action.user, { online: true, admin: false });
     case RECEIVE_USER_OFFLINE:
-      return Object.assign({}, state, action.user, { online: false });
+      return Object.assign({}, state,
+        action.user, { online: false });
+    case RECEIVE_ADMIN_ONLINE:
+      return Object.assign({}, state,
+        action.user, { online: true, admin: true });
+    case RECEIVE_ADMIN_OFFLINE:
+      return Object.assign({}, state,
+        action.user, { online: false });
     default:
       return state;
   }
 }
 
-function onlineUsersArrToObj(arr) {
+function usersArrToObj(arr, isOnline, isAdmin) {
   return arr.reduce((pre, cur) =>
     Object.assign({}, pre, {
       [cur.uid]:
-      Object.assign({}, cur, { online: true }),
+      Object.assign({}, cur, { online: isOnline, admin: isAdmin }),
     }), {});
 }
 
@@ -117,10 +129,16 @@ function users(state = {}, action) {
   switch (action.type) {
     case RECEIVE_USER_ONLINE:
     case RECEIVE_USER_OFFLINE:
+    case RECEIVE_ADMIN_ONLINE:
+    case RECEIVE_ADMIN_OFFLINE:
       return Object.assign({}, state,
         { [action.user.uid]: user(state[action.user.uid], action) });
     case RECEIVE_MULTI_USERS_ONLINE:
-      return Object.assign({}, state, onlineUsersArrToObj(action.users));
+      return Object.assign({}, state,
+        usersArrToObj(action.users, true, false));
+    case RECEIVE_MULTI_ADMINS_ONLINE:
+      return Object.assign({}, state,
+        usersArrToObj(action.users, true, true));
     default:
       return state;
   }

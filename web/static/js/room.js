@@ -7,6 +7,9 @@ import {
   receiveUserOnline,
   receiveUserOffline,
   receiveMultiUsersOnline,
+  receiveAdminOnline,
+  receiveAdminOffline,
+  receiveMultiAdminsOnline,
   receiveAccessLog,
   receiveMultiAccessLogs,
 } from './actions';
@@ -15,6 +18,8 @@ function room(socket, roomID, distinctID, store) {
   const messageEvent = 'new_message';
   const userLeft = 'user_left';
   const userJoin = 'user_join';
+  const adminJoin = 'admin_join';
+  const adminLeft = 'admin_left';
   const messages = 'messages';
   const userInfo = 'user_info';
 
@@ -56,6 +61,14 @@ function room(socket, roomID, distinctID, store) {
         getHistory(user.uid);
       });
 
+      channel.on(adminJoin, (admin) => {
+        store.dispatch(receiveAdminOnline(admin));
+      });
+
+      channel.on(adminLeft, (admin) => {
+        store.dispatch(receiveAdminOffline(admin));
+      });
+
       channel.on(userInfo, (resp) => {
         const accesslog = Object.assign({}, resp.info, { uid: resp.uid });
         store.dispatch(receiveAccessLog(accesslog));
@@ -83,6 +96,17 @@ function room(socket, roomID, distinctID, store) {
                 }
                 store.dispatch(receiveMultiUsersOnline(newUsers));
                 store.dispatch(receiveMultiAccessLogs(newLogs));
+              }
+              const admins = listResp.admins;
+              if (admins) {
+                const newAdmins = [];
+                for (const key in admins) {
+                  if (admins.hasOwnProperty(key)) {
+                    const user = Object.assign({}, { uid: key }, admins[key]);
+                    newAdmins.push(user);
+                  }
+                }
+                store.dispatch(receiveMultiAdminsOnline(newAdmins));
               }
             });
           // FIXME master need not do this
