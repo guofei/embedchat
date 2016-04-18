@@ -23,6 +23,7 @@ class MenuBar extends React.Component {
     return (
       <AppBar
         title={chat}
+        onLeftIconButtonTouchTap={this.props.onTouchMenu}
         titleStyle={{ fontSize: 18 }}
         iconElementRight={
           <IconButton onTouchTap={this.props.onClose}>
@@ -40,6 +41,7 @@ MenuBar.childContextTypes = {
 
 MenuBar.propTypes = {
   onClose: React.PropTypes.func.isRequired,
+  onTouchMenu: React.PropTypes.func.isRequired,
 };
 
 export default MenuBar;

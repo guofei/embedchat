@@ -53,6 +53,7 @@ class Chat extends React.Component {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
     this.handleClose = this.handleClose.bind(this);
+    this.handleTouchMenu = this.handleTouchMenu.bind(this);
     this.handleInputMessage = this.handleInputMessage.bind(this);
   }
 
@@ -82,6 +83,10 @@ class Chat extends React.Component {
     this.props.dispatch(openChat(false));
   }
 
+  handleTouchMenu() {
+    // admins = this.props.admins
+  }
+
   handleInputMessage(inputText) {
     this.props.room.send(inputText, 'admin');
   }
@@ -104,7 +109,7 @@ class Chat extends React.Component {
               </div>
             </div>
             <div style={styles.messageMenu}>
-              <MenuBar onClose={this.handleClose}/>
+              <MenuBar onClose={this.handleClose} onTouchMenu={this.handleTouchMenu}/>
             </div>
             <div style={styles.messageForm}>
               <MessageForm onInputMessage={this.handleInputMessage} />
@@ -130,6 +135,7 @@ class Chat extends React.Component {
 Chat.propTypes = {
   room: React.PropTypes.object.isRequired,
   messages: React.PropTypes.array.isRequired,
+  admins: React.PropTypes.array.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   unread: React.PropTypes.number.isRequired,
   openChat: React.PropTypes.bool.isRequired,
@@ -145,9 +151,12 @@ function select(state) {
   const msgs = toArr(state.messages).filter(x =>
     x.from_id === state.currentUser || x.to_id === state.currentUser
   );
+  const adminUsers = toArr(state.users).filter(x => x.online && x.admin);
   return {
     messages: msgs,
     currentUser: state.currentUser,
+    selectedAdmin: state.selectedUser,
+    admins: adminUsers,
     unread: msgs.filter(x => x.unread).length,
     openChat: state.openChat,
   };
