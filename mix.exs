@@ -35,7 +35,7 @@ defmodule EmbedChat.Mixfile do
      {:postgrex, "~> 0.11.1"},
      {:phoenix_html, "~> 2.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:gettext, "~> 0.10"},
+     {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 2.3"},
      {:exrm, "~> 1.0"}
