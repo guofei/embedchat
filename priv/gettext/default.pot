@@ -1,0 +1,32 @@
+## This file is a PO Template file.
+##
+## `msgid`s here are often extracted from source code.
+## Add new translations manually only if they're dynamic
+## translations that can't be statically extracted.
+##
+## Run `mix gettext.extract` to bring this file up to
+## date. Leave `msgstr`s empty as changing them here as no
+## effect: edit them in PO (`.po`) files instead.
+msgid ""
+msgstr ""
+"Language: INSERT LANGUAGE HERE\n"
+
+#: web/templates/page/index.html.eex:9
+msgid "A better chat tool to talk with your customers"
+msgstr ""
+
+#: web/templates/page/index.html.eex:13
+msgid "Get Start Now"
+msgstr ""
+
+#: web/templates/page/index.html.eex:11
+msgid "Lewini is open source:"
+msgstr ""
+
+#: web/templates/page/index.html.eex:12
+msgid "Start live chat with visitors on your website"
+msgstr ""
+
+#: web/templates/page/index.html.eex:11
+msgid "source code"
+msgstr ""
