@@ -12,20 +12,20 @@ msgstr ""
 
 #: web/templates/page/index.html.eex:9
 msgid "A better chat tool to talk with your customers"
-msgstr ""
+msgstr "シンプルで高機能なチャット接客・オンラインサポートツール"
 
 #: web/templates/page/index.html.eex:13
 msgid "Get Start Now"
-msgstr ""
+msgstr "簡単申し込み"
 
 #: web/templates/page/index.html.eex:11
 msgid "Lewini is open source:"
-msgstr ""
+msgstr "Lewiniはオープンソースソフトウェア"
 
 #: web/templates/page/index.html.eex:12
 msgid "Start live chat with visitors on your website"
-msgstr ""
+msgstr "お持ちのウェブサイトをチャットできる店に変える"
 
 #: web/templates/page/index.html.eex:11
 msgid "source code"
-msgstr ""
+msgstr "ソースコード"
