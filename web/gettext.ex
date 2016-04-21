@@ -21,4 +21,14 @@ defmodule EmbedChat.Gettext do
   See the [Gettext Docs](http://hexdocs.pm/gettext) for detailed usage.
   """
   use Gettext, otp_app: :embed_chat
+
+  def supported_locales do
+    known = Gettext.known_locales(EmbedChat.Gettext)
+    allowed = config[:locales]
+
+    Set.intersection(Enum.into(known, HashSet.new), Enum.into(allowed, HashSet.new))
+    |> Set.to_list
+  end
+
+  defp config, do: Application.get_env(:embed_chat, __MODULE__)
 end

@@ -27,3 +27,6 @@ import_config "#{Mix.env}.exs"
 config :phoenix, :generators,
   migration: true,
   binary_id: false
+
+config :embed_chat, EmbedChat.Gettext,
+  locales: ~w(en ja)

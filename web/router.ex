@@ -7,7 +7,7 @@ defmodule EmbedChat.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug EmbedChat.Locale
+    plug EmbedChat.Locale, "en"
     plug EmbedChat.Auth, repo: EmbedChat.Repo
   end
 
