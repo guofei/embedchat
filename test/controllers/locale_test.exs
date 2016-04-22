@@ -36,7 +36,10 @@ defmodule EmbedChat.LocaleTest do
     assert Gettext.get_locale(EmbedChat.Gettext) == "en"
   end
 
-  test "set ja locale by session", %{conn: conn} do
+  # test "set accept language to ja", %{conn: conn} do
+  # end
+
+  test "set ja to default locale", %{conn: conn} do
     Locale.call(conn, "ja")
     assert Gettext.get_locale(EmbedChat.Gettext) == "ja"
   end

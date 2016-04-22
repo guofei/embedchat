@@ -35,6 +35,21 @@
               <%= link "Login",    to: session_path(@conn, :new), class: "mdl-navigation__link" %>
               <%= link "Register", to: user_path(@conn, :new), class: "mdl-navigation__link" %>
             <% end %>
+            <!-- Right aligned menu below button -->
+            <button id="menu-lower-right"
+              class="mdl-button mdl-js-button mdl-button--icon">
+              <i class="material-icons">more_vert</i>
+            </button>
+
+            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+              for="menu-lower-right">
+              <li class="mdl-menu__item">
+                <%= link "English", to: current_locale_path(@conn, "en"), class: "mdl-navigation__link" %>
+              </li>
+              <li class="mdl-menu__item">
+                <%= link "Japanese", to: current_locale_path(@conn, "ja"), class: "mdl-navigation__link" %>
+              </li>
+            </ul>
           </nav>
         </div>
       </header>
