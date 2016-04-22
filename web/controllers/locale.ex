@@ -4,24 +4,45 @@ defmodule EmbedChat.Locale do
   def init(_default), do: nil
 
   def call(conn, default) do
-    case conn.params["locale"] || get_session(conn, :locale) do
-      nil     ->
+    case extract_param_locale(conn) do
+      nil ->
         locale = List.first(extract_locale(conn)) || default
-        Gettext.put_locale(EmbedChat.Gettext, locale)
-        conn |> put_session(:locale, locale)
-      locale  ->
-        Gettext.put_locale(EmbedChat.Gettext, locale)
-        conn |> put_session(:locale, locale)
+        set_locale conn, locale
+      locale ->
+        set_locale conn, locale
+    end
+  end
+
+  defp set_locale(conn, locale) do
+    Gettext.put_locale(EmbedChat.Gettext, locale)
+    conn |> put_session(:locale, locale)
+  end
+
+  defp extract_param_locale(conn) do
+    case conn.params["locale"] do
+      nil ->
+        case get_session(conn, :locale) do
+          nil ->
+            nil
+          locale ->
+            locale_check locale
+        end
+      locale ->
+        locale_check locale
+    end
+  end
+
+  defp locale_check(locale) do
+    if Enum.member?(EmbedChat.Gettext.supported_locales, locale) do
+      locale
+    else
+      nil
     end
   end
 
   defp extract_locale(conn) do
-    if Blank.present? conn.params["locale"] do
-      [conn.params["locale"] | extract_accept_language(conn)]
-    else
-      extract_accept_language(conn)
-    end
     # Filter for only known locales
+    extract_accept_language(conn)
     |> Enum.filter(fn locale -> Enum.member?(EmbedChat.Gettext.supported_locales, locale) end)
   end
 
