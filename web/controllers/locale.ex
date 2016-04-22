@@ -13,6 +13,10 @@ defmodule EmbedChat.Locale do
     end
   end
 
+  defp set_locale(conn, locale) when is_nil(locale) do
+    conn
+  end
+
   defp set_locale(conn, locale) do
     Gettext.put_locale(EmbedChat.Gettext, locale)
     conn |> put_session(:locale, locale)
