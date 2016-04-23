@@ -29,3 +29,35 @@ msgstr "今すぐお持ちのウェブサイトをチャットサポートでき
 #: web/templates/page/index.html.eex:11
 msgid "source code"
 msgstr "ソースコード"
+
+#: web/templates/layout/app.html.eex:47
+msgid "English"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:29
+msgid "Home"
+msgstr "ホーム"
+
+#: web/templates/layout/app.html.eex:50
+msgid "Japanese"
+msgstr "日本語"
+
+#: web/templates/layout/app.html.eex:35
+msgid "Login"
+msgstr "ログイン"
+
+#: web/templates/layout/app.html.eex:32
+msgid "Logout"
+msgstr "ログアウト"
+
+#: web/templates/layout/app.html.eex:36
+msgid "Register"
+msgstr "ユーザー登録"
+
+#: web/templates/layout/app.html.eex:31
+msgid "Setup"
+msgstr "設定"
+
+#: web/templates/layout/app.html.eex:10
+msgid "Lewini Live Chat: A Live Chat Software for Business!"
+msgstr "Lewiniライブチャット - シンプルで高機能なチャット接客・オンラインサポートツール"

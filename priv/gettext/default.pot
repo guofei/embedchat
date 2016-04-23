@@ -30,3 +30,35 @@ msgstr ""
 #: web/templates/page/index.html.eex:11
 msgid "source code"
 msgstr ""
+
+#: web/templates/layout/app.html.eex:47
+msgid "English"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:29
+msgid "Home"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:50
+msgid "Japanese"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:35
+msgid "Login"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:32
+msgid "Logout"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:36
+msgid "Register"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:31
+msgid "Setup"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:10
+msgid "Lewini Live Chat: A Live Chat Software for Business!"
+msgstr ""
