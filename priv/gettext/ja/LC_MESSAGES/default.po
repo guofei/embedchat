@@ -56,7 +56,7 @@ msgstr "ユーザー登録"
 
 #: web/templates/layout/app.html.eex:31
 msgid "Setup"
-msgstr "設定"
+msgstr "設置"
 
 #: web/templates/layout/app.html.eex:10
 msgid "Lewini Live Chat: A Live Chat Software for Business!"
