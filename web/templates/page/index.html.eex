@@ -11,6 +11,7 @@
           <p><%= gettext "Lewini is open source:" %> <%= link gettext("source code"), to: "https://github.com/guofei/embedchat" %></p>
           <p><%= gettext "Start live chat with visitors on your website" %></p>
           <p><%= link gettext("Get Start Now"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %></p>
+          <img src="<%= static_path(@conn, "/images/chat_screen_shot.png") %>" width="540" height="360">
         </center>
       </div>
     </div>
