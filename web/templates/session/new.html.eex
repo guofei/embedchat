@@ -16,7 +16,7 @@
       <label class="mdl-textfield__label" for="password"><%= gettext("Password") %>...</label>
     </div>
 
-    <br/>
+    <br/><br/>
 
     <%= submit gettext("Login"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
   <% end %>
