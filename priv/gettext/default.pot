@@ -70,3 +70,15 @@ msgstr ""
 #: web/templates/user/new.html.eex:39
 msgid "Signup"
 msgstr ""
+
+#: web/templates/user/new.html.eex:20
+msgid "Email"
+msgstr ""
+
+#: web/templates/user/new.html.eex:27
+msgid "Name"
+msgstr ""
+
+#: web/templates/user/new.html.eex:34
+msgid "Password"
+msgstr ""

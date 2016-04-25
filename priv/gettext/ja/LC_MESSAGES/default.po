@@ -69,3 +69,15 @@ msgstr "アカウント登録"
 #: web/templates/user/new.html.eex:39
 msgid "Signup"
 msgstr "アカウント登録"
+
+#: web/templates/user/new.html.eex:20
+msgid "Email"
+msgstr ""
+
+#: web/templates/user/new.html.eex:27
+msgid "Name"
+msgstr "お名前"
+
+#: web/templates/user/new.html.eex:34
+msgid "Password"
+msgstr "パスワード"
