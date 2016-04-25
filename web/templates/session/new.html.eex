@@ -1,6 +1,7 @@
 <div class="page-content-max">
-  <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--12-col">
+  <center>
+
+    <h3>Login</h3>
 
   <%= form_for @conn, session_path(@conn, :create), [as: :session], fn f -> %>
     <div class="mdl-textfield mdl-js-textfield">
@@ -20,6 +21,5 @@
     <%= submit "Login", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
   <% end %>
 
-    </div>
-  </div>
+  </center>
 </div>
