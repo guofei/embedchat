@@ -22,10 +22,6 @@ msgstr ""
 msgid "Lewini is open source:"
 msgstr ""
 
-#: web/templates/page/index.html.eex:12
-msgid "Start live chat with visitors on your website"
-msgstr ""
-
 #: web/templates/page/index.html.eex:11
 msgid "source code"
 msgstr ""
@@ -81,4 +77,8 @@ msgstr ""
 
 #: web/templates/session/new.html.eex:16 web/templates/user/new.html.eex:34
 msgid "Password"
+msgstr ""
+
+#: web/templates/page/index.html.eex:12
+msgid "Start live chat with visitors on your website!"
 msgstr ""

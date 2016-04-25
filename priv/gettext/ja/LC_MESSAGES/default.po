@@ -22,10 +22,6 @@ msgstr "簡単申し込み"
 msgid "Lewini is open source:"
 msgstr "Lewiniはオープンソースソフトウェア："
 
-#: web/templates/page/index.html.eex:12
-msgid "Start live chat with visitors on your website"
-msgstr "今すぐお持ちのウェブサイトをチャットサポートできる店に変える"
-
 #: web/templates/page/index.html.eex:11
 msgid "source code"
 msgstr "ソースコード"
@@ -82,3 +78,7 @@ msgstr "お名前"
 #: web/templates/session/new.html.eex:16 web/templates/user/new.html.eex:34
 msgid "Password"
 msgstr "パスワード"
+
+#: web/templates/page/index.html.eex:12
+msgid "Start live chat with visitors on your website!"
+msgstr "今すぐお持ちのウェブサイトをチャットサポートできる店に変える！"
