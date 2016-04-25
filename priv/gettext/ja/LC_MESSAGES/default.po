@@ -49,7 +49,7 @@ msgstr "ログアウト"
 
 #: web/templates/layout/app.html.eex:36
 msgid "Register"
-msgstr "ユーザー登録"
+msgstr "アカウント登録"
 
 #: web/templates/layout/app.html.eex:31
 msgid "Setup"
