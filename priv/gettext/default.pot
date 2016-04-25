@@ -43,7 +43,8 @@ msgstr ""
 msgid "Japanese"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:35
+#: web/templates/layout/app.html.eex:35 web/templates/session/new.html.eex:4
+#: web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr ""
 
@@ -71,7 +72,7 @@ msgstr ""
 msgid "Signup"
 msgstr ""
 
-#: web/templates/user/new.html.eex:20
+#: web/templates/session/new.html.eex:9 web/templates/user/new.html.eex:20
 msgid "Email"
 msgstr ""
 
@@ -79,6 +80,6 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: web/templates/user/new.html.eex:34
+#: web/templates/session/new.html.eex:16 web/templates/user/new.html.eex:34
 msgid "Password"
 msgstr ""

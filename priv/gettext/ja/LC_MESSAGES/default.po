@@ -42,7 +42,8 @@ msgstr "ホーム"
 msgid "Japanese"
 msgstr "日本語"
 
-#: web/templates/layout/app.html.eex:35
+#: web/templates/layout/app.html.eex:35 web/templates/session/new.html.eex:4
+#: web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr "ログイン"
 
@@ -70,7 +71,7 @@ msgstr "アカウント登録"
 msgid "Signup"
 msgstr "アカウント登録"
 
-#: web/templates/user/new.html.eex:20
+#: web/templates/session/new.html.eex:9 web/templates/user/new.html.eex:20
 msgid "Email"
 msgstr ""
 
@@ -78,6 +79,6 @@ msgstr ""
 msgid "Name"
 msgstr "お名前"
 
-#: web/templates/user/new.html.eex:34
+#: web/templates/session/new.html.eex:16 web/templates/user/new.html.eex:34
 msgid "Password"
 msgstr "パスワード"
