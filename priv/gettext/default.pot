@@ -62,3 +62,11 @@ msgstr ""
 #: web/templates/layout/app.html.eex:10
 msgid "Lewini Live Chat: A Live Chat Software for Business!"
 msgstr ""
+
+#: web/templates/user/new.html.eex:4
+msgid "Create an account"
+msgstr ""
+
+#: web/templates/user/new.html.eex:39
+msgid "Signup"
+msgstr ""

@@ -1,7 +1,7 @@
 <div class="page-content-max">
   <center>
 
-  <h3>Create an account</h3>
+  <h3><%= gettext("Create an account") %></h3>
 
   <%= form_for @changeset, user_path(@conn, :create), fn f -> %>
     <%= if f.errors != [] do %>
@@ -36,7 +36,7 @@
 
     <br/>
 
-    <%= submit "Signup", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
+    <%= submit gettext("Signup"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
   <% end %>
 
   </center>
