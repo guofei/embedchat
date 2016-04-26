@@ -19,6 +19,7 @@ defmodule EmbedChat.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/price", PageController, :price
 
     resources "/users", UserController, only: [:new, :create, :show]
     resources "/sessions", SessionController, only: [:new, :create, :delete]

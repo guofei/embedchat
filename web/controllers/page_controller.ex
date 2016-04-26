@@ -9,4 +9,8 @@ defmodule EmbedChat.PageController do
       render conn, "index.html"
     end
   end
+
+  def price(conn, _params) do
+    render conn, "price.html"
+  end
 end
