@@ -26,7 +26,7 @@ msgstr "Lewiniはオープンソースソフトウェア："
 msgid "source code"
 msgstr "ソースコード"
 
-#: web/templates/layout/app.html.eex:47
+#: web/templates/layout/app.html.eex:48
 msgid "English"
 msgstr ""
 
@@ -34,11 +34,11 @@ msgstr ""
 msgid "Home"
 msgstr "ホーム"
 
-#: web/templates/layout/app.html.eex:50
+#: web/templates/layout/app.html.eex:51
 msgid "Japanese"
 msgstr "日本語"
 
-#: web/templates/layout/app.html.eex:35 web/templates/session/new.html.eex:4
+#: web/templates/layout/app.html.eex:36 web/templates/session/new.html.eex:4
 #: web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr "ログイン"
@@ -47,7 +47,7 @@ msgstr "ログイン"
 msgid "Logout"
 msgstr "ログアウト"
 
-#: web/templates/layout/app.html.eex:36
+#: web/templates/layout/app.html.eex:37
 msgid "Register"
 msgstr "アカウント登録"
 
@@ -82,3 +82,14 @@ msgstr "パスワード"
 #: web/templates/page/index.html.eex:12
 msgid "Start live chat with visitors on your website!"
 msgstr "今すぐお持ちのウェブサイトをチャットサポートできる店に変える！"
+
+#: web/templates/layout/app.html.eex:35
+msgid "Price"
+msgstr "料金"
+
+#: web/templates/page/price.html.eex:19 web/templates/page/price.html.eex:27
+#: web/templates/page/price.html.eex:35 web/templates/page/price.html.eex:43
+#: web/templates/page/price.html.eex:51 web/templates/page/price.html.eex:59
+#: web/templates/page/price.html.eex:67 web/templates/page/price.html.eex:75
+msgid "Sign Up"
+msgstr ""
