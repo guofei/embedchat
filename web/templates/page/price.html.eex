@@ -1,7 +1,55 @@
 <div class="page-content-max">
   <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--12-col">
-      price
+    <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--4-col">
+      <div class="mdl-card__supporting-text">
+        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+          <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1">
+          <span class="mdl-radio__label">Free Plan</span>
+        </label>
+      </div>
+      <div class="mdl-card__supporting-text">
+        <p>Receive messages from website visitors</p>
+        <p>Capture leads and track their activity</p>
+        <p>&nbsp;</p>
+        <p>&nbsp;</p>
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <%= link gettext("Start Now"), to: user_path(@conn, :new), class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
+      </div>
+    </div>
+    <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--4-col">
+      <div class="mdl-card__supporting-text">
+        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+          <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2" checked>
+          <span class="mdl-radio__label">Lite Plan</span>
+        </label>
+      </div>
+      <div class="mdl-card__supporting-text">
+        <p>Receive messages from website visitors</p>
+        <p>Manage conversations in a team inbox</p>
+        <p>Capture leads and track their activity</p>
+        <p>&nbsp;</p>
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <%= link gettext("Start Now"), to: user_path(@conn, :new), class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
+      </div>
+    </div>
+    <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--4-col">
+      <div class="mdl-card__supporting-text">
+        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+          <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3">
+          <span class="mdl-radio__label">Standard Plan</span>
+        </label>
+      </div>
+      <div class="mdl-card__supporting-text">
+        <p>Receive messages from website visitors</p>
+        <p>Manage conversations in a team inbox</p>
+        <p>Capture leads and track their activity</p>
+        <p>Start targeted chats with auto messages</p>
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <%= link gettext("Start Now"), to: user_path(@conn, :new), class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
+      </div>
     </div>
   </div>
 </div>
