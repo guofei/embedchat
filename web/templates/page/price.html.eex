@@ -1,56 +1,83 @@
 <div class="page-content-max">
   <div class="mdl-grid">
-    <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--4-col">
-      <div class="mdl-card__supporting-text">
-        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
-          <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1">
-          <span class="mdl-radio__label">Free Plan</span>
-        </label>
-      </div>
-      <div class="mdl-card__supporting-text">
-        <p>Receive messages from website visitors</p>
-        <p>Capture leads and track their activity</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
-      </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <%= link gettext("Start Now"), to: user_path(@conn, :new), class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
-      </div>
-    </div>
-    <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--4-col">
-      <div class="mdl-card__supporting-text">
-        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
-          <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2" checked>
-          <span class="mdl-radio__label">Lite Plan</span>
-        </label>
-      </div>
-      <div class="mdl-card__supporting-text">
-        <p>Receive messages from website visitors</p>
-        <p>Manage conversations in a team inbox</p>
-        <p>Capture leads and track their activity</p>
-        <p>&nbsp;</p>
-      </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <%= link gettext("Start Now"), to: user_path(@conn, :new), class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
-      </div>
-    </div>
-    <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--4-col">
-      <div class="mdl-card__supporting-text">
-        <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
-          <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3">
-          <span class="mdl-radio__label">Standard Plan</span>
-        </label>
-      </div>
-      <div class="mdl-card__supporting-text">
-        <p>Receive messages from website visitors</p>
-        <p>Manage conversations in a team inbox</p>
-        <p>Capture leads and track their activity</p>
-        <p>Start targeted chats with auto messages</p>
-      </div>
-      <div class="mdl-card__actions mdl-card--border">
-        <%= link gettext("Start Now"), to: user_path(@conn, :new), class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
-      </div>
-    </div>
+
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Plan</th>
+          <th>People</th>
+          <th>Monthly cost</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">Free</td>
+          <td>50</td>
+          <td>$0</td>
+          <td>
+            <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">250 People</td>
+          <td>250</td>
+          <td>$6</td>
+          <td>
+            <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">500 People</td>
+          <td>500</td>
+          <td>$10</td>
+          <td>
+            <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">1000 People</td>
+          <td>1000</td>
+          <td>$15</td>
+          <td>
+            <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">5000 People</td>
+          <td>5000</td>
+          <td>$50</td>
+          <td>
+            <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">10000 People</td>
+          <td>10000</td>
+          <td>$60</td>
+          <td>
+            <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">20000 People</td>
+          <td>20000</td>
+          <td>$80</td>
+          <td>
+            <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+          </td>
+        </tr>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">50000 People</td>
+          <td>50000</td>
+          <td>$100</td>
+          <td>
+            <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
   </div>
 </div>
 
