@@ -16,7 +16,7 @@
           <td>50</td>
           <td>$0</td>
           <td>
-            <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--primary" %>
+            <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
@@ -24,7 +24,7 @@
           <td>250</td>
           <td>$6</td>
           <td>
-            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--primary" %>
+            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
@@ -32,7 +32,7 @@
           <td>500</td>
           <td>$10</td>
           <td>
-            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--primary" %>
+            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
@@ -40,7 +40,7 @@
           <td>1000</td>
           <td>$15</td>
           <td>
-            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--primary" %>
+            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
@@ -48,7 +48,7 @@
           <td>5000</td>
           <td>$50</td>
           <td>
-            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--primary" %>
+            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
@@ -56,7 +56,7 @@
           <td>10000</td>
           <td>$60</td>
           <td>
-            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--primary" %>
+            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
@@ -64,7 +64,7 @@
           <td>20000</td>
           <td>$80</td>
           <td>
-            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--primary" %>
+            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
@@ -72,7 +72,7 @@
           <td>50000</td>
           <td>$100</td>
           <td>
-            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--primary" %>
+            <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
       </tbody>
