@@ -87,9 +87,29 @@ msgstr "今すぐお持ちのウェブサイトをチャットサポートでき
 msgid "Price"
 msgstr "料金"
 
-#: web/templates/page/price.html.eex:19 web/templates/page/price.html.eex:27
-#: web/templates/page/price.html.eex:35 web/templates/page/price.html.eex:43
-#: web/templates/page/price.html.eex:51 web/templates/page/price.html.eex:59
-#: web/templates/page/price.html.eex:67 web/templates/page/price.html.eex:75
+#: web/templates/page/price.html.eex:31
 msgid "Sign Up"
-msgstr ""
+msgstr "登録"
+
+#: web/templates/page/price.html.eex:20
+msgid "Monthly cost"
+msgstr "月額"
+
+#: web/templates/page/price.html.eex:17
+msgid "People"
+msgstr "人"
+
+#: web/templates/page/price.html.eex:14
+msgid "Plan"
+msgstr "プラン"
+
+#: web/templates/page/price.html.eex:39 web/templates/page/price.html.eex:47
+#: web/templates/page/price.html.eex:55 web/templates/page/price.html.eex:63
+#: web/templates/page/price.html.eex:71 web/templates/page/price.html.eex:79
+#: web/templates/page/price.html.eex:87
+msgid "Purchase"
+msgstr "購入"
+
+#: web/templates/page/price.html.eex:6
+msgid "Chat with visitors to your website in real-time, capture them as leads, and convert them to customers."
+msgstr "サイトに訪問したお客様とリアルタイムチャットで、新規顧客を獲得しましょう"

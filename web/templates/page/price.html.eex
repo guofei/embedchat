@@ -1,12 +1,24 @@
 <div class="page-content-max">
   <div class="mdl-grid">
-
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+    <div class="mdl-cell mdl-cell--12-col">
+      <center>
+        <p>
+          <%= gettext("Chat with visitors to your website in real-time, capture them as leads, and convert them to customers.") %>
+        </p>
+      </center>
+    </div>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--3dp mdl-cell mdl-cell--12-col">
       <thead>
         <tr>
-          <th class="mdl-data-table__cell--non-numeric">Plan</th>
-          <th>People</th>
-          <th>Monthly cost</th>
+          <th class="mdl-data-table__cell--non-numeric">
+            <%= gettext "Plan" %>
+          </th>
+          <th>
+            <%= gettext "People" %>
+          </th>
+          <th>
+            <%= gettext "Monthly cost" %>
+          </th>
           <th></th>
         </tr>
       </thead>
