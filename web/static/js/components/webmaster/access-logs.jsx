@@ -25,7 +25,6 @@ function LogContent({ log }) {
     <div>
       User Agent: {log.userAgent}<br/>
       Referrer: {log.referrer}<br/>
-      Href: {log.referrer}<br/>
       Language: {log.language}<br/>
       Screenwidth: {log.screenwidth}<br/>
       ScreenHeight: {log.screenHeight}<br/>
