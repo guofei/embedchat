@@ -17,6 +17,41 @@ const styles = {
   },
 };
 
+function Message({ children, createdAt, handleTouchTap, shortName }) {
+  return (
+    <ListItem
+      secondaryTextLines={children.length > 15 ? 2 : 1}
+      // leftAvatar={<Avatar>{this.avatar()}</Avatar>}
+      primaryText={
+        <div>
+          {shortName}
+          <span style={styles.pullRight}>
+            {moment.utc(createdAt).fromNow()}
+          </span>
+        </div>
+      }
+      onTouchTap={handleTouchTap}
+      secondaryText={
+        <div>
+          {children}
+        </div>
+      }
+    />
+  );
+}
+
+function PopoverContent({ text }) {
+  return (
+    <div>
+      <Card>
+        <CardText>
+          {text}
+        </CardText>
+      </Card>
+    </div>
+  );
+}
+
 class ListItemMessage extends React.Component {
   constructor(props) {
     super(props);
@@ -60,23 +95,11 @@ class ListItemMessage extends React.Component {
   render() {
     return (
       <div>
-        <ListItem
-          secondaryTextLines={this.props.children.length > 15 ? 2 : 1}
-          // leftAvatar={<Avatar>{this.avatar()}</Avatar>}
-          primaryText={
-            <div>
-              {this.shortName()}
-              <span style={styles.pullRight}>
-                {moment.utc(this.props.createdAt).fromNow()}
-              </span>
-            </div>
-          }
-          onTouchTap={this.handleTouchTap}
-          secondaryText={
-            <div>
-              {this.props.children}
-            </div>
-          }
+        <Message
+          children={this.props.children}
+          createdAt={this.props.createdAt}
+          handleTouchTap={this.handleTouchTap}
+          shortName={this.shortName()}
         />
         <Popover
           open={this.state.open}
@@ -85,13 +108,7 @@ class ListItemMessage extends React.Component {
           targetOrigin={{ horizontal: 'right', vertical: 'top' }}
           onRequestClose={this.handleClose}
         >
-        <div>
-          <Card>
-            <CardText>
-              { this.props.children }
-            </CardText>
-          </Card>
-        </div>
+          <PopoverContent text={this.props.children} />
         </Popover>
       </div>
     );
