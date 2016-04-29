@@ -6,7 +6,9 @@ import Paper from 'material-ui/lib/paper';
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
 import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
+
+import ItemWithDialog from '../item-with-dialog';
+
 
 moment.locale(window.navigator.userLanguage || window.navigator.language);
 
@@ -16,12 +18,21 @@ const styles = {
     minHeight: '300px',
     maxHeight: '600px',
   },
-  pullRight: {
-    float: 'right',
-    color: 'gray',
-    fontSize: 'small',
-  },
 };
+
+function LogContent({ log }) {
+  return (
+    <div>
+      User Agent: {log.userAgent}<br/>
+      Referrer: {log.referrer}<br/>
+      Href: {log.referrer}<br/>
+      Language: {log.language}<br/>
+      Screenwidth: {log.screenwidth}<br/>
+      ScreenHeight: {log.screenHeight}<br/>
+      Time: {moment.utc(log.inserted_at).fromNow()}
+    </div>
+  );
+}
 
 class AccessLogs extends React.Component {
   componentDidMount() {
@@ -42,23 +53,13 @@ class AccessLogs extends React.Component {
   render() {
     const logs = this.props.logs.map((log, index) =>
       (
-        <ListItem
+        <ItemWithDialog
           key={index}
-          secondaryTextLines={2}
-          primaryText={
-            <div style={{ fontSize: 'small' }}>
-              {log.href}
-              <div style={styles.pullRight}>
-                {moment.utc(log.inserted_at).fromNow()}
-              </div>
-            </div>
-          }
-          secondaryText={
-            <div>
-              <div style={{ fontSize: 'small' }}>{log.userAgent}</div>
-            </div>
-          }
-        />
+          title={log.href}
+          moment={moment.utc(log.inserted_at).fromNow()}
+        >
+          <LogContent log={log} />
+        </ItemWithDialog>
       )
     );
     return (
