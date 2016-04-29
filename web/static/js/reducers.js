@@ -79,8 +79,10 @@ function readAll(obj) {
 }
 
 function arrWithIDToObj(arr) {
-  return arr.reduce((pre, cur) =>
-    Object.assign({}, pre, { [cur.id]: cur }), {});
+  return arr.reduce((pre, cur) => {
+    const obj = Object.assign({}, cur, { unread: false });
+    return Object.assign({}, pre, { [obj.id]: obj });
+  }, {});
 }
 
 function messages(state = {}, action) {
