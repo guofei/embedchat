@@ -41,7 +41,15 @@ let state_tree = {
     },
   },
   logs: {
-    1: { id: 1, inserted_at: '11:12', href: 'http://abc.com', uid: 'xxx' },
+    1: {
+      id: 1,
+      inserted_at: '11:12',
+      href: 'http://abc.com',
+      referrer: 'http://ref.com',
+      screenwidth: 100,
+      screenHeight: 100,
+      uid: 'xxx'
+    },
   },
   // ui state
   currentUser: 'xxx-xxx-xxx',

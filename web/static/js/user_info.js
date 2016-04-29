@@ -13,7 +13,7 @@ const UserInfo = {
   userAgent: navigator.userAgent,
   href: location.href,
   referrer: document.referrer,
-  screenidth: screen.width,
+  screenwidth: screen.width,
   screenHeight: screen.height,
   language: lang(),
   inserted_at: moment.utc().format(),
