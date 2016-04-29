@@ -49,7 +49,7 @@ function room(socket, roomID, distinctID, store) {
 
       channel.on(messageEvent, (msg) => {
         store.dispatch(receiveMessage(msg));
-        store.dispatch(openChat(msg));
+        store.dispatch(openChat(true));
       });
 
       channel.on(userLeft, (user) => {
