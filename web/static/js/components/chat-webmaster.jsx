@@ -7,7 +7,7 @@ import { selectUser } from '../actions';
 
 import UserLists from './webmaster/user-lists';
 import Messages from './webmaster/messages';
-import AccessLog from './webmaster/access-log';
+import AccessLogs from './webmaster/access-logs';
 
 // injectTapEventPlugin();
 
@@ -55,7 +55,7 @@ class ChatWebmaster extends React.Component {
             />
           </div>
           <div className="mdl-cell mdl-cell--4-col">
-            <AccessLog
+            <AccessLogs
               currentUser={currentUser}
               logs={logs}
             />

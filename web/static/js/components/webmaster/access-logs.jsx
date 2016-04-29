@@ -23,7 +23,7 @@ const styles = {
   },
 };
 
-class AccessLog extends React.Component {
+class AccessLogs extends React.Component {
   componentDidMount() {
     this.scrollLogs();
   }
@@ -79,9 +79,9 @@ class AccessLog extends React.Component {
   }
 }
 
-AccessLog.propTypes = {
+AccessLogs.propTypes = {
   currentUser: React.PropTypes.string.isRequired,
   logs: React.PropTypes.array.isRequired,
 };
 
-export default AccessLog;
+export default AccessLogs;
