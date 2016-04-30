@@ -6,23 +6,27 @@ import Avatar from 'material-ui/lib/avatar';
 import Paper from 'material-ui/lib/paper';
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
-import CommunicationChatBubble from 'material-ui/lib/svg-icons/communication/chat-bubble';
-import Colors from 'material-ui/lib/styles/colors';
+// import CommunicationChatBubble from 'material-ui/lib/svg-icons/communication/chat-bubble';
+// import Colors from 'material-ui/lib/styles/colors';
 
 // TODO refactoring
 function shortName(fullName) {
   return fullName.substring(0, 7);
 }
 
-function User({ name, numMessages, onSelected }) {
+function messageText(msg) {
+  let text = '';
+  if (msg) {
+    text = msg.body;
+  }
+  return text;
+}
+
+function User({ name, message, onSelected }) {
   return (
     <ListItem
-      primaryText={
-        <p>{shortName(name)}&nbsp;&nbsp;
-          <span style={{ color: Colors.lightBlack }}>{numMessages}</span>
-        </p>
-      }
-      rightIcon={<CommunicationChatBubble />}
+      primaryText={shortName(name)}
+      secondaryText={messageText(message)}
       leftAvatar={<Avatar>{name[0]}</Avatar>}
       onTouchTap={function touch() { onSelected(name); }}
     />
@@ -33,14 +37,14 @@ function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
   const onlines = onlineUsers.map((user) =>
     (<User name={user.uid}
       key={user.uid}
-      numMessages={user.numMessages}
+      message={user.message}
       onSelected={onUserSelected}
     />)
   );
   const offlines = offlineUsers.map((user) =>
     (<User name={user.uid}
       key={user.uid}
-      numMessages={user.numMessages}
+      message={user.message}
       onSelected={onUserSelected}
     />)
   );

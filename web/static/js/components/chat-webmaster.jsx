@@ -115,16 +115,29 @@ function toArr(obj) {
   return Object.keys(obj).map((k) => obj[k]);
 }
 
+function usersWithMessage(state) {
+  const usersObjCopy = Object.assign({}, state.users);
+  const messagesObj = state.messages;
+  for (const msgID in messagesObj) {
+    if (messagesObj.hasOwnProperty(msgID)) {
+      const msg = messagesObj[msgID];
+      usersObjCopy[msg.from_id].message = msg;
+      usersObjCopy[msg.to_id].message = msg;
+    }
+  }
+  return usersObjCopy;
+}
+
 function select(state) {
   const current = state.currentUser;
-  const users = state.users;
+  const users = toArr(usersWithMessage(state));
   const selected = state.selectedUser;
   return {
     messages: toArr(state.messages).filter(x =>
       x.from_id === selected || x.to_id === selected
     ),
-    onlineUsers: toArr(users).filter(x => x.online && x.uid !== current),
-    offlineUsers: toArr(users).filter(x => !x.online && x.uid !== current),
+    onlineUsers: users.filter(x => x.online && x.uid !== current),
+    offlineUsers: users.filter(x => !x.online && x.uid !== current),
     logs: toArr(state.logs).filter(x => x.uid === selected),
     currentUser: current,
     selectedUser: selected,
