@@ -26,9 +26,7 @@ function Item({ title, moment, handleTouchTap, content }) {
       }
       onTouchTap={handleTouchTap}
       secondaryText={
-        <div>
-          <div style={{ fontSize: 'small' }}>{content}</div>
-        </div>
+        <div style={{ fontSize: 'small' }}>{content}</div>
       }
     />
   );

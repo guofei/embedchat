@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Paper from 'material-ui/lib/paper';
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
+import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
 import ToolbarGroup from 'material-ui/lib/toolbar/toolbar-group';
 import IconButton from 'material-ui/lib/icon-button';
 import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
@@ -49,8 +50,11 @@ class Messages extends React.Component {
 
   render() {
     return (
-      <Paper zDepth={2}>
+      <Paper zDepth={1}>
         <Toolbar>
+          <ToolbarTitle
+            text={`Messages: ${this.props.selectedUser.substring(0, 7)}`}
+          />
           <ToolbarGroup float="right">
             <IconButton onTouchTap={this.handleTouchTap}>
               <NavigationClose />
@@ -76,6 +80,7 @@ class Messages extends React.Component {
 
 Messages.propTypes = {
   currentUser: React.PropTypes.string.isRequired,
+  selectedUser: React.PropTypes.string.isRequired,
   messages: React.PropTypes.array.isRequired,
   onInputMessage: React.PropTypes.func.isRequired,
   onClose: React.PropTypes.func.isRequired,

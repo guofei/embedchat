@@ -62,7 +62,7 @@ class AccessLogs extends React.Component {
       )
     );
     return (
-      <Paper zDepth={2}>
+      <Paper zDepth={1}>
         <Toolbar>
           <ToolbarTitle text="Real Time Log" />
         </Toolbar>

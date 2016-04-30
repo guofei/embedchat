@@ -7,9 +7,22 @@ import { selectUser } from '../actions';
 
 import UserLists from './webmaster/user-lists';
 import Messages from './webmaster/messages';
+import EmptyMessage from './webmaster/empty-message';
 import AccessLogs from './webmaster/access-logs';
 
 // injectTapEventPlugin();
+
+function CurrentMessages({ selected, current, msgs, input, close }) {
+  return (
+    <Messages
+      messages={msgs}
+      currentUser={current}
+      selectedUser={selected}
+      onInputMessage={input}
+      onClose={close}
+    />
+  );
+}
 
 class ChatWebmaster extends React.Component {
   constructor(props) {
@@ -42,31 +55,22 @@ class ChatWebmaster extends React.Component {
       onlineUsers, offlineUsers, messages, currentUser, selectedUser, logs,
     } = this.props;
 
-    let paper = null;
+    let msgElement = (<EmptyMessage />);
     if (selectedUser) {
-      paper = (
-        <div className="mdl-grid">
-          <div className="mdl-cell mdl-cell--8-col">
-            <Messages
-              messages={messages}
-              currentUser={currentUser}
-              onInputMessage={this.handleInputMessage}
-              onClose={this.handleCloseMessages}
-            />
-          </div>
-          <div className="mdl-cell mdl-cell--4-col">
-            <AccessLogs
-              currentUser={currentUser}
-              logs={logs}
-            />
-          </div>
-        </div>
+      msgElement = (
+        <CurrentMessages
+          current={currentUser}
+          selected={selectedUser}
+          msgs={messages}
+          input={this.handleInputMessage}
+          close={this.handleCloseMessages}
+        />
       );
-    } else {
-      paper = (
+    }
+
+    const paper = (
         <div className="mdl-grid">
-          <div className="mdl-cell mdl-cell--1-col"></div>
-          <div className="mdl-cell mdl-cell--10-col">
+          <div className="mdl-cell mdl-cell--3-col">
             <Paper zDepth={1}>
               <UserLists
                 onlineUsers={onlineUsers}
@@ -75,10 +79,18 @@ class ChatWebmaster extends React.Component {
               />
             </Paper>
           </div>
-          <div className="mdl-cell mdl-cell--1-col"></div>
+          <div className="mdl-cell mdl-cell--6-col">
+            {msgElement}
+          </div>
+          <div className="mdl-cell mdl-cell--3-col">
+            <AccessLogs
+              currentUser={currentUser}
+              logs={logs}
+            />
+          </div>
         </div>
       );
-    }
+
     return (
       <div>
         { paper }
