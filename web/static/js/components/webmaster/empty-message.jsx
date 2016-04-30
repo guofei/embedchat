@@ -16,7 +16,7 @@ export default function EmptyMessage() {
   return (
     <Paper zDepth={1}>
       <Toolbar>
-        <ToolbarTitle text="Messages" />
+        <ToolbarTitle text="Message" />
       </Toolbar>
       <div style={styles.messages} />
     </Paper>

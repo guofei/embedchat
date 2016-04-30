@@ -3,6 +3,9 @@ import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
 import Avatar from 'material-ui/lib/avatar';
+import Paper from 'material-ui/lib/paper';
+import Toolbar from 'material-ui/lib/toolbar/toolbar';
+import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
 import CommunicationChatBubble from 'material-ui/lib/svg-icons/communication/chat-bubble';
 import Colors from 'material-ui/lib/styles/colors';
 
@@ -42,7 +45,10 @@ function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
     />)
   );
   return (
-    <div>
+    <Paper zDepth={1}>
+      <Toolbar>
+        <ToolbarTitle text="User" />
+      </Toolbar>
       <List subheader="Online">
         {onlines}
       </List>
@@ -50,7 +56,7 @@ function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
       <List subheader="Offline">
         {offlines}
       </List>
-    </div>
+    </Paper>
   );
 }
 

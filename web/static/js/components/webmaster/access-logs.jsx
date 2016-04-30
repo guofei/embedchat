@@ -64,7 +64,7 @@ class AccessLogs extends React.Component {
     return (
       <Paper zDepth={1}>
         <Toolbar>
-          <ToolbarTitle text="Real Time Log" />
+          <ToolbarTitle text="AccessLog" />
         </Toolbar>
         <div
           ref="logs"

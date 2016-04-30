@@ -53,7 +53,7 @@ class Messages extends React.Component {
       <Paper zDepth={1}>
         <Toolbar>
           <ToolbarTitle
-            text={`Messages: ${this.props.selectedUser.substring(0, 7)}`}
+            text={`Message: ${this.props.selectedUser.substring(0, 7)}`}
           />
           <ToolbarGroup float="right">
             <IconButton onTouchTap={this.handleTouchTap}>
