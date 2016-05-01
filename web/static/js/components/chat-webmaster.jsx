@@ -116,15 +116,18 @@ function toArr(obj) {
 }
 
 function updateUserMessage(user, uid, msg) {
-  if (user.uid === uid) {
-    if (user.message) {
-      if (user.message.id < msg.id) {
-        return Object.assign({}, user, { message: msg });
-      }
-    } else {
+  if (!user || user.uid !== uid) {
+    return user;
+  }
+
+  if (user.message) {
+    if (user.message.id < msg.id) {
       return Object.assign({}, user, { message: msg });
     }
+  } else {
+    return Object.assign({}, user, { message: msg });
   }
+
   return user;
 }
 
