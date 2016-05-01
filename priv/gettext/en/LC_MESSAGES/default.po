@@ -113,3 +113,7 @@ msgstr ""
 #: web/templates/page/price.html.eex:6
 msgid "Chat with visitors to your website in real-time, capture them as leads, and convert them to customers."
 msgstr ""
+
+#: web/templates/page/price.html.eex:95
+msgid "Contact"
+msgstr ""
