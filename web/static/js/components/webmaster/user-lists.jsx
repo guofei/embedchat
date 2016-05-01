@@ -18,7 +18,15 @@ const styles = {
 
 // TODO refactoring
 function shortName(fullName) {
-  return fullName.substring(0, 7);
+  if (fullName.length > 0) {
+    return fullName.substring(0, 7);
+  }
+  return 'unknown';
+}
+
+// TODO refactoring
+function avatar(fullName) {
+  return shortName(fullName)[0].toUpperCase();
 }
 
 function messageText(msg) {
@@ -49,7 +57,7 @@ function User({ name, message, onSelected }) {
         </div>
       }
       secondaryText={messageText(message)}
-      leftAvatar={<Avatar>{name[0]}</Avatar>}
+      leftAvatar={<Avatar>{avatar(name)}</Avatar>}
       onTouchTap={function touch() { onSelected(name); }}
     />
   );

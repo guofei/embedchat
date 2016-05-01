@@ -76,7 +76,7 @@ class ListItemMessage extends React.Component {
     if (this.props.from.length > 0) {
       return this.props.from.substring(0, 7);
     }
-    return 'A';
+    return 'unknown';
   }
 
   handleTouchTap(event) {
