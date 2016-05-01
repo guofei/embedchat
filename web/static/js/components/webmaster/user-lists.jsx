@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import List from 'material-ui/lib/lists/list';
 import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
@@ -6,8 +7,14 @@ import Avatar from 'material-ui/lib/avatar';
 import Paper from 'material-ui/lib/paper';
 import Toolbar from 'material-ui/lib/toolbar/toolbar';
 import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
-// import CommunicationChatBubble from 'material-ui/lib/svg-icons/communication/chat-bubble';
-// import Colors from 'material-ui/lib/styles/colors';
+
+const styles = {
+  pullRight: {
+    float: 'right',
+    color: 'gray',
+    fontSize: 'small',
+  },
+};
 
 // TODO refactoring
 function shortName(fullName) {
@@ -22,10 +29,25 @@ function messageText(msg) {
   return text;
 }
 
+function messsageTime(msg) {
+  let text = '';
+  if (msg) {
+    text = moment.utc(msg.inserted_at).fromNow(true);
+  }
+  return text;
+}
+
 function User({ name, message, onSelected }) {
   return (
     <ListItem
-      primaryText={shortName(name)}
+      primaryText={
+        <div>
+          {shortName(name)}
+          <div style={styles.pullRight}>
+            {messsageTime(message)}
+          </div>
+        </div>
+      }
       secondaryText={messageText(message)}
       leftAvatar={<Avatar>{name[0]}</Avatar>}
       onTouchTap={function touch() { onSelected(name); }}

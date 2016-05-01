@@ -115,14 +115,32 @@ function toArr(obj) {
   return Object.keys(obj).map((k) => obj[k]);
 }
 
+function updateUserMessage(user, uid, msg) {
+  if (user.uid === uid) {
+    if (user.message) {
+      if (user.message.id < msg.id) {
+        return Object.assign({}, user, { message: msg });
+      }
+    } else {
+      return Object.assign({}, user, { message: msg });
+    }
+  }
+  return user;
+}
+
 function usersWithMessage(state) {
   const usersObjCopy = Object.assign({}, state.users);
   const messagesObj = state.messages;
   for (const msgID in messagesObj) {
     if (messagesObj.hasOwnProperty(msgID)) {
       const msg = messagesObj[msgID];
-      usersObjCopy[msg.from_id].message = msg;
-      usersObjCopy[msg.to_id].message = msg;
+      const uids = [msg.from_id, msg.to_id];
+      for (const uid of uids) {
+        const newUser = updateUserMessage(usersObjCopy[uid], uid, msg);
+        if (newUser) {
+          usersObjCopy[uid] = newUser;
+        }
+      }
     }
   }
   return usersObjCopy;
