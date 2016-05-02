@@ -2,9 +2,9 @@
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
       <center>
-        <p>
+        <h6>
           <%= gettext("Chat with visitors to your website in real-time, capture them as leads, and convert them to customers.") %>
-        </p>
+        </h6>
       </center>
     </div>
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--3dp mdl-cell mdl-cell--12-col">
