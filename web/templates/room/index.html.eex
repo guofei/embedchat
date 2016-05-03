@@ -4,29 +4,30 @@
       <p>
         We recommend installing the chat code before the closing body tag.
         <pre>
-        &lt;body&gt;
-          Add your code here
-        &lt;/body&gt;
+          &lt;body&gt;
+            Add your code here
+          &lt;/body&gt;
         </pre>
         The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page.
       </p>
+
       <%= for room <- @rooms do %>
-        <div>
-          Your code:
-          <pre>
-            &lt;div data-id="<%= room.uuid %>" id="lewini-chat"&gt;&lt;/div&gt;
-            &lt;script&gt;
-             (function(d, s, id) {
-               var js, fjs = d.getElementsByTagName(s)[0];
-               if (d.getElementById(id)) return;
-               js = d.createElement(s);
-               js.id = id; js.async=1;
-               js.src = "//www.lewini.com/js/sdk.js";
-               fjs.parentNode.insertBefore(js, fjs);
-             }(document, 'script', 'lewini-jssdk'));
-            &lt;/script&gt;
-          </pre>
-        </div>
+      <p>
+        Your code:
+        <pre>
+          &lt;div data-id="<%= room.uuid %>" id="lewini-chat"&gt;&lt;/div&gt;
+          &lt;script&gt;
+           (function(d, s, id) {
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) return;
+             js = d.createElement(s);
+             js.id = id; js.async=1;
+             js.src = "//www.lewini.com/js/sdk.js";
+             fjs.parentNode.insertBefore(js, fjs);
+           }(document, 'script', 'lewini-jssdk'));
+          &lt;/script&gt;
+        </pre>
+      </p>
       <% end %>
     </div>
   </div>
