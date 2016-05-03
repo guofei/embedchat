@@ -27,32 +27,32 @@ msgstr ""
 msgid "source code"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:48
+#: web/templates/layout/app.html.eex:55
 msgid "English"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:29
+#: web/templates/layout/app.html.eex:36
 msgid "Home"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:51
+#: web/templates/layout/app.html.eex:58
 msgid "Japanese"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:36 web/templates/session/new.html.eex:4
+#: web/templates/layout/app.html.eex:43 web/templates/session/new.html.eex:4
 #: web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:32
+#: web/templates/layout/app.html.eex:39
 msgid "Logout"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:37
+#: web/templates/layout/app.html.eex:44
 msgid "Register"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:31
+#: web/templates/layout/app.html.eex:38
 msgid "Setup"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr ""
 msgid "Start live chat with visitors on your website!"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:35
+#: web/templates/layout/app.html.eex:42
 msgid "Price"
 msgstr ""
 
@@ -117,4 +117,20 @@ msgstr ""
 
 #: web/templates/page/price.html.eex:95
 msgid "Contact"
+msgstr ""
+
+#: web/templates/room/index.html.eex:8
+msgid "Add your code here"
+msgstr ""
+
+#: web/templates/room/index.html.eex:11
+msgid "The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page."
+msgstr ""
+
+#: web/templates/room/index.html.eex:5
+msgid "We recommend installing the chat code before the closing body tag."
+msgstr ""
+
+#: web/templates/room/index.html.eex:16
+msgid "Your code:"
 msgstr ""

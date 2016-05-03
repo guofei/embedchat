@@ -2,15 +2,8 @@
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
       <p>
-        <%= gettext "We recommend installing the chat code before the closing body tag." %>
-        <pre>
-          &lt;body&gt;
-            <%= gettext "Add your code here" %>
-          &lt;/body&gt;
-        </pre>
         <%= gettext "The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page." %>
       </p>
-
       <%= for room <- @rooms do %>
       <p>
         <%= gettext "Your code:" %>
@@ -29,6 +22,14 @@
         </pre>
       </p>
       <% end %>
+      <p>
+        <%= gettext "We recommend installing the chat code before the closing body tag." %>
+        <pre>
+          &lt;body&gt;
+            <%= gettext "Add your code here" %>
+          &lt;/body&gt;
+        </pre>
+      </p>
     </div>
   </div>
 </div>
