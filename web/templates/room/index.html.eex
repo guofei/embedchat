@@ -2,18 +2,18 @@
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
       <p>
-        We recommend installing the chat code before the closing body tag.
+        <%= gettext "We recommend installing the chat code before the closing body tag." %>
         <pre>
           &lt;body&gt;
-            Add your code here
+            <%= gettext "Add your code here" %>
           &lt;/body&gt;
         </pre>
-        The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page.
+        <%= gettext "The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page." %>
       </p>
 
       <%= for room <- @rooms do %>
       <p>
-        Your code:
+        <%= gettext "Your code:" %>
         <pre>
           &lt;div data-id="<%= room.uuid %>" id="lewini-chat"&gt;&lt;/div&gt;
           &lt;script&gt;
