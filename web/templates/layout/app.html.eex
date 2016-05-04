@@ -61,17 +61,14 @@
           </nav>
         </div>
       </header>
-      <!--
-      <div class="mdl-layout__drawer">
-        <span class="mdl-layout-title">Title</span>
-        <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-          <a class="mdl-navigation__link" href="">Link</a>
-        </nav>
-      </div>
-      -->
+      <%= if @current_user do %>
+        <div class="mdl-layout__drawer">
+          <span class="mdl-layout-title">Chat</span>
+          <nav class="mdl-navigation">
+            <a class="mdl-navigation__link" href="">Auto Message</a>
+          </nav>
+        </div>
+      <% end %>
       <main class="mdl-layout__content">
         <div class="page-content">
           <!-- Your content goes here -->

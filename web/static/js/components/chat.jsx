@@ -142,7 +142,7 @@ Chat.propTypes = {
   admins: React.PropTypes.array.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   selectedAdmin: React.PropTypes.string.isRequired,
-  unread: React.PropTypes.number.isRequired,
+  // unread: React.PropTypes.number.isRequired,
   openChat: React.PropTypes.bool.isRequired,
   dispatch: React.PropTypes.func.isRequired,
 };
@@ -162,7 +162,7 @@ function select(state) {
     currentUser: state.currentUser,
     selectedAdmin: state.selectedUser,
     admins: adminUsers,
-    unread: msgs.filter(x => x.unread).length,
+    // unread: msgs.filter(x => x.unread).length,
     openChat: state.openChat,
   };
 }
