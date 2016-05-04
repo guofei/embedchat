@@ -5,6 +5,9 @@
         <h6>
           <%= gettext("Chat with visitors to your website in real-time, capture them as leads, and convert them to customers.") %>
         </h6>
+        <p>
+          <%= gettext "During Beta period( ~ %{endtime}), free access without limit will be available!", endtime: "9/30/2016" %>
+        </p>
       </center>
     </div>
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--3dp mdl-cell mdl-cell--12-col">

@@ -87,26 +87,26 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
-#: web/templates/page/price.html.eex:31
+#: web/templates/page/price.html.eex:34
 msgid "Sign Up"
 msgstr ""
 
-#: web/templates/page/price.html.eex:20
+#: web/templates/page/price.html.eex:23
 msgid "Monthly cost"
 msgstr ""
 
-#: web/templates/page/price.html.eex:17
+#: web/templates/page/price.html.eex:20
 msgid "People"
 msgstr ""
 
-#: web/templates/page/price.html.eex:14
+#: web/templates/page/price.html.eex:17
 msgid "Plan"
 msgstr ""
 
-#: web/templates/page/price.html.eex:39 web/templates/page/price.html.eex:47
-#: web/templates/page/price.html.eex:55 web/templates/page/price.html.eex:63
-#: web/templates/page/price.html.eex:71 web/templates/page/price.html.eex:79
-#: web/templates/page/price.html.eex:87
+#: web/templates/page/price.html.eex:42 web/templates/page/price.html.eex:50
+#: web/templates/page/price.html.eex:58 web/templates/page/price.html.eex:66
+#: web/templates/page/price.html.eex:74 web/templates/page/price.html.eex:82
+#: web/templates/page/price.html.eex:90
 msgid "Purchase"
 msgstr ""
 
@@ -114,22 +114,26 @@ msgstr ""
 msgid "Chat with visitors to your website in real-time, capture them as leads, and convert them to customers."
 msgstr ""
 
-#: web/templates/page/price.html.eex:95
+#: web/templates/page/price.html.eex:98
 msgid "Contact"
 msgstr ""
 
-#: web/templates/room/index.html.eex:8
+#: web/templates/room/index.html.eex:29
 msgid "Add your code here"
 msgstr ""
 
-#: web/templates/room/index.html.eex:11
+#: web/templates/room/index.html.eex:5
 msgid "The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page."
 msgstr ""
 
-#: web/templates/room/index.html.eex:5
+#: web/templates/room/index.html.eex:26
 msgid "We recommend installing the chat code before the closing body tag."
 msgstr ""
 
-#: web/templates/room/index.html.eex:16
+#: web/templates/room/index.html.eex:9
 msgid "Your code:"
+msgstr ""
+
+#: web/templates/page/price.html.eex:9
+msgid "During Beta period( ~ %{endtime}), free access without limit will be available!"
 msgstr ""
