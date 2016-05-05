@@ -57,7 +57,7 @@ function onLoad() {
     '<div id="lewini-chat-id"></div>' +
     '</div>' +
     '</div>';
-    document.body.innerHTML = div + document.body.innerHTML;
+    document.body.innerHTML = document.body.innerHTML + div;
 
     ReactDOM.render(
       <Provider store={store}>
