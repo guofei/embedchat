@@ -8,7 +8,7 @@
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-redux": "^4.4.1",
-    "react-tap-event-plugin": "^1.0.0",
+    "react-tap-event-plugin": "^0.2.2",
     "redux": "^3.3.1",
     "uuid": "^2.0.1"
   },
@@ -30,5 +30,6 @@
   },
   "scripts": {
     "compile": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors"
-  }
+  },
+  "license" : "MIT"
 }
