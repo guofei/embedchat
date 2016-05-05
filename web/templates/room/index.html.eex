@@ -15,10 +15,10 @@
              if (d.getElementById(id)) return;
              js = d.createElement(s);
              js.id = id; js.async=1;
-             js.src = "//www.lewini.com/js/sdk.js";
+             js.src = '//www.lewini.com/js/sdk.js';
              fjs.parentNode.insertBefore(js, fjs);
            }(window, document, 'script', 'lewini-jssdk', 'lwn'));
-           lwn("init", "45b1df36-e235-4a60-bd99-fa5bd52dca5a");
+           lwn('init', '<%= room.uuid  %>');
           &lt;/script&gt;
         </pre>
       </p>
