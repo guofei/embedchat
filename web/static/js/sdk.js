@@ -50,15 +50,15 @@ function getRoomID() {
 function runChat() {
   const roomID = getRoomID();
   if (roomID) {
-    const chatRoom = room(clientSocket, roomID, clientID, store);
-
-    const div = '<div style="position:relative;">' +
-    '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
+    const div = '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
     '<div id="lewini-chat-id"></div>' +
-    '</div>' +
     '</div>';
-    document.body.innerHTML = document.body.innerHTML + div;
+    const node = document.createElement('div');
+    node.setAttribute('style', 'position:relative;');
+    node.innerHTML = div;
+    document.body.appendChild(node);
 
+    const chatRoom = room(clientSocket, roomID, clientID, store);
     ReactDOM.render(
       <Provider store={store}>
         <Chat room={chatRoom} />
