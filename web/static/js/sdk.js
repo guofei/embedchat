@@ -68,4 +68,8 @@ function onLoad() {
   }
 }
 
-window.onload = onLoad;
+if (window.addEventListener) {
+  window.addEventListener('load', onLoad);
+} else {
+  window.attachEvent('onload', onLoad);
+}
