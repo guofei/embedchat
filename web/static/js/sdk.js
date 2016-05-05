@@ -52,11 +52,12 @@ function onLoad() {
   if (roomID) {
     const chatRoom = room(clientSocket, roomID, clientID, store);
 
-    document.body.innerHTML += ('<div style="position:relative;">' +
+    const div = '<div style="position:relative;">' +
     '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
     '<div id="lewini-chat-id"></div>' +
     '</div>' +
-    '</div>');
+    '</div>';
+    document.body.innerHTML = div + document.body.innerHTML;
 
     ReactDOM.render(
       <Provider store={store}>
