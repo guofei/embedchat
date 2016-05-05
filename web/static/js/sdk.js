@@ -47,7 +47,7 @@ function getRoomID() {
   return rid;
 }
 
-function onLoad() {
+function runChat() {
   const roomID = getRoomID();
   if (roomID) {
     const chatRoom = room(clientSocket, roomID, clientID, store);
@@ -68,8 +68,4 @@ function onLoad() {
   }
 }
 
-if (window.addEventListener) {
-  window.addEventListener('load', onLoad);
-} else {
-  window.attachEvent('onload', onLoad);
-}
+runChat();
