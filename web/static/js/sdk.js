@@ -34,21 +34,36 @@ import Chat from './components/chat';
 import chatApp from './reducers';
 const store = createStore(chatApp);
 
-const roomElement = document.getElementById('lewini-chat');
-if (roomElement) {
-  const roomID = roomElement.getAttribute('data-id');
-  const chatRoom = room(clientSocket, roomID, clientID, store);
+function getRoomID() {
+  if (!window.lwn || !window.lwn.q) {
+    return null;
+  }
+  window.lwn.q.forEach((e) => {
+    if (e[0] === 'init') {
+      return e[1];
+    }
+  });
+  return null;
+}
 
-  document.body.innerHTML += ('<div style="position:relative;">' +
+function onLoad() {
+  const roomID = getRoomID();
+  if (roomID) {
+    const chatRoom = room(clientSocket, roomID, clientID, store);
+
+    document.body.innerHTML += ('<div style="position:relative;">' +
     '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
     '<div id="lewini-chat-id"></div>' +
     '</div>' +
     '</div>');
 
-  ReactDOM.render(
-    <Provider store={store}>
-      <Chat room={chatRoom} />
-    </Provider>,
-    document.getElementById('lewini-chat-id')
-  );
+    ReactDOM.render(
+      <Provider store={store}>
+        <Chat room={chatRoom} />
+      </Provider>,
+      document.getElementById('lewini-chat-id')
+    );
+  }
 }
+
+window.onload = onLoad;
