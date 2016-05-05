@@ -8,7 +8,6 @@
       <p>
         <%= gettext "Your code:" %>
         <pre>
-          &lt;div data-id="<%= room.uuid %>" id="lewini-chat"&gt;&lt;/div&gt;
           &lt;script&gt;
            (function(i, d, s, id, r) {
              i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();
@@ -16,7 +15,7 @@
              if (d.getElementById(id)) return;
              js = d.createElement(s);
              js.id = id; js.async=1;
-             js.src = "//localhost:4000/js/sdk.js";
+             js.src = "//www.lewini.com/js/sdk.js";
              fjs.parentNode.insertBefore(js, fjs);
            }(window, document, 'script', 'lewini-jssdk', 'lwn'));
            lwn("init", "45b1df36-e235-4a60-bd99-fa5bd52dca5a");

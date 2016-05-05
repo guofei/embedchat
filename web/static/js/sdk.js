@@ -38,12 +38,13 @@ function getRoomID() {
   if (!window.lwn || !window.lwn.q) {
     return null;
   }
+  let rid = null;
   window.lwn.q.forEach((e) => {
     if (e[0] === 'init') {
-      return e[1];
+      rid = e[1];
     }
   });
-  return null;
+  return rid;
 }
 
 function onLoad() {
