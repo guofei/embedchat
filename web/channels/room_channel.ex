@@ -1,26 +1,34 @@
 defmodule EmbedChat.RoomChannel do
   use EmbedChat.Web, :channel
+  alias EmbedChat.Address
+  alias EmbedChat.ChannelWatcher
+  alias EmbedChat.Message
+  alias EmbedChat.MessageView
+  alias EmbedChat.Room
   alias EmbedChat.Room.Bucket
   alias EmbedChat.Room.Registry
-  alias EmbedChat.Message
   alias EmbedChat.User
-  alias EmbedChat.Address
-  alias EmbedChat.Room
+  alias Phoenix.View
 
   def join("rooms:" <> room_uuid, _payload, socket) do
     cond do
       room = Repo.get_by(Room, uuid: room_uuid) ->
         if authorized?(socket, room) do
           send(self, :after_join)
-          EmbedChat.ChannelWatcher.monitor(
+          ChannelWatcher.monitor(
             :rooms,
             self(),
             {__MODULE__, :leave, [
                 room.id,
+                room.uuid,
                 socket.assigns[:user_id],
                 socket.assigns.distinct_id]
             })
-          {:ok, assign(socket, :room_id, room.id)}
+          new_socket =
+            socket
+            |> assign(:room_id, room.id)
+            |> assign(:room_uuid, room.uuid)
+          {:ok, new_socket}
         else
           {:error, %{reason: "unauthorized"}}
         end
@@ -36,7 +44,7 @@ defmodule EmbedChat.RoomChannel do
       create_admin_address(socket)
       broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id}
     else
-      online(socket.assigns.room_id, socket.assigns.distinct_id, socket.assigns[:info])
+      visitor_online(socket.assigns.room_id, socket.assigns.distinct_id, socket.assigns[:info])
       broadcast! socket, "user_join", %{uid: socket.assigns.distinct_id}
     end
     {:noreply, socket}
@@ -50,7 +58,7 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("user_info", payload, socket) do
     if !socket.assigns[:user_id] do
-      online_update(socket.assigns.room_id, socket.assigns.distinct_id, payload)
+      visitor_update(socket.assigns.room_id, socket.assigns.distinct_id, payload)
       broadcast! socket, "user_info", %{uid: socket.assigns.distinct_id, info: payload}
     end
     {:noreply, socket}
@@ -64,14 +72,16 @@ defmodule EmbedChat.RoomChannel do
     cond do
       address = get_address(uuid) ->
         query = from m in Message,
-        order_by: [desc: :inserted_at],
-        where: m.room_id == ^(room_id) and (m.from_id == ^(address.id) or m.to_id == ^(address.id)),
-        limit: ^limit,
-        preload: [:from, :to, :from_user]
+          order_by: [desc: :inserted_at],
+          where: m.room_id == ^(room_id) and (m.from_id == ^(address.id) or m.to_id == ^(address.id)),
+          limit: ^limit,
+          preload: [:from, :to, :from_user]
         messages = Repo.all(query)
-        resp = %{uid: uuid, messages: Phoenix.View.render_many(messages,
-                                                               EmbedChat.MessageView,
-                                                               "message.json")}
+        resp = %{uid: uuid, messages: Phoenix.View.render_many(
+                    messages,
+                    EmbedChat.MessageView,
+                    "message.json"
+                  )}
         {:reply, {:ok, resp}, socket}
       true ->
         {:reply, {:error, %{reason: "address error"}}, socket}
@@ -80,7 +90,7 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("contact_list", _payload, socket) do
     if socket.assigns[:user_id] do
-      {:reply, {:ok, %{users: online_users(socket.assigns.room_id)}}, socket}
+      {:reply, {:ok, %{users: online_visitors(socket.assigns.room_id)}}, socket}
     else
       {:reply, {:ok, %{admins: online_admins(socket.assigns.room_id)}}, socket}
     end
@@ -137,24 +147,18 @@ defmodule EmbedChat.RoomChannel do
     EmbedChat.ChannelWatcher.demonitor(:rooms, self())
 
     distinct_id = socket.assigns.distinct_id
-    if socket.assigns[:user_id] do
-      broadcast! socket, "admin_left", %{uid: distinct_id}
-    else
-      broadcast! socket, "user_left", %{uid: distinct_id}
-    end
-
-    leave(socket.assigns.room_id, socket.assigns[:user_id], distinct_id)
+    leave(socket.assigns.room_id, socket.assigns.room_uuid, socket.assigns[:user_id], distinct_id)
 
     {:noreply, socket}
   end
 
-  def leave(room_id, user_id, distinct_id) when is_nil(user_id) do
-    # TODO : broadcast "user_left" event
-    offline(room_id, distinct_id)
+  def leave(room_id, room_uuid, user_id, distinct_id) when is_nil(user_id) do
+    EmbedChat.Endpoint.broadcast! "rooms:#{room_uuid}", "user_left", %{uid: distinct_id}
+    visitor_offline(room_id, distinct_id)
   end
 
-  def leave(room_id, _user_id, distinct_id) do
-    # TODO : broadcast "user_left" event
+  def leave(room_id, room_uuid, _user_id, distinct_id) do
+    EmbedChat.Endpoint.broadcast! "rooms:#{room_uuid}", "admin_left", %{uid: distinct_id}
     admin_offline(room_id, distinct_id)
   end
 
@@ -171,22 +175,22 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-  defp online_users(room_id) do
-    {:ok, bucket} = user_bucket(room_id)
+  defp online_visitors(room_id) do
+    {:ok, bucket} = visitor_bucket(room_id)
     Bucket.map(bucket)
   end
 
-  defp online_update(room_id, distinct_id, info) do
-    online(room_id, distinct_id, info)
+  defp visitor_update(room_id, distinct_id, info) do
+    visitor_online(room_id, distinct_id, info)
   end
 
-  defp online(room_id, distinct_id, info) do
-    {:ok, bucket} = user_bucket(room_id)
+  defp visitor_online(room_id, distinct_id, info) do
+    {:ok, bucket} = visitor_bucket(room_id)
     Bucket.put(bucket, distinct_id, info)
   end
 
-  defp offline(room_id, distinct_id) do
-    {:ok, bucket} = user_bucket(room_id)
+  defp visitor_offline(room_id, distinct_id) do
+    {:ok, bucket} = visitor_bucket(room_id)
     Bucket.delete(bucket, distinct_id)
   end
 
@@ -215,8 +219,8 @@ defmodule EmbedChat.RoomChannel do
     Bucket.delete(bucket, distinct_id)
   end
 
-  defp user_bucket(room_id) do
-    bucket(room_id)
+  defp visitor_bucket(room_id) do
+    bucket("visitor:#{room_id}")
   end
 
   defp admin_bucket(room_id) do
@@ -244,8 +248,7 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp sender(socket) do
-    get_or_create_address(socket.assigns.distinct_id,
-                          socket.assigns[:user_id])
+    get_or_create_address(socket.assigns.distinct_id, socket.assigns[:user_id])
   end
 
   defp admin_address(room_id) do
@@ -264,28 +267,25 @@ defmodule EmbedChat.RoomChannel do
     with {:ok, sender} <- sender(socket),
          {_, receiver} <- receiver(socket, payload["to_id"]),
          {:ok, msg} <- create_message(sender, receiver, room_id, payload["body"]),
-         msg = Repo.preload(msg, [:from, :to, :from_user]),
-         sender = Repo.preload(sender, [:user]),
-         resp = Phoenix.View.render(EmbedChat.MessageView,
-                                    "message.json",
-                                    message: msg, user: sender.user),
-     do: {:ok, resp}
+           msg = Repo.preload(msg, [:from, :to, :from_user]),
+           sender = Repo.preload(sender, [:user]),
+           resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
+      do: {:ok, resp}
   end
 
   defp create_message(sender, receiver, room_id, text) do
     changeset =
       sender
-    |> build_assoc(:outgoing_messages, %{room_id: room_id, to_id: receiver.id})
-    |> Message.changeset(%{
+      |> build_assoc(:outgoing_messages, %{room_id: room_id, to_id: receiver.id})
+      |> Message.changeset(%{
           message_type: "message",
           body: text})
-    Repo.insert(changeset)
+      Repo.insert(changeset)
   end
 
   defp create_admin_address(socket) do
     if socket.assigns[:user_id] do
-      get_or_create_address(socket.assigns.distinct_id,
-                            socket.assigns[:user_id])
+      get_or_create_address(socket.assigns.distinct_id, socket.assigns[:user_id])
     end
   end
 
