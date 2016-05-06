@@ -14,10 +14,6 @@ msgstr ""
 msgid "A better chat tool to talk with your customers"
 msgstr "シンプルで高機能なチャット接客・オンラインサポートツール"
 
-#: web/templates/page/index.html.eex:13
-msgid "Get Start Now"
-msgstr "簡単申し込み"
-
 #: web/templates/page/index.html.eex:11
 msgid "Lewini is open source:"
 msgstr "Lewiniはオープンソースソフトウェア："
@@ -118,7 +114,7 @@ msgstr "サイトに訪問したお客様とリアルタイムチャットで、
 msgid "Contact"
 msgstr "連絡"
 
-#: web/templates/room/index.html.eex:29
+#: web/templates/room/index.html.eex:30
 msgid "Add your code here"
 msgstr ""
 
@@ -126,7 +122,7 @@ msgstr ""
 msgid "The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page."
 msgstr "下記のチャットコードをコピーしご自分のサイトへ設置してください。"
 
-#: web/templates/room/index.html.eex:26
+#: web/templates/room/index.html.eex:27
 msgid "We recommend installing the chat code before the closing body tag."
 msgstr "貼り付ける場所：チャットしたいページのbodyタグの間に貼り付けてください。"
 
@@ -137,3 +133,7 @@ msgstr "チャットコード："
 #: web/templates/page/price.html.eex:9
 msgid "During Beta period( ~ %{endtime}), free access without limit will be available!"
 msgstr "Beta版運用期間中（ ～ %{endtime}）は制限なく完全無料でご利用いただけます"
+
+#: web/templates/page/index.html.eex:19
+msgid "Try Now"
+msgstr "すぐ試す"
