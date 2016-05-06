@@ -1,12 +1,15 @@
 defmodule EmbedChat.PageController do
   use EmbedChat.Web, :controller
 
+  alias EmbedChat.Attempt
+
   def index(conn, _params) do
     if conn.assigns.current_user do
       room = Repo.one(user_rooms conn)
       render conn, "index.html", room: room
     else
-      render conn, "index.html"
+      changeset = Attempt.changeset(%Attempt{})
+      render conn, "index.html", attempt: changeset
     end
   end
 

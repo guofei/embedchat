@@ -11,15 +11,15 @@
           <p><%= gettext "Lewini is open source:" %> <%= link gettext("source code"), to: "https://github.com/guofei/embedchat" %></p>
           <p><%= gettext "Start live chat with visitors on your website!" %></p>
           <p>
-            <form action="#" class="">
+            <%= form_for @attempt, attempt_path(@conn, :create), fn f -> %>
               <div class="mdl-textfield mdl-js-textfield">
-                <input class="mdl-textfield__input" type="text" id="fname">
-                <label class="mdl-textfield__label" for="fname">http://yourwebsite</label>
+                <%= text_input f, :url, class: "mdl-textfield__input", id: "furl" %>
+                <label class="mdl-textfield__label" for="furl">http://yourwebsite</label>
               </div>
               <p>
-                <%= link gettext("Try Now"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+                <%= submit gettext("Try Now"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
               </p>
-            </form>
+            <% end %>
           </p>
           <img src="<%= static_path(@conn, "/images/chat_screen_shot.png") %>" height="350">
         </center>
