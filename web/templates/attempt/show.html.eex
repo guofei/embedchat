@@ -1,0 +1,18 @@
+<h2>Show attempt</h2>
+
+<ul>
+
+  <li>
+    <strong>Email:</strong>
+    <%= @attempt.email %>
+  </li>
+
+  <li>
+    <strong>Url:</strong>
+    <%= @attempt.url %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: attempt_path(@conn, :edit, @attempt) %>
+<%= link "Back", to: attempt_path(@conn, :index) %>

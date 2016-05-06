@@ -24,6 +24,7 @@ defmodule EmbedChat.Router do
     resources "/users", UserController, only: [:new, :create, :show]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/rooms", RoomController
+    resources "/attempts", AttemptController
   end
 
   scope "/manage", EmbedChat do
