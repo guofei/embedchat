@@ -29,16 +29,21 @@ defmodule EmbedChat.AttemptController do
     end
   end
 
+  defp valid_str(str) do
+    # TODO
+    List.first(String.chunk(body, :valid))
+  end
+
   def show(conn, %{"id" => id}) do
     attempt = Repo.get!(Attempt, id)
     room = Repo.get!(Room, 1)
-    case HTTPoison.get(attempt.url) do
+    case HTTPoison.get(attempt.url, [], [follow_redirect: true, max_redirect: 2]) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         render(conn, "show.html", data: body, room: room)
       {:ok, %HTTPoison.Response{status_code: 404}} ->
-        render(conn, "show.html", data: "Not found :(", room: room)
-      {:error, %HTTPoison.Error{reason: reason}} ->
-        render(conn, "show.html", data: "Error", room: room)
+        render(conn, "show.html", data: "Not found #{attempt.url} :(", room: room)
+      {:error, %HTTPoison.Error{reason: _reason}} ->
+        render(conn, "show.html", data: "Not found #{attempt.url} :(", room: room)
     end
   end
 
