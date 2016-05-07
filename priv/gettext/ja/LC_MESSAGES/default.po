@@ -136,4 +136,4 @@ msgstr "Beta版運用期間中（ ～ %{endtime}）は制限なく完全無料�
 
 #: web/templates/page/index.html.eex:19
 msgid "Try Now"
-msgstr "すぐ試す"
+msgstr "今すぐ試す"

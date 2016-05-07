@@ -67,3 +67,6 @@ if (roomElement) {
     document.getElementById('lewini-chat-id')
   );
 }
+
+import showEmbedSite from 'embedded_site';
+showEmbedSite();

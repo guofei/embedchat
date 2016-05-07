@@ -1,18 +1,9 @@
-<h2>Show attempt</h2>
+<script>document.body.style.display = 'none';</script>
+<div style="display:none">
+  <div id="embedded-site">
+    <%= raw @data %>
+  </div>
 
-<ul>
-
-  <li>
-    <strong>Email:</strong>
-    <%= @attempt.email %>
-  </li>
-
-  <li>
-    <strong>Url:</strong>
-    <%= @attempt.url %>
-  </li>
-
-</ul>
-
-<%= link "Edit", to: attempt_path(@conn, :edit, @attempt) %>
-<%= link "Back", to: attempt_path(@conn, :index) %>
+  <script>window.room_uuid = "<%= @room.uuid %>"</script>
+  <script>window.js_src = "<%= static_path(@conn, "/js/app.js") %>"</script>
+</div>

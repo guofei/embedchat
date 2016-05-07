@@ -19,7 +19,7 @@ defmodule EmbedChat.Mixfile do
   def application do
     [mod: {EmbedChat, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :comeonin]]
+                    :phoenix_ecto, :postgrex, :comeonin, :httpoison]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,6 +38,7 @@ defmodule EmbedChat.Mixfile do
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 2.3"},
+     {:httpoison, "~> 0.8.3"},
      {:exrm, "~> 1.0"}
     ]
   end

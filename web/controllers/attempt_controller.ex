@@ -2,6 +2,7 @@ defmodule EmbedChat.AttemptController do
   use EmbedChat.Web, :controller
 
   alias EmbedChat.Attempt
+  alias EmbedChat.Room
 
   plug :scrub_params, "attempt" when action in [:create, :update]
 
@@ -19,10 +20,10 @@ defmodule EmbedChat.AttemptController do
     changeset = Attempt.changeset(%Attempt{}, attempt_params)
 
     case Repo.insert(changeset) do
-      {:ok, _attempt} ->
+      {:ok, attempt} ->
         conn
         |> put_flash(:info, "Attempt created successfully.")
-        |> redirect(to: attempt_path(conn, :index))
+        |> redirect(to: attempt_path(conn, :show, attempt))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
@@ -30,7 +31,15 @@ defmodule EmbedChat.AttemptController do
 
   def show(conn, %{"id" => id}) do
     attempt = Repo.get!(Attempt, id)
-    render(conn, "show.html", attempt: attempt)
+    room = Repo.get!(Room, 1)
+    case HTTPoison.get(attempt.url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+        render(conn, "show.html", data: body, room: room)
+      {:ok, %HTTPoison.Response{status_code: 404}} ->
+        render(conn, "show.html", data: "Not found :(", room: room)
+      {:error, %HTTPoison.Error{reason: reason}} ->
+        render(conn, "show.html", data: "Error", room: room)
+    end
   end
 
   def edit(conn, %{"id" => id}) do

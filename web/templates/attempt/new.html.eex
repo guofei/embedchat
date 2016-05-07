@@ -1,6 +1,8 @@
-<h2>New attempt</h2>
+<br/><br/>
 
-<%= render "form.html", changeset: @changeset,
-                        action: attempt_path(@conn, :create) %>
+<center>
 
-<%= link "Back", to: attempt_path(@conn, :index) %>
+  <%= render "form.html", changeset: @changeset,
+  action: attempt_path(@conn, :create) %>
+
+</center>
