@@ -29,17 +29,12 @@ defmodule EmbedChat.AttemptController do
     end
   end
 
-  defp valid_str(str) do
-    # TODO
-    List.first(String.chunk(body, :valid))
-  end
-
   def show(conn, %{"id" => id}) do
     attempt = Repo.get!(Attempt, id)
     room = Repo.get!(Room, 1)
     case HTTPoison.get(attempt.url, [], [follow_redirect: true, max_redirect: 2]) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        render(conn, "show.html", data: body, room: room)
+        render(conn, "show.html", data: get_valid_str(body), room: room)
       {:ok, %HTTPoison.Response{status_code: 404}} ->
         render(conn, "show.html", data: "Not found #{attempt.url} :(", room: room)
       {:error, %HTTPoison.Error{reason: _reason}} ->
@@ -77,5 +72,15 @@ defmodule EmbedChat.AttemptController do
     conn
     |> put_flash(:info, "Attempt deleted successfully.")
     |> redirect(to: attempt_path(conn, :index))
+  end
+
+  defp get_valid_str(str) do
+    if String.valid?(str) do
+      str
+    else
+      String.graphemes(str)
+      |> Enum.filter(&(String.valid?(&1)))
+      |> List.to_string
+    end
   end
 end
