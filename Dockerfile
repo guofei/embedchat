@@ -1,7 +1,7 @@
 FROM elixir
 MAINTAINER kaku <kaku@kaku>
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y curl wget make gcc postgresql
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl wget make gcc postgresql bzip2 libfontconfig
 
 RUN mix local.hex --force
 RUN mix archive.install --force https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
