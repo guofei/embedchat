@@ -30,3 +30,5 @@ config :phoenix, :generators,
 
 config :embed_chat, EmbedChat.Gettext,
   locales: ~w(en ja)
+
+config :hound, driver: "phantomjs"

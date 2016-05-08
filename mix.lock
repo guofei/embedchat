@@ -14,6 +14,7 @@
   "getopt": {:hex, :getopt, "0.8.2"},
   "gettext": {:hex, :gettext, "0.11.0"},
   "hackney": {:hex, :hackney, "1.6.0"},
+  "hound": {:hex, :hound, "1.0.0"},
   "httpoison": {:hex, :httpoison, "0.8.3"},
   "idna": {:hex, :idna, "1.2.0"},
   "metrics": {:hex, :metrics, "1.0.1"},

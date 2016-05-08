@@ -2,7 +2,7 @@ defmodule EmbedChat.AttemptControllerTest do
   use EmbedChat.ConnCase
 
   alias EmbedChat.Attempt
-  @valid_attrs %{email: "some content", url: "some content"}
+  @valid_attrs %{email: "some content", url: "http://google.com"}
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do

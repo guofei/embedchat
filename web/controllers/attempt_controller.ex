@@ -1,9 +1,11 @@
 defmodule EmbedChat.AttemptController do
   use EmbedChat.Web, :controller
+  use Hound.Helpers
 
   alias EmbedChat.Attempt
   alias EmbedChat.Room
 
+  # plug :authenticate_user when action in [:index, :update]
   plug :scrub_params, "attempt" when action in [:create, :update]
 
   def index(conn, _params) do
@@ -34,11 +36,9 @@ defmodule EmbedChat.AttemptController do
     room = Repo.get!(Room, 1)
     case HTTPoison.get(attempt.url, [], [follow_redirect: true, max_redirect: 2]) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        render(conn, "show.html", data: get_valid_str(body), room: room)
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        render(conn, "show.html", data: "Not found #{attempt.url} :(", room: room)
-      {:error, %HTTPoison.Error{reason: _reason}} ->
-        render(conn, "show.html", data: "Not found #{attempt.url} :(", room: room)
+        render(conn, "show.html", data: get_valid_str(body, attempt.url), room: room)
+      _ ->
+        render(conn, "show.html", data: "Not found :( <br> url: #{attempt.url}", room: room)
     end
   end
 
@@ -74,13 +74,24 @@ defmodule EmbedChat.AttemptController do
     |> redirect(to: attempt_path(conn, :index))
   end
 
-  defp get_valid_str(str) do
+  defp get_valid_str(str, old_url) do
     if String.valid?(str) do
       str
     else
-      String.graphemes(str)
-      |> Enum.filter(&(String.valid?(&1)))
-      |> List.to_string
+      url = get_url(old_url)
+      IO.inspect url
+      Hound.start_session
+      navigate_to(url)
+      page_source
+    end
+  end
+
+  defp get_url(url) do
+    new_url = URI.encode(url)
+    if URI.parse(new_url).scheme do
+      new_url
+    else
+      "http://" <> new_url
     end
   end
 end

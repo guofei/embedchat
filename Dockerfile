@@ -20,6 +20,7 @@ ADD config/prod.secret.exs /myapp/config/prod.secret.exs
 ADD . /myapp
 RUN mix deps.get && npm install && mix local.rebar
 RUN npm run compile
+RUN npm run phantomjs &
 RUN mix compile
 RUN mix phoenix.digest
 # RUN mix release
