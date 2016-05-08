@@ -30,17 +30,16 @@ defmodule EmbedChat.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.1.4"},
+    [{:comeonin, "~> 2.3"},
+     {:cowboy, "~> 1.0"},
+     {:exrm, "~> 1.0"},
+     {:gettext, "~> 0.11"},
+     {:httpoison, "~> 0.8.3"},
      {:phoenix_ecto, "~> 2.0.1"},
-     {:postgrex, "~> 0.11.1"},
      {:phoenix_html, "~> 2.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:gettext, "~> 0.11"},
-     {:cowboy, "~> 1.0"},
-     {:comeonin, "~> 2.3"},
-     {:httpoison, "~> 0.8.3"},
-     {:exrm, "~> 1.0"}
-    ]
+     {:postgrex, "~> 0.11.1"},
+     {:phoenix, "~> 1.1.4"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
