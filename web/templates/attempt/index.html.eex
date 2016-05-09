@@ -1,28 +1,32 @@
-<h2>Listing attempts</h2>
+<div class="page-content-max">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Email</th>
-      <th>Url</th>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Url</th>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for attempt <- @attempts do %>
-    <tr>
-      <td><%= attempt.email %></td>
-      <td><%= attempt.url %></td>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for attempt <- @attempts do %>
+            <tr>
+              <td><%= attempt.email %></td>
+              <td><%= attempt.url %></td>
 
-      <td class="text-right">
-        <%= link "Show", to: attempt_path(@conn, :show, attempt), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: attempt_path(@conn, :edit, attempt), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: attempt_path(@conn, :delete, attempt), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+              <td class="text-right">
+                <%= link "Show", to: attempt_path(@conn, :show, attempt), class: "btn btn-default btn-xs" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
 
-<%= link "New attempt", to: attempt_path(@conn, :new) %>
+      <%= link "New attempt", to: attempt_path(@conn, :new) %>
+
+    </div>
+  </div>
+</div>
