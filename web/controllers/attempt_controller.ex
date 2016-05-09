@@ -5,7 +5,7 @@ defmodule EmbedChat.AttemptController do
   alias EmbedChat.Attempt
   alias EmbedChat.Room
 
-  # plug :authenticate_user when action in [:index, :update]
+  plug :authenticate_user when action in [:index, :update, :edit, :delete]
   plug :scrub_params, "attempt" when action in [:create, :update]
 
   def index(conn, _params) do

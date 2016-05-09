@@ -5,6 +5,17 @@ defmodule EmbedChat.AttemptControllerTest do
   @valid_attrs %{email: "some content", url: "http://google.com"}
   @invalid_attrs %{}
 
+  setup %{conn: conn} = config do
+    if username = config[:login_as] do
+      user = insert_user(username: username)
+      conn = assign(conn, :current_user, user)
+      {:ok, conn: conn, user: user}
+    else
+      :ok
+    end
+  end
+
+  @tag login_as: "user"
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, attempt_path(conn, :index)
     assert html_response(conn, 200) =~ "Listing attempts"
@@ -40,12 +51,14 @@ defmodule EmbedChat.AttemptControllerTest do
     end
   end
 
+  @tag login_as: "user"
   test "renders form for editing chosen resource", %{conn: conn} do
     attempt = Repo.insert! %Attempt{}
     conn = get conn, attempt_path(conn, :edit, attempt)
     assert html_response(conn, 200) =~ "Edit attempt"
   end
 
+  @tag login_as: "user"
   test "updates chosen resource and redirects when data is valid", %{conn: conn} do
     attempt = Repo.insert! %Attempt{}
     conn = put conn, attempt_path(conn, :update, attempt), attempt: @valid_attrs
@@ -53,12 +66,14 @@ defmodule EmbedChat.AttemptControllerTest do
     assert Repo.get_by(Attempt, @valid_attrs)
   end
 
+  @tag login_as: "user"
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn} do
     attempt = Repo.insert! %Attempt{}
     conn = put conn, attempt_path(conn, :update, attempt), attempt: @invalid_attrs
     assert html_response(conn, 200) =~ "Edit attempt"
   end
 
+  @tag login_as: "user"
   test "deletes chosen resource", %{conn: conn} do
     attempt = Repo.insert! %Attempt{}
     conn = delete conn, attempt_path(conn, :delete, attempt)
