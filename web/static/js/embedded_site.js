@@ -23,7 +23,11 @@ function showProgress() {
 
   const el = document.getElementById('try-url');
   if (el) {
-    el.addEventListener('submit', show);
+    if (el.addEventListener) {
+      el.addEventListener('submit', show);
+    } else if (el.attachEvent) {
+      el.attachEvent('onsubmit', show);
+    }
   }
 }
 
