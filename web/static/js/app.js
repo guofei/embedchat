@@ -31,8 +31,6 @@ import room from './room';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Chat from './components/chat';
 import ChatWebmaster from './components/chat-webmaster';
 
@@ -45,9 +43,7 @@ if (masterRoomElement) {
   const chatRoom = room(masterSocket, roomID, masterID, store);
   ReactDOM.render(
     <Provider store={store}>
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <ChatWebmaster room={chatRoom} />
-      </MuiThemeProvider>
+      <ChatWebmaster room={chatRoom} />
     </Provider>,
     document.getElementById('webmaster-chat-room')
   );
@@ -66,9 +62,7 @@ if (roomElement) {
 
   ReactDOM.render(
     <Provider store={store}>
-      <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <Chat room={chatRoom} />
-      </MuiThemeProvider>
+      <Chat room={chatRoom} />
     </Provider>,
     document.getElementById('lewini-chat-id')
   );

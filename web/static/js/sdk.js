@@ -29,8 +29,6 @@ import room from './room';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Chat from './components/chat';
 
 import chatApp from './reducers';
@@ -63,9 +61,7 @@ function runChat() {
     const chatRoom = room(clientSocket, roomID, clientID, store);
     ReactDOM.render(
       <Provider store={store}>
-        <MuiThemeProvider muiTheme={getMuiTheme()}>
-          <Chat room={chatRoom} />
-        </MuiThemeProvider>
+        <Chat room={chatRoom} />
       </Provider>,
       document.getElementById('lewini-chat-id')
     );

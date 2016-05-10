@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { readAllMessages, openChat } from '../actions';
 
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Drawer from 'material-ui/Drawer';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import CommunicationMessage from 'material-ui/svg-icons/communication/message';
@@ -121,6 +123,7 @@ class Chat extends React.Component {
           </Drawer>
         );
     return (
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
       <div>
         <div style={styles.fixed}>
           <FloatingActionButton
@@ -131,6 +134,7 @@ class Chat extends React.Component {
         </div>
         { left }
       </div>
+      </MuiThemeProvider>
     );
   }
 }

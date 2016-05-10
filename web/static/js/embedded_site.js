@@ -14,7 +14,21 @@ function onEmbeddedLoad() {
   document.documentElement.style.display = '';
 }
 
+function showProgress() {
+  function show() {
+    const progress = document.getElementById('progress');
+    progress.setAttribute('style', '');
+    return true;
+  }
+
+  const el = document.getElementById('try-url');
+  if (el) {
+    el.addEventListener('submit', show);
+  }
+}
+
 function showEmbedSite() {
+  showProgress();
   const embedded = document.getElementById('embedded-site');
   if (embedded) {
     if (window.addEventListener) {

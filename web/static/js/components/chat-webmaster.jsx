@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { selectUser } from '../actions';
 
 // import injectTapEventPlugin from 'react-tap-event-plugin';
-import Paper from 'material-ui/paper';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Paper from 'material-ui/Paper';
 
 import UserLists from './webmaster/user-lists';
 import Messages from './webmaster/messages';
@@ -92,9 +94,11 @@ class ChatWebmaster extends React.Component {
       );
 
     return (
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
       <div>
         { paper }
       </div>
+      </MuiThemeProvider>
     );
   }
 }
