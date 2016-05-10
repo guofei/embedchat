@@ -1,11 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 
-import ListItem from 'material-ui/lib/lists/list-item';
+import { ListItem } from 'material-ui/List';
 // import Avatar from 'material-ui/lib/avatar';
-import Popover from 'material-ui/lib/popover/popover';
-import Card from 'material-ui/lib/card/card';
-import CardText from 'material-ui/lib/card/card-text';
+import Popover from 'material-ui/Popover';
+import { Card, CardText } from 'material-ui/Card';
 
 moment.locale(window.navigator.userLanguage || window.navigator.language);
 

@@ -2,10 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import moment from 'moment';
 
-import Paper from 'material-ui/lib/paper';
-import Toolbar from 'material-ui/lib/toolbar/toolbar';
-import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
-import List from 'material-ui/lib/lists/list';
+import Paper from 'material-ui/Paper';
+import { Toolbar, ToolbarTitle } from 'material-ui/Toolbar';
+import { List } from 'material-ui/List';
 
 import ItemWithDialog from '../item-with-dialog';
 

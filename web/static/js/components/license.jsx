@@ -1,16 +1,16 @@
 import React from 'react';
-import Colors from 'material-ui/lib/styles/colors';
+import { grey500 } from 'material-ui/styles/colors';
 
 class License extends React.Component {
   render() {
     return (
       <div
-        style={{ color: Colors.grey500 }}
+        style={{ color: grey500 }}
       >
         <center>
           We run on&nbsp;
           <a
-            style={{ color: Colors.grey500 }}
+            style={{ color: grey500 }}
             href="https://www.lewini.com"
             target="_blank"
           >

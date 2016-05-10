@@ -1,9 +1,9 @@
 import React from 'react';
-import Paper from 'material-ui/lib/paper';
 import { connect } from 'react-redux';
-// import injectTapEventPlugin from 'react-tap-event-plugin';
-
 import { selectUser } from '../actions';
+
+// import injectTapEventPlugin from 'react-tap-event-plugin';
+import Paper from 'material-ui/paper';
 
 import UserLists from './webmaster/user-lists';
 import Messages from './webmaster/messages';

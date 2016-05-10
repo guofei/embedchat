@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { readAllMessages, openChat } from '../actions';
 
-import LeftNav from 'material-ui/lib/left-nav';
-import FloatingActionButton from 'material-ui/lib/floating-action-button';
-import CommunicationMessage from 'material-ui/lib/svg-icons/communication/message';
+import Drawer from 'material-ui/Drawer';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import CommunicationMessage from 'material-ui/svg-icons/communication/message';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import MenuBar from './menu-bar';
@@ -99,9 +99,9 @@ class Chat extends React.Component {
     // console.log(this.props);
     const left =
         (
-          <LeftNav
+          <Drawer
             width={300}
-            openRight
+            openSecondary
             open={this.props.openChat}
           >
             <div style={styles.messagesBox}>
@@ -118,13 +118,12 @@ class Chat extends React.Component {
             <div style={styles.messageForm}>
               <MessageForm onInputMessage={this.handleInputMessage} />
             </div>
-          </LeftNav>
+          </Drawer>
         );
     return (
       <div>
         <div style={styles.fixed}>
           <FloatingActionButton
-            secondary
             onTouchTap={this.handleTouchTap}
           >
             <CommunicationMessage />

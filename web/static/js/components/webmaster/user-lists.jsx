@@ -1,12 +1,11 @@
 import React from 'react';
 import moment from 'moment';
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Divider from 'material-ui/lib/divider';
-import Avatar from 'material-ui/lib/avatar';
-import Paper from 'material-ui/lib/paper';
-import Toolbar from 'material-ui/lib/toolbar/toolbar';
-import ToolbarTitle from 'material-ui/lib/toolbar/toolbar-title';
+import { List, ListItem } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
+import Avatar from 'material-ui/Avatar';
+import Paper from 'material-ui/Paper';
+import { Toolbar, ToolbarTitle } from 'material-ui/Toolbar';
 
 const styles = {
   pullRight: {
@@ -83,11 +82,13 @@ function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
       <Toolbar>
         <ToolbarTitle text="User" />
       </Toolbar>
-      <List subheader="Online">
+      <List>
+        <Subheader>Online</Subheader>
         {onlines}
       </List>
       <Divider />
-      <List subheader="Offline">
+      <List>
+        <Subheader>Offline</Subheader>
         {offlines}
       </List>
     </Paper>

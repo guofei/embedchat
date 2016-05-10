@@ -1,6 +1,6 @@
 import React from 'react';
 
-import TextField from 'material-ui/lib/text-field';
+import TextField from 'material-ui/TextField';
 import License from './license';
 
 class MessageForm extends React.Component {
@@ -37,7 +37,7 @@ class MessageForm extends React.Component {
     return (
       <div>
         <TextField
-          onEnterKeyDown={this.handleEnterKeyDown}
+          onKeyDown={this.handleEnterKeyDown}
           onChange={this.handleChange}
           fullWidth
           value={this.state.value}

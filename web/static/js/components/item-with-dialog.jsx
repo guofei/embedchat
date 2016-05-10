@@ -1,7 +1,7 @@
 import React from 'react';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Dialog from 'material-ui/lib/dialog';
-import FlatButton from 'material-ui/lib/flat-button';
+import { ListItem } from 'material-ui/List';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 
 
 const styles = {

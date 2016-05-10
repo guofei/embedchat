@@ -1,9 +1,10 @@
 import React from 'react';
-import AppBar from 'material-ui/lib/app-bar';
-import IconButton from 'material-ui/lib/icon-button';
-import NavigationClose from 'material-ui/lib/svg-icons/navigation/close';
-import LightRawTheme from 'material-ui/lib/styles/raw-themes/light-raw-theme';
-import getMuiTheme from 'material-ui/lib/styles/getMuiTheme';
+
+import AppBar from 'material-ui/AppBar';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import LightRawTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 class MenuBar extends React.Component {
   getChildContext() {

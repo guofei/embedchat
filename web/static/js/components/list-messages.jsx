@@ -1,5 +1,6 @@
 import React from 'react';
-import List from 'material-ui/lib/lists/list';
+
+import { List } from 'material-ui/List';
 
 import ListItemMessage from './list-item-message';
 
