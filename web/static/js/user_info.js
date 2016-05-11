@@ -1,12 +1,16 @@
 import moment from 'moment';
 
-function lang() {
-  if (navigator.userLanguage !== undefined) {
-    return navigator.userLanguage;
-  } else if (navigator.language !== undefined) {
-    return navigator.language;
-  }
-  return '(Not supported)';
+function getBrowserLanguage() {
+  const first = window.navigator.languages
+    ? window.navigator.languages[0]
+    : null;
+
+  const lang = first
+    || window.navigator.language
+    || window.navigator.browserLanguage
+    || window.navigator.userLanguage;
+
+  return lang;
 }
 
 const UserInfo = {
@@ -15,7 +19,7 @@ const UserInfo = {
   referrer: document.referrer,
   screenwidth: screen.width,
   screenHeight: screen.height,
-  language: lang(),
+  language: getBrowserLanguage(),
   inserted_at: moment.utc().format(),
 };
 
