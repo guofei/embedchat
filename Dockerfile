@@ -6,7 +6,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y curl wget make gc
 RUN mix local.hex --force
 RUN mix archive.install --force https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
 
-RUN curl -sL https://deb.nodesource.com/setup_5.x | bash - && apt-get install -y nodejs
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && apt-get install -y nodejs
 
 ENV PORT 80
 ENV HOST lewini.com
