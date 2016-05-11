@@ -34,11 +34,11 @@ defmodule EmbedChat.AttemptController do
   def show(conn, %{"id" => id}) do
     attempt = Repo.get!(Attempt, id)
     room = Repo.get!(Room, 1)
-    case HTTPoison.get(attempt.url, [], [follow_redirect: true, max_redirect: 2]) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        render(conn, "show.html", data: get_valid_str(body, attempt.url), room: room)
-      _ ->
-        render(conn, "show.html", data: "Not found :( <br> url: #{attempt.url}", room: room)
+    source = get_source(attempt.url)
+    if source == "<html><head></head><body></body></html>" do
+      render(conn, "show.html", data: "Not found :( <br> url: #{attempt.url}", room: room)
+    else
+      render(conn, "show.html", data: source, room: room)
     end
   end
 
@@ -74,16 +74,13 @@ defmodule EmbedChat.AttemptController do
     |> redirect(to: attempt_path(conn, :index))
   end
 
-  defp get_valid_str(str, old_url) do
-    if String.valid?(str) do
-      str
-    else
-      url = get_url(old_url)
-      IO.inspect url
-      Hound.start_session
-      navigate_to(url)
-      page_source
-    end
+  defp get_source(url) do
+    new_url = get_url(url)
+    Hound.start_session
+    navigate_to(new_url)
+    source = page_source
+    Hound.end_session
+    String.replace(source, ~r/(href|src)=(\"|\')\/([a-zA-Z0-9])/, "\\1=\\\2#{get_host(url)}/\\3")
   end
 
   defp get_url(url) do
@@ -93,5 +90,10 @@ defmodule EmbedChat.AttemptController do
     else
       "http://" <> new_url
     end
+  end
+
+  defp get_host(url) do
+    uri = URI.parse(get_url(url))
+    uri.scheme <> "://" <> uri.host
   end
 end
