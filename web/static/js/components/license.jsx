@@ -11,7 +11,7 @@ class License extends React.Component {
           We run on&nbsp;
           <a
             style={{ color: grey500 }}
-            href="https://www.lewini.com"
+            href="http://www.lewini.com"
             target="_blank"
           >
             Lewini
