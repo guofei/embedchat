@@ -1,0 +1,28 @@
+<h2>Show auto message config</h2>
+
+<ul>
+
+  <li>
+    <strong>Delay time:</strong>
+    <%= @auto_message_config.delay_time %>
+  </li>
+
+  <li>
+    <strong>Current url:</strong>
+    <%= @auto_message_config.current_url %>
+  </li>
+
+  <li>
+    <strong>Referrer:</strong>
+    <%= @auto_message_config.referrer %>
+  </li>
+
+  <li>
+    <strong>Language:</strong>
+    <%= @auto_message_config.language %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: auto_message_config_path(@conn, :edit, @auto_message_config) %>
+<%= link "Back", to: auto_message_config_path(@conn, :index) %>

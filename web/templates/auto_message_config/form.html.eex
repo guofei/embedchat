@@ -1,0 +1,35 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= label f, :delay_time, class: "control-label" %>
+    <%= number_input f, :delay_time, class: "form-control" %>
+    <%= error_tag f, :delay_time %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :current_url, class: "control-label" %>
+    <%= text_input f, :current_url, class: "form-control" %>
+    <%= error_tag f, :current_url %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :referrer, class: "control-label" %>
+    <%= text_input f, :referrer, class: "form-control" %>
+    <%= error_tag f, :referrer %>
+  </div>
+
+  <div class="form-group">
+    <%= label f, :language, class: "control-label" %>
+    <%= text_input f, :language, class: "form-control" %>
+    <%= error_tag f, :language %>
+  </div>
+
+  <div class="form-group">
+    <%= submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>

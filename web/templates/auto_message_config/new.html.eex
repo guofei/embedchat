@@ -1,0 +1,6 @@
+<h2>New auto message config</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: auto_message_config_path(@conn, :create) %>
+
+<%= link "Back", to: auto_message_config_path(@conn, :index) %>
