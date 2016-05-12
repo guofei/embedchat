@@ -15,6 +15,10 @@ class MessageForm extends React.Component {
   }
 
   handleEnterKeyDown(event) {
+    const enterKeyCode = 13;
+    if (event.keyCode !== enterKeyCode) {
+      return;
+    }
     const text = event.target.value;
     this.props.onInputMessage(text);
     this.setState({
