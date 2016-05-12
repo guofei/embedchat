@@ -33,18 +33,12 @@ defmodule EmbedChat.AttemptController do
 
   def show(conn, %{"id" => id}) do
     attempt = Repo.get!(Attempt, id)
-    if conn.scheme == :https do
-      new_conn = %Plug.Conn{conn | scheme: :http }
-      new_conn
-      |> redirect(to: attempt_path(new_conn, :show, attempt))
+    room = Repo.get!(Room, 1)
+    source = get_source(attempt.url)
+    if source == "<html><head></head><body></body></html>" do
+      render(conn, "show.html", data: "Not found :( <br> url: #{attempt.url}", room: room)
     else
-      room = Repo.get!(Room, 1)
-      source = get_source(attempt.url)
-      if source == "<html><head></head><body></body></html>" do
-        render(conn, "show.html", data: "Not found :( <br> url: #{attempt.url}", room: room)
-      else
-        render(conn, "show.html", data: source, room: room)
-      end
+      render(conn, "show.html", data: source, room: room)
     end
   end
 
