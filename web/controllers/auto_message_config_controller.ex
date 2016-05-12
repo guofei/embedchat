@@ -4,6 +4,7 @@ defmodule EmbedChat.AutoMessageConfigController do
   alias EmbedChat.AutoMessageConfig
 
   plug :scrub_params, "auto_message_config" when action in [:create, :update]
+  plug :authenticate_user
 
   def index(conn, _params) do
     auto_message_configs = Repo.all(AutoMessageConfig)
