@@ -30,7 +30,7 @@ defmodule EmbedChat.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:comeonin, "~> 2.3"},
+    [{:comeonin, "~> 2.4"},
      {:cowboy, "~> 1.0"},
      {:exrm, "~> 1.0"},
      {:gettext, "~> 0.11"},
