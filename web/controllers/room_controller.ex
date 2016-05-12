@@ -5,7 +5,7 @@ defmodule EmbedChat.RoomController do
   alias EmbedChat.UserRoom
 
   plug :scrub_params, "room" when action in [:create, :update]
-  plug :authenticate_user, "room" when action in [:index, :new, :create, :edit, :update, :delete]
+  plug :authenticate_user when action in [:index, :new, :create, :edit, :update, :delete]
 
   def index(conn, _params) do
     rooms = Repo.all(user_rooms(conn))
