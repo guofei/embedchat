@@ -13,6 +13,8 @@ defmodule EmbedChat.User do
     has_many :userrooms, EmbedChat.UserRoom
     has_many :rooms, through: [:userrooms, :room]
 
+    has_many :auto_message_configs, EmbedChat.AutoMessageConfig
+
     timestamps
   end
 

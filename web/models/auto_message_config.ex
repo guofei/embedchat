@@ -6,6 +6,7 @@ defmodule EmbedChat.AutoMessageConfig do
     field :current_url, :string
     field :referrer, :string
     field :language, :string
+    belongs_to :user, EmbedChat.User
 
     timestamps
   end
