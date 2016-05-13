@@ -1,32 +1,38 @@
-<h2>Listing auto message configs</h2>
+<div class="page-content-max">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Delay time</th>
-      <th>Current url</th>
-      <th>Referrer</th>
-      <th>Language</th>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Delay time</th>
+            <th>Current url</th>
+            <th>Referrer</th>
+            <th>Language</th>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for auto_message_config <- @auto_message_configs do %>
-    <tr>
-      <td><%= auto_message_config.delay_time %></td>
-      <td><%= auto_message_config.current_url %></td>
-      <td><%= auto_message_config.referrer %></td>
-      <td><%= auto_message_config.language %></td>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= for auto_message_config <- @auto_message_configs do %>
+            <tr>
+              <td><%= auto_message_config.delay_time %></td>
+              <td><%= auto_message_config.current_url %></td>
+              <td><%= auto_message_config.referrer %></td>
+              <td><%= auto_message_config.language %></td>
 
-      <td class="text-right">
-        <%= link "Show", to: auto_message_config_path(@conn, :show, auto_message_config), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: auto_message_config_path(@conn, :edit, auto_message_config), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: auto_message_config_path(@conn, :delete, auto_message_config), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+              <td class="text-right">
+                <%= link "Show", to: auto_message_config_path(@conn, :show, auto_message_config), class: "btn btn-default btn-xs" %>
+                <%= link "Edit", to: auto_message_config_path(@conn, :edit, auto_message_config), class: "btn btn-default btn-xs" %>
+                <%= link "Delete", to: auto_message_config_path(@conn, :delete, auto_message_config), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
 
-<%= link "New auto message config", to: auto_message_config_path(@conn, :new) %>
+      <%= link "New auto message config", to: auto_message_config_path(@conn, :new) %>
+
+    </div>
+  </div>
+</div>
