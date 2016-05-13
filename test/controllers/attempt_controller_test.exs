@@ -38,7 +38,7 @@ defmodule EmbedChat.AttemptControllerTest do
     assert html_response(conn, 200) =~ "error"
   end
 
-  test "shows chosen resource", %{conn: conn} do
+  test "shows chosen resource", %{conn: _conn} do
     TODO
     # attempt = Repo.insert! %Attempt{}
     # conn = get conn, attempt_path(conn, :show, attempt)
