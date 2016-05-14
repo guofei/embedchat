@@ -2,7 +2,7 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
   use EmbedChat.ConnCase
 
   alias EmbedChat.AutoMessageConfig
-  @valid_attrs %{current_url: "some content", delay_time: 42, language: "some content", referrer: "some content"}
+  @valid_attrs %{message: "some message", current_url: "some content", delay_time: 42, language: "some content", referrer: "some content", visit_view: 3}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
