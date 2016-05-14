@@ -11,14 +11,14 @@ defmodule EmbedChat.AutoMessageConfig do
     field :current_url_pattern, :string
     field :referrer_pattern, :string
     field :language_pattern, :string
-    field :visit_view_pattern, :integer
+    field :visit_view_pattern, :string
     belongs_to :user, EmbedChat.User
 
     timestamps
   end
 
-  @required_fields ~w(message delay_time current_url referrer language visit_view)
-  @optional_fields ~w()
+  @required_fields ~w(message current_url)
+  @optional_fields ~w(delay_time referrer language visit_view current_url_pattern referrer_pattern language_pattern visit_view_pattern)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
