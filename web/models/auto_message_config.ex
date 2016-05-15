@@ -36,7 +36,7 @@ defmodule EmbedChat.AutoMessageConfig do
     Enum.filter(models, fn(model) -> match(model, status) end)
   end
 
-  def match(models, status) when is_nil(models) do
+  def match(models, _status) when is_nil(models) do
     []
   end
 
@@ -51,8 +51,17 @@ defmodule EmbedChat.AutoMessageConfig do
     true
   end
 
-  defp match("", v1, v2) do
+  defp match("", _v1, _v2) do
     true
+  end
+
+  defp match("~=", regex, str) do
+    case Regex.compile(regex) do
+      {:ok, r} ->
+        Regex.match?(r, str)
+      _ ->
+        false
+    end
   end
 
   defp match("=", v1, v2) do
