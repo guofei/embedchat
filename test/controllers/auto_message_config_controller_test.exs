@@ -7,8 +7,9 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
 
   setup %{conn: conn} do
     user = insert_user(username: "test")
+    room = insert_room(user)
     conn = assign(conn, :current_user, user)
-    {:ok, conn: conn, user: user}
+    {:ok, conn: conn, user: user, room: room}
   end
 
   test "lists all entries on index", %{conn: conn} do
@@ -21,8 +22,9 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
     assert html_response(conn, 200) =~ "IF"
   end
 
-  test "creates resource and redirects when data is valid", %{conn: conn} do
-    conn = post conn, auto_message_config_path(conn, :create), auto_message_config: @valid_attrs
+  test "creates resource and redirects when data is valid", %{conn: conn, room: room} do
+    attrs = Map.put(@valid_attrs, :room_id, room.id)
+    conn = post conn, auto_message_config_path(conn, :create), auto_message_config: attrs
     assert redirected_to(conn) == auto_message_config_path(conn, :index)
     assert Repo.get_by(AutoMessageConfig, @valid_attrs)
   end
@@ -50,11 +52,12 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
     assert html_response(conn, 200) =~ "IF"
   end
 
-  test "updates chosen resource and redirects when data is valid", %{conn: conn, user: user} do
+  test "updates chosen resource and redirects when data is valid", %{conn: conn, user: user, room: room} do
     auto_message_config = Repo.insert! %AutoMessageConfig{user_id: user.id}
-    conn = put conn, auto_message_config_path(conn, :update, auto_message_config), auto_message_config: @valid_attrs
+    attrs = Map.put(@valid_attrs, :room_id, room.id)
+    conn = put conn, auto_message_config_path(conn, :update, auto_message_config), auto_message_config: attrs
     assert redirected_to(conn) == auto_message_config_path(conn, :show, auto_message_config)
-    assert Repo.get_by(AutoMessageConfig, @valid_attrs)
+    assert Repo.get_by(AutoMessageConfig, attrs)
   end
 
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn, user: user} do

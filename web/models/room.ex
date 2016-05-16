@@ -5,6 +5,7 @@ defmodule EmbedChat.Room do
     field :uuid, Ecto.UUID
 
     has_many :messages, EmbedChat.Message
+    has_many :auto_message_configs, EmbedChat.AutoMessageConfig
     has_many :userrooms, EmbedChat.UserRoom
     has_many :users, through: [:userrooms, :user]
 

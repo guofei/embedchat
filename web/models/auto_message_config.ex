@@ -13,11 +13,12 @@ defmodule EmbedChat.AutoMessageConfig do
     field :language_pattern, :string
     field :visit_view_pattern, :string
     belongs_to :user, EmbedChat.User
+    belongs_to :room, EmbedChat.Room
 
     timestamps
   end
 
-  @required_fields ~w(message)
+  @required_fields ~w(message room_id)
   @optional_fields ~w(delay_time referrer language visit_view current_url_pattern referrer_pattern language_pattern visit_view_pattern current_url)
 
   @doc """
@@ -29,6 +30,7 @@ defmodule EmbedChat.AutoMessageConfig do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, @required_fields, @optional_fields)
+    |> foreign_key_constraint(:room_id)
   end
 
   # current_status = %{current_url: url, referrer: referrer, language: lang, visit_view: n}

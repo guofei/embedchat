@@ -3,7 +3,7 @@ defmodule EmbedChat.AutoMessageConfigTest do
 
   alias EmbedChat.AutoMessageConfig
 
-  @valid_attrs %{message: "some message", delay_time: 42, current_url: "some content", language: "some content", referrer: "some content", visit_view: 3, current_url_patttern: "=", language_pattern: "=", referrer_pattern: "=", visit_view_pattern: "="}
+  @valid_attrs %{message: "some message", delay_time: 42, current_url: "some content", language: "some content", referrer: "some content", visit_view: 3, current_url_patttern: "=", language_pattern: "=", referrer_pattern: "=", visit_view_pattern: "=", room_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
