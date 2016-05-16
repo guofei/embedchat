@@ -18,7 +18,7 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
 
   test "renders form for new resources", %{conn: conn} do
     conn = get conn, auto_message_config_path(conn, :new)
-    assert html_response(conn, 200) =~ "New auto message config"
+    assert html_response(conn, 200) =~ "IF"
   end
 
   test "creates resource and redirects when data is valid", %{conn: conn} do
@@ -29,7 +29,7 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, auto_message_config_path(conn, :create), auto_message_config: @invalid_attrs
-    assert html_response(conn, 200) =~ "New auto message config"
+    assert html_response(conn, 200) =~ "IF"
   end
 
   test "shows chosen resource", %{conn: conn, user: user} do
@@ -47,7 +47,7 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
   test "renders form for editing chosen resource", %{conn: conn, user: user} do
     auto_message_config = Repo.insert! %AutoMessageConfig{user_id: user.id}
     conn = get conn, auto_message_config_path(conn, :edit, auto_message_config)
-    assert html_response(conn, 200) =~ "Edit auto message config"
+    assert html_response(conn, 200) =~ "IF"
   end
 
   test "updates chosen resource and redirects when data is valid", %{conn: conn, user: user} do
@@ -60,7 +60,7 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
   test "does not update chosen resource and renders errors when data is invalid", %{conn: conn, user: user} do
     auto_message_config = Repo.insert! %AutoMessageConfig{user_id: user.id}
     conn = put conn, auto_message_config_path(conn, :update, auto_message_config), auto_message_config: @invalid_attrs
-    assert html_response(conn, 200) =~ "Edit auto message config"
+    assert html_response(conn, 200) =~ "IF"
   end
 
   test "deletes chosen resource", %{conn: conn, user: user} do

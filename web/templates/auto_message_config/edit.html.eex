@@ -1,6 +1,12 @@
-<h2>Edit auto message config</h2>
+<div class="page-content-max">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
 
-<%= render "form.html", changeset: @changeset,
-                        action: auto_message_config_path(@conn, :update, @auto_message_config) %>
+      <%= render "form.html", changeset: @changeset,
+      action: auto_message_config_path(@conn, :update, @auto_message_config) %>
 
-<%= link "Back", to: auto_message_config_path(@conn, :index) %>
+      <%= link "Back", to: auto_message_config_path(@conn, :index) %>
+
+    </div>
+  </div>
+</div>

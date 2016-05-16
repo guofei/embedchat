@@ -17,8 +17,8 @@ defmodule EmbedChat.AutoMessageConfig do
     timestamps
   end
 
-  @required_fields ~w(message current_url)
-  @optional_fields ~w(delay_time referrer language visit_view current_url_pattern referrer_pattern language_pattern visit_view_pattern)
+  @required_fields ~w(message)
+  @optional_fields ~w(delay_time referrer language visit_view current_url_pattern referrer_pattern language_pattern visit_view_pattern current_url)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
