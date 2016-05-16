@@ -1,3 +1,5 @@
+@import '~getmdl-select/getmdl-select.min.css';
+
 /* Phoenix flash messages */
 .alert:empty { display: none; }
 

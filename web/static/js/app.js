@@ -17,6 +17,7 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 require('../css/app.css');
+require('getmdl-select/getmdl-select.min.js');
 
 // import 'bootstrap-sass/assets/javascripts/bootstrap.min.js';
 
