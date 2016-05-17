@@ -58,6 +58,13 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("user_info", payload, socket) do
     if !socket.assigns[:user_id] do
+      room = Repo.get Room, socket.assigns.room_id
+      auto_messages = Repo.all assoc(room, :auto_message_configs)
+      messages = EmbedChat.AutoMessageConfig.match(auto_messages, payload)
+      Enum.each(messages, fn(message) ->
+        IO.inspect message
+        # TODO
+      end)
       visitor_update(socket.assigns.room_id, socket.assigns.distinct_id, payload)
       broadcast! socket, "user_info", %{uid: socket.assigns.distinct_id, info: payload}
     end

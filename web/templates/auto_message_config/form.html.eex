@@ -6,7 +6,7 @@
   <% end %>
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-    <%= text_input f, :visit_view_pattern, class: "mdl-textfield__input", value: "=", type: "text", id: "select_visit_view_pattern", "readonly tabIndex": -1, "data-val": "=" %>
+    <%= text_input f, :visit_view_pattern, class: "mdl-textfield__input", value: "=", type: "text", id: "select_visit_view_pattern", tabIndex: -1, "data-val": "=" %>
     <label class="mdl-textfield__label" for="select_visit_view_pattern">IF Visit View</label>
     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_visit_view_pattern">
       <li class="mdl-menu__item" data-val="=">=</li>
@@ -26,13 +26,13 @@
   <br/>
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-    <%= text_input f, :current_url_pattern, class: "mdl-textfield__input", value: "=", type: "text", id: "select_current_url_pattern", "readonly tabIndex": -1, "data-val": "=" %>
+    <%= text_input f, :current_url_pattern, class: "mdl-textfield__input", value: "=", type: "text", id: "select_current_url_pattern", tabIndex: -1, "data-val": "=" %>
     <label class="mdl-textfield__label" for="select_current_url_pattern">IF Current URL</label>
     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_current_url_pattern">
       <li class="mdl-menu__item" data-val="=">=</li>
       <li class="mdl-menu__item" data-val="!=">!=</li>
-      <li class="mdl-menu__item" data-val="~=">include</li>
-      <li class="mdl-menu__item" data-val="~=">match</li>
+      <li class="mdl-menu__item" data-val="include">include</li>
+      <li class="mdl-menu__item" data-val="regex">regex</li>
     </ul>
   </div>
 
@@ -45,13 +45,13 @@
   <br/>
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-    <%= text_input f, :referrer_pattern, class: "mdl-textfield__input", value: "=", type: "text", id: "select_referrer_pattern", "readonly tabIndex": -1, "data-val": "=" %>
+    <%= text_input f, :referrer_pattern, class: "mdl-textfield__input", value: "=", type: "text", id: "select_referrer_pattern", tabIndex: -1, "data-val": "=" %>
     <label class="mdl-textfield__label" for="select_referrer_pattern">IF Referrer URL</label>
     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_referrer_pattern">
       <li class="mdl-menu__item" data-val="=">=</li>
       <li class="mdl-menu__item" data-val="!=">!=</li>
-      <li class="mdl-menu__item" data-val="~=">include</li>
-      <li class="mdl-menu__item" data-val="~=">match</li>
+      <li class="mdl-menu__item" data-val="include">include</li>
+      <li class="mdl-menu__item" data-val="regex">regex</li>
     </ul>
   </div>
 
@@ -64,7 +64,7 @@
   <br/>
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-    <%= text_input f, :language_pattern, class: "mdl-textfield__input", value: "=", type: "text", id: "select_language_pattern", "readonly tabIndex": -1, "data-val": "=" %>
+    <%= text_input f, :language_pattern, class: "mdl-textfield__input", value: "=", type: "text", id: "select_language_pattern", tabIndex: -1, "data-val": "=" %>
     <label class="mdl-textfield__label" for="select_language_pattern">IF Language</label>
     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_language_pattern">
       <li class="mdl-menu__item" data-val="=">=</li>
@@ -78,6 +78,28 @@
     <%= label f, :language, class: "mdl-textfield__label", for: "input_language" %>
     <%= error_tag f, :language %>
   </div>
+
+  <br/>
+
+  <% # TODO: refactoring %>
+  <%= if length(@rooms) <= 1 do %>
+    <div style="display:none">
+  <% end %>
+  <% room = List.first(@rooms) %>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+    <%= text_input f, :room_id, class: "mdl-textfield__input", value: room.id, type: "text", id: "select_room_id", tabIndex: -1, "data-val": room.id %>
+    <label class="mdl-textfield__label" for="select_room_id">Room</label>
+    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_room_id">
+      <%= for room <- @rooms do %>
+        <li class="mdl-menu__item" data-val="<%= room.id %>"><%= room.id %></li>
+      <% end %>
+    </ul>
+  </div>
+  <%= if length(@rooms) <= 1 do %>
+    </div>
+  <% end %>
+
+  <br/>
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= textarea f, :message, class: "mdl-textfield__input", type: "text", rows: 3, id: "input_message" %>

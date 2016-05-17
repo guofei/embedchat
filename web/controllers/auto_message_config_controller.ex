@@ -13,7 +13,8 @@ defmodule EmbedChat.AutoMessageConfigController do
 
   def new(conn, _params) do
     changeset = AutoMessageConfig.changeset(%AutoMessageConfig{})
-    render(conn, "new.html", changeset: changeset)
+    rooms = Repo.all(user_rooms(conn))
+    render(conn, "new.html", changeset: changeset, rooms: rooms)
   end
 
   def create(conn, %{"auto_message_config" => auto_message_config_params}) do
@@ -28,7 +29,8 @@ defmodule EmbedChat.AutoMessageConfigController do
         |> put_flash(:info, "Auto message config created successfully.")
         |> redirect(to: auto_message_config_path(conn, :index))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        rooms = Repo.all(user_rooms(conn))
+        render(conn, "new.html", changeset: changeset, rooms: rooms)
     end
   end
 
@@ -39,8 +41,9 @@ defmodule EmbedChat.AutoMessageConfigController do
 
   def edit(conn, %{"id" => id}) do
     auto_message_config = Repo.get!(user_configs(conn), id)
+    rooms = Repo.all(user_rooms(conn))
     changeset = AutoMessageConfig.changeset(auto_message_config)
-    render(conn, "edit.html", auto_message_config: auto_message_config, changeset: changeset)
+    render(conn, "edit.html", auto_message_config: auto_message_config, changeset: changeset, rooms: rooms)
   end
 
   def update(conn, %{"id" => id, "auto_message_config" => auto_message_config_params}) do
@@ -53,7 +56,8 @@ defmodule EmbedChat.AutoMessageConfigController do
         |> put_flash(:info, "Auto message config updated successfully.")
         |> redirect(to: auto_message_config_path(conn, :show, auto_message_config))
       {:error, changeset} ->
-        render(conn, "edit.html", auto_message_config: auto_message_config, changeset: changeset)
+        rooms = Repo.all(user_rooms(conn))
+        render(conn, "edit.html", auto_message_config: auto_message_config, changeset: changeset, rooms: rooms)
     end
   end
 

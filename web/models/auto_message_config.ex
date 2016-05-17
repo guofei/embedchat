@@ -33,7 +33,12 @@ defmodule EmbedChat.AutoMessageConfig do
     |> foreign_key_constraint(:room_id)
   end
 
-  # current_status = %{current_url: url, referrer: referrer, language: lang, visit_view: n}
+  def match(models,  %{"href" => cur, "language" => lan, "referrer" => ref}) do
+    status = %{current_url: cur, referrer: ref, language: lan, visit_view: 1}
+    match(models, status)
+  end
+
+  # current_status = %{current_url: url, referrer: referrer, language: lan, visit_view: n}
   def match(models, status) when is_list(models) do
     Enum.filter(models, fn(model) -> match(model, status) end)
   end
@@ -43,21 +48,32 @@ defmodule EmbedChat.AutoMessageConfig do
   end
 
   def match(model, status) do
-    match(model.current_url_pattern, model.current_url, status.current_url) and
-    match(model.referrer_pattern, model.referrer, status.referrer) and
-    match(model.language_pattern, model.language, status.language) and
-    match(model.visit_view_pattern, model.visit_view, status.visit_view)
+    do_match(model.current_url_pattern, model.current_url, status.current_url) and
+    do_match(model.referrer_pattern, model.referrer, status.referrer) and
+    do_match(model.language_pattern, model.language, status.language) and
+    do_match(model.visit_view_pattern, model.visit_view, status.visit_view)
   end
 
-  defp match(_, v1, v2) when is_nil(v1) or is_nil(v2) do
-    true
-  end
+  # ignore nil and empty pattern
+  defp do_match(_, v1, v2) when is_nil(v1) or is_nil(v2), do: true
+  defp do_match(_, "", _), do: true
+  defp do_match(_, _, ""), do: true
+  defp do_match("", _, _), do: true
 
-  defp match("", _v1, _v2) do
-    true
-  end
+  defp do_match("~=", regex, str), do: do_match_regex(regex, str)
+  defp do_match("regex", regex, str), do: do_match_regex(regex, str)
+  defp do_match("include", short, long), do: do_match_regex(short, long)
+  defp do_match("=", v1, v2), do: v1 == v2
+  defp do_match("!=", v1, v2), do: v1 != v2
+  defp do_match(">", v1, v2), do: v1 > v2
+  defp do_match("<", v1, v2), do: v1 < v2
+  defp do_match(">=", v1, v2), do: v1 >= v2
+  defp do_match("<=", v1, v2), do: v1 <= v2
 
-  defp match("~=", regex, str) do
+  # ignore all pattern
+  defp do_match(_, _, _), do: false
+
+  defp do_match_regex(regex, str) do
     case Regex.compile(regex) do
       {:ok, r} ->
         Regex.match?(r, str)
@@ -65,32 +81,4 @@ defmodule EmbedChat.AutoMessageConfig do
         false
     end
   end
-
-  defp match("=", v1, v2) do
-    v1 == v2
-  end
-
-  defp match("!=", v1, v2) do
-    v1 != v2
-  end
-
-  defp match(">", v1, v2) do
-    v1 > v2
-  end
-
-  defp match("<", v1, v2) do
-    v1 < v2
-  end
-
-  defp match(">=", v1, v2) do
-    v1 >= v2
-  end
-
-  defp match("<=", v1, v2) do
-    v1 <= v2
-  end
-  # user match
-  # if {:ok, config} = match(models, current_status) do
-  #   send(config.message)
-  # end
 end
