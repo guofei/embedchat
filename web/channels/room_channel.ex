@@ -1,14 +1,12 @@
 defmodule EmbedChat.RoomChannel do
   use EmbedChat.Web, :channel
-  alias EmbedChat.Address
   alias EmbedChat.ChannelWatcher
   alias EmbedChat.Message
-  alias EmbedChat.MessageView
   alias EmbedChat.Room
+  alias EmbedChat.RoomChannelSF
   alias EmbedChat.Room.Bucket
   alias EmbedChat.Room.Registry
   alias EmbedChat.User
-  alias Phoenix.View
 
   def join("rooms:" <> room_uuid, _payload, socket) do
     cond do
@@ -41,7 +39,7 @@ defmodule EmbedChat.RoomChannel do
     if socket.assigns[:user_id] do
       user = Repo.get!(User, socket.assigns.user_id)
       admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user)
-      create_admin_address(socket)
+      RoomChannelSF.create_admin_address(socket)
       broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id}
     else
       visitor_online(socket.assigns.room_id, socket.assigns.distinct_id, socket.assigns[:info])
@@ -63,7 +61,8 @@ defmodule EmbedChat.RoomChannel do
       messages = EmbedChat.AutoMessageConfig.match(auto_messages, payload)
       Enum.each(messages, fn(message) ->
         IO.inspect message
-        # TODO
+        # with {:ok, sender} <- admin_address()
+        # TODO create message
       end)
       visitor_update(socket.assigns.room_id, socket.assigns.distinct_id, payload)
       broadcast! socket, "user_info", %{uid: socket.assigns.distinct_id, info: payload}
@@ -73,11 +72,11 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("messages", payload, socket) do
     room_id = socket.assigns.room_id
-    uuid = messages_owner(payload, socket)
+    uuid = RoomChannelSF.messages_owner(payload, socket)
 
     limit = 50
     cond do
-      address = get_address(uuid) ->
+      address = RoomChannelSF.get_address(uuid) ->
         query = from m in Message,
           order_by: [desc: :inserted_at],
           where: m.room_id == ^(room_id) and (m.from_id == ^(address.id) or m.to_id == ^(address.id)),
@@ -111,7 +110,8 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("new_message", payload, socket) do
-    case new_message(payload, socket) do
+    admin = random_online_admin socket.assigns.room_id
+    case RoomChannelSF.new_message(payload, socket, admin) do
       {:ok, resp} ->
         broadcast! socket, "new_message", resp
         {:reply, {:ok, resp}, socket}
@@ -242,103 +242,6 @@ defmodule EmbedChat.RoomChannel do
       :error ->
         Registry.create(reg, "rooms:#{id}")
         Registry.lookup(reg, "rooms:#{id}")
-    end
-  end
-
-  defp receiver(socket, to) do
-    cond do
-      socket.assigns[:user_id] ->
-        get_or_create_address(to, nil)
-      true ->
-        admin_address(socket.assigns.room_id)
-    end
-  end
-
-  defp sender(socket) do
-    get_or_create_address(socket.assigns.distinct_id, socket.assigns[:user_id])
-  end
-
-  defp admin_address(room_id) do
-    # TODO multi users
-    admin = random_online_admin room_id
-    cond do
-      address = get_address(admin) ->
-        {:ok, address}
-      true ->
-        {:error, %Address{}}
-    end
-  end
-
-  defp new_message(payload, socket) do
-    room_id = socket.assigns.room_id
-    with {:ok, sender} <- sender(socket),
-         {_, receiver} <- receiver(socket, payload["to_id"]),
-         {:ok, msg} <- create_message(sender, receiver, room_id, payload["body"]),
-           msg = Repo.preload(msg, [:from, :to, :from_user]),
-           sender = Repo.preload(sender, [:user]),
-           resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
-      do: {:ok, resp}
-  end
-
-  defp create_message(sender, receiver, room_id, text) do
-    changeset =
-      sender
-      |> build_assoc(:outgoing_messages, %{room_id: room_id, to_id: receiver.id})
-      |> Message.changeset(%{
-          message_type: "message",
-          body: text})
-      Repo.insert(changeset)
-  end
-
-  defp create_admin_address(socket) do
-    if socket.assigns[:user_id] do
-      get_or_create_address(socket.assigns.distinct_id, socket.assigns[:user_id])
-    end
-  end
-
-  defp get_or_create_address(distinct_id, user_id) do
-    cond do
-      address = get_address(distinct_id) ->
-        {:ok, address}
-      true ->
-        create_address(distinct_id, user_id)
-    end
-  end
-
-  defp get_address(distinct_id) when is_nil(distinct_id) do
-    nil
-  end
-
-  defp get_address(distinct_id) do
-    Repo.get_by(Address, uuid: distinct_id)
-  end
-
-  defp create_address(distinct_id, user_id) do
-    changeset =
-      Address.changeset(%Address{user_id: user_id}, %{uuid: distinct_id})
-    case Repo.insert(changeset) do
-      {:ok, model} ->
-        {:ok, model}
-      {:error, changeset} ->
-        cond do
-          address = get_address(distinct_id) ->
-            {:ok, address}
-          true ->
-            {:error, changeset}
-        end
-    end
-  end
-
-  defp messages_owner(payload, socket) do
-    cond do
-      payload["uid"] ->
-        if socket.assigns[:user_id] do
-          payload["uid"]
-        else
-          socket.assigns.distinct_id
-        end
-      true ->
-        socket.assigns.distinct_id
     end
   end
 end
