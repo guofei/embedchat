@@ -11,7 +11,7 @@ msgstr ""
 "Language: ja\n"
 
 msgid "can't be blank"
-msgstr ""
+msgstr "が入力されていません"
 
 msgid "has already been taken"
 msgstr ""

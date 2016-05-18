@@ -17,6 +17,7 @@
             <%= form_for @attempt, attempt_path(@conn, :create), [id: "try-url"], fn f -> %>
               <div class="mdl-textfield mdl-js-textfield">
                 <%= text_input f, :url, class: "mdl-textfield__input", id: "furl" %>
+                <%= error_tag f, :url %>
                 <label class="mdl-textfield__label" for="furl">http://yourwebsite</label>
               </div>
               <p>

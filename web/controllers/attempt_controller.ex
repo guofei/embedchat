@@ -27,7 +27,7 @@ defmodule EmbedChat.AttemptController do
         |> put_flash(:info, "Attempt created successfully.")
         |> redirect(to: attempt_path(conn, :show, attempt))
       {:error, changeset} ->
-        render(conn, "new.html", changeset: changeset)
+        render(conn, EmbedChat.PageView, "index.html", attempt: changeset)
     end
   end
 
