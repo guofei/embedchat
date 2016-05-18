@@ -4,8 +4,6 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.Message
   alias EmbedChat.Room
   alias EmbedChat.RoomChannelSF
-  alias EmbedChat.Room.Bucket
-  alias EmbedChat.Room.Registry
   alias EmbedChat.User
 
   def join("rooms:" <> room_uuid, _payload, socket) do
@@ -38,11 +36,11 @@ defmodule EmbedChat.RoomChannel do
   def handle_info(:after_join, socket) do
     if socket.assigns[:user_id] do
       user = Repo.get!(User, socket.assigns.user_id)
-      admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user)
+      RoomChannelSF.admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user)
       RoomChannelSF.create_admin_address(socket)
       broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id}
     else
-      visitor_online(socket.assigns.room_id, socket.assigns.distinct_id, socket.assigns[:info])
+      RoomChannelSF.visitor_online(socket.assigns.room_id, socket.assigns.distinct_id, socket.assigns[:info])
       broadcast! socket, "user_join", %{uid: socket.assigns.distinct_id}
     end
     {:noreply, socket}
@@ -59,12 +57,16 @@ defmodule EmbedChat.RoomChannel do
       room = Repo.get Room, socket.assigns.room_id
       auto_messages = Repo.all assoc(room, :auto_message_configs)
       messages = EmbedChat.AutoMessageConfig.match(auto_messages, payload)
-      Enum.each(messages, fn(message) ->
-        IO.inspect message
-        # with {:ok, sender} <- admin_address()
-        # TODO create message
+      Enum.each(messages, fn (msg) ->
+        distid = socket.assigns.distinct_id
+        case RoomChannelSF.new_message_master_to_visitor(%{"to_id" => distid, "body" => msg.message}, room.id) do
+          {:ok, resp} ->
+            push socket, "new_message", resp
+          _ ->
+            true
+        end
       end)
-      visitor_update(socket.assigns.room_id, socket.assigns.distinct_id, payload)
+      RoomChannelSF.visitor_update(socket.assigns.room_id, socket.assigns.distinct_id, payload)
       broadcast! socket, "user_info", %{uid: socket.assigns.distinct_id, info: payload}
     end
     {:noreply, socket}
@@ -96,9 +98,9 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("contact_list", _payload, socket) do
     if socket.assigns[:user_id] do
-      {:reply, {:ok, %{users: online_visitors(socket.assigns.room_id)}}, socket}
+      {:reply, {:ok, %{users: RoomChannelSF.online_visitors(socket.assigns.room_id)}}, socket}
     else
-      {:reply, {:ok, %{admins: online_admins(socket.assigns.room_id)}}, socket}
+      {:reply, {:ok, %{admins: RoomChannelSF.online_admins(socket.assigns.room_id)}}, socket}
     end
   end
 
@@ -110,8 +112,7 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("new_message", payload, socket) do
-    admin = random_online_admin socket.assigns.room_id
-    case RoomChannelSF.new_message(payload, socket, admin) do
+    case RoomChannelSF.new_message(payload, socket) do
       {:ok, resp} ->
         broadcast! socket, "new_message", resp
         {:reply, {:ok, resp}, socket}
@@ -161,12 +162,12 @@ defmodule EmbedChat.RoomChannel do
 
   def leave(room_id, room_uuid, user_id, distinct_id) when is_nil(user_id) do
     EmbedChat.Endpoint.broadcast! "rooms:#{room_uuid}", "user_left", %{uid: distinct_id}
-    visitor_offline(room_id, distinct_id)
+    RoomChannelSF.visitor_offline(room_id, distinct_id)
   end
 
   def leave(room_id, room_uuid, _user_id, distinct_id) do
     EmbedChat.Endpoint.broadcast! "rooms:#{room_uuid}", "admin_left", %{uid: distinct_id}
-    admin_offline(room_id, distinct_id)
+    RoomChannelSF.admin_offline(room_id, distinct_id)
   end
 
   # Add authorization logic here as required.
@@ -179,69 +180,6 @@ defmodule EmbedChat.RoomChannel do
         Enum.any?(users, &(&1.id == user.id))
       true ->
         true
-    end
-  end
-
-  defp online_visitors(room_id) do
-    {:ok, bucket} = visitor_bucket(room_id)
-    Bucket.map(bucket)
-  end
-
-  defp visitor_update(room_id, distinct_id, info) do
-    visitor_online(room_id, distinct_id, info)
-  end
-
-  defp visitor_online(room_id, distinct_id, info) do
-    {:ok, bucket} = visitor_bucket(room_id)
-    Bucket.put(bucket, distinct_id, info)
-  end
-
-  defp visitor_offline(room_id, distinct_id) do
-    {:ok, bucket} = visitor_bucket(room_id)
-    Bucket.delete(bucket, distinct_id)
-  end
-
-  defp online_admins(room_id) do
-    {:ok, bucket} = admin_bucket(room_id)
-    Bucket.map(bucket)
-  end
-
-  defp random_online_admin(room_id) do
-    admins = online_admins(room_id)
-    if Enum.empty?(admins) do
-      nil
-    else
-      {admin, _ } = Enum.random admins
-      admin
-    end
-  end
-
-  defp admin_online(room_id, distinct_id, user) do
-    {:ok, bucket} = admin_bucket(room_id)
-    Bucket.put(bucket, distinct_id, %{id: user.id, name: user.name})
-  end
-
-  defp admin_offline(room_id, distinct_id) do
-    {:ok, bucket} = admin_bucket(room_id)
-    Bucket.delete(bucket, distinct_id)
-  end
-
-  defp visitor_bucket(room_id) do
-    bucket("visitor:#{room_id}")
-  end
-
-  defp admin_bucket(room_id) do
-    bucket("admin:#{room_id}")
-  end
-
-  defp bucket(id) do
-    reg = Registry
-    case Registry.lookup(reg, "rooms:#{id}") do
-      {:ok, bucket} ->
-        {:ok, bucket}
-      :error ->
-        Registry.create(reg, "rooms:#{id}")
-        Registry.lookup(reg, "rooms:#{id}")
     end
   end
 end
