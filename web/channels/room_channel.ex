@@ -53,17 +53,14 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_in("user_info", payload, socket) do
+    room_id = socket.assigns.room_id
+    distid = socket.assigns.distinct_id
     if !socket.assigns[:user_id] do
-      room = Repo.get Room, socket.assigns.room_id
-      auto_messages = Repo.all assoc(room, :auto_message_configs)
-      messages = EmbedChat.AutoMessageConfig.match(auto_messages, payload)
+      messages = RoomChannelSF.auto_messages(room_id, payload)
       Enum.each(messages, fn (msg) ->
-        distid = socket.assigns.distinct_id
-        case RoomChannelSF.new_message_master_to_visitor(%{"to_id" => distid, "body" => msg.message}, room.id) do
-          {:ok, resp} ->
-            push socket, "new_message", resp
-          _ ->
-            true
+        msg = %{"to_id" => distid, "body" => msg.message}
+        if {:ok, resp} = RoomChannelSF.new_message_master_to_visitor(msg, room_id) do
+          push socket, "new_message", resp
         end
       end)
       RoomChannelSF.visitor_update(socket.assigns.room_id, socket.assigns.distinct_id, payload)

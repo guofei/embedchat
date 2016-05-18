@@ -1,5 +1,6 @@
 defmodule EmbedChat.RoomChannelSF do
   alias EmbedChat.Address
+  alias EmbedChat.AutoMessageConfig
   alias EmbedChat.Repo
   alias EmbedChat.Message
   alias EmbedChat.MessageView
@@ -42,6 +43,11 @@ defmodule EmbedChat.RoomChannelSF do
            sender = Repo.preload(sender, [:user]),
            resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
       do: {:ok, resp}
+  end
+
+  def auto_messages(room_id, payload) do
+    all_messages = Repo.all(from m in AutoMessageConfig, where: m.room_id == ^room_id)
+    EmbedChat.AutoMessageConfig.match(all_messages, payload)
   end
 
   defp visitor_receiver(to) do
