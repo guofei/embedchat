@@ -35,7 +35,7 @@ defmodule EmbedChat.AttemptControllerTest do
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn} do
     conn = post conn, attempt_path(conn, :create), attempt: @invalid_attrs
-    assert html_response(conn, 200) =~ "error"
+    assert html_response(conn, 200) =~ "be blank"
   end
 
   test "shows chosen resource", %{conn: _conn} do
