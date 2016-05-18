@@ -11,18 +11,6 @@ defmodule EmbedChat.RoomChannelSF do
 
   import Ecto.Query, only: [from: 2]
 
-  # send to master user if the to_id is nil
-  def new_message(%{"to_id" => to_uid, "body" => msg_text}, socket) do
-    room_id = socket.assigns.room_id
-    cond do
-      socket.assigns[:user_id] ->
-        new_message_master_to_visitor(%{"to_id" => to_uid, "body" => msg_text}, room_id)
-      true ->
-        distinct_id = socket.assigns.distinct_id
-        new_message_visitor_to_master(%{"from_id" => distinct_id, "body" => msg_text}, room_id)
-    end
-  end
-
   def new_message_visitor_to_master(%{"from_id" => distinct_id, "body" => msg_text}, room_id) do
     online_master = random_online_admin(room_id)
     with {:ok, sender} <- visitor_sender(distinct_id),
