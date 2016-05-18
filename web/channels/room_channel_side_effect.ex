@@ -5,6 +5,18 @@ defmodule EmbedChat.RoomChannelSF do
   alias EmbedChat.MessageView
   alias Phoenix.View
 
+  # send to master user if the to_id is nil
+  def new_message(payload, socket, admin) do
+    room_id = socket.assigns.room_id
+    with {:ok, sender} <- sender(socket),
+         {_, receiver} <- receiver(socket, payload["to_id"], admin),
+         {:ok, msg} <- create_message(sender, receiver, room_id, payload["body"]),
+           msg = Repo.preload(msg, [:from, :to, :from_user]),
+           sender = Repo.preload(sender, [:user]),
+           resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
+      do: {:ok, resp}
+  end
+
   defp receiver(socket, to, admin) do
     cond do
       socket.assigns[:user_id] ->
@@ -26,17 +38,6 @@ defmodule EmbedChat.RoomChannelSF do
       true ->
         {:error, %Address{}}
     end
-  end
-
-  def new_message(payload, socket, admin) do
-    room_id = socket.assigns.room_id
-    with {:ok, sender} <- sender(socket),
-         {_, receiver} <- receiver(socket, payload["to_id"], admin),
-         {:ok, msg} <- create_message(sender, receiver, room_id, payload["body"]),
-           msg = Repo.preload(msg, [:from, :to, :from_user]),
-           sender = Repo.preload(sender, [:user]),
-           resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
-      do: {:ok, resp}
   end
 
   defp create_message(sender, receiver, room_id, text) do

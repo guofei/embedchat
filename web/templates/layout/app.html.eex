@@ -65,6 +65,7 @@
         <div class="mdl-layout__drawer">
           <span class="mdl-layout-title">Chat</span>
           <nav class="mdl-navigation">
+            <%= link gettext("Realtime Chat"),    to: page_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= link gettext("Auto Message"), to: auto_message_config_path(@conn, :index), class: "mdl-navigation__link" %>
           </nav>
         </div>
