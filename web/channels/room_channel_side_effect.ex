@@ -11,6 +11,15 @@ defmodule EmbedChat.RoomChannelSF do
 
   import Ecto.Query, only: [from: 2]
 
+  def messages(room_id, address, limit) do
+    query = from m in Message,
+      order_by: [desc: :inserted_at],
+      where: m.room_id == ^(room_id) and (m.from_id == ^(address.id) or m.to_id == ^(address.id)),
+      limit: ^limit,
+      preload: [:from, :to, :from_user]
+    Repo.all(query)
+  end
+
   def new_message_visitor_to_master(%{"from_id" => distinct_id, "body" => msg_text}, room_id) do
     online_master = random_online_admin(room_id)
     with {:ok, sender} <- visitor_sender(distinct_id),
