@@ -33,8 +33,8 @@ defmodule EmbedChat.AutoMessageConfig do
     |> foreign_key_constraint(:room_id)
   end
 
-  def match(models,  %{"href" => cur, "language" => lan, "referrer" => ref}) do
-    status = %{current_url: cur, referrer: ref, language: lan, visit_view: 1}
+  def match(models,  %{"href" => cur, "language" => lan, "referrer" => ref, "visitView" => vv}) do
+    status = %{current_url: cur, referrer: ref, language: lan, visit_view: vv}
     match(models, status)
   end
 

@@ -48,6 +48,7 @@ let state_tree = {
       referrer: 'http://ref.com',
       screenwidth: 100,
       screenHeight: 100,
+      visitView: 1,
       uid: 'xxx'
     },
   },
