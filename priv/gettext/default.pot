@@ -135,6 +135,14 @@ msgstr ""
 msgid "During Beta period( ~ %{endtime}), free access without limit will be available!"
 msgstr ""
 
-#: web/templates/page/index.html.eex:19
+#: web/templates/attempt/form.html.eex:22
 msgid "Try Now"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:68
+msgid "Auto Message"
+msgstr ""
+
+#: web/templates/page/index.html.eex:24
+msgid "Surprise Me"
 msgstr ""

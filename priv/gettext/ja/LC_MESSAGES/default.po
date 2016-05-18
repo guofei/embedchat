@@ -134,6 +134,14 @@ msgstr "チャットコード："
 msgid "During Beta period( ~ %{endtime}), free access without limit will be available!"
 msgstr "Beta版運用期間中（ ～ %{endtime}）は制限なく完全無料でご利用いただけます"
 
-#: web/templates/page/index.html.eex:19
+#: web/templates/attempt/form.html.eex:22
 msgid "Try Now"
 msgstr "今すぐ試す"
+
+#: web/templates/layout/app.html.eex:68
+msgid "Auto Message"
+msgstr ""
+
+#: web/templates/page/index.html.eex:24
+msgid "Surprise Me"
+msgstr "すぐ効果を見る"
