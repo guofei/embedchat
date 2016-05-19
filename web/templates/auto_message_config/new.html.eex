@@ -1,12 +1,9 @@
 <div class="page-content-max">
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-
       <%= render "form.html", changeset: @changeset, rooms: @rooms,
       action: auto_message_config_path(@conn, :create) %>
-
       <%= link "Back", to: auto_message_config_path(@conn, :index) %>
-
     </div>
   </div>
 </div>

@@ -6,26 +6,6 @@
   <% end %>
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-    <%= text_input f, :visit_view_pattern, class: "mdl-textfield__input", type: "text", id: "select_visit_view_pattern", readonly: "readonly", tabIndex: -1 %>
-    <label class="mdl-textfield__label" for="select_visit_view_pattern">IF Visit View</label>
-    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_visit_view_pattern">
-      <li class="mdl-menu__item">=</li>
-      <li class="mdl-menu__item">!=</li>
-      <li class="mdl-menu__item"><</li>
-      <li class="mdl-menu__item">></li>
-    </ul>
-  </div>
-
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <%= number_input f, :visit_view, class: "mdl-textfield__input", id: "visit_view_input", type: "text", pattern: "-?[0-9]*?" %>
-    <%= label f, :visit_view, class: "mdl-textfield__label", for: "visit_view_input" %>
-    <span class="mdl-textfield__error">Input is not a number!</span>
-    <%= error_tag f, :visit_view %>
-  </div>
-
-  <br/>
-
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
     <%= text_input f, :current_url_pattern, class: "mdl-textfield__input", type: "text", id: "select_current_url_pattern", readonly: "readonly", tabIndex: -1 %>
     <label class="mdl-textfield__label" for="select_current_url_pattern">IF Current URL</label>
     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_current_url_pattern">
@@ -40,6 +20,26 @@
     <%= text_input f, :current_url, class: "mdl-textfield__input", type: "text", id: "input_current_url" %>
     <%= label f, :current_url, class: "mdl-textfield__label", for: "input_current_url" %>
     <%= error_tag f, :current_url %>
+  </div>
+
+  <br/>
+
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
+    <%= text_input f, :visit_view_pattern, class: "mdl-textfield__input", type: "text", id: "select_visit_view_pattern", readonly: "readonly", tabIndex: -1 %>
+    <label class="mdl-textfield__label" for="select_visit_view_pattern">IF Current URL Visit View</label>
+    <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_visit_view_pattern">
+      <li class="mdl-menu__item">=</li>
+      <li class="mdl-menu__item">!=</li>
+      <li class="mdl-menu__item"><</li>
+      <li class="mdl-menu__item">></li>
+    </ul>
+  </div>
+
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <%= number_input f, :visit_view, class: "mdl-textfield__input", id: "visit_view_input", type: "text", pattern: "-?[0-9]*?" %>
+    <%= label f, :visit_view, class: "mdl-textfield__label", for: "visit_view_input" %>
+    <span class="mdl-textfield__error">Input is not a number!</span>
+    <%= error_tag f, :visit_view %>
   </div>
 
   <br/>
@@ -102,14 +102,14 @@
   <br/>
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <%= textarea f, :message, class: "mdl-textfield__input", type: "text", rows: 3, id: "input_message" %>
+    <%= textarea f, :message, class: "mdl-textfield__input", type: "text", rows: 2, id: "input_message" %>
     <%= label f, :message, class: "mdl-textfield__label", for: "input_message" %>
     <%= error_tag f, :message %>
   </div>
 
   <br/><br/>
 
-  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+  <div class="mdl-textfield mdl-js-textfield">
     <%= submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
   </div>
 <% end %>
