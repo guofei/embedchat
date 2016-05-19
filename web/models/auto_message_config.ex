@@ -8,10 +8,10 @@ defmodule EmbedChat.AutoMessageConfig do
     field :referrer, :string
     field :language, :string
     field :visit_view, :integer
-    field :current_url_pattern, :string
-    field :referrer_pattern, :string
-    field :language_pattern, :string
-    field :visit_view_pattern, :string
+    field :current_url_pattern, :string, default: "include"
+    field :referrer_pattern, :string, default: "include"
+    field :language_pattern, :string, default: "="
+    field :visit_view_pattern, :string, default: "="
     belongs_to :user, EmbedChat.User
     belongs_to :room, EmbedChat.Room
 
