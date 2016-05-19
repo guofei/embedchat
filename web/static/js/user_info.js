@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { getCookie, setCookie } from './cookies';
+import store from 'store';
 
 function getBrowserLanguage() {
   const first = window.navigator.languages
@@ -15,13 +15,13 @@ function getBrowserLanguage() {
 }
 
 function visitView() {
-  const key = 'visit_view';
-  if (getCookie(key) !== '') {
-    const oldNumber = parseInt(getCookie(key), 10);
-    setCookie(key, oldNumber + 1, 365);
+  const key = `${location.pathname}_vv`;
+  if (store.get(key)) {
+    const oldNumber = store.get(key);
+    store.set(key, oldNumber + 1);
     return oldNumber + 1;
   }
-  setCookie(key, 1, 365);
+  store.set(key, 1);
   return 1;
 }
 
