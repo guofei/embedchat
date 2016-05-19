@@ -63,12 +63,12 @@ defmodule EmbedChat.AutoMessageConfig do
   defp do_match("~=", regex, str), do: do_match_regex(regex, str)
   defp do_match("regex", regex, str), do: do_match_regex(regex, str)
   defp do_match("include", short, long), do: do_match_regex(short, long)
-  defp do_match("=", v1, v2), do: v1 == v2
-  defp do_match("!=", v1, v2), do: v1 != v2
-  defp do_match(">", v1, v2), do: v1 > v2
-  defp do_match("<", v1, v2), do: v1 < v2
-  defp do_match(">=", v1, v2), do: v1 >= v2
-  defp do_match("<=", v1, v2), do: v1 <= v2
+  defp do_match("=", pattern, status), do: pattern == status
+  defp do_match("!=", pattern, status), do: pattern != status
+  defp do_match(">", pattern, status), do: status > pattern
+  defp do_match("<", pattern, status), do: status < pattern
+  defp do_match(">=", pattern, status), do: status >= pattern
+  defp do_match("<=", pattern, status), do: status <= pattern
 
   # ignore all pattern
   defp do_match(_, _, _), do: false
