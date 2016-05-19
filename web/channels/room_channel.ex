@@ -1,7 +1,6 @@
 defmodule EmbedChat.RoomChannel do
   use EmbedChat.Web, :channel
   alias EmbedChat.ChannelWatcher
-  alias EmbedChat.Message
   alias EmbedChat.Room
   alias EmbedChat.RoomChannelSF
   alias EmbedChat.User
