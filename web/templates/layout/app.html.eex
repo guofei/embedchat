@@ -73,12 +73,14 @@
       <main class="mdl-layout__content">
         <div class="page-content">
           <!-- Your content goes here -->
-          <div class="page-content-max">
+          <%= if get_flash(@conn, :info) || get_flash(@conn, :error) do %>
             <center>
-              <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-              <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+              <p>
+                <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+                <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+              </p>
             </center>
-          </div>
+          <% end %>
           <%= render @view_module, @view_template, assigns %>
         </div>
       </main>
