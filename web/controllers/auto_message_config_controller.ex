@@ -54,7 +54,7 @@ defmodule EmbedChat.AutoMessageConfigController do
       {:ok, auto_message_config} ->
         conn
         |> put_flash(:info, "Auto message config updated successfully.")
-        |> redirect(to: auto_message_config_path(conn, :show, auto_message_config))
+        |> redirect(to: auto_message_config_path(conn, :index))
       {:error, changeset} ->
         rooms = Repo.all(user_rooms(conn))
         render(conn, "edit.html", auto_message_config: auto_message_config, changeset: changeset, rooms: rooms)

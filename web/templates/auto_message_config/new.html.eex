@@ -3,8 +3,8 @@
     <center>
       <%= render "form.html", changeset: @changeset, rooms: @rooms,
       action: auto_message_config_path(@conn, :create) %>
+      <%= link "Back", to: auto_message_config_path(@conn, :index) %>
     </center>
-    <%= link "Back", to: auto_message_config_path(@conn, :index) %>
   </div>
 </div>
 
