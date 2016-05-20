@@ -5,7 +5,7 @@
         <thead>
           <tr>
             <th class="mdl-data-table__cell--non-numeric">URL</th>
-            <th class="mdl-data-table__cell--non-numeric">URL Visit View</th>
+            <th class="mdl-data-table__cell--non-numeric">URL Page View</th>
             <th class="mdl-data-table__cell--non-numeric">Referrer</th>
             <th class="mdl-data-table__cell--non-numeric">Language</th>
             <th class="mdl-data-table__cell--non-numeric"></th>

@@ -26,7 +26,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
     <%= text_input f, :visit_view_pattern, class: "mdl-textfield__input", type: "text", id: "select_visit_view_pattern", readonly: "readonly", tabIndex: -1 %>
-    <label class="mdl-textfield__label" for="select_visit_view_pattern">IF URL Visit View</label>
+    <label class="mdl-textfield__label" for="select_visit_view_pattern">IF URL Page View</label>
     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_visit_view_pattern">
       <li class="mdl-menu__item">=</li>
       <li class="mdl-menu__item">!=</li>
