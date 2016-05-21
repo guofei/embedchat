@@ -26,6 +26,7 @@ defmodule EmbedChat.Router do
     resources "/rooms", RoomController
     resources "/attempts", AttemptController
     resources "/auto_message_configs", AutoMessageConfigController
+    resources "/messages", MessageController
   end
 
   scope "/manage", EmbedChat do

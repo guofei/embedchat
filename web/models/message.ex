@@ -12,7 +12,7 @@ defmodule EmbedChat.Message do
   end
 
   @required_fields ~w(body)
-  @optional_fields ~w()
+  @optional_fields ~w(from_id to_id)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
