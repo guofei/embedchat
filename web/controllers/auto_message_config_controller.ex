@@ -51,7 +51,7 @@ defmodule EmbedChat.AutoMessageConfigController do
     changeset = AutoMessageConfig.changeset(auto_message_config, auto_message_config_params)
 
     case Repo.update(changeset) do
-      {:ok, auto_message_config} ->
+      {:ok, _auto_message_config} ->
         conn
         |> put_flash(:info, "Auto message config updated successfully.")
         |> redirect(to: auto_message_config_path(conn, :index))

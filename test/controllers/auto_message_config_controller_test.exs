@@ -37,7 +37,7 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
   test "shows chosen resource", %{conn: conn, user: user} do
     auto_message_config = Repo.insert! %AutoMessageConfig{user_id: user.id}
     conn = get conn, auto_message_config_path(conn, :show, auto_message_config)
-    assert html_response(conn, 200) =~ "Show auto message config"
+    assert html_response(conn, 200) =~ "Then Send Message"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
@@ -56,7 +56,7 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
     auto_message_config = Repo.insert! %AutoMessageConfig{user_id: user.id}
     attrs = Map.put(@valid_attrs, :room_id, room.id)
     conn = put conn, auto_message_config_path(conn, :update, auto_message_config), auto_message_config: attrs
-    assert redirected_to(conn) == auto_message_config_path(conn, :show, auto_message_config)
+    assert redirected_to(conn) == auto_message_config_path(conn, :index)
     assert Repo.get_by(AutoMessageConfig, attrs)
   end
 

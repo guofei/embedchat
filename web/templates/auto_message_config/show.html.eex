@@ -1,28 +1,31 @@
-<h2>Show auto message config</h2>
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--12-col">
 
-<ul>
+    <ul class="mdl-list">
+      <li class="mdl-list__item">
+        IF URL <%= @auto_message_config.current_url_pattern %> <%= @auto_message_config.current_url %>
+      </li>
 
-  <li>
-    <strong>Delay time:</strong>
-    <%= @auto_message_config.delay_time %>
-  </li>
+      <li class="mdl-list__item">
+        AND URL Page View  <%= @auto_message_config.visit_view_pattern %> <%= @auto_message_config.visit_view %>
+      </li>
 
-  <li>
-    <strong>Current url:</strong>
-    <%= @auto_message_config.current_url %>
-  </li>
+      <li class="mdl-list__item">
+        AND Referrer URL <%= @auto_message_config.referrer_pattern %> <%= @auto_message_config.referrer %>
+      </li>
 
-  <li>
-    <strong>Referrer:</strong>
-    <%= @auto_message_config.referrer %>
-  </li>
+      <li class="mdl-list__item">
+        AND Language <%= @auto_message_config.language_pattern %> <%= @auto_message_config.language %>
+      </li>
 
-  <li>
-    <strong>Language:</strong>
-    <%= @auto_message_config.language %>
-  </li>
+      <li class="mdl-list__item">
+        Then Send Message: <%= @auto_message_config.message %>
+      </li>
 
-</ul>
+    </ul>
 
-<%= link "Edit", to: auto_message_config_path(@conn, :edit, @auto_message_config) %>
-<%= link "Back", to: auto_message_config_path(@conn, :index) %>
+    <%= link "Edit", to: auto_message_config_path(@conn, :edit, @auto_message_config) %>
+    <%= link "Back", to: auto_message_config_path(@conn, :index) %>
+
+  </div>
+</div>
