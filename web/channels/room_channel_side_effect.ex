@@ -21,9 +21,9 @@ defmodule EmbedChat.RoomChannelSF do
   end
 
   def new_message_visitor_to_master(%{"from_id" => distinct_id, "body" => msg_text}, room_id) do
-    online_master = random_online_admin(room_id)
+    master = random_admin(room_id)
     with {:ok, sender} <- visitor_sender(distinct_id),
-         {_, receiver} <- master_receiver(online_master),
+         {:ok, receiver} <- master_receiver(master),
          {:ok, msg} <- create_message(sender, receiver, room_id, msg_text),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
            sender = Repo.preload(sender, [:user]),

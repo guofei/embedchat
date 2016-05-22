@@ -13,12 +13,12 @@ defmodule EmbedChat.RoomChannel do
           ChannelWatcher.monitor(
             :rooms,
             self(),
-            {__MODULE__, :leave, [
-                room.id,
-                room.uuid,
-                socket.assigns[:user_id],
-                socket.assigns.distinct_id]
-            })
+            {__MODULE__, :leave, [room.id,
+                                  room.uuid,
+                                  socket.assigns[:user_id],
+                                  socket.assigns.distinct_id]
+            }
+          )
           new_socket =
             socket
             |> assign(:room_id, room.id)

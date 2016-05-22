@@ -101,6 +101,7 @@ defmodule EmbedChat.RoomChannelTest do
 
   defp create_room do
     owner = insert_user(username: "sneaky")
+    insert_address(owner)
     room = insert_room(owner, %{})
     {room, owner}
   end
