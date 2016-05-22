@@ -1,40 +1,39 @@
-
-  <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--12-col">
-      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
-        <thead>
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--12-col">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">URL</th>
+          <th class="mdl-data-table__cell--non-numeric">URL Page View</th>
+          <th class="mdl-data-table__cell--non-numeric">Referrer</th>
+          <th class="mdl-data-table__cell--non-numeric">Language</th>
+          <th class="mdl-data-table__cell--non-numeric"></th>
+          <th class="mdl-data-table__cell--non-numeric"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for auto_message_config <- @auto_message_configs do %>
           <tr>
-            <th class="mdl-data-table__cell--non-numeric">URL</th>
-            <th class="mdl-data-table__cell--non-numeric">URL Page View</th>
-            <th class="mdl-data-table__cell--non-numeric">Referrer</th>
-            <th class="mdl-data-table__cell--non-numeric">Language</th>
-            <th class="mdl-data-table__cell--non-numeric"></th>
-            <th class="mdl-data-table__cell--non-numeric"></th>
+            <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.current_url_pattern %>(<%= auto_message_config.current_url %>)</td>
+            <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.visit_view_pattern %>(<%= auto_message_config.visit_view %>)</td>
+            <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.referrer_pattern %>(<%= auto_message_config.referrer %>)</td>
+            <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.language_pattern %>(<%= auto_message_config.language %>)</td>
+            <td>
+              <%= link "Edit", to: auto_message_config_path(@conn, :edit, auto_message_config), class: "mdl-button mdl-js-button" %>
+            </td>
+            <td>
+              <%= link "Delete", to: auto_message_config_path(@conn, :delete, auto_message_config), method: :delete, data: [confirm: "Are you sure?"], class: "mdl-button mdl-js-button" %>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          <%= for auto_message_config <- @auto_message_configs do %>
-            <tr>
-              <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.current_url_pattern %>(<%= auto_message_config.current_url %>)</td>
-              <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.visit_view_pattern %>(<%= auto_message_config.visit_view %>)</td>
-              <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.referrer_pattern %>(<%= auto_message_config.referrer %>)</td>
-              <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.language_pattern %>(<%= auto_message_config.language %>)</td>
-              <td>
-                <%= link "Edit", to: auto_message_config_path(@conn, :edit, auto_message_config), class: "mdl-button mdl-js-button" %>
-              </td>
-              <td>
-                <%= link "Delete", to: auto_message_config_path(@conn, :delete, auto_message_config), method: :delete, data: [confirm: "Are you sure?"], class: "mdl-button mdl-js-button" %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+        <% end %>
+      </tbody>
+    </table>
 
-      <br/>
-      <p>
-        <%= link "New auto message", to: auto_message_config_path(@conn, :new), class: "mdl-button mdl-js-button" %>
-      </p>
+    <br/>
+    <p>
+      <%= link "New auto message", to: auto_message_config_path(@conn, :new), class: "mdl-button mdl-js-button" %>
+    </p>
 
-    </div>
   </div>
+</div>
 
