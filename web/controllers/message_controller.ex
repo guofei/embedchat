@@ -7,8 +7,13 @@ defmodule EmbedChat.MessageController do
   plug :authenticate_user
 
   def index(conn, _params) do
-    rooms = Repo.all(user_rooms(conn)) |> Repo.preload(:messages)
-    render(conn, "index.html", rooms: rooms)
+    # refactor: add limit
+    messages =
+      Repo.all(user_rooms(conn))
+      |> Repo.preload(:messages)
+      |> Enum.map(fn(r) -> r.messages end)
+      |> Enum.map(fn(m) -> Repo.preload(m, [:from, :to]) end)
+    render(conn, "index.html", messages: messages)
   end
 
   def new(conn, _params) do

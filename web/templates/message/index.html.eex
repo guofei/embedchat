@@ -1,6 +1,6 @@
 <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--12-col">
-    <%= for room <- @rooms do %>
+    <%= for msgs <- @messages do %>
       <table class="table">
         <thead>
           <tr>
@@ -11,7 +11,7 @@
           </tr>
         </thead>
         <tbody>
-          <%= for message <- room.messages do %>
+          <%= for message <- msgs do %>
             <tr>
               <td><%= message.from_id %></td>
               <td><%= message.to_id %></td>
