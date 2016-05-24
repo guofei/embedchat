@@ -12,7 +12,8 @@ defmodule EmbedChat.MessageController do
     # refactor: add limit
     query = from m in Message,
       join: um in UserRoom, on: m.room_id == um.room_id,
-      where: um.id == ^conn.assigns.current_user.id
+      where: um.id == ^conn.assigns.current_user.id,
+      preload: [:from, :to]
     messages = Repo.all(query)
     render(conn, "index.html", messages: messages)
   end
