@@ -18,7 +18,8 @@ defmodule EmbedChat.Locale do
   end
 
   defp set_locale(conn, locale) do
-    Gettext.put_locale(EmbedChat.Gettext, locale)
+    text_locale = List.first(String.split(locale, "-"))
+    Gettext.put_locale(EmbedChat.Gettext, text_locale)
     conn |> put_session(:locale, locale)
   end
 
