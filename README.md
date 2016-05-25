@@ -2,7 +2,7 @@
 
 A growth hacking service that you can live chat with visitors on your website.
 
-[lewini.com](http://www.lewini.com)
+[www.lewini.com](http://www.lewini.com)
 
 ## License
 
