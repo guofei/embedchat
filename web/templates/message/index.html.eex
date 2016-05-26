@@ -6,17 +6,19 @@
           <th>From</th>
           <th>To</th>
           <th>Message</th>
+          <th>Created At</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <%= for message <- @messages do %>
           <tr>
-            <td><%= message.from_id %></td>
-            <td><%= message.to_id %></td>
+            <td><%= message.from.uuid %></td>
+            <td><%= if message.to, do: message.to.uuid %></td>
             <td><%= message.body %></td>
+            <td><%= message.inserted_at %></td>
             <td class="text-right">
-              <%= link "Delete", to: message_path(@conn, :delete, message), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+              <%= link "Delete", to: message_path(@conn, :delete, message), method: :delete, data: [confirm: "Are you sure?"], class: "" %>
             </td>
           </tr>
         <% end %>
