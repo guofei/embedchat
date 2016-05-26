@@ -7,6 +7,7 @@ defmodule EmbedChat.Message do
     belongs_to :to, EmbedChat.Address
     belongs_to :room, EmbedChat.Room
     has_one :from_user, through: [:from, :user]
+    has_one :to_user, through: [:to, :user]
 
     timestamps
   end

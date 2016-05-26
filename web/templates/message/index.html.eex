@@ -13,8 +13,8 @@
       <tbody>
         <%= for message <- @messages do %>
           <tr>
-            <td><%= message.from.uuid %></td>
-            <td><%= if message.to, do: message.to.uuid %></td>
+            <td><%= sent_by(message, @conn.assigns.current_user) %></td>
+            <td><%= received_by(message, @conn.assigns.current_user) %></td>
             <td><%= message.body %></td>
             <td><%= message.inserted_at %></td>
             <td class="text-right">
