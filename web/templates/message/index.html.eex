@@ -1,6 +1,6 @@
 <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--12-col">
-    <table class="table">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
       <thead>
         <tr>
           <th>From</th>
@@ -24,8 +24,5 @@
         <% end %>
       </tbody>
     </table>
-
-    <%= link "New message", to: message_path(@conn, :new) %>
-
   </div>
 </div>
