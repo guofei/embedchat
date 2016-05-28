@@ -59,4 +59,12 @@ defmodule EmbedChat.MessageView do
       end
     end
   end
+
+  def short_message_body(message) do
+    if String.length(message.body) > 21 do
+      String.slice(message.body, 0..20) <> ".."
+    else
+      message.body
+    end
+  end
 end
