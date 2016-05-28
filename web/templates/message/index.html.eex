@@ -3,21 +3,21 @@
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
       <thead>
         <tr>
-          <th>From</th>
-          <th>To</th>
-          <th>Message</th>
-          <th>Created At</th>
+          <th class="mdl-data-table__cell--non-numeric">From</th>
+          <th class="mdl-data-table__cell--non-numeric">To</th>
+          <th class="mdl-data-table__cell--non-numeric">Message</th>
+          <th class="mdl-data-table__cell--non-numeric">Created At</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <%= for message <- @messages do %>
           <tr>
-            <td><%= sent_by(message, @conn.assigns.current_user) %></td>
-            <td><%= received_by(message, @conn.assigns.current_user) %></td>
-            <td><%= message.body %></td>
-            <td><%= message.inserted_at %></td>
-            <td class="text-right">
+            <td class="mdl-data-table__cell--non-numeric"><%= String.slice(sent_by(message, @conn.assigns.current_user), 0..7) %></td>
+            <td class="mdl-data-table__cell--non-numeric"><%= String.slice(received_by(message, @conn.assigns.current_user), 0..7) %></td>
+            <td class="mdl-data-table__cell--non-numeric"><%= message.body %></td>
+            <td class="mdl-data-table__cell--non-numeric"><%= message.inserted_at %></td>
+            <td class="mdl-data-table__cell--non-numeric">
               <%= link "Delete", to: message_path(@conn, :delete, message), method: :delete, data: [confirm: "Are you sure?"], class: "" %>
             </td>
           </tr>
