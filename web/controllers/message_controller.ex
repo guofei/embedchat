@@ -2,19 +2,18 @@ defmodule EmbedChat.MessageController do
   use EmbedChat.Web, :controller
 
   alias EmbedChat.Message
-  alias EmbedChat.Room
   alias EmbedChat.UserRoom
 
   plug :scrub_params, "message" when action in [:create, :update]
   plug :authenticate_user
 
-  def index(conn, _params) do
+  def index(conn, params) do
     # refactor: add limit
     query = from m in Message,
       join: um in UserRoom, on: m.room_id == um.room_id,
       where: um.id == ^conn.assigns.current_user.id,
       preload: [:from, :to, :from_user, :to_user]
-    messages = Repo.all(query)
+    messages = Repo.paginate(query, params)
     render(conn, "index.html", messages: messages)
   end
 

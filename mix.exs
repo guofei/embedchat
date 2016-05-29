@@ -35,11 +35,12 @@ defmodule EmbedChat.Mixfile do
      {:exrm, "~> 1.0"},
      {:gettext, "~> 0.11"},
      {:hound, "~> 1.0"},
+     {:phoenix, "~> 1.1"},
      {:phoenix_ecto, "~> 2.0"},
      {:phoenix_html, "~> 2.3"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:postgrex, "~> 0.11"},
-     {:phoenix, "~> 1.1"}]
+     {:scrivener, "~> 1.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
