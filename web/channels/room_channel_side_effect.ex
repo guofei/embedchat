@@ -179,7 +179,7 @@ defmodule EmbedChat.RoomChannelSF do
     if Enum.empty?(admins) do
       nil
     else
-      {admin, _ } = Enum.random admins
+      {admin, _} = Enum.random admins
       admin
     end
   end

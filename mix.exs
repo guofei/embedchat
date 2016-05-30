@@ -40,7 +40,8 @@ defmodule EmbedChat.Mixfile do
      {:phoenix_html, "~> 2.5"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:postgrex, "~> 0.11"},
-     {:scrivener, "~> 1.0"}]
+     {:scrivener, "~> 1.0"},
+     {:credo, "~> 0.3", only: [:dev, :test]}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

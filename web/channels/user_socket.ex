@@ -33,7 +33,7 @@ defmodule EmbedChat.UserSocket do
             {:ok,
              socket
              |> assign(:user_id, user_id)
-             |> assign(:distinct_id, distinct_id) }
+             |> assign(:distinct_id, distinct_id)}
           {:error, _reason} ->
             :error
         end
