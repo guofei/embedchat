@@ -135,8 +135,8 @@ defmodule EmbedChat.RoomChannelSF do
   end
 
   def online_visitors(room_id) do
-    {:ok, bucket} = visitor_bucket(room_id)
-    Bucket.map(bucket)
+    {:ok, bkt} = visitor_bucket(room_id)
+    Bucket.map(bkt)
   end
 
   def visitor_update(room_id, distinct_id, info) do
@@ -144,18 +144,18 @@ defmodule EmbedChat.RoomChannelSF do
   end
 
   def visitor_online(room_id, distinct_id, info) do
-    {:ok, bucket} = visitor_bucket(room_id)
-    Bucket.put(bucket, distinct_id, info)
+    {:ok, bkt} = visitor_bucket(room_id)
+    Bucket.put(bkt, distinct_id, info)
   end
 
   def visitor_offline(room_id, distinct_id) do
-    {:ok, bucket} = visitor_bucket(room_id)
-    Bucket.delete(bucket, distinct_id)
+    {:ok, bkt} = visitor_bucket(room_id)
+    Bucket.delete(bkt, distinct_id)
   end
 
   def online_admins(room_id) do
-    {:ok, bucket} = admin_bucket(room_id)
-    Bucket.map(bucket)
+    {:ok, bkt} = admin_bucket(room_id)
+    Bucket.map(bkt)
   end
 
   defp random_admin(room_id) do
@@ -185,13 +185,13 @@ defmodule EmbedChat.RoomChannelSF do
   end
 
   def admin_online(room_id, distinct_id, user) do
-    {:ok, bucket} = admin_bucket(room_id)
-    Bucket.put(bucket, distinct_id, %{id: user.id, name: user.name})
+    {:ok, bkt} = admin_bucket(room_id)
+    Bucket.put(bkt, distinct_id, %{id: user.id, name: user.name})
   end
 
   def admin_offline(room_id, distinct_id) do
-    {:ok, bucket} = admin_bucket(room_id)
-    Bucket.delete(bucket, distinct_id)
+    {:ok, bkt} = admin_bucket(room_id)
+    Bucket.delete(bkt, distinct_id)
   end
 
   defp visitor_bucket(room_id) do
@@ -205,8 +205,8 @@ defmodule EmbedChat.RoomChannelSF do
   defp bucket(id) do
     reg = Registry
     case Registry.lookup(reg, "rooms:#{id}") do
-      {:ok, bucket} ->
-        {:ok, bucket}
+      {:ok, bkt} ->
+        {:ok, bkt}
       :error ->
         Registry.create(reg, "rooms:#{id}")
         Registry.lookup(reg, "rooms:#{id}")
