@@ -50,9 +50,16 @@ defmodule EmbedChat.AutoMessageConfig do
   def match(model, status) do
     do_match(model.current_url_pattern, model.current_url, status.current_url) and
     do_match(model.referrer_pattern, model.referrer, status.referrer) and
-    do_match(model.language_pattern, model.language, status.language) and
+    do_match(model.language_pattern, language(model.language), language(status.language)) and
     do_match(model.visit_view_pattern, model.visit_view, status.visit_view)
   end
+
+  defp language(str) when is_binary(str) do
+    str
+    |> String.downcase
+    |> String.slice(0..1)
+  end
+  defp language(arg), do: arg
 
   # ignore nil and empty pattern
   defp do_match(_, v1, v2) when is_nil(v1) or is_nil(v2), do: true
