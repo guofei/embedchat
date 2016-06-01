@@ -75,7 +75,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= text_input f, :language, class: "mdl-textfield__input", type: "text", id: "input_language" %>
-    <%= label f, :language, class: "mdl-textfield__label", for: "input_language" %>
+    <label class="mdl-textfield__label" for="input_language">Language(example: en, ja, zh...)</label>
     <%= error_tag f, :language %>
   </div>
 
