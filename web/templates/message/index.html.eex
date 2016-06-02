@@ -41,6 +41,7 @@
         <% end %>
       </tbody>
     </table>
+    <%= pagination_links @conn, @messages %>
     <br/>
     <br/>
   </div>

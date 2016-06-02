@@ -1,5 +1,6 @@
 defmodule EmbedChat.MessageView do
   use EmbedChat.Web, :view
+  import Scrivener.HTML
 
   def render("message.json", %{message: msg}) do
     from_id = cond do

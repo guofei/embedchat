@@ -32,3 +32,6 @@ config :embed_chat, EmbedChat.Gettext,
   locales: ~w(en en-US ja ja-JP)
 
 config :hound, driver: "phantomjs"
+
+config :scrivener_html,
+    routes_helper: EmbedChat.Router.Helpers
