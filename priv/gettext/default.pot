@@ -139,10 +139,18 @@ msgstr ""
 msgid "Try Now"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:68
+#: web/templates/layout/app.html.eex:70
 msgid "Auto Message"
 msgstr ""
 
 #: web/templates/page/index.html.eex:24
 msgid "Surprise Me"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:68
+msgid "Chat"
+msgstr ""
+
+#: web/templates/layout/app.html.eex:69
+msgid "Messages"
 msgstr ""

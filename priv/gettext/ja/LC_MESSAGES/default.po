@@ -138,10 +138,18 @@ msgstr "Beta版運用期間中（ ～ %{endtime}）は制限なく完全無料�
 msgid "Try Now"
 msgstr "今すぐ試す"
 
-#: web/templates/layout/app.html.eex:68
+#: web/templates/layout/app.html.eex:70
 msgid "Auto Message"
-msgstr ""
+msgstr "自動話しかけ"
 
 #: web/templates/page/index.html.eex:24
 msgid "Surprise Me"
 msgstr "すぐ効果を見る"
+
+#: web/templates/layout/app.html.eex:68
+msgid "Chat"
+msgstr "チャット"
+
+#: web/templates/layout/app.html.eex:69
+msgid "Messages"
+msgstr "過去チャット"
