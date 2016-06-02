@@ -41,7 +41,11 @@
         <% end %>
       </tbody>
     </table>
-    <%= pagination_links @conn, @messages %>
+    <center>
+      <div class="nav-page">
+        <%= pagination_links @conn, @messages %>
+      </div>
+    </center>
     <br/>
     <br/>
   </div>

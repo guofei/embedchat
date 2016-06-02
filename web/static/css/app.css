@@ -7,3 +7,12 @@
     max-width: 900px;
     margin: auto;
 }
+
+.nav-page nav ul li {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.nav-page nav ul li.active a {
+    text-decoration: none;
+}
