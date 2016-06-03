@@ -13,7 +13,11 @@ defmodule EmbedChat.AutoMessageConfigTest do
     referrer: "",
     referrer_pattern: "=",
     visit_view: 3,
-    visit_view_pattern: "=",
+    visit_view_pattern: nil,
+    single_page_view: 4,
+    single_page_view_pattern: "=",
+    total_page_view: 5,
+    total_page_view_pattern: ">",
     room_id: 1
   }
   @invalid_attrs %{}
@@ -29,6 +33,7 @@ defmodule EmbedChat.AutoMessageConfigTest do
   end
 
   test "match current status" do
-    assert EmbedChat.AutoMessageConfig.match(@valid_attrs, %{current_url: "/rooms/1", referrer: "", language: "en", visit_view: 3})
+    assert EmbedChat.AutoMessageConfig.match(@valid_attrs, %{current_url: "/rooms/1", referrer: "", language: "en", visit_view: 3, single_page_view: 4, total_page_view: 6})
+    assert EmbedChat.AutoMessageConfig.match(@valid_attrs, %{current_url: "/rooms/1", referrer: "", language: "en", visit_view: nil, single_page_view: 4, total_page_view: 6})
   end
 end

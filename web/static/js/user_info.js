@@ -14,8 +14,7 @@ function getBrowserLanguage() {
   return lang;
 }
 
-function visitView() {
-  const key = `${location.pathname}_vv`;
+function autoIncrement(key) {
   if (store.get(key)) {
     const oldNumber = store.get(key);
     store.set(key, oldNumber + 1);
@@ -25,6 +24,18 @@ function visitView() {
   return 1;
 }
 
+function visitView() {
+  const key = `${location.pathname}_vv`;
+  return autoIncrement(key);
+}
+
+const currentPageView = visitView();
+
+function totalPageView() {
+  const key = 'lwn_total_pv_';
+  return autoIncrement(key);
+}
+
 const UserInfo = {
   userAgent: navigator.userAgent,
   href: location.href,
@@ -32,8 +43,12 @@ const UserInfo = {
   screenwidth: screen.width,
   screenHeight: screen.height,
   language: getBrowserLanguage(),
-  visitView: visitView(),
+  visitView: currentPageView,
+  singlePageView: currentPageView,
+  totalPageView: totalPageView(),
   inserted_at: moment.utc().format(),
 };
+
+console.log(UserInfo);
 
 export default UserInfo;

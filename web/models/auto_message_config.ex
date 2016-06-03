@@ -8,10 +8,14 @@ defmodule EmbedChat.AutoMessageConfig do
     field :referrer, :string
     field :language, :string
     field :visit_view, :integer
+    field :single_page_view, :integer
+    field :total_page_view, :integer
     field :current_url_pattern, :string, default: "include"
     field :referrer_pattern, :string, default: "include"
     field :language_pattern, :string, default: "="
     field :visit_view_pattern, :string, default: "="
+    field :single_page_view_pattern, :string, default: "="
+    field :total_page_view_pattern, :string, default: "="
     belongs_to :user, EmbedChat.User
     belongs_to :room, EmbedChat.Room
 
@@ -19,7 +23,7 @@ defmodule EmbedChat.AutoMessageConfig do
   end
 
   @required_fields ~w(message room_id)
-  @optional_fields ~w(delay_time referrer language visit_view current_url_pattern referrer_pattern language_pattern visit_view_pattern current_url)
+  @optional_fields ~w(delay_time referrer language visit_view current_url_pattern referrer_pattern language_pattern visit_view_pattern current_url single_page_view single_page_view_pattern total_page_view total_page_view_pattern)
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -33,8 +37,8 @@ defmodule EmbedChat.AutoMessageConfig do
     |> foreign_key_constraint(:room_id)
   end
 
-  def match(models,  %{"href" => cur, "language" => lan, "referrer" => ref, "visitView" => vv}) do
-    status = %{current_url: cur, referrer: ref, language: lan, visit_view: vv}
+  def match(models,  %{"href" => cur, "language" => lan, "referrer" => ref, "visitView" => vv, "singlePageView" => spv, "totalPageView" => tpv}) do
+    status = %{current_url: cur, referrer: ref, language: lan, visit_view: vv, single_page_view: spv, total_page_view: tpv}
     match(models, status)
   end
 
@@ -51,7 +55,9 @@ defmodule EmbedChat.AutoMessageConfig do
     do_match(model.current_url_pattern, model.current_url, status.current_url) and
     do_match(model.referrer_pattern, model.referrer, status.referrer) and
     do_match(model.language_pattern, language(model.language), language(status.language)) and
-    do_match(model.visit_view_pattern, model.visit_view, status.visit_view)
+    do_match(model.visit_view_pattern, model.visit_view, status.visit_view) and
+    do_match(model.single_page_view_pattern, model.single_page_view, status.single_page_view) and
+    do_match(model.total_page_view_pattern, model.total_page_view, status.total_page_view)
   end
 
   defp language(str) when is_binary(str) do
@@ -62,10 +68,7 @@ defmodule EmbedChat.AutoMessageConfig do
   defp language(arg), do: arg
 
   # ignore nil and empty pattern
-  defp do_match(_, v1, v2) when is_nil(v1) or is_nil(v2), do: true
-  defp do_match(_, "", _), do: true
-  defp do_match(_, _, ""), do: true
-  defp do_match("", _, _), do: true
+  defp do_match(p, v1, v2) when is_nil(p) or is_nil(v1) or is_nil(v2) or p == "" or v1 == "" or v2 == "", do: true
 
   defp do_match("~=", regex, str), do: do_match_regex(regex, str)
   defp do_match("regex", regex, str), do: do_match_regex(regex, str)
