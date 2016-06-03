@@ -49,6 +49,4 @@ const UserInfo = {
   inserted_at: moment.utc().format(),
 };
 
-console.log(UserInfo);
-
 export default UserInfo;
