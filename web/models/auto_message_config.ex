@@ -52,8 +52,8 @@ defmodule EmbedChat.AutoMessageConfig do
   end
 
   def match(model, status) do
-    do_match(model.current_url_pattern, model.current_url, status.current_url) and
-    do_match(model.referrer_pattern, model.referrer, status.referrer) and
+    do_match(model.current_url_pattern, strip_url(model.current_url), strip_url(status.current_url)) and
+    do_match(model.referrer_pattern, strip_url(model.referrer), strip_url(status.referrer)) and
     do_match(model.language_pattern, language(model.language), language(status.language)) and
     do_match(model.visit_view_pattern, model.visit_view, status.visit_view) and
     do_match(model.single_page_view_pattern, model.single_page_view, status.single_page_view) and
@@ -66,6 +66,12 @@ defmodule EmbedChat.AutoMessageConfig do
     |> String.slice(0..1)
   end
   defp language(arg), do: arg
+
+  defp strip_url(url) when is_binary(url) do
+    url
+    |> String.rstrip(?/)
+    |> String.replace(~r/^https?:\/\//, "")
+  end
 
   # ignore nil and empty pattern
   defp do_match(p, v1, v2) when is_nil(p) or is_nil(v1) or is_nil(v2) or p == "" or v1 == "" or v2 == "", do: true
