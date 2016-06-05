@@ -62,17 +62,21 @@ defmodule EmbedChat.AutoMessageConfig do
   end
 
   defp filter(%{model: model, status: status}) do
-    new_model = model
-    new_status = status
-    if !String.match?(model.current_url, ~r/^http/) or !String.match?(status.current_url, ~r/^http/) do
-      new_model = %{new_model | current_url: strip_url(new_model.current_url)}
-      new_status = %{new_status | current_url: strip_url(new_status.current_url)}
+    m = model
+    s = status
+    if m.current_url && s.current_url do
+      if !String.match?(m.current_url, ~r/^http/) or !String.match?(s.current_url, ~r/^http/) do
+        m = %{m | current_url: strip_url(m.current_url)}
+        s = %{s | current_url: strip_url(s.current_url)}
+      end
     end
-    if !String.match?(model.referrer, ~r/^http/) or !String.match?(status.referrer, ~r/^http/) do
-      new_model = %{new_model | referrer: strip_url(new_model.referrer)}
-      new_status = %{new_status | referrer: strip_url(new_status.referrer)}
+    if m.referrer && s.referrer do
+      if !String.match?(m.referrer, ~r/^http/) or !String.match?(s.referrer, ~r/^http/) do
+        m = %{m | referrer: strip_url(m.referrer)}
+        s = %{s | referrer: strip_url(s.referrer)}
+      end
     end
-    %{model: new_model, status: new_status}
+    %{model: m, status: s}
   end
 
   defp language(str) when is_binary(str) do
