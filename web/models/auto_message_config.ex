@@ -91,6 +91,7 @@ defmodule EmbedChat.AutoMessageConfig do
     |> String.rstrip(?/)
     |> String.replace(~r/^https?:\/\//, "")
   end
+  defp strip_url(url), do: url
 
   # ignore nil and empty pattern
   defp do_match(p, v1, v2) when is_nil(p) or is_nil(v1) or is_nil(v2) or p == "" or v1 == "" or v2 == "", do: true
