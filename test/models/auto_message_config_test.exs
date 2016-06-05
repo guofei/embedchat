@@ -7,7 +7,7 @@ defmodule EmbedChat.AutoMessageConfigTest do
     message: "some message",
     delay_time: 42,
     current_url: "rooms",
-    current_url_pattern: "~=",
+    current_url_pattern: "=",
     language: "en",
     language_pattern: "=",
     referrer: "",
@@ -33,7 +33,11 @@ defmodule EmbedChat.AutoMessageConfigTest do
   end
 
   test "match current status" do
-    assert EmbedChat.AutoMessageConfig.match(@valid_attrs, %{current_url: "/rooms/1", referrer: "", language: "en", visit_view: 3, single_page_view: 4, total_page_view: 6})
-    assert EmbedChat.AutoMessageConfig.match(@valid_attrs, %{current_url: "/rooms/1", referrer: "", language: "en", visit_view: nil, single_page_view: 4, total_page_view: 6})
+    model = %{@valid_attrs | current_url_pattern: "~="}
+    assert EmbedChat.AutoMessageConfig.match(model, %{current_url: "rooms/1", referrer: "", language: "en", visit_view: 3, single_page_view: 4, total_page_view: 6})
+  end
+
+  test "match current url" do
+    assert EmbedChat.AutoMessageConfig.match(@valid_attrs, %{current_url: "http://rooms", referrer: "", language: "English", visit_view: nil, single_page_view: 4, total_page_view: 6})
   end
 end

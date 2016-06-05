@@ -52,12 +52,27 @@ defmodule EmbedChat.AutoMessageConfig do
   end
 
   def match(model, status) do
-    do_match(model.current_url_pattern, strip_url(model.current_url), strip_url(status.current_url)) and
-    do_match(model.referrer_pattern, strip_url(model.referrer), strip_url(status.referrer)) and
-    do_match(model.language_pattern, language(model.language), language(status.language)) and
-    do_match(model.visit_view_pattern, model.visit_view, status.visit_view) and
-    do_match(model.single_page_view_pattern, model.single_page_view, status.single_page_view) and
-    do_match(model.total_page_view_pattern, model.total_page_view, status.total_page_view)
+    %{model: m, status: s} = filter(%{model: model, status: status})
+    do_match(m.current_url_pattern, strip_url(m.current_url), strip_url(s.current_url)) and
+    do_match(m.referrer_pattern, strip_url(m.referrer), strip_url(s.referrer)) and
+    do_match(m.language_pattern, language(m.language), language(s.language)) and
+    do_match(m.visit_view_pattern, m.visit_view, s.visit_view) and
+    do_match(m.single_page_view_pattern, m.single_page_view, s.single_page_view) and
+    do_match(m.total_page_view_pattern, m.total_page_view, s.total_page_view)
+  end
+
+  defp filter(%{model: model, status: status}) do
+    new_model = model
+    new_status = status
+    if !String.match?(model.current_url, ~r/^http/) or !String.match?(status.current_url, ~r/^http/) do
+      new_model = %{new_model | current_url: strip_url(new_model.current_url)}
+      new_status = %{new_status | current_url: strip_url(new_status.current_url)}
+    end
+    if !String.match?(model.referrer, ~r/^http/) or !String.match?(status.referrer, ~r/^http/) do
+      new_model = %{new_model | referrer: strip_url(new_model.referrer)}
+      new_status = %{new_status | referrer: strip_url(new_status.referrer)}
+    end
+    %{model: new_model, status: new_status}
   end
 
   defp language(str) when is_binary(str) do
