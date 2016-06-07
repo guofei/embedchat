@@ -107,12 +107,8 @@ function room(socket, roomID, distinctID, store) {
                   }
                 }
                 store.dispatch(receiveMultiAdminsOnline(newAdmins));
+                getHistory(distinctID);
               }
-            });
-          // FIXME master need not do this
-          channel.push(messages, { uid: distinctID })
-            .receive('ok', msgsResp => {
-              store.dispatch(receiveHistoryMessages(msgsResp.messages));
             });
         });
     },
