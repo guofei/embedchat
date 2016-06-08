@@ -23,7 +23,7 @@ msgstr ""
 msgid "source code"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:55
+#: web/templates/layout/app.html.eex:54
 msgid "English"
 msgstr ""
 
@@ -31,11 +31,11 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:58
+#: web/templates/layout/app.html.eex:57
 msgid "Japanese"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:43 web/templates/session/new.html.eex:4
+#: web/templates/layout/app.html.eex:42 web/templates/session/new.html.eex:4
 #: web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr ""
@@ -44,7 +44,7 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:44
+#: web/templates/layout/app.html.eex:43
 msgid "Register"
 msgstr ""
 
@@ -80,7 +80,7 @@ msgstr ""
 msgid "Start live chat with visitors on your website!"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:42
+#: web/templates/layout/app.html.eex:41
 msgid "Price"
 msgstr ""
 
@@ -139,7 +139,7 @@ msgstr ""
 msgid "Try Now"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:70
+#: web/templates/layout/app.html.eex:71
 msgid "Auto Message"
 msgstr ""
 
@@ -147,10 +147,14 @@ msgstr ""
 msgid "Surprise Me"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:68
+#: web/templates/layout/app.html.eex:69
 msgid "Chat"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:69
+#: web/templates/layout/app.html.eex:70
 msgid "Messages"
+msgstr ""
+
+#: web/templates/auto_message_config/index.html.eex:36
+msgid "New auto message"
 msgstr ""

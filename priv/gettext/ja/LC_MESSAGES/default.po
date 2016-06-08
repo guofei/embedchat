@@ -22,7 +22,7 @@ msgstr "Lewiniはオープンソースソフトウェア："
 msgid "source code"
 msgstr "ソースコード"
 
-#: web/templates/layout/app.html.eex:55
+#: web/templates/layout/app.html.eex:54
 msgid "English"
 msgstr ""
 
@@ -30,11 +30,11 @@ msgstr ""
 msgid "Home"
 msgstr "ホーム"
 
-#: web/templates/layout/app.html.eex:58
+#: web/templates/layout/app.html.eex:57
 msgid "Japanese"
 msgstr "日本語"
 
-#: web/templates/layout/app.html.eex:43 web/templates/session/new.html.eex:4
+#: web/templates/layout/app.html.eex:42 web/templates/session/new.html.eex:4
 #: web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr "ログイン"
@@ -43,7 +43,7 @@ msgstr "ログイン"
 msgid "Logout"
 msgstr "ログアウト"
 
-#: web/templates/layout/app.html.eex:44
+#: web/templates/layout/app.html.eex:43
 msgid "Register"
 msgstr "アカウント登録"
 
@@ -79,7 +79,7 @@ msgstr "パスワード"
 msgid "Start live chat with visitors on your website!"
 msgstr "今すぐお持ちのウェブサイトをチャットサポートできる店に変える！"
 
-#: web/templates/layout/app.html.eex:42
+#: web/templates/layout/app.html.eex:41
 msgid "Price"
 msgstr "料金"
 
@@ -138,7 +138,7 @@ msgstr "Beta版運用期間中（ ～ %{endtime}）は制限なく完全無料�
 msgid "Try Now"
 msgstr "今すぐ試す"
 
-#: web/templates/layout/app.html.eex:70
+#: web/templates/layout/app.html.eex:71
 msgid "Auto Message"
 msgstr "自動話しかけ"
 
@@ -146,10 +146,14 @@ msgstr "自動話しかけ"
 msgid "Surprise Me"
 msgstr "すぐ効果を見る"
 
-#: web/templates/layout/app.html.eex:68
+#: web/templates/layout/app.html.eex:69
 msgid "Chat"
 msgstr "チャット"
 
-#: web/templates/layout/app.html.eex:69
+#: web/templates/layout/app.html.eex:70
 msgid "Messages"
 msgstr "過去チャット"
+
+#: web/templates/auto_message_config/index.html.eex:36
+msgid "New auto message"
+msgstr "追加する"
