@@ -9,6 +9,7 @@ defmodule EmbedChat.Router do
     plug :put_secure_browser_headers
     plug EmbedChat.Locale, "en"
     plug EmbedChat.Auth, repo: EmbedChat.Repo
+    plug EmbedChat.SDK, repo: EmbedChat.Repo
   end
 
   pipeline :api do

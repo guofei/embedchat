@@ -26,4 +26,8 @@ defmodule EmbedChat.Room do
     |> cast(params, @required_fields, @optional_fields)
     |> unique_constraint(:uuid)
   end
+
+  def first(query) do
+    from p in query, order_by: [asc: p.id], limit: 1
+  end
 end
