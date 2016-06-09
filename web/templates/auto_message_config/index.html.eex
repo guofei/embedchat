@@ -21,10 +21,10 @@
             <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.referrer_pattern %>(<%= auto_message_config.referrer %>)</td>
             <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.language_pattern %>(<%= auto_message_config.language %>)</td>
             <td>
-              <%= link "Edit", to: auto_message_config_path(@conn, :edit, auto_message_config), class: "mdl-button mdl-js-button" %>
+              <%= link gettext("Edit"), to: auto_message_config_path(@conn, :edit, auto_message_config), class: "mdl-button mdl-js-button" %>
             </td>
             <td>
-              <%= link "Delete", to: auto_message_config_path(@conn, :delete, auto_message_config), method: :delete, data: [confirm: "Are you sure?"], class: "mdl-button mdl-js-button" %>
+              <%= link gettext("Delete"), to: auto_message_config_path(@conn, :delete, auto_message_config), method: :delete, data: [confirm: "Are you sure?"], class: "mdl-button mdl-js-button" %>
             </td>
           </tr>
         <% end %>

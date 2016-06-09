@@ -154,6 +154,14 @@ msgstr "チャット"
 msgid "Messages"
 msgstr "過去チャット"
 
-#: web/templates/auto_message_config/index.html.eex:36
+#: web/templates/auto_message_config/index.html.eex:37
 msgid "New auto message"
 msgstr "追加する"
+
+#: web/templates/auto_message_config/index.html.eex:27
+msgid "Delete"
+msgstr "削除"
+
+#: web/templates/auto_message_config/index.html.eex:24
+msgid "Edit"
+msgstr "編集"
