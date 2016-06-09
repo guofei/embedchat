@@ -130,7 +130,7 @@
   <br/><br/>
 
   <p>
-    <%= submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
+    <%= submit gettext("Submit"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
   </p>
 
 <% end %>
