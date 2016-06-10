@@ -29,7 +29,7 @@ config :phoenix, :generators,
   binary_id: false
 
 config :embed_chat, EmbedChat.Gettext,
-  locales: ~w(en en-US ja ja-JP)
+  locales: ~w(en ja)
 
 config :hound, driver: "phantomjs"
 

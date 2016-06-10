@@ -48,7 +48,17 @@ defmodule EmbedChat.Locale do
   defp extract_locale(conn) do
     # Filter for only known locales
     extract_accept_language(conn)
-    |> Enum.filter(fn locale -> Enum.member?(EmbedChat.Gettext.supported_locales, locale) end)
+    |> Enum.filter(fn locale -> in_supported_locales?(EmbedChat.Gettext.supported_locales, locale) end)
+  end
+
+  defp in_supported_locales?(locales, locale) when is_binary(locale) do
+    locales
+    |> Enum.map(&String.downcase/1)
+    |> Enum.member?(String.downcase(List.first(String.split(locale, "-"))))
+  end
+
+  defp in_supported_locales?(_, _) do
+    false
   end
 
   defp extract_accept_language(conn) do
