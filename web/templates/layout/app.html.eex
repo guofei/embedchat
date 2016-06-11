@@ -32,7 +32,7 @@
           <!-- Add spacer, to align navigation to the right -->
           <div class="mdl-layout-spacer"></div>
           <!-- Navigation -->
-          <nav class="mdl-navigation">
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
             <%= link gettext("Home"),    to: page_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= if @current_user do %>
               <%= link gettext("Setup"), to: room_path(@conn, :index), class: "mdl-navigation__link" %>
@@ -60,18 +60,31 @@
           </nav>
         </div>
       </header>
-      <%= if @current_user do %>
-        <div class="mdl-layout__drawer">
+      <div class="mdl-layout__drawer">
+        <%= if @current_user do %>
           <span class="mdl-layout-title">
             <%= @current_user.email %>
           </span>
           <nav class="mdl-navigation">
+            <%= link gettext("Home"),         to: page_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= link gettext("Chat"),         to: page_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= link gettext("Messages"),     to: message_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= link gettext("Auto Message"), to: auto_message_config_path(@conn, :index), class: "mdl-navigation__link" %>
+            <%= link gettext("Setup"),        to: room_path(@conn, :index), class: "mdl-navigation__link" %>
+            <%= link gettext("Logout"),       to: session_path(@conn, :delete, @current_user), method: :delete, class: "mdl-navigation__link" %>
           </nav>
-        </div>
-      <% end %>
+        <% else %>
+          <span class="mdl-layout-title">
+            Lewini
+          </span>
+          <nav class="mdl-navigation">
+            <%= link gettext("Home"),     to: page_path(@conn, :index), class: "mdl-navigation__link" %>
+            <%= link gettext("Price"),    to: page_path(@conn, :price), class: "mdl-navigation__link" %>
+            <%= link gettext("Login"),    to: session_path(@conn, :new), class: "mdl-navigation__link" %>
+            <%= link gettext("Register"), to: user_path(@conn, :new), class: "mdl-navigation__link" %>
+          </nav>
+        <% end %>
+      </div>
       <main class="mdl-layout__content">
         <div class="page-content">
           <!-- Your content goes here -->
