@@ -165,3 +165,7 @@ msgstr ""
 #: web/templates/auto_message_config/index.html.eex:24
 msgid "Edit"
 msgstr ""
+
+#: web/templates/auto_message_config/form.html.eex:133
+msgid "Submit"
+msgstr ""
