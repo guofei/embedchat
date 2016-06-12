@@ -152,7 +152,7 @@ msgstr "チャット"
 
 #: web/templates/layout/app.html.eex:70
 msgid "Messages"
-msgstr "過去チャット"
+msgstr "履歴"
 
 #: web/templates/auto_message_config/index.html.eex:37
 msgid "New auto message"

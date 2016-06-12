@@ -35,8 +35,10 @@
           <nav class="mdl-navigation mdl-layout--large-screen-only">
             <%= link gettext("Home"),    to: page_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= if @current_user do %>
-              <%= link gettext("Setup"), to: room_path(@conn, :index), class: "mdl-navigation__link" %>
-              <%= link gettext("Logout"), to: session_path(@conn, :delete, @current_user), method: :delete, class: "mdl-navigation__link" %>
+              <%= link gettext("Messages"),     to: message_path(@conn, :index), class: "mdl-navigation__link" %>
+              <%= link gettext("Auto Message"), to: auto_message_config_path(@conn, :index), class: "mdl-navigation__link" %>
+              <%= link gettext("Setup"),        to: room_path(@conn, :index), class: "mdl-navigation__link" %>
+              <%= link gettext("Logout"),       to: session_path(@conn, :delete, @current_user), method: :delete, class: "mdl-navigation__link" %>
             <% else %>
               <%= link gettext("Price"),    to: page_path(@conn, :price), class: "mdl-navigation__link" %>
               <%= link gettext("Login"),    to: session_path(@conn, :new), class: "mdl-navigation__link" %>
@@ -67,7 +69,6 @@
           </span>
           <nav class="mdl-navigation">
             <%= link gettext("Home"),         to: page_path(@conn, :index), class: "mdl-navigation__link" %>
-            <%= link gettext("Chat"),         to: page_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= link gettext("Messages"),     to: message_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= link gettext("Auto Message"), to: auto_message_config_path(@conn, :index), class: "mdl-navigation__link" %>
             <%= link gettext("Setup"),        to: room_path(@conn, :index), class: "mdl-navigation__link" %>
