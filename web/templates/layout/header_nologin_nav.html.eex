@@ -1,0 +1,4 @@
+<%= link gettext("Home"),     to: page_path(@conn, :index), class: "mdl-navigation__link" %>
+<%= link gettext("Price"),    to: page_path(@conn, :price), class: "mdl-navigation__link" %>
+<%= link gettext("Login"),    to: session_path(@conn, :new), class: "mdl-navigation__link" %>
+<%= link gettext("Register"), to: user_path(@conn, :new), class: "mdl-navigation__link" %>
