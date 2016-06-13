@@ -72,7 +72,7 @@ class ChatWebmaster extends React.Component {
 
     const paper = (
         <div className="mdl-grid">
-          <div className="mdl-cell mdl-cell--3-col">
+          <div className="mdl-cell mdl-cell--3-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
             <Paper zDepth={1}>
               <UserLists
                 onlineUsers={onlineUsers}
@@ -81,10 +81,10 @@ class ChatWebmaster extends React.Component {
               />
             </Paper>
           </div>
-          <div className="mdl-cell mdl-cell--6-col">
+          <div className="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
             {msgElement}
           </div>
-          <div className="mdl-cell mdl-cell--3-col">
+          <div className="mdl-cell mdl-cell--3-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
             <AccessLogs
               currentUser={currentUser}
               logs={logs}
