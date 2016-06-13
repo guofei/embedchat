@@ -25,7 +25,7 @@
               </p>
             <% end %>
           </p>
-          <img src="<%= static_path(@conn, "/images/chat_screen_shot.png") %>" height="350">
+          <img src="<%= static_path(@conn, "/images/chat_screen_shot.png") %>" class="lp-img">
         </center>
       </div>
     </div>

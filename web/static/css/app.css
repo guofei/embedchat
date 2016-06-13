@@ -16,3 +16,8 @@
 .nav-page nav ul li.active a {
     text-decoration: none;
 }
+
+.lp-img {
+    height: 350px;
+    max-width: 100%;
+}
