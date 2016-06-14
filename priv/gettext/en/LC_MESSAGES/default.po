@@ -22,32 +22,33 @@ msgstr ""
 msgid "source code"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:54
+#: web/templates/layout/app.html.eex:45
 msgid "English"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:36
+#: web/templates/layout/header_login_nav.html.eex:1
+#: web/templates/layout/header_nologin_nav.html.eex:1
 msgid "Home"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:57
+#: web/templates/layout/app.html.eex:48
 msgid "Japanese"
 msgstr "日本語"
 
-#: web/templates/layout/app.html.eex:42 web/templates/session/new.html.eex:4
-#: web/templates/session/new.html.eex:21
+#: web/templates/layout/header_nologin_nav.html.eex:3
+#: web/templates/session/new.html.eex:4 web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:39
+#: web/templates/layout/header_login_nav.html.eex:5
 msgid "Logout"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:43
+#: web/templates/layout/header_nologin_nav.html.eex:4
 msgid "Register"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:38
+#: web/templates/layout/header_login_nav.html.eex:4
 msgid "Setup"
 msgstr ""
 
@@ -79,30 +80,26 @@ msgstr ""
 msgid "Start live chat with visitors on your website!"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:41
+#: web/templates/layout/header_nologin_nav.html.eex:2
 msgid "Price"
 msgstr ""
 
-#: web/templates/page/price.html.eex:34
+#: web/templates/page/price.html.eex:30
 msgid "Sign Up"
 msgstr ""
 
-#: web/templates/page/price.html.eex:23
-msgid "Monthly cost"
-msgstr ""
-
 #: web/templates/page/price.html.eex:20
-msgid "People"
+msgid "Monthly cost"
 msgstr ""
 
 #: web/templates/page/price.html.eex:17
 msgid "Plan"
 msgstr ""
 
-#: web/templates/page/price.html.eex:42 web/templates/page/price.html.eex:50
-#: web/templates/page/price.html.eex:58 web/templates/page/price.html.eex:66
-#: web/templates/page/price.html.eex:74 web/templates/page/price.html.eex:82
-#: web/templates/page/price.html.eex:90
+#: web/templates/page/price.html.eex:37 web/templates/page/price.html.eex:44
+#: web/templates/page/price.html.eex:51 web/templates/page/price.html.eex:58
+#: web/templates/page/price.html.eex:65 web/templates/page/price.html.eex:72
+#: web/templates/page/price.html.eex:79
 msgid "Purchase"
 msgstr ""
 
@@ -110,7 +107,7 @@ msgstr ""
 msgid "Chat with visitors to your website in real-time, capture them as leads, and convert them to customers."
 msgstr ""
 
-#: web/templates/page/price.html.eex:98
+#: web/templates/page/price.html.eex:86
 msgid "Contact"
 msgstr ""
 
@@ -138,7 +135,7 @@ msgstr ""
 msgid "Try Now"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:71
+#: web/templates/layout/header_login_nav.html.eex:3
 msgid "Auto Message"
 msgstr ""
 
@@ -146,11 +143,7 @@ msgstr ""
 msgid "Surprise Me"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:69
-msgid "Chat"
-msgstr ""
-
-#: web/templates/layout/app.html.eex:70
+#: web/templates/layout/header_login_nav.html.eex:2
 msgid "Messages"
 msgstr ""
 
@@ -168,4 +161,36 @@ msgstr ""
 
 #: web/templates/auto_message_config/form.html.eex:133
 msgid "Submit"
+msgstr ""
+
+#: web/templates/page/price.html.eex:62
+msgid "10000 People"
+msgstr ""
+
+#: web/templates/page/price.html.eex:83
+msgid "100000+ People"
+msgstr ""
+
+#: web/templates/page/price.html.eex:69
+msgid "20000 People"
+msgstr ""
+
+#: web/templates/page/price.html.eex:34
+msgid "250 People"
+msgstr ""
+
+#: web/templates/page/price.html.eex:41
+msgid "500 People"
+msgstr ""
+
+#: web/templates/page/price.html.eex:55
+msgid "5000 People"
+msgstr ""
+
+#: web/templates/page/price.html.eex:76
+msgid "50000 People"
+msgstr ""
+
+#: web/templates/page/price.html.eex:48
+msgid "1000 People"
 msgstr ""

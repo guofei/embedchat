@@ -10,14 +10,11 @@
         </p>
       </center>
     </div>
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--3dp mdl-cell mdl-cell--12-col">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--3dp mdl-cell mdl-cell--12-col mdl-cell--4-col-phone">
       <thead>
         <tr>
           <th class="mdl-data-table__cell--non-numeric">
             <%= gettext "Plan" %>
-          </th>
-          <th>
-            <%= gettext "People" %>
           </th>
           <th>
             <%= gettext "Monthly cost" %>
@@ -28,71 +25,62 @@
       <tbody>
         <tr>
           <td class="mdl-data-table__cell--non-numeric">Free</td>
-          <td>50</td>
           <td>$0</td>
           <td>
             <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">250 People</td>
-          <td>250</td>
+          <td class="mdl-data-table__cell--non-numeric"><%= gettext "250 People" %></td>
           <td><s>$6</s> → $0</td>
           <td>
             <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">500 People</td>
-          <td>500</td>
+          <td class="mdl-data-table__cell--non-numeric"><%= gettext "500 People" %></td>
           <td><s>$10</s> → $0</td>
           <td>
             <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">1000 People</td>
-          <td>1000</td>
+          <td class="mdl-data-table__cell--non-numeric"><%= gettext "1000 People" %></td>
           <td><s>$15</s> → $0</td>
           <td>
             <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">5000 People</td>
-          <td>5000</td>
+          <td class="mdl-data-table__cell--non-numeric"><%= gettext "5000 People" %></td>
           <td><s>$50</s> → $0</td>
           <td>
             <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">10000 People</td>
-          <td>10000</td>
+          <td class="mdl-data-table__cell--non-numeric"><%= gettext "10000 People" %></td>
           <td><s>$60</s> → $0</td>
           <td>
             <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">20000 People</td>
-          <td>20000</td>
+          <td class="mdl-data-table__cell--non-numeric"><%= gettext "20000 People" %></td>
           <td><s>$80</s> → $0</td>
           <td>
             <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">50000 People</td>
-          <td>50000</td>
+          <td class="mdl-data-table__cell--non-numeric"><%= gettext "50000 People" %></td>
           <td><s>$100</s> → $0</td>
           <td>
             <%= link gettext("Purchase"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
           </td>
         </tr>
         <tr>
-          <td class="mdl-data-table__cell--non-numeric">100000+ People</td>
-          <td>100000+</td>
+          <td class="mdl-data-table__cell--non-numeric"><%= gettext "100000+ People" %></td>
           <td>-</td>
           <td>
             <%= link gettext("Contact"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--accent" %>
