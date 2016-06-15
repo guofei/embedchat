@@ -6,8 +6,12 @@
       <div class="mdl-cell mdl-cell--12-col">
         <center>
           <h2>
-            <%= gettext "A better chat tool to talk with your customers" %>
+            <%= gettext "A better tool to chat with your customers" %>
           </h2>
+          <h5><%= gettext "Customers support: simple, prompt, personal" %></h5>
+          <h5><%= gettext "Get high quality feedback from customers" %></h5>
+          <h5><%= gettext "Convert visitors to customers by chat" %></h5>
+          <br/>
           <p><%= gettext "Start live chat with visitors on your website!" %></p>
           <p>
             <div id="progress" style="display: none;">
