@@ -6,7 +6,6 @@
           <th class="mdl-data-table__cell--non-numeric">URL</th>
           <th class="mdl-data-table__cell--non-numeric">URL Page View</th>
           <th class="mdl-data-table__cell--non-numeric">Total Page View</th>
-          <th class="mdl-data-table__cell--non-numeric">Referrer</th>
           <th class="mdl-data-table__cell--non-numeric">Language</th>
           <th class="mdl-data-table__cell--non-numeric"></th>
           <th class="mdl-data-table__cell--non-numeric"></th>
@@ -18,7 +17,6 @@
             <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.current_url_pattern %>(<%= auto_message_config.current_url %>)</td>
             <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.single_page_view_pattern %>(<%= auto_message_config.single_page_view %>)</td>
             <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.total_page_view_pattern %>(<%= auto_message_config.total_page_view %>)</td>
-            <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.referrer_pattern %>(<%= auto_message_config.referrer %>)</td>
             <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.language_pattern %>(<%= auto_message_config.language %>)</td>
             <td>
               <%= link gettext("Edit"), to: auto_message_config_path(@conn, :edit, auto_message_config), class: "mdl-button mdl-js-button" %>
