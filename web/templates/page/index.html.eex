@@ -8,17 +8,16 @@
           <h2>
             <%= gettext "A better chat tool to talk with your customers" %>
           </h2>
-          <p><%= gettext "Lewini is open source:" %> <%= link gettext("source code"), to: "https://github.com/guofei/embedchat" %></p>
           <p><%= gettext "Start live chat with visitors on your website!" %></p>
           <p>
             <div id="progress" style="display: none;">
               <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
             </div>
             <%= form_for @attempt, attempt_path(@conn, :create), [id: "try-url"], fn f -> %>
-              <div class="mdl-textfield mdl-js-textfield">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                 <%= text_input f, :url, class: "mdl-textfield__input", id: "furl" %>
                 <%= error_tag f, :url %>
-                <label class="mdl-textfield__label" for="furl">http://yourwebsite</label>
+                <label class="mdl-textfield__label" for="furl"><%= gettext "Please input your website URL" %></label>
               </div>
               <p>
                 <%= submit gettext("Surprise Me"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>

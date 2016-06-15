@@ -14,14 +14,6 @@ msgstr ""
 msgid "A better chat tool to talk with your customers"
 msgstr ""
 
-#: web/templates/page/index.html.eex:11
-msgid "Lewini is open source:"
-msgstr ""
-
-#: web/templates/page/index.html.eex:11
-msgid "source code"
-msgstr ""
-
 #: web/templates/layout/app.html.eex:45
 msgid "English"
 msgstr ""
@@ -76,7 +68,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: web/templates/page/index.html.eex:12
+#: web/templates/page/index.html.eex:11
 msgid "Start live chat with visitors on your website!"
 msgstr ""
 
@@ -139,7 +131,7 @@ msgstr ""
 msgid "Auto Message"
 msgstr ""
 
-#: web/templates/page/index.html.eex:24
+#: web/templates/page/index.html.eex:23
 msgid "Surprise Me"
 msgstr ""
 
@@ -159,7 +151,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: web/templates/auto_message_config/form.html.eex:114
+#: web/templates/auto_message_config/form.html.eex:142
 msgid "Submit"
 msgstr ""
 
@@ -197,4 +189,8 @@ msgstr ""
 
 #: web/templates/auto_message_config/new.html.eex:4
 msgid "If the conditions are satisfied, the message will be sent to the user automatically"
+msgstr ""
+
+#: web/templates/page/index.html.eex:20
+msgid "Please input your website URL"
 msgstr ""

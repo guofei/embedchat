@@ -14,14 +14,6 @@ msgstr ""
 msgid "A better chat tool to talk with your customers"
 msgstr "シンプルで高機能なチャット接客・オンラインサポートツール"
 
-#: web/templates/page/index.html.eex:11
-msgid "Lewini is open source:"
-msgstr "Lewiniはオープンソースソフトウェア："
-
-#: web/templates/page/index.html.eex:11
-msgid "source code"
-msgstr "ソースコード"
-
 #: web/templates/layout/app.html.eex:45
 msgid "English"
 msgstr ""
@@ -76,7 +68,7 @@ msgstr "お名前"
 msgid "Password"
 msgstr "パスワード"
 
-#: web/templates/page/index.html.eex:12
+#: web/templates/page/index.html.eex:11
 msgid "Start live chat with visitors on your website!"
 msgstr "今すぐお持ちのウェブサイトをチャットサポートできる店に変える！"
 
@@ -139,7 +131,7 @@ msgstr "今すぐ試す"
 msgid "Auto Message"
 msgstr "自動話しかけ"
 
-#: web/templates/page/index.html.eex:24
+#: web/templates/page/index.html.eex:23
 msgid "Surprise Me"
 msgstr "すぐ効果を見る"
 
@@ -159,7 +151,7 @@ msgstr "削除"
 msgid "Edit"
 msgstr "編集"
 
-#: web/templates/auto_message_config/form.html.eex:114
+#: web/templates/auto_message_config/form.html.eex:142
 msgid "Submit"
 msgstr "保存する"
 
@@ -198,3 +190,7 @@ msgstr "1000人"
 #: web/templates/auto_message_config/new.html.eex:4
 msgid "If the conditions are satisfied, the message will be sent to the user automatically"
 msgstr "以下の条件が満たられると、メッセージを自動的にユーザーに送信します"
+
+#: web/templates/page/index.html.eex:20
+msgid "Please input your website URL"
+msgstr "貴方のサイトのURLを入力してください"
