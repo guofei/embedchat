@@ -148,19 +148,19 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:37
+#: web/templates/auto_message_config/index.html.eex:35
 msgid "New auto message"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:27
+#: web/templates/auto_message_config/index.html.eex:25
 msgid "Delete"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:24
+#: web/templates/auto_message_config/index.html.eex:22
 msgid "Edit"
 msgstr ""
 
-#: web/templates/auto_message_config/form.html.eex:133
+#: web/templates/auto_message_config/form.html.eex:114
 msgid "Submit"
 msgstr ""
 
@@ -194,4 +194,8 @@ msgstr ""
 
 #: web/templates/page/price.html.eex:48
 msgid "1000 People"
+msgstr ""
+
+#: web/templates/auto_message_config/new.html.eex:4
+msgid "If the conditions are satisfied, the message will be sent to the user automatically"
 msgstr ""

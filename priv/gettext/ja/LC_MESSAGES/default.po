@@ -147,19 +147,19 @@ msgstr "すぐ効果を見る"
 msgid "Messages"
 msgstr "履歴"
 
-#: web/templates/auto_message_config/index.html.eex:37
+#: web/templates/auto_message_config/index.html.eex:35
 msgid "New auto message"
 msgstr "追加する"
 
-#: web/templates/auto_message_config/index.html.eex:27
+#: web/templates/auto_message_config/index.html.eex:25
 msgid "Delete"
 msgstr "削除"
 
-#: web/templates/auto_message_config/index.html.eex:24
+#: web/templates/auto_message_config/index.html.eex:22
 msgid "Edit"
 msgstr "編集"
 
-#: web/templates/auto_message_config/form.html.eex:133
+#: web/templates/auto_message_config/form.html.eex:114
 msgid "Submit"
 msgstr "保存する"
 
@@ -194,3 +194,7 @@ msgstr "50000人"
 #: web/templates/page/price.html.eex:48
 msgid "1000 People"
 msgstr "1000人"
+
+#: web/templates/auto_message_config/new.html.eex:4
+msgid "If the conditions are satisfied, the message will be sent to the user automatically"
+msgstr "以下の条件が満たられると、メッセージを自動的にユーザーに送信します"
