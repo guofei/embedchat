@@ -81,7 +81,7 @@ function room(socket, roomID, distinctID, store) {
           const contactList = 'contact_list';
           channel.push(contactList)
             .receive('ok', listResp => {
-              const users = listResp.users;
+              const users = listResp.online_users;
               if (users) {
                 const newUsers = [];
                 const newLogs = [];
