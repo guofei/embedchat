@@ -11,6 +11,7 @@ export const RECEIVE_ADMIN_ONLINE = 'RECEIVE_ADMIN_ONLINE';
 export const RECEIVE_MULTI_USERS_ONLINE = 'RECEIVE_MULTI_USERS_ONLINE';
 export const RECEIVE_MULTI_ADMINS_ONLINE = 'RECEIVE_MULTI_ADMINS_ONLINE';
 export const RECEIVE_USER_OFFLINE = 'RECEIVE_USER_OFFLINE';
+export const RECEIVE_MULTI_USERS_OFFLINE = 'RECEIVE_MULTI_USERS_OFFLINE';
 export const RECEIVE_ADMIN_OFFLINE = 'RECEIVE_ADMIN_OFFLINE';
 export const RECEIVE_ACCESS_LOG = 'RECEIVE_ACCESS_LOG';
 export const RECEIVE_MULTI_ACCESS_LOGS = 'RECEIVE_MULTI_ACCESS_LOGS';
@@ -78,6 +79,10 @@ export function receiveMultiUsersOnline(users) {
 
 export function receiveUserOffline(user) {
   return { type: RECEIVE_USER_OFFLINE, user };
+}
+
+export function receiveMultiUsersOffline(users) {
+  return { type: RECEIVE_MULTI_USERS_OFFLINE, users };
 }
 
 export function receiveAdminOffline(user) {

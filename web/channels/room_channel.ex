@@ -89,7 +89,9 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("contact_list", _payload, socket) do
     if socket.assigns[:user_id] do
-      {:reply, {:ok, %{online_users: RoomChannelSF.online_visitors(socket.assigns.room_id)}}, socket}
+      resp = %{ online_users: RoomChannelSF.online_visitors(socket.assigns.room_id),
+                offline_users: RoomChannelSF.offline_visitors(socket.assigns.room_id) }
+      {:reply, {:ok, resp}, socket}
     else
       {:reply, {:ok, %{admins: RoomChannelSF.online_admins(socket.assigns.room_id)}}, socket}
     end

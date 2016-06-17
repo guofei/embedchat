@@ -7,6 +7,7 @@ import {
   receiveUserOnline,
   receiveUserOffline,
   receiveMultiUsersOnline,
+  receiveMultiUsersOffline,
   receiveAdminOnline,
   receiveAdminOffline,
   receiveMultiAdminsOnline,
@@ -95,6 +96,22 @@ function room(socket, roomID, distinctID, store) {
                   }
                 }
                 store.dispatch(receiveMultiUsersOnline(newUsers));
+                store.dispatch(receiveMultiAccessLogs(newLogs));
+              }
+              const offlineUsers = listResp.offline_users;
+              if (offlineUsers) {
+                const newUsers = [];
+                const newLogs = [];
+                for (const key in offlineUsers) {
+                  if (offlineUsers.hasOwnProperty(key)) {
+                    const user = { uid: key };
+                    newUsers.push(user);
+                    const log = Object.assign({}, users[key], { uid: key });
+                    newLogs.push(log);
+                    getHistory(key);
+                  }
+                }
+                store.dispatch(receiveMultiUsersOffline(newUsers));
                 store.dispatch(receiveMultiAccessLogs(newLogs));
               }
               const admins = listResp.admins;

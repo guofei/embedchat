@@ -10,6 +10,7 @@ import {
   RECEIVE_USER_ONLINE,
   RECEIVE_USER_OFFLINE,
   RECEIVE_MULTI_USERS_ONLINE,
+  RECEIVE_MULTI_USERS_OFFLINE,
   RECEIVE_ADMIN_ONLINE,
   RECEIVE_ADMIN_OFFLINE,
   RECEIVE_MULTI_ADMINS_ONLINE,
@@ -147,6 +148,9 @@ function users(state = {}, action) {
     case RECEIVE_MULTI_USERS_ONLINE:
       return Object.assign({}, state,
         usersArrToObj(action.users, true, false));
+    case RECEIVE_MULTI_USERS_OFFLINE:
+      return Object.assign({}, state,
+        usersArrToObj(action.users, false, false));
     case RECEIVE_MULTI_ADMINS_ONLINE:
       return Object.assign({}, state,
         usersArrToObj(action.users, true, true));
