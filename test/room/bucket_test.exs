@@ -17,5 +17,8 @@ defmodule EmbedChat.Room.BucketTest do
 
     EmbedChat.Room.Bucket.delete(bucket, 1)
     assert EmbedChat.Room.Bucket.map(bucket) == %{2 => "2"}
+
+    EmbedChat.Room.Bucket.put(bucket, 1, "1", 1)
+    assert EmbedChat.Room.Bucket.map(bucket) == %{1 => "1"}
   end
 end
