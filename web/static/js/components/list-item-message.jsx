@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import ReactAutolink from 'react-autolink';
 
 import { ListItem } from 'material-ui/List';
 // import Avatar from 'material-ui/lib/avatar';
@@ -32,7 +33,7 @@ function Message({ children, createdAt, handleTouchTap, shortName }) {
       onTouchTap={handleTouchTap}
       secondaryText={
         <div>
-          {children}
+          {ReactAutolink.autolink(children, { target: '_blank', rel: 'nofollow' })}
         </div>
       }
     />
@@ -44,7 +45,7 @@ function PopoverContent({ text }) {
     <div>
       <Card>
         <CardText>
-          {text}
+          {ReactAutolink.autolink(text, { target: '_blank', rel: 'nofollow' })}
         </CardText>
       </Card>
     </div>
