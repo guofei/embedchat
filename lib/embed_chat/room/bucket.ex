@@ -33,6 +33,7 @@ defmodule EmbedChat.Room.Bucket do
   def put(bucket, key, value, max_size) do
     data = map(bucket)
     if Map.size(data) >= max_size do
+      # TODO remove the oldest data
       {k, v} = Enum.random data
       delete(bucket, k)
     end
