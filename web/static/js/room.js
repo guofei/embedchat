@@ -106,7 +106,7 @@ function room(socket, roomID, distinctID, store) {
                   if (offlineUsers.hasOwnProperty(key)) {
                     const user = { uid: key };
                     newUsers.push(user);
-                    const log = Object.assign({}, users[key], { uid: key });
+                    const log = Object.assign({}, offlineUsers[key], { uid: key });
                     newLogs.push(log);
                     getHistory(key);
                   }
