@@ -50,6 +50,8 @@ let state_tree = {
       screenwidth: 100,
       screenHeight: 100,
       visitView: 1,
+      singlePageView: 1,
+      totalPageView: 1,
       uid: 'xxx'
     },
   },

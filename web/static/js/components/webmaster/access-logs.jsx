@@ -27,6 +27,7 @@ function LogContent({ log }) {
       Language: {log.language}<br/>
       Screenwidth: {log.screenwidth}<br/>
       ScreenHeight: {log.screenHeight}<br/>
+      PageView: {log.totalPageView}<br/>
       Time: {moment.utc(log.inserted_at).fromNow()}
     </div>
   );
