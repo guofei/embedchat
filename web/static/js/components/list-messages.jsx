@@ -12,7 +12,7 @@ class ListMessages extends React.Component {
           currentUser={this.props.currentUser}
           key={msg.id}
           from={msg.from_id}
-          from_name={msg.from_name}
+          fromName={msg.from_name}
           createdAt={msg.inserted_at}
         >
           {msg.body}
