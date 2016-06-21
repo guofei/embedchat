@@ -206,3 +206,19 @@ msgstr ""
 #: web/templates/page/index.html.eex:12
 msgid "Get high quality feedback from customers"
 msgstr ""
+
+#: web/templates/message/index.html.eex:9
+msgid "Created At"
+msgstr ""
+
+#: web/templates/message/index.html.eex:6
+msgid "From"
+msgstr ""
+
+#: web/templates/message/index.html.eex:8
+msgid "Message"
+msgstr ""
+
+#: web/templates/message/index.html.eex:7
+msgid "To"
+msgstr ""

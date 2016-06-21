@@ -3,10 +3,10 @@
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
       <thead>
         <tr>
-          <th class="mdl-data-table__cell--non-numeric">From</th>
-          <th class="mdl-data-table__cell--non-numeric">To</th>
-          <th class="mdl-data-table__cell--non-numeric">Message</th>
-          <th class="mdl-data-table__cell--non-numeric">Created At</th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "From" %></th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "To" %></th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "Message" %></th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "Created At" %></th>
           <th></th>
         </tr>
       </thead>

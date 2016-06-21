@@ -173,17 +173,21 @@ defmodule EmbedChat.RoomChannelSF do
     Bucket.map(bkt)
   end
 
+  defp room_admin(room_id) do
+    query = from u in User,
+      join: um in UserRoom, on: um.user_id == u.id,
+      where: ^room_id == um.room_id,
+      limit: 1,
+      preload: [:addresses]
+    Repo.one(query)
+  end
+
   defp random_admin(room_id) do
     cond do
       admin = random_online_admin(room_id) ->
         admin
       true ->
-        query = from u in User,
-          join: um in UserRoom, on: um.user_id == u.id,
-          where: ^room_id == um.room_id,
-          limit: 1,
-          preload: [:addresses]
-        user = Repo.one(query)
+        user = room_admin(room_id)
         address = List.first(user.addresses)
         if address do
           address.uuid

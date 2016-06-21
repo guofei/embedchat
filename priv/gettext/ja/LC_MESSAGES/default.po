@@ -206,3 +206,19 @@ msgstr "問い合わせの数を増やす"
 #: web/templates/page/index.html.eex:12
 msgid "Get high quality feedback from customers"
 msgstr "顧客満足度を向上させる"
+
+#: web/templates/message/index.html.eex:9
+msgid "Created At"
+msgstr "時間"
+
+#: web/templates/message/index.html.eex:6
+msgid "From"
+msgstr "送信者"
+
+#: web/templates/message/index.html.eex:8
+msgid "Message"
+msgstr "内容"
+
+#: web/templates/message/index.html.eex:7
+msgid "To"
+msgstr "受信者"
