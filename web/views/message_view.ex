@@ -1,15 +1,19 @@
 defmodule EmbedChat.MessageView do
   use EmbedChat.Web, :view
   import Scrivener.HTML
+  alias EmbedChat.Message
 
-  def render("message.json", %{message: msg}) do
-    from_id = cond do
+  defp from_id(msg) do
+    cond do
       msg.from.uuid ->
         msg.from.uuid
       true ->
         1
     end
-    from_name = cond do
+  end
+
+  defp from_name(msg) do
+    cond do
       user = msg.from_user ->
         EmbedChat.User.get_name(user)
       msg.from.uuid ->
@@ -17,18 +21,24 @@ defmodule EmbedChat.MessageView do
       true ->
         "master"
     end
-    to_id = cond do
+  end
+
+  defp to_id(msg) do
+    cond do
       to = msg.to ->
         to.uuid
       true ->
         ""
     end
+  end
+
+  def render("message.json", %{message: %Message{} = msg}) do
     %{
       id: msg.id,
       body: msg.body,
-      from_id: from_id,
-      from_name: from_name,
-      to_id: to_id,
+      from_id: from_id(msg),
+      from_name: from_name(msg),
+      to_id: to_id(msg),
       inserted_at: Ecto.DateTime.to_string(msg.inserted_at)
     }
   end
@@ -61,9 +71,11 @@ defmodule EmbedChat.MessageView do
     end
   end
 
+  @short_message_length 20
+
   def short_message_body(message) do
-    if String.length(message.body) > 21 do
-      String.slice(message.body, 0..20) <> ".."
+    if String.length(message.body) >= @short_message_length do
+      String.slice(message.body, 0..@short_message_length) <> ".."
     else
       message.body
     end

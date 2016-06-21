@@ -9,7 +9,7 @@ defmodule EmbedChat.RoomChannelSF do
   alias EmbedChat.UserRoom
   alias Phoenix.View
 
-  @max_size 10
+  @max_offline_size 10
 
   import Ecto.Query, only: [from: 2]
 
@@ -22,10 +22,10 @@ defmodule EmbedChat.RoomChannelSF do
     Repo.all(query)
   end
 
-  def new_message_visitor_to_master(%{"from_id" => distinct_id, "body" => msg_text}, room_id) do
-    master = random_admin(room_id)
-    with {:ok, sender} <- visitor_sender(distinct_id),
-         {:ok, receiver} <- master_receiver(master),
+  def new_message_visitor_to_master(%{"from_id" => from_uid, "body" => msg_text}, room_id) do
+    master_uid = random_admin(room_id)
+    with {:ok, sender} <- visitor_sender(from_uid),
+         {:ok, receiver} <- master_receiver(master_uid),
          {:ok, msg} <- create_message(sender, receiver, room_id, msg_text),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
            sender = Repo.preload(sender, [:user]),
@@ -34,8 +34,8 @@ defmodule EmbedChat.RoomChannelSF do
   end
 
   def new_message_master_to_visitor(%{"to_id" => to_uid, "body" => msg_text}, room_id) do
-    master = random_admin(room_id)
-    with {:ok, sender} <- master_sender(master),
+    master_uid = random_admin(room_id)
+    with {:ok, sender} <- master_sender(master_uid),
          {:ok, receiver} <- visitor_receiver(to_uid),
          {:ok, msg} <- create_message(sender, receiver, room_id, msg_text),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
@@ -164,7 +164,7 @@ defmodule EmbedChat.RoomChannelSF do
     Bucket.delete(bkt, distinct_id)
 
     {:ok, offbkt} = offline_visitor_bucket(room_id)
-    Bucket.put(offbkt, distinct_id, info, @max_size)
+    Bucket.put(offbkt, distinct_id, info, @max_offline_size)
   end
 
   def online_admins(room_id) do
