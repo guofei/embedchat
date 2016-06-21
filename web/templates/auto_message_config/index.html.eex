@@ -3,10 +3,10 @@
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
       <thead>
         <tr>
-          <th class="mdl-data-table__cell--non-numeric">URL</th>
-          <th class="mdl-data-table__cell--non-numeric">URL Page View</th>
-          <th class="mdl-data-table__cell--non-numeric">Total Page View</th>
-          <th class="mdl-data-table__cell--non-numeric">Language</th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "Page URL" %></th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "URL Page View" %></th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "Total Page View" %></th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "Language" %></th>
           <th class="mdl-data-table__cell--non-numeric"></th>
           <th class="mdl-data-table__cell--non-numeric"></th>
         </tr>

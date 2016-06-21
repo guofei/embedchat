@@ -222,3 +222,19 @@ msgstr ""
 #: web/templates/message/index.html.eex:7
 msgid "To"
 msgstr ""
+
+#: web/templates/auto_message_config/index.html.eex:9
+msgid "Language"
+msgstr ""
+
+#: web/templates/auto_message_config/index.html.eex:8
+msgid "Total Page View"
+msgstr ""
+
+#: web/templates/auto_message_config/index.html.eex:7
+msgid "URL Page View"
+msgstr ""
+
+#: web/templates/auto_message_config/index.html.eex:6
+msgid "Page URL"
+msgstr ""

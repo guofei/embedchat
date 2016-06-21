@@ -222,3 +222,19 @@ msgstr "内容"
 #: web/templates/message/index.html.eex:7
 msgid "To"
 msgstr "受信者"
+
+#: web/templates/auto_message_config/index.html.eex:9
+msgid "Language"
+msgstr "言語"
+
+#: web/templates/auto_message_config/index.html.eex:8
+msgid "Total Page View"
+msgstr "全体ページビュー数"
+
+#: web/templates/auto_message_config/index.html.eex:7
+msgid "URL Page View"
+msgstr "ページビュー数"
+
+#: web/templates/auto_message_config/index.html.eex:6
+msgid "Page URL"
+msgstr "ページURL"
