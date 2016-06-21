@@ -15,7 +15,7 @@ defmodule EmbedChat.MessageView do
   defp from_name(msg) do
     cond do
       user = msg.from_user ->
-        EmbedChat.User.get_name(user)
+        EmbedChat.User.name(user)
       msg.from.uuid ->
         msg.from.uuid
       true ->

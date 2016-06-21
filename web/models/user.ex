@@ -18,19 +18,6 @@ defmodule EmbedChat.User do
     timestamps
   end
 
-  def get_name(user) do
-    cond do
-      user.name ->
-        if String.length(user.name) > 0 do
-          user.name
-        else
-          user.email
-        end
-      true ->
-        user.email
-    end
-  end
-
   @required_fields ~w(email password name)
   @optional_fields ~w(name)
 
@@ -62,6 +49,19 @@ defmodule EmbedChat.User do
         put_change(changeset, :crypted_password, Comeonin.Bcrypt.hashpwsalt(pass))
       _ ->
         changeset
+    end
+  end
+
+  def name(user) do
+    cond do
+      user.name ->
+        if String.length(user.name) > 0 do
+          user.name
+        else
+          user.email
+        end
+      true ->
+        user.email
     end
   end
 end
