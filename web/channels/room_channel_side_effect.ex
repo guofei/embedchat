@@ -6,6 +6,7 @@ defmodule EmbedChat.RoomChannelSF do
   alias EmbedChat.MessageView
   alias EmbedChat.Room.Bucket
   alias EmbedChat.Room.Registry
+  alias EmbedChat.User
   alias EmbedChat.UserRoom
   alias Phoenix.View
 
@@ -177,8 +178,12 @@ defmodule EmbedChat.RoomChannelSF do
       admin = random_online_admin(room_id) ->
         admin
       true ->
-        user_room = Repo.one(from u in UserRoom, where: u.room_id == ^room_id, preload: [:user])
-        user = Repo.preload(user_room.user, [:addresses])
+        query = from u in User,
+          join: um in UserRoom, on: um.user_id == u.id,
+          where: ^room_id == um.room_id,
+          limit: 1,
+          preload: [:addresses]
+        user = Repo.one(query)
         address = List.first(user.addresses)
         if address do
           address.uuid
