@@ -8,10 +8,9 @@ defmodule EmbedChat.MessageController do
   plug :authenticate_user
 
   def index(conn, params) do
-    # refactor: add limit
     query = from m in Message,
       join: um in UserRoom, on: m.room_id == um.room_id,
-      where: um.id == ^conn.assigns.current_user.id,
+      where: um.user_id == ^conn.assigns.current_user.id,
       preload: [:from, :to, :from_user, :to_user],
       order_by: [desc: :inserted_at]
     messages = Repo.paginate(query, params)
