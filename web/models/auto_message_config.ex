@@ -64,13 +64,13 @@ defmodule EmbedChat.AutoMessageConfig do
   defp filter(%{model: model, status: status}) do
     m = model
     s = status
-    if m.current_url && s.current_url do
+    if m.current_url_pattern != "regex" && m.current_url && s.current_url do
       if !String.match?(m.current_url, ~r/^http/) or !String.match?(s.current_url, ~r/^http/) do
         m = %{m | current_url: strip_url(m.current_url)}
         s = %{s | current_url: strip_url(s.current_url)}
       end
     end
-    if m.referrer && s.referrer do
+    if m.referrer_pattern != "regex" && m.referrer && s.referrer do
       if !String.match?(m.referrer, ~r/^http/) or !String.match?(s.referrer, ~r/^http/) do
         m = %{m | referrer: strip_url(m.referrer)}
         s = %{s | referrer: strip_url(s.referrer)}
