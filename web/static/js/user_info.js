@@ -47,6 +47,12 @@ const UserInfo = {
   singlePageView: currentPageView,
   totalPageView: totalPageView(),
   inserted_at: moment.utc().format(),
+  isBot() {
+    if (navigator.userAgent.indexOf('bot') > -1) {
+      return true;
+    }
+    return false;
+  },
 };
 
 export default UserInfo;

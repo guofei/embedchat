@@ -45,6 +45,7 @@ function room(socket, roomID, distinctID, store) {
   return {
     join() {
       if (!roomID) { return; }
+      if (UserInfo.isBot()) { return; }
       socket.connect();
       channel = socket.channel(`rooms:${roomID}`);
 
