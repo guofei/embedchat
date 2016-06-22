@@ -7,7 +7,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
     <%= text_input f, :current_url_pattern, class: "mdl-textfield__input", type: "text", id: "select_current_url_pattern", readonly: "readonly", tabIndex: -1 %>
-    <label class="mdl-textfield__label" for="select_current_url_pattern">IF URL</label>
+    <label class="mdl-textfield__label" for="select_current_url_pattern">IF Page URL</label>
     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_current_url_pattern">
       <li class="mdl-menu__item">=</li>
       <li class="mdl-menu__item">!=</li>
@@ -18,7 +18,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= text_input f, :current_url, class: "mdl-textfield__input", type: "text", id: "input_current_url" %>
-    <label class="mdl-textfield__label" for="input_current_url">URL</label>
+    <label class="mdl-textfield__label" for="input_current_url">Page URL</label>
     <%= error_tag f, :current_url %>
   </div>
 
@@ -26,7 +26,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
     <%= text_input f, :single_page_view_pattern, class: "mdl-textfield__input", type: "text", id: "select_single_page_view_pattern", readonly: "readonly", tabIndex: -1 %>
-    <label class="mdl-textfield__label" for="select_single_page_view_pattern">IF URL Page View</label>
+    <label class="mdl-textfield__label" for="select_single_page_view_pattern">IF Page View</label>
     <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_single_page_view_pattern">
       <li class="mdl-menu__item">=</li>
       <li class="mdl-menu__item">!=</li>
@@ -37,7 +37,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= number_input f, :single_page_view, class: "mdl-textfield__input", id: "single_page_view_input", type: "text", pattern: "-?[0-9]*?" %>
-    <%= label f, :single_page_view, class: "mdl-textfield__label", for: "single_page_view_input" %>
+    <label class="mdl-textfield__label" for="single_page_view_input">Page view</label>
     <span class="mdl-textfield__error">Input is not a number!</span>
     <%= error_tag f, :single_page_view %>
   </div>
@@ -57,7 +57,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= number_input f, :total_page_view, class: "mdl-textfield__input", id: "total_page_view_input", type: "text", pattern: "-?[0-9]*?" %>
-    <%= label f, :total_page_view, class: "mdl-textfield__label", for: "total_page_view_input" %>
+    <label class="mdl-textfield__label" for="total_page_view_input">Site total page view</label>
     <span class="mdl-textfield__error">Input is not a number!</span>
     <%= error_tag f, :total_page_view %>
   </div>
