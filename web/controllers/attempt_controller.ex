@@ -33,7 +33,7 @@ defmodule EmbedChat.AttemptController do
 
   def show(conn, %{"id" => id}) do
     attempt = Repo.get!(Attempt, id)
-    room = Repo.get!(Room, 1)
+    room = EmbedChat.Room |> EmbedChat.Room.first |> Repo.one
     source = get_source(attempt.url)
     if source == "<html><head></head><body></body></html>" do
       render(conn, "show.html", data: "Not found :( <br> url: #{attempt.url}", room: room)
