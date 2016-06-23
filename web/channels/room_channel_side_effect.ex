@@ -148,7 +148,8 @@ defmodule EmbedChat.RoomChannelSF do
   end
 
   def visitor_update(room_id, distinct_id, info) do
-    visitor_online(room_id, distinct_id, info)
+    {:ok, bkt} = visitor_bucket(room_id)
+    Bucket.put(bkt, distinct_id, info)
   end
 
   def visitor_online(room_id, distinct_id, info) do
@@ -164,8 +165,10 @@ defmodule EmbedChat.RoomChannelSF do
     info = Bucket.get(bkt, distinct_id)
     Bucket.delete(bkt, distinct_id)
 
-    {:ok, offbkt} = offline_visitor_bucket(room_id)
-    Bucket.put(offbkt, distinct_id, info, @max_offline_size)
+    if info do
+      {:ok, offbkt} = offline_visitor_bucket(room_id)
+      Bucket.put(offbkt, distinct_id, info, @max_offline_size)
+    end
   end
 
   def online_admins(room_id) do
