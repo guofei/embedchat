@@ -1,9 +1,7 @@
 defmodule EmbedChat.AttemptController do
   use EmbedChat.Web, :controller
   use Hound.Helpers
-
   alias EmbedChat.Attempt
-  alias EmbedChat.Room
 
   plug :authenticate_user when action in [:index, :update, :edit, :delete]
   plug :scrub_params, "attempt" when action in [:create, :update]

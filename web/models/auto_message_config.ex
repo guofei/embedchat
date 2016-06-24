@@ -61,22 +61,41 @@ defmodule EmbedChat.AutoMessageConfig do
     do_match(m.total_page_view_pattern, m.total_page_view, s.total_page_view)
   end
 
+  defp should_strip_current_url?(model, status) do
+    with true <- model.current_url_pattern != "regex",
+         true <- model.current_url && status.current_url,
+      do: !String.match?(model.current_url, ~r/^http/) or !String.match?(status.current_url, ~r/^http/)
+  end
+
+  defp should_strip_referrer?(model, status) do
+    with true <- model.referrer_pattern != "regex",
+         true <- model.referrer && status.referrer,
+      do: !String.match?(model.referrer, ~r/^http/) or !String.match?(status.referrer, ~r/^http/)
+  end
+
   defp filter(%{model: model, status: status}) do
-    m = model
-    s = status
-    if m.current_url_pattern != "regex" && m.current_url && s.current_url do
-      if !String.match?(m.current_url, ~r/^http/) or !String.match?(s.current_url, ~r/^http/) do
-        m = %{m | current_url: strip_url(m.current_url)}
-        s = %{s | current_url: strip_url(s.current_url)}
-      end
+    case should_strip_current_url?(model, status) do
+      true ->
+        case should_strip_referrer?(model, status) do
+          true ->
+            m = %{model | current_url: strip_url(model.current_url), referrer: strip_url(model.referrer)}
+            s = %{status | current_url: strip_url(status.current_url), referrer: strip_url(status.referrer)}
+            %{model: m, status: s}
+          _ ->
+            m = %{model | current_url: strip_url(model.current_url)}
+            s = %{status | current_url: strip_url(status.current_url)}
+            %{model: m, status: s}
+        end
+      _ ->
+        case should_strip_referrer?(model, status) do
+          true ->
+            m = %{model | referrer: strip_url(model.referrer)}
+            s = %{status | referrer: strip_url(status.referrer)}
+            %{model: m, status: s}
+          _ ->
+            %{model: model, status: status}
+        end
     end
-    if m.referrer_pattern != "regex" && m.referrer && s.referrer do
-      if !String.match?(m.referrer, ~r/^http/) or !String.match?(s.referrer, ~r/^http/) do
-        m = %{m | referrer: strip_url(m.referrer)}
-        s = %{s | referrer: strip_url(s.referrer)}
-      end
-    end
-    %{model: m, status: s}
   end
 
   defp language(str) when is_binary(str) do

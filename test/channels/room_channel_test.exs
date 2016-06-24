@@ -49,7 +49,7 @@ defmodule EmbedChat.RoomChannelTest do
     ref = push v, "new_message", to_master
     assert_reply ref, :ok
     ref = push m, "messages", %{uid: v.assigns.distinct_id}
-    assert_reply ref, :ok, %{messages: [m1, m2]}
+    assert_reply ref, :ok, %{messages: [_, _]}
   end
 
   @tag master: true, visitor: true
@@ -61,7 +61,7 @@ defmodule EmbedChat.RoomChannelTest do
     ref = push m, "new_message", to_vistor
     assert_reply ref, :ok
     ref = push v, "messages", %{uid: v.assigns.distinct_id}
-    assert_reply ref, :ok, %{messages: [m1, m2]}
+    assert_reply ref, :ok, %{messages: [_, _]}
   end
 
   #test "get history messages by visitor with invalid data", %{master: m, visitor: v} do
