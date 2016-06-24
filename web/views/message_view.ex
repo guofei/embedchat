@@ -1,6 +1,5 @@
 defmodule EmbedChat.MessageView do
   use EmbedChat.Web, :view
-  import Scrivener.HTML
   alias EmbedChat.Message
 
   defp from_id(msg) do

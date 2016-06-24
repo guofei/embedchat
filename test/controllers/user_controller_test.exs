@@ -11,6 +11,6 @@ defmodule EmbedChat.UserControllerTest do
     conn = post conn, user_path(conn, :create), user: @valid_attrs
     assert redirected_to(conn) == room_path(conn, :index)
     user = Repo.get_by(User, %{email: @valid_attrs[:email]})
-    assert room_count(assoc(user, :rooms)) == 1
+    assert room_count(Ecto.assoc(user, :rooms)) == 1
   end
 end

@@ -28,10 +28,10 @@ config :phoenix, :generators,
   migration: true,
   binary_id: false
 
+config :embed_chat, ecto_repos: [EmbedChat.Repo]
+
 config :embed_chat, EmbedChat.Gettext,
   locales: ~w(en ja)
 
 config :hound, driver: "phantomjs"
 
-config :scrivener_html,
-    routes_helper: EmbedChat.Router.Helpers

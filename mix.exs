@@ -18,7 +18,7 @@ defmodule EmbedChat.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {EmbedChat, []},
-     applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
+     applications: [:phoenix, :phoenix_html, :phoenix_pubsub, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex, :comeonin, :hound]]
   end
 
@@ -30,19 +30,19 @@ defmodule EmbedChat.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:comeonin, "~> 2.4"},
+    [{:comeonin, "~> 2.5"},
      {:cowboy, "~> 1.0"},
      {:exrm, "~> 1.0"},
      {:gettext, "~> 0.11"},
      {:hound, "~> 1.0"},
-     {:phoenix, "~> 1.1"},
-     {:phoenix_ecto, "~> 2.0"},
-     {:phoenix_html, "~> 2.5"},
+     {:phoenix, "~> 1.2"},
+     {:phoenix_ecto, "~> 3.0"},
+     {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:phoenix_pubsub, "~> 1.0"},
      {:postgrex, "~> 0.11"},
-     {:scrivener, "~> 1.0"},
-     {:scrivener_html, "~> 1.1"},
-     {:credo, "~> 0.3", only: [:dev, :test]}]
+     {:scrivener_ecto, "~> 1.0"},
+     {:credo, "~> 0.4", only: [:dev, :test]}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
@@ -53,6 +53,7 @@ defmodule EmbedChat.Mixfile do
   # See the documentation for `Mix` for more info on aliases.
   defp aliases do
     ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-     "ecto.reset": ["ecto.drop", "ecto.setup"]]
+     "ecto.reset": ["ecto.drop", "ecto.setup"],
+     "test": ["ecto.create --quiet", "ecto.migrate", "test"]]
   end
 end
