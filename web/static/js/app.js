@@ -32,7 +32,7 @@ import room from './room';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Chat from './components/chat';
+import ChatVisitor from './components/chat-visitor';
 import ChatWebmaster from './components/chat-webmaster';
 
 import chatApp from './reducers';
@@ -63,7 +63,7 @@ if (roomElement) {
 
   ReactDOM.render(
     <Provider store={store}>
-      <Chat room={chatRoom} />
+      <ChatVisitor room={chatRoom} />
     </Provider>,
     document.getElementById('lewini-chat-id')
   );

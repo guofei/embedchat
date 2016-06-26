@@ -50,7 +50,7 @@ const styles = {
   },
 };
 
-class Chat extends React.Component {
+class ChatVisitor extends React.Component {
   constructor(props) {
     super(props);
     this.handleTouchTap = this.handleTouchTap.bind(this);
@@ -139,7 +139,7 @@ class Chat extends React.Component {
   }
 }
 
-Chat.propTypes = {
+ChatVisitor.propTypes = {
   room: React.PropTypes.object.isRequired,
   messages: React.PropTypes.array.isRequired,
   admins: React.PropTypes.array.isRequired,
@@ -170,4 +170,4 @@ function select(state) {
   };
 }
 
-export default connect(select)(Chat);
+export default connect(select)(ChatVisitor);

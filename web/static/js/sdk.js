@@ -29,7 +29,7 @@ import room from './room';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Chat from './components/chat';
+import ChatVisitor from './components/chat-visitor';
 
 import chatApp from './reducers';
 const store = createStore(chatApp);
@@ -61,7 +61,7 @@ function runChat() {
     const chatRoom = room(clientSocket, roomID, clientID, store);
     ReactDOM.render(
       <Provider store={store}>
-        <Chat room={chatRoom} />
+        <ChatVisitor room={chatRoom} />
       </Provider>,
       document.getElementById('lewini-chat-id')
     );
