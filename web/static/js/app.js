@@ -13,8 +13,6 @@
 // to also remove its path from "config.paths.watched".
 // import "deps/phoenix_html/web/static/js/phoenix_html"
 import 'phoenix_html';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 
 require('../css/app.css');
 require('getmdl-select/getmdl-select.min.js');
@@ -26,48 +24,15 @@ require('getmdl-select/getmdl-select.min.js');
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import { masterID, clientID } from './distinct_id';
-import { masterSocket, clientSocket } from './socket';
-import room from './room';
-
-import React from 'react';
-import ReactDOM from 'react-dom';
-import ChatVisitor from './components/chat-visitor';
-import ChatWebmaster from './components/chat-webmaster';
+import { createStore } from 'redux';
 
 import chatApp from './reducers';
+import visitor from './visitor';
+import webmaster from './webmaster';
+
 const store = createStore(chatApp);
-
-const masterRoomElement = document.getElementById('webmaster-chat-room');
-if (masterRoomElement) {
-  const roomID = masterRoomElement.getAttribute('data-id');
-  const chatRoom = room(masterSocket, roomID, masterID, store);
-  ReactDOM.render(
-    <Provider store={store}>
-      <ChatWebmaster room={chatRoom} />
-    </Provider>,
-    document.getElementById('webmaster-chat-room')
-  );
-}
-
-const roomElement = document.getElementById('lewini-chat');
-if (roomElement) {
-  const roomID = roomElement.getAttribute('data-id');
-  const chatRoom = room(clientSocket, roomID, clientID, store);
-
-  document.body.innerHTML += ('<div style="position:relative;">' +
-    '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
-    '<div id="lewini-chat-id"></div>' +
-    '</div>' +
-    '</div>');
-
-  ReactDOM.render(
-    <Provider store={store}>
-      <ChatVisitor room={chatRoom} />
-    </Provider>,
-    document.getElementById('lewini-chat-id')
-  );
-}
+webmaster(store);
+visitor(store);
 
 import showEmbedSite from 'embedded_site';
 showEmbedSite();
