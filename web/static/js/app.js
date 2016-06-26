@@ -32,7 +32,12 @@ import webmaster from './webmaster';
 
 const store = createStore(chatApp);
 webmaster(store);
-visitor(store);
+
+const roomElement = document.getElementById('lewini-chat');
+if (roomElement) {
+  const roomID = roomElement.getAttribute('data-id');
+  visitor(store, roomID);
+}
 
 import showEmbedSite from 'embedded_site';
 showEmbedSite();

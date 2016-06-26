@@ -21,16 +21,8 @@
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 
-import { clientID } from './distinct_id';
-import { clientSocket } from './socket';
-import room from './room';
-
-import React from 'react';
-import ReactDOM from 'react-dom';
-import ChatVisitor from './components/chat-visitor';
-
+import visitor from './visitor';
 import chatApp from './reducers';
 const store = createStore(chatApp);
 
@@ -49,23 +41,7 @@ function getRoomID() {
 
 function runChat() {
   const roomID = getRoomID();
-  if (roomID) {
-    const div = '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
-    '<div id="lewini-chat-id"></div>' +
-    '</div>';
-    const node = document.createElement('div');
-    node.setAttribute('style', 'position:relative;');
-    node.innerHTML = div;
-    document.body.appendChild(node);
-
-    const chatRoom = room(clientSocket, roomID, clientID, store);
-    ReactDOM.render(
-      <Provider store={store}>
-        <ChatVisitor room={chatRoom} />
-      </Provider>,
-      document.getElementById('lewini-chat-id')
-    );
-  }
+  visitor(store, roomID);
 }
 
 runChat();
