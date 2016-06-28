@@ -177,12 +177,9 @@ defmodule EmbedChat.RoomChannelSF do
   end
 
   defp room_admin_address(room_id) do
-    query = from a in Address,
-      join: um in UserRoom, on: um.user_id == a.user_id,
-      where: ^room_id == um.room_id,
-      order_by: [desc: a.id],
-      limit: 1
-    Repo.one(query)
+    Address
+    |> Address.latest_for_room(room_id)
+    |> Repo.one
   end
 
   defp random_admin(room_id) do

@@ -26,13 +26,15 @@ defmodule EmbedChat.AuthTest do
   end
 
   test "login puts the user in the session", %{conn: conn} do
+    user = insert_user()
+    insert_room(user)
     login_conn =
       conn
-    |> Auth.login(%EmbedChat.User{id: 123})
+    |> Auth.login(user)
     |> send_resp(:ok, "")
 
     next_conn = get(login_conn, "/")
-    assert get_session(next_conn, :user_id) == 123
+    assert get_session(next_conn, :user_id) == user.id
   end
 
   test "logout drops the session", %{conn: conn} do

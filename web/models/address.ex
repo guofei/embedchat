@@ -1,5 +1,6 @@
 defmodule EmbedChat.Address do
   use EmbedChat.Web, :model
+  alias EmbedChat.UserRoom
 
   schema "addresses" do
     field :uuid, Ecto.UUID
@@ -23,5 +24,21 @@ defmodule EmbedChat.Address do
     model
     |> cast(params, @required_fields, @optional_fields)
     |> unique_constraint(:uuid)
+  end
+
+  def latest_for_user(query, user_id) do
+    from a in query,
+      join: um in UserRoom, on: um.user_id == a.user_id,
+      where: um.user_id == ^user_id,
+      order_by: [desc: a.id],
+      limit: 1
+  end
+
+  def latest_for_room(query, room_id) do
+    from a in query,
+      join: um in UserRoom, on: um.user_id == a.user_id,
+      where: ^room_id == um.room_id,
+      order_by: [desc: a.id],
+      limit: 1
   end
 end

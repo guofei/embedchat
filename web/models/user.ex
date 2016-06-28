@@ -7,9 +7,7 @@ defmodule EmbedChat.User do
     field :password, :string, virtual: true
     field :crypted_password, :string
 
-    # user use different pc can have different address
     has_many :addresses, EmbedChat.Address
-
     has_many :userrooms, EmbedChat.UserRoom
     has_many :rooms, through: [:userrooms, :room]
 

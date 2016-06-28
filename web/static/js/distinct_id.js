@@ -8,8 +8,7 @@ const Distinct = {
   },
 
   getMaster() {
-    const key = 'm_distinct_id';
-    return this.getID(key);
+    return window.userAddress;
   },
 
   getID(key) {
