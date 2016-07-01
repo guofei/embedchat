@@ -41,7 +41,9 @@ defmodule EmbedChat.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:phoenix_pubsub, "~> 1.0"},
      {:postgrex, "~> 0.11"},
+     {:scrivener, "~> 2.0", override: true},
      {:scrivener_ecto, "~> 1.0"},
+     {:scrivener_html, "~> 1.2"},
      {:credo, "~> 0.4", only: [:dev, :test]}]
   end
 

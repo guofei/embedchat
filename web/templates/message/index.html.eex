@@ -43,6 +43,7 @@
     </table>
     <center>
       <div class="nav-page">
+        <%= pagination_links @conn, @messages %>
       </div>
     </center>
     <br/>

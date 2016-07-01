@@ -35,3 +35,5 @@ config :embed_chat, EmbedChat.Gettext,
 
 config :hound, driver: "phantomjs"
 
+config :scrivener_html,
+  routes_helper: EmbedChat.Router.Helpers
