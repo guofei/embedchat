@@ -35,9 +35,10 @@ defmodule EmbedChat.RoomChannelTest do
 
   @tag master: true, visitor: true
   test "visitor send accesslog to master", %{visitor: v} do
-    info = %{uid: v.assigns.distinct_id, info: %{userAgent: "IE", href: "abc.com"}}
+    info = %{userAgent: "IE", href: "abc.com"}
     push v, "user_info", info
-    assert_broadcast "user_info", info
+    assert_broadcast "user_info", %{info: %{"href" => "abc.com", "userAgent" => "IE"},
+                                    uid: _}
   end
 
   @tag master: true, visitor: true
@@ -89,7 +90,12 @@ defmodule EmbedChat.RoomChannelTest do
   test "visitor send message to online master", %{master: m, visitor: v} do
     message = %{"body" => "some content", "to_id" => m.assigns.distinct_id}
     push v, "new_message", message
-    assert_broadcast "new_message", message
+    assert_broadcast "new_message", %{body: "some content",
+                                      to_id: _,
+                                      from_id: _,
+                                      from_name: _,
+                                      id: _,
+                                      inserted_at: _}
   end
 
   @tag master: true
