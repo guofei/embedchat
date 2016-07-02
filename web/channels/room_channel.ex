@@ -68,14 +68,16 @@ defmodule EmbedChat.RoomChannel do
     {:noreply, socket}
   end
 
+
+  @messages_size 50
+
   def handle_in("messages", payload, socket) do
     room_id = socket.assigns.room_id
     uuid = RoomChannelSF.messages_owner(payload, socket)
 
     cond do
       address = RoomChannelSF.get_address(uuid) ->
-        limit = 50
-        messages = RoomChannelSF.messages(room_id, address, limit)
+        messages = RoomChannelSF.messages(room_id, address, @messages_size)
         resp = %{uid: uuid, messages: Phoenix.View.render_many(
                     messages,
                     EmbedChat.MessageView,
