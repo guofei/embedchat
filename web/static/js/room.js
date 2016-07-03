@@ -22,7 +22,7 @@ function room(socket, roomID, distinctID, store) {
   const adminJoin = 'admin_join';
   const adminLeft = 'admin_left';
   const messages = 'messages';
-  const userInfo = 'user_info';
+  // const userInfo = 'user_info';
 
   let channel = null;
   let onUserJoinedCallback = function func() { };
@@ -47,7 +47,7 @@ function room(socket, roomID, distinctID, store) {
       if (!roomID) { return; }
       if (UserInfo.isBot()) { return; }
       socket.connect();
-      channel = socket.channel(`rooms:${roomID}`);
+      channel = socket.channel(`rooms:${roomID}`, UserInfo);
 
       channel.on(messageEvent, (msg) => {
         store.dispatch(receiveMessage(msg));
@@ -60,6 +60,10 @@ function room(socket, roomID, distinctID, store) {
 
       channel.on(userJoin, (user) => {
         store.dispatch(receiveUserOnline(user));
+        if (user.info) {
+          const accesslog = Object.assign({}, user.info, { uid: user.uid });
+          store.dispatch(receiveAccessLog(accesslog));
+        }
         getHistory(user.uid);
       });
 
@@ -71,15 +75,15 @@ function room(socket, roomID, distinctID, store) {
         store.dispatch(receiveAdminOffline(admin));
       });
 
-      channel.on(userInfo, (resp) => {
-        const accesslog = Object.assign({}, resp.info, { uid: resp.uid });
-        store.dispatch(receiveAccessLog(accesslog));
-      });
+      // channel.on(userInfo, (resp) => {
+      //   const accesslog = Object.assign({}, resp.info, { uid: resp.uid });
+      //   store.dispatch(receiveAccessLog(accesslog));
+      // });
 
       channel.join()
         .receive('ok', () => {
           onUserJoinedCallback();
-          channel.push(userInfo, UserInfo);
+          // channel.push(userInfo, UserInfo);
           const contactList = 'contact_list';
           channel.push(contactList)
             .receive('ok', listResp => {

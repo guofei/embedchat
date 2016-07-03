@@ -5,7 +5,7 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.RoomChannelSF
   alias EmbedChat.User
 
-  def join("rooms:" <> room_uuid, _payload, socket) do
+  def join("rooms:" <> room_uuid, payload, socket) do
     cond do
       room = Repo.get_by(Room, uuid: room_uuid) ->
         if authorized?(socket, room) do
@@ -23,6 +23,7 @@ defmodule EmbedChat.RoomChannel do
             socket
             |> assign(:room_id, room.id)
             |> assign(:room_uuid, room.uuid)
+            |> assign(:info, payload)
           {:ok, new_socket}
         else
           {:error, %{reason: "unauthorized"}}
@@ -39,8 +40,12 @@ defmodule EmbedChat.RoomChannel do
       RoomChannelSF.create_admin_address(socket)
       broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id}
     else
-      RoomChannelSF.visitor_online(socket.assigns.room_id, socket.assigns.distinct_id, socket.assigns[:info])
-      broadcast! socket, "user_join", %{uid: socket.assigns.distinct_id}
+      distinct_id = socket.assigns.distinct_id
+      room_id = socket.assigns.room_id
+      info = socket.assigns[:info]
+      RoomChannelSF.visitor_online(room_id, distinct_id, info)
+      broadcast! socket, "user_join", %{uid: distinct_id, info: info}
+      auto_message(socket, room_id, distinct_id, info)
     end
     {:noreply, socket}
   end
@@ -53,21 +58,14 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("user_info", payload, socket) do
     room_id = socket.assigns.room_id
-    distid = socket.assigns.distinct_id
+    distinct_id = socket.assigns.distinct_id
     if !socket.assigns[:user_id] do
-      messages = RoomChannelSF.auto_messages(room_id, payload)
-      Enum.each(messages, fn (msg) ->
-        msg = %{"to_id" => distid, "body" => msg.message}
-        if {:ok, resp} = RoomChannelSF.new_message_master_to_visitor(msg, room_id) do
-          push socket, "new_message", resp
-        end
-      end)
-      RoomChannelSF.visitor_update(socket.assigns.room_id, socket.assigns.distinct_id, payload)
-      broadcast! socket, "user_info", %{uid: socket.assigns.distinct_id, info: payload}
+      auto_message(socket, room_id, distinct_id, payload)
+      RoomChannelSF.visitor_update(room_id, distinct_id, payload)
+      broadcast! socket, "user_info", %{uid: distinct_id, info: payload}
     end
     {:noreply, socket}
   end
-
 
   @messages_size 50
 
@@ -176,6 +174,16 @@ defmodule EmbedChat.RoomChannel do
       true ->
         true
     end
+  end
+
+  defp auto_message(socket, room_id, distinct_id, info) do
+    messages = RoomChannelSF.auto_messages(room_id, info)
+    Enum.each(messages, fn (msg) ->
+      msg = %{"to_id" => distinct_id, "body" => msg.message}
+      if {:ok, resp} = RoomChannelSF.new_message_master_to_visitor(msg, room_id) do
+        push socket, "new_message", resp
+      end
+    end)
   end
 
   # send to master user if the to_id is nil

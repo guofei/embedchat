@@ -48,7 +48,7 @@ const UserInfo = {
   totalPageView: totalPageView(),
   inserted_at: moment.utc().format(),
   isBot() {
-    if (navigator.userAgent.indexOf('bot') > -1) {
+    if (navigator.userAgent && navigator.userAgent.indexOf('bot') > -1) {
       return true;
     }
     return false;
