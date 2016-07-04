@@ -2,7 +2,7 @@ defmodule EmbedChat.RoomChannel do
   use EmbedChat.Web, :channel
   alias EmbedChat.ChannelWatcher
   alias EmbedChat.Room
-  alias EmbedChat.RoomChannelSF
+  alias EmbedChat.RoomChannel.SideEffect
   alias EmbedChat.User
 
   def join("rooms:" <> room_uuid, payload, socket) do
@@ -36,14 +36,14 @@ defmodule EmbedChat.RoomChannel do
   def handle_info(:after_join, socket) do
     if socket.assigns[:user_id] do
       user = Repo.get!(User, socket.assigns.user_id)
-      RoomChannelSF.admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user)
-      RoomChannelSF.create_admin_address(socket)
+      SideEffect.admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user)
+      SideEffect.create_admin_address(socket)
       broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id}
     else
       distinct_id = socket.assigns.distinct_id
       room_id = socket.assigns.room_id
       info = socket.assigns[:info]
-      RoomChannelSF.visitor_online(room_id, distinct_id, info)
+      SideEffect.visitor_online(room_id, distinct_id, info)
       broadcast! socket, "user_join", %{uid: distinct_id, info: info}
       auto_message(socket, room_id, distinct_id, info)
     end
@@ -54,11 +54,11 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("messages", payload, socket) do
     room_id = socket.assigns.room_id
-    uuid = RoomChannelSF.messages_owner(payload, socket)
+    uuid = SideEffect.messages_owner(payload, socket)
 
     cond do
-      address = RoomChannelSF.get_address(uuid) ->
-        messages = RoomChannelSF.messages(room_id, address, @messages_size)
+      address = SideEffect.get_address(uuid) ->
+        messages = SideEffect.messages(room_id, address, @messages_size)
         resp = %{uid: uuid, messages: Phoenix.View.render_many(
                     messages,
                     EmbedChat.MessageView,
@@ -72,11 +72,11 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_in("contact_list", _payload, socket) do
     if socket.assigns[:user_id] do
-      resp = %{ online_users: RoomChannelSF.online_visitors(socket.assigns.room_id),
-                offline_users: RoomChannelSF.offline_visitors(socket.assigns.room_id) }
+      resp = %{ online_users: SideEffect.online_visitors(socket.assigns.room_id),
+                offline_users: SideEffect.offline_visitors(socket.assigns.room_id) }
       {:reply, {:ok, resp}, socket}
     else
-      {:reply, {:ok, %{admins: RoomChannelSF.online_admins(socket.assigns.room_id)}}, socket}
+      {:reply, {:ok, %{admins: SideEffect.online_admins(socket.assigns.room_id)}}, socket}
     end
   end
 
@@ -124,12 +124,12 @@ defmodule EmbedChat.RoomChannel do
 
   def leave(room_id, room_uuid, user_id, distinct_id) when is_nil(user_id) do
     EmbedChat.Endpoint.broadcast! "rooms:#{room_uuid}", "user_left", %{uid: distinct_id}
-    RoomChannelSF.visitor_offline(room_id, distinct_id)
+    SideEffect.visitor_offline(room_id, distinct_id)
   end
 
   def leave(room_id, room_uuid, _user_id, distinct_id) do
     EmbedChat.Endpoint.broadcast! "rooms:#{room_uuid}", "admin_left", %{uid: distinct_id}
-    RoomChannelSF.admin_offline(room_id, distinct_id)
+    SideEffect.admin_offline(room_id, distinct_id)
   end
 
   # Add authorization logic here as required.
@@ -146,10 +146,10 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp auto_message(socket, room_id, distinct_id, info) do
-    messages = RoomChannelSF.auto_messages(room_id, info)
+    messages = SideEffect.auto_messages(room_id, info)
     Enum.each(messages, fn (msg) ->
       msg = %{"to_id" => distinct_id, "body" => msg.message}
-      if {:ok, resp} = RoomChannelSF.new_message_master_to_visitor(msg, room_id) do
+      if {:ok, resp} = SideEffect.new_message_master_to_visitor(msg, room_id) do
         push socket, "new_message", resp
       end
     end)
@@ -161,11 +161,11 @@ defmodule EmbedChat.RoomChannel do
     cond do
       socket.assigns[:user_id] ->
         mtv = %{"to_id" => to_uid, "body" => msg_text}
-        RoomChannelSF.new_message_master_to_visitor(mtv, room_id)
+        SideEffect.new_message_master_to_visitor(mtv, room_id)
       true ->
         distinct_id = socket.assigns.distinct_id
         vtm = %{"from_id" => distinct_id, "body" => msg_text}
-        RoomChannelSF.new_message_visitor_to_master(vtm, room_id)
+        SideEffect.new_message_visitor_to_master(vtm, room_id)
     end
   end
 end

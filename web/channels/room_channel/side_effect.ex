@@ -1,4 +1,4 @@
-defmodule EmbedChat.RoomChannelSF do
+defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.Address
   alias EmbedChat.AutoMessageConfig
   alias EmbedChat.Repo
