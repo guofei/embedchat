@@ -34,14 +34,6 @@ defmodule EmbedChat.RoomChannelTest do
   end
 
   @tag master: true, visitor: true
-  test "visitor send accesslog to master", %{visitor: v} do
-    info = %{userAgent: "IE", href: "abc.com"}
-    push v, "user_info", info
-    assert_broadcast "user_info", %{info: %{"href" => "abc.com", "userAgent" => "IE"},
-                                    uid: _}
-  end
-
-  @tag master: true, visitor: true
   test "get history messages by master", %{master: m, visitor: v} do
     to_master = %{"body" => "some content", "to_id" => m.assigns.distinct_id}
     to_vistor = %{"body" => "some content", "to_id" => v.assigns.distinct_id}

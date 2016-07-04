@@ -147,11 +147,6 @@ defmodule EmbedChat.RoomChannelSF do
     Bucket.map(bkt)
   end
 
-  def visitor_update(room_id, distinct_id, info) do
-    {:ok, bkt} = visitor_bucket(room_id)
-    Bucket.put(bkt, distinct_id, info)
-  end
-
   def visitor_online(room_id, distinct_id, info) do
     {:ok, bkt} = visitor_bucket(room_id)
     Bucket.put(bkt, distinct_id, info)

@@ -56,17 +56,6 @@ defmodule EmbedChat.RoomChannel do
     {:reply, {:ok, payload}, socket}
   end
 
-  def handle_in("user_info", payload, socket) do
-    room_id = socket.assigns.room_id
-    distinct_id = socket.assigns.distinct_id
-    if !socket.assigns[:user_id] do
-      auto_message(socket, room_id, distinct_id, payload)
-      RoomChannelSF.visitor_update(room_id, distinct_id, payload)
-      broadcast! socket, "user_info", %{uid: distinct_id, info: payload}
-    end
-    {:noreply, socket}
-  end
-
   @messages_size 50
 
   def handle_in("messages", payload, socket) do
@@ -112,15 +101,6 @@ defmodule EmbedChat.RoomChannel do
       {:error, changeset} ->
         {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}
     end
-  end
-
-  intercept ["new_message", "user_info"]
-
-  def handle_out("user_info", payload, socket) do
-    if socket.assigns[:user_id] do
-      push socket, "user_info", payload
-    end
-    {:noreply, socket}
   end
 
   def handle_out("new_message", payload, socket) do
