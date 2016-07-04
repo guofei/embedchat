@@ -12,7 +12,7 @@ defmodule EmbedChat.RoomChannel do
           send(self, :after_join)
           ChannelWatcher.monitor(
             :rooms,
-            self(),
+            self,
             {__MODULE__, :leave, [room.id,
                                   room.uuid,
                                   socket.assigns[:user_id],
@@ -102,6 +102,8 @@ defmodule EmbedChat.RoomChannel do
         {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}
     end
   end
+
+  intercept ["new_message"]
 
   def handle_out("new_message", payload, socket) do
     cond do
