@@ -17,6 +17,8 @@ defmodule EmbedChat.AutoMessageConfigController do
     render(conn, "new.html", changeset: changeset, rooms: rooms)
   end
 
+  # FIXME check room id when create, edit and udpate
+
   def create(conn, %{"auto_message_config" => auto_message_config_params}) do
     changeset =
       conn.assigns.current_user
