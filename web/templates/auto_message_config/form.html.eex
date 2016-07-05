@@ -86,7 +86,7 @@
     <%= text_input f, :room_id, value: List.first(@rooms).id, type: "hidden" %>
   <% else %>
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select">
-      <%= text_input f, :room_id, class: "mdl-textfield__input", type: "text", id: "select_room_id", readonly: "readonly", tabIndex: -1 %>
+      <%= text_input f, :room_id, class: "mdl-textfield__input", value: List.first(@rooms).id, type: "text", id: "select_room_id", readonly: "readonly", tabIndex: -1 %>
       <label class="mdl-textfield__label" for="select_room_id">Room</label>
       <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu" for="select_room_id">
         <%= for room <- @rooms do %>
