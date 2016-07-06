@@ -7,7 +7,10 @@ defmodule EmbedChat.AutoMessageConfigController do
   plug :authenticate_user
 
   def index(conn, _params) do
-    auto_message_configs = Repo.all user_configs(conn)
+    auto_message_configs =
+      user_configs(conn)
+      |> Ecto.Query.order_by([desc: :updated_at])
+      |> Repo.all
     render(conn, "index.html", auto_message_configs: auto_message_configs)
   end
 
