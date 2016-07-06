@@ -47,7 +47,7 @@ let state_tree = {
       inserted_at: '11:12',
       href: 'http://abc.com',
       referrer: 'http://ref.com',
-      screenwidth: 100,
+      screenWidth: 100,
       screenHeight: 100,
       visitView: 1,
       singlePageView: 1,

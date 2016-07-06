@@ -40,7 +40,7 @@ const UserInfo = {
   userAgent: navigator.userAgent,
   href: location.href,
   referrer: document.referrer,
-  screenwidth: screen.width,
+  screenWidth: screen.width,
   screenHeight: screen.height,
   language: getBrowserLanguage(),
   visitView: currentPageView,

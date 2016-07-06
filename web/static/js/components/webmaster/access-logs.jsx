@@ -25,7 +25,7 @@ function LogContent({ log }) {
       User Agent: {log.userAgent}<br/>
       Referrer: {log.referrer}<br/>
       Language: {log.language}<br/>
-      Screenwidth: {log.screenwidth}<br/>
+      screenWidth: {log.screenWidth}<br/>
       ScreenHeight: {log.screenHeight}<br/>
       PageView: {log.totalPageView}<br/>
       Time: {moment.utc(log.inserted_at).fromNow()}
