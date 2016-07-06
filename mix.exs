@@ -32,6 +32,7 @@ defmodule EmbedChat.Mixfile do
   defp deps do
     [{:comeonin, "~> 2.5"},
      {:cowboy, "~> 1.0"},
+     {:credo, "~> 0.4", only: [:dev, :test]},
      {:exrm, "~> 1.0"},
      {:gettext, "~> 0.11"},
      {:hound, "~> 1.0"},
@@ -41,10 +42,8 @@ defmodule EmbedChat.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:phoenix_pubsub, "~> 1.0"},
      {:postgrex, "~> 0.11"},
-     {:scrivener, "~> 2.0", override: true},
      {:scrivener_ecto, "~> 1.0"},
-     {:scrivener_html, "~> 1.2"},
-     {:credo, "~> 0.4", only: [:dev, :test]}]
+     {:scrivener_html, "~> 1.3"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
