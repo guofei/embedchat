@@ -53,49 +53,63 @@ defmodule EmbedChat.AutoMessageConfig do
 
   def match(model, status) do
     %{model: m, status: s} = filter(%{model: model, status: status})
-    do_match(m.current_url_pattern, strip_url(m.current_url), strip_url(s.current_url)) and
-    do_match(m.referrer_pattern, strip_url(m.referrer), strip_url(s.referrer)) and
+    do_match(m.current_url_pattern, m.current_url, s.current_url) and
+    do_match(m.referrer_pattern, m.referrer, s.referrer) and
     do_match(m.language_pattern, language(m.language), language(s.language)) and
     do_match(m.visit_view_pattern, m.visit_view, s.visit_view) and
     do_match(m.single_page_view_pattern, m.single_page_view, s.single_page_view) and
     do_match(m.total_page_view_pattern, m.total_page_view, s.total_page_view)
   end
 
-  defp should_strip_current_url?(model, status) do
-    with true <- model.current_url_pattern != "regex",
-         true <- model.current_url && status.current_url,
-      do: !String.match?(model.current_url, ~r/^http/) or !String.match?(status.current_url, ~r/^http/)
+  defp should_strip_url_end_slash?(url_pattern, url1, url2) do
+    if url_pattern != "regex" && url1 && url2, do: true, else: false
   end
 
-  defp should_strip_referrer?(model, status) do
-    with true <- model.referrer_pattern != "regex",
-         true <- model.referrer && status.referrer,
-      do: !String.match?(model.referrer, ~r/^http/) or !String.match?(status.referrer, ~r/^http/)
+  defp should_strip_url_scheme?(pattern, url1, url2) do
+    should_strip_url_end_slash?(pattern, url1, url2) &&
+      !(String.match?(url1, ~r/^http/) && String.match?(url2, ~r/^http/))
   end
 
-  defp filter(%{model: model, status: status}) do
-    case should_strip_current_url?(model, status) do
+  defp strip_current_url(%{model: model, status: status}) do
+    case should_strip_url_end_slash?(model.current_url_pattern, model.current_url, status.current_url) do
       true ->
-        case should_strip_referrer?(model, status) do
+        case should_strip_url_scheme?(model.current_url_pattern, model.current_url, status.current_url) do
           true ->
-            m = %{model | current_url: strip_url(model.current_url), referrer: strip_url(model.referrer)}
-            s = %{status | current_url: strip_url(status.current_url), referrer: strip_url(status.referrer)}
-            %{model: m, status: s}
-          _ ->
             m = %{model | current_url: strip_url(model.current_url)}
             s = %{status | current_url: strip_url(status.current_url)}
             %{model: m, status: s}
+          _ ->
+            m = %{model | current_url: String.rstrip(model.current_url, ?/)}
+            s = %{status | current_url: String.rstrip(status.current_url, ?/)}
+            %{model: m, status: s}
         end
       _ ->
-        case should_strip_referrer?(model, status) do
+        %{model: model, status: status}
+    end
+  end
+
+  defp strip_referrer(%{model: model, status: status}) do
+    case should_strip_url_end_slash?(model.referrer_pattern, model.referrer, status.referrer) do
+      true ->
+        case should_strip_url_scheme?(model.referrer_pattern, model.referrer, status.referrer) do
           true ->
             m = %{model | referrer: strip_url(model.referrer)}
             s = %{status | referrer: strip_url(status.referrer)}
             %{model: m, status: s}
           _ ->
-            %{model: model, status: status}
+            m = %{model | referrer: String.rstrip(model.referrer, ?/)}
+            s = %{status | referrer: String.rstrip(status.referrer, ?/)}
+            %{model: m, status: s}
         end
+      _ ->
+        %{model: model, status: status}
     end
+  end
+
+  defp filter(%{model: _, status: _} = input) do
+    input
+    |> strip_current_url
+    |> strip_referrer
   end
 
   defp language(str) when is_binary(str) do

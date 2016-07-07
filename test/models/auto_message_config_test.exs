@@ -37,7 +37,16 @@ defmodule EmbedChat.AutoMessageConfigTest do
     assert EmbedChat.AutoMessageConfig.match(model, %{current_url: "rooms/1", referrer: "", language: "en", visit_view: 3, single_page_view: 4, total_page_view: 6})
   end
 
-  test "match current url" do
+  test "match current http url" do
     assert EmbedChat.AutoMessageConfig.match(@valid_attrs, %{current_url: "http://rooms", referrer: "", language: "English", visit_view: nil, single_page_view: 4, total_page_view: 6})
+  end
+
+  test "match current url" do
+    assert EmbedChat.AutoMessageConfig.match(@valid_attrs, %{current_url: "rooms", referrer: "", language: "English", visit_view: nil, single_page_view: 4, total_page_view: 6})
+  end
+
+  test "match single page view" do
+    model = %{@valid_attrs | current_url_pattern: "~="}
+    assert EmbedChat.AutoMessageConfig.match(model, %{current_url: "http://rooms/1", referrer: nil, language: nil, visit_view: nil, single_page_view: 4, total_page_view: nil})
   end
 end
