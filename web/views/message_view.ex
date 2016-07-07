@@ -4,11 +4,10 @@ defmodule EmbedChat.MessageView do
   alias EmbedChat.Message
 
   defp from_id(msg) do
-    cond do
-      msg.from.uuid ->
-        msg.from.uuid
-      true ->
-        1
+    if msg.from.uuid do
+      msg.from.uuid
+    else
+      1
     end
   end
 
@@ -24,11 +23,10 @@ defmodule EmbedChat.MessageView do
   end
 
   defp to_id(msg) do
-    cond do
-      to = msg.to ->
-        to.uuid
-      true ->
-        ""
+    if msg.to do
+      msg.to.uuid
+    else
+      ""
     end
   end
 

@@ -6,30 +6,29 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.User
 
   def join("rooms:" <> room_uuid, payload, socket) do
-    cond do
-      room = Repo.get_by(Room, uuid: room_uuid) ->
-        if authorized?(socket, room) do
-          send(self, :after_join)
-          ChannelWatcher.monitor(
-            :rooms,
-            self,
-            {__MODULE__, :leave, [room.id,
-                                  room.uuid,
-                                  socket.assigns[:user_id],
-                                  socket.assigns.distinct_id]
-            }
-          )
-          new_socket =
-            socket
-            |> assign(:room_id, room.id)
-            |> assign(:room_uuid, room.uuid)
-            |> assign(:info, payload)
-          {:ok, new_socket}
-        else
-          {:error, %{reason: "unauthorized"}}
-        end
-      true ->
+    if room = Repo.get_by(Room, uuid: room_uuid) do
+      if authorized?(socket, room) do
+        send(self, :after_join)
+        ChannelWatcher.monitor(
+          :rooms,
+          self,
+          {__MODULE__, :leave, [room.id,
+                                room.uuid,
+                                socket.assigns[:user_id],
+                                socket.assigns.distinct_id]
+          }
+        )
+        new_socket =
+          socket
+          |> assign(:room_id, room.id)
+          |> assign(:room_uuid, room.uuid)
+          |> assign(:info, payload)
+        {:ok, new_socket}
+      else
         {:error, %{reason: "unauthorized"}}
+      end
+    else
+      {:error, %{reason: "unauthorized"}}
     end
   end
 
@@ -56,24 +55,23 @@ defmodule EmbedChat.RoomChannel do
     room_id = socket.assigns.room_id
     uuid = SideEffect.messages_owner(payload, socket)
 
-    cond do
-      address = SideEffect.get_address(uuid) ->
-        messages = SideEffect.messages(room_id, address, @messages_size)
-        resp = %{uid: uuid, messages: Phoenix.View.render_many(
-                    messages,
-                    EmbedChat.MessageView,
-                    "message.json"
-                  )}
-        {:reply, {:ok, resp}, socket}
-      true ->
-        {:reply, {:error, %{reason: "address error"}}, socket}
+    if address = SideEffect.get_address(uuid) do
+      messages = SideEffect.messages(room_id, address, @messages_size)
+      resp = %{uid: uuid, messages: Phoenix.View.render_many(
+                  messages,
+                  EmbedChat.MessageView,
+                  "message.json"
+                )}
+      {:reply, {:ok, resp}, socket}
+    else
+      {:reply, {:error, %{reason: "address error"}}, socket}
     end
   end
 
   def handle_in("contact_list", _payload, socket) do
     if socket.assigns[:user_id] do
-      resp = %{ online_users: SideEffect.online_visitors(socket.assigns.room_id),
-                offline_users: SideEffect.offline_visitors(socket.assigns.room_id) }
+      resp = %{online_users: SideEffect.online_visitors(socket.assigns.room_id),
+               offline_users: SideEffect.offline_visitors(socket.assigns.room_id)}
       {:reply, {:ok, resp}, socket}
     else
       {:reply, {:ok, %{admins: SideEffect.online_admins(socket.assigns.room_id)}}, socket}
@@ -134,14 +132,13 @@ defmodule EmbedChat.RoomChannel do
 
   # Add authorization logic here as required.
   defp authorized?(socket, room) do
-    cond do
-      user_id = socket.assigns[:user_id] ->
-        room = Repo.preload room, :users
-        users = room.users
-        user = Repo.get!(User, user_id)
-        Enum.any?(users, &(&1.id == user.id))
-      true ->
-        true
+    if user_id = socket.assigns[:user_id] do
+      room = Repo.preload room, :users
+      users = room.users
+      user = Repo.get!(User, user_id)
+      Enum.any?(users, &(&1.id == user.id))
+    else
+      true
     end
   end
 
@@ -149,8 +146,9 @@ defmodule EmbedChat.RoomChannel do
     messages = SideEffect.auto_messages(room_id, info)
     Enum.each(messages, fn (msg) ->
       msg = %{"to_id" => distinct_id, "body" => msg.message}
-      if {:ok, resp} = SideEffect.new_message_master_to_visitor(msg, room_id) do
-        push socket, "new_message", resp
+      case SideEffect.new_message_master_to_visitor(msg, room_id) do
+        {:ok, resp} ->
+          push socket, "new_message", resp
       end
     end)
   end
@@ -158,14 +156,13 @@ defmodule EmbedChat.RoomChannel do
   # send to master user if the to_id is nil
   defp new_message(%{"to_id" => to_uid, "body" => msg_text}, socket) do
     room_id = socket.assigns.room_id
-    cond do
-      socket.assigns[:user_id] ->
-        mtv = %{"to_id" => to_uid, "body" => msg_text}
-        SideEffect.new_message_master_to_visitor(mtv, room_id)
-      true ->
-        distinct_id = socket.assigns.distinct_id
-        vtm = %{"from_id" => distinct_id, "body" => msg_text}
-        SideEffect.new_message_visitor_to_master(vtm, room_id)
+    if socket.assigns[:user_id] do
+      mtv = %{"to_id" => to_uid, "body" => msg_text}
+      SideEffect.new_message_master_to_visitor(mtv, room_id)
+    else
+      distinct_id = socket.assigns.distinct_id
+      vtm = %{"from_id" => distinct_id, "body" => msg_text}
+      SideEffect.new_message_visitor_to_master(vtm, room_id)
     end
   end
 end

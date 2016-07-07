@@ -51,15 +51,10 @@ defmodule EmbedChat.User do
   end
 
   def name(user) do
-    cond do
-      user.name ->
-        if String.length(user.name) > 0 do
-          user.name
-        else
-          user.email
-        end
-      true ->
-        user.email
+    if user.name && String.length(user.name) > 0 do
+      user.name
+    else
+      user.email
     end
   end
 end

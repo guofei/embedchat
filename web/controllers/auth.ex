@@ -38,15 +38,14 @@ defmodule EmbedChat.Auth do
   end
 
   defp create_or_get_address(user) do
-    cond do
-      address = Repo.one(Address.latest_for_user(Address, user.id)) ->
-        address
-      true ->
-        changeset = Ecto.build_assoc(user, :addresses, uuid: Ecto.UUID.generate())
-        case Repo.insert(changeset) do
-          {:ok, address} ->
-            address
-        end
+    if address = Repo.one(Address.latest_for_user(Address, user.id)) do
+      address
+    else
+      changeset = Ecto.build_assoc(user, :addresses, uuid: Ecto.UUID.generate())
+      case Repo.insert(changeset) do
+        {:ok, address} ->
+          address
+      end
     end
   end
 

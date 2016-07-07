@@ -68,11 +68,10 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   defp admin_address(admin) do
     # TODO multi users
-    cond do
-      address = get_address(admin) ->
-        {:ok, address}
-      true ->
-        {:error, %Address{}}
+    if address = get_address(admin) do
+      {:ok, address}
+    else
+      {:error, %Address{}}
     end
   end
 
@@ -92,11 +91,10 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   defp get_or_create_address(distinct_id, user_id) do
-    cond do
-      address = get_address(distinct_id) ->
-        {:ok, address}
-      true ->
-        create_address(distinct_id, user_id)
+    if address = get_address(distinct_id) do
+      {:ok, address}
+    else
+      create_address(distinct_id, user_id)
     end
   end
 
@@ -115,25 +113,19 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       {:ok, model} ->
         {:ok, model}
       {:error, changeset} ->
-        cond do
-          address = get_address(distinct_id) ->
-            {:ok, address}
-          true ->
-            {:error, changeset}
+        if address = get_address(distinct_id) do
+          {:ok, address}
+        else
+          {:error, changeset}
         end
     end
   end
 
   def messages_owner(payload, socket) do
-    cond do
-      payload["uid"] ->
-        if socket.assigns[:user_id] do
-          payload["uid"]
-        else
-          socket.assigns.distinct_id
-        end
-      true ->
-        socket.assigns.distinct_id
+    if payload["uid"] && socket.assigns[:user_id] do
+      payload["uid"]
+    else
+      socket.assigns.distinct_id
     end
   end
 
@@ -181,13 +173,10 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     cond do
       admin = random_online_admin(room_id) ->
         admin
+      address = room_admin_address(room_id) ->
+        address.uuid
       true ->
-        address = room_admin_address(room_id)
-        if address do
-          address.uuid
-        else
-          nil
-        end
+        nil
     end
   end
 

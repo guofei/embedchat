@@ -26,8 +26,7 @@ defmodule EmbedChat.Gettext do
     known = Gettext.known_locales(EmbedChat.Gettext)
     allowed = config[:locales]
 
-    Set.intersection(Enum.into(known, HashSet.new), Enum.into(allowed, HashSet.new))
-    |> Set.to_list
+    Set.to_list(Set.intersection(Enum.into(known, HashSet.new), Enum.into(allowed, HashSet.new)))
   end
 
   defp config, do: Application.get_env(:embed_chat, __MODULE__)
