@@ -37,15 +37,15 @@ function totalPageView() {
 }
 
 const UserInfo = {
-  userAgent: navigator.userAgent,
-  href: location.href,
+  agent: navigator.userAgent,
+  current_url: location.href,
   referrer: document.referrer,
-  screenWidth: screen.width,
-  screenHeight: screen.height,
+  screen_width: screen.width,
+  screen_height: screen.height,
   language: getBrowserLanguage(),
-  visitView: currentPageView,
-  singlePageView: currentPageView,
-  totalPageView: totalPageView(),
+  visit_view: currentPageView,
+  single_page_view: currentPageView,
+  total_page_view: totalPageView(),
   inserted_at: moment.utc().format(),
   isBot() {
     if (navigator.userAgent && navigator.userAgent.indexOf('bot') > -1) {

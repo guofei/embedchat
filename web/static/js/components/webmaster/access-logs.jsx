@@ -22,12 +22,12 @@ const styles = {
 function LogContent({ log }) {
   return (
     <div>
-      User Agent: {log.userAgent}<br/>
+      User Agent: {log.agent}<br/>
       Referrer: {log.referrer}<br/>
       Language: {log.language}<br/>
-      screenWidth: {log.screenWidth}<br/>
-      ScreenHeight: {log.screenHeight}<br/>
-      PageView: {log.totalPageView}<br/>
+      screenWidth: {log.screen_width}<br/>
+      ScreenHeight: {log.screen_height}<br/>
+      PageView: {log.total_page_view}<br/>
       Time: {moment.utc(log.inserted_at).fromNow()}
     </div>
   );
@@ -54,7 +54,7 @@ class AccessLogs extends React.Component {
       (
         <ItemWithDialog
           key={index}
-          title={log.href}
+          title={log.current_url}
           moment={moment.utc(log.inserted_at).fromNow()}
         >
           <LogContent log={log} />

@@ -7,12 +7,22 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.Room.Bucket
   alias EmbedChat.Room.Registry
   alias EmbedChat.User
+  alias EmbedChat.UserLog
+  alias EmbedChat.UserLogView
   alias EmbedChat.UserRoom
   alias Phoenix.View
 
   @max_offline_size 10
+  @max_online_size 20
 
   import Ecto.Query, only: [from: 2]
+
+  def create_access_log(%Address{} = address, payload) do
+    address
+    |> Ecto.build_assoc(:user_logs)
+    |> UserLog.changeset(payload)
+    |> Repo.insert
+  end
 
   def messages(room_id, address, limit) do
     query = from m in Message,
@@ -45,9 +55,9 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       do: {:ok, resp}
   end
 
-  def auto_messages(room_id, payload) do
+  def auto_messages(room_id, %UserLog{} = log) do
     all_messages = Repo.all(from m in AutoMessageConfig, where: m.room_id == ^room_id)
-    EmbedChat.AutoMessageConfig.match(all_messages, payload)
+    EmbedChat.AutoMessageConfig.match(all_messages, log)
   end
 
   defp visitor_receiver(to) do
@@ -127,19 +137,37 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
+  @max_user_log 100
+
   def offline_visitors(room_id) do
     {:ok, offbkt} = offline_visitor_bucket(room_id)
-    Bucket.map(offbkt)
+    offbkt
+    |> Bucket.map
+    |> Enum.take(@max_offline_size)
+    |> Enum.map(fn {distinct_id, address_id} ->
+      logs = Repo.all(UserLog.for_address_id(UserLog, address_id, @max_user_log))
+      resp = View.render_many(logs, UserLogView, "user_log.json")
+      {distinct_id, resp}
+    end)
+    |> Enum.into(%{})
   end
 
   def online_visitors(room_id) do
     {:ok, bkt} = visitor_bucket(room_id)
-    Bucket.map(bkt)
+    bkt
+    |> Bucket.map
+    |> Enum.take(@max_online_size)
+    |> Enum.map(fn {distinct_id, address_id} ->
+      logs = Repo.all(UserLog.for_address_id(UserLog, address_id, @max_user_log))
+      resp = View.render_many(logs, UserLogView, "user_log.json")
+      {distinct_id, resp}
+    end)
+    |> Enum.into(%{})
   end
 
-  def visitor_online(room_id, distinct_id, info) do
+  def visitor_online(room_id, distinct_id, v) do
     {:ok, bkt} = visitor_bucket(room_id)
-    Bucket.put(bkt, distinct_id, info)
+    Bucket.put(bkt, distinct_id, v)
 
     {:ok, offbkt} = offline_visitor_bucket(room_id)
     Bucket.delete(offbkt, distinct_id)
@@ -147,12 +175,12 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   def visitor_offline(room_id, distinct_id) do
     {:ok, bkt} = visitor_bucket(room_id)
-    info = Bucket.get(bkt, distinct_id)
+    v = Bucket.get(bkt, distinct_id)
     Bucket.delete(bkt, distinct_id)
 
-    if info do
+    if v do
       {:ok, offbkt} = offline_visitor_bucket(room_id)
-      Bucket.put(offbkt, distinct_id, info, @max_offline_size)
+      Bucket.put(offbkt, distinct_id, v, @max_offline_size)
     end
   end
 

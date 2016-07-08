@@ -3,14 +3,14 @@ defmodule EmbedChat.UserLog do
 
   schema "user_logs" do
     field :agent, :string
-    field :href, :string
+    field :current_url, :string
     field :referrer, :string
-    field :screen_width, :string
-    field :screen_height, :string
+    field :screen_width, :integer
+    field :screen_height, :integer
     field :language, :string
-    field :visit_view, :string
-    field :single_page_view, :string
-    field :total_page_view, :string
+    field :visit_view, :integer
+    field :single_page_view, :integer
+    field :total_page_view, :integer
     field :location, :string
     belongs_to :address, EmbedChat.Address
 
@@ -22,7 +22,13 @@ defmodule EmbedChat.UserLog do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:agent, :href, :referrer, :screen_width, :screen_height, :language, :visit_view, :single_page_view, :total_page_view, :location])
-    |> validate_required([:agent, :href, :referrer, :screen_width, :screen_height, :language, :visit_view, :single_page_view, :total_page_view, :location])
+    |> cast(params, [:agent, :current_url, :referrer, :screen_width, :screen_height, :language, :visit_view, :single_page_view, :total_page_view, :location])
+  end
+
+  def for_address_id(query, address_id, limit) do
+    from log in query,
+      order_by: [desc: :id],
+      where: log.address_id == ^address_id,
+      limit: ^limit
   end
 end

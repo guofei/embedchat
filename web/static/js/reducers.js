@@ -44,15 +44,16 @@ let state_tree = {
   logs: {
     1: {
       id: 1,
-      inserted_at: '11:12',
-      href: 'http://abc.com',
-      referrer: 'http://ref.com',
-      screenWidth: 100,
-      screenHeight: 100,
-      visitView: 1,
-      singlePageView: 1,
-      totalPageView: 1,
       uid: 'xxx'
+      agent: 'IE',
+      inserted_at: '11:12',
+      current_url: 'http://abc.com',
+      referrer: 'http://ref.com',
+      screen_width: 100,
+      screen_height: 100,
+      visit_view: 1,
+      single_page_view: 1,
+      total_page_view: 1,
     },
   },
   // ui state

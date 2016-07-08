@@ -1,9 +1,13 @@
 defmodule EmbedChat.RoomChannel do
   use EmbedChat.Web, :channel
+  alias EmbedChat.MessageView
   alias EmbedChat.ChannelWatcher
   alias EmbedChat.Room
   alias EmbedChat.RoomChannel.SideEffect
   alias EmbedChat.User
+  alias EmbedChat.UserLog
+  alias EmbedChat.UserLogView
+  alias Phoenix.View
 
   def join("rooms:" <> room_uuid, payload, socket) do
     if room = Repo.get_by(Room, uuid: room_uuid) do
@@ -41,11 +45,12 @@ defmodule EmbedChat.RoomChannel do
     else
       distinct_id = socket.assigns.distinct_id
       room_id = socket.assigns.room_id
-      SideEffect.create_address(socket)
-      info = socket.assigns[:info]
-      SideEffect.visitor_online(room_id, distinct_id, info)
-      broadcast! socket, "user_join", %{uid: distinct_id, info: info}
-      auto_message(socket, room_id, distinct_id, info)
+      {:ok, address} = SideEffect.create_address(socket)
+      {:ok, log} = SideEffect.create_access_log(address, socket.assigns[:info])
+      SideEffect.visitor_online(room_id, distinct_id, address.id)
+      resp = %{uid: distinct_id, info: View.render(UserLogView, "user_log.json", user_log: log)}
+      broadcast! socket, "user_join", resp
+      auto_message(socket, room_id, distinct_id, log)
     end
     {:noreply, socket}
   end
@@ -58,9 +63,9 @@ defmodule EmbedChat.RoomChannel do
 
     if address = SideEffect.get_address(uuid) do
       messages = SideEffect.messages(room_id, address, @messages_size)
-      resp = %{uid: uuid, messages: Phoenix.View.render_many(
+      resp = %{uid: uuid, messages: View.render_many(
                   messages,
-                  EmbedChat.MessageView,
+                  MessageView,
                   "message.json"
                 )}
       {:reply, {:ok, resp}, socket}
@@ -143,8 +148,8 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-  defp auto_message(socket, room_id, distinct_id, info) do
-    messages = SideEffect.auto_messages(room_id, info)
+  defp auto_message(socket, room_id, distinct_id, %UserLog{} = log) do
+    messages = SideEffect.auto_messages(room_id, log)
     Enum.each(messages, fn (msg) ->
       msg = %{"to_id" => distinct_id, "body" => msg.message}
       case SideEffect.new_message_master_to_visitor(msg, room_id) do

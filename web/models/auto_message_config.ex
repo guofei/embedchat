@@ -1,5 +1,6 @@
 defmodule EmbedChat.AutoMessageConfig do
   use EmbedChat.Web, :model
+  alias EmbedChat.UserLog
 
   schema "auto_message_configs" do
     field :delay_time, :integer
@@ -37,13 +38,8 @@ defmodule EmbedChat.AutoMessageConfig do
     |> foreign_key_constraint(:room_id)
   end
 
-  def match(models,  %{"href" => cur, "language" => lan, "referrer" => ref, "visitView" => vv, "singlePageView" => spv, "totalPageView" => tpv}) do
-    status = %{current_url: cur, referrer: ref, language: lan, visit_view: vv, single_page_view: spv, total_page_view: tpv}
-    match(models, status)
-  end
-
   # current_status = %{current_url: url, referrer: referrer, language: lan, visit_view: n}
-  def match(models, status) when is_list(models) do
+  def match(models, %UserLog{} = status) when is_list(models) do
     Enum.filter(models, fn(model) -> match(model, status) end)
   end
 
