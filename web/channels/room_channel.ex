@@ -36,11 +36,12 @@ defmodule EmbedChat.RoomChannel do
     if socket.assigns[:user_id] do
       user = Repo.get!(User, socket.assigns.user_id)
       SideEffect.admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user)
-      SideEffect.create_admin_address(socket)
+      SideEffect.create_address(socket)
       broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id}
     else
       distinct_id = socket.assigns.distinct_id
       room_id = socket.assigns.room_id
+      SideEffect.create_address(socket)
       info = socket.assigns[:info]
       SideEffect.visitor_online(room_id, distinct_id, info)
       broadcast! socket, "user_join", %{uid: distinct_id, info: info}

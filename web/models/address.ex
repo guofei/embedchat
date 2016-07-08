@@ -7,6 +7,7 @@ defmodule EmbedChat.Address do
     belongs_to :user, EmbedChat.User
     has_many :outgoing_messages, EmbedChat.Message, foreign_key: :from_id
     has_many :incoming_messages, EmbedChat.Message, foreign_key: :to_id
+    has_many :user_logs, EmbedChat.UserLog
 
     timestamps
   end

@@ -84,10 +84,8 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       Repo.insert(changeset)
   end
 
-  def create_admin_address(socket) do
-    if socket.assigns[:user_id] do
-      get_or_create_address(socket.assigns.distinct_id, socket.assigns[:user_id])
-    end
+  def create_address(socket) do
+    get_or_create_address(socket.assigns.distinct_id, socket.assigns[:user_id])
   end
 
   defp get_or_create_address(distinct_id, user_id) do
