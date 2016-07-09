@@ -10,9 +10,4 @@ defmodule EmbedChat.UserLogTest do
     changeset = UserLog.changeset(%UserLog{}, @valid_attrs)
     assert changeset.valid?
   end
-
-  test "changeset with invalid attributes" do
-    changeset = UserLog.changeset(%UserLog{}, @invalid_attrs)
-    refute changeset.valid?
-  end
 end
