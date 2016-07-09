@@ -50,10 +50,10 @@ class AccessLogs extends React.Component {
   }
 
   render() {
-    const logs = this.props.logs.map((log, index) =>
+    const logs = this.props.logs.map((log) =>
       (
         <ItemWithDialog
-          key={index}
+          key={log.id}
           title={log.current_url}
           moment={moment.utc(log.inserted_at).fromNow()}
         >

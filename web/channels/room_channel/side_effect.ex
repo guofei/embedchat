@@ -137,26 +137,22 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
-  @max_user_log 100
+  @max_user_log 20
 
   def offline_visitors(room_id) do
     {:ok, offbkt} = offline_visitor_bucket(room_id)
-    offbkt
-    |> Bucket.map
-    |> Enum.take(@max_offline_size)
-    |> Enum.map(fn {distinct_id, address_id} ->
-      logs = Repo.all(UserLog.for_address_id(UserLog, address_id, @max_user_log))
-      resp = View.render_many(logs, UserLogView, "user_log.json")
-      {distinct_id, resp}
-    end)
-    |> Enum.into(%{})
+    visitors(offbkt, @max_offline_size)
   end
 
   def online_visitors(room_id) do
     {:ok, bkt} = visitor_bucket(room_id)
-    bkt
+    visitors(bkt, @max_online_size)
+  end
+
+  defp visitors(bucket, limit) do
+    bucket
     |> Bucket.map
-    |> Enum.take(@max_online_size)
+    |> Enum.take(limit)
     |> Enum.map(fn {distinct_id, address_id} ->
       logs = Repo.all(UserLog.for_address_id(UserLog, address_id, @max_user_log))
       resp = View.render_many(logs, UserLogView, "user_log.json")

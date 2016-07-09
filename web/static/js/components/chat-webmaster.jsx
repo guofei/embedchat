@@ -163,7 +163,7 @@ function select(state) {
     ),
     onlineUsers: users.filter(x => x.online && x.uid !== current && !x.admin),
     offlineUsers: users.filter(x => !x.online && x.uid !== current && !x.admin),
-    logs: toArr(state.logs).filter(x => x.uid === selected),
+    logs: toArr(state.logs).filter(x => x.uid === selected).sort((a, b) => a.id - b.id),
     currentUser: current,
     selectedUser: selected,
   };
