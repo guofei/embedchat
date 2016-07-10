@@ -161,9 +161,9 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     |> Enum.into(%{})
   end
 
-  def visitor_online(room_id, distinct_id, v) do
+  def visitor_online(room_id, distinct_id, address_id) do
     {:ok, bkt} = visitor_bucket(room_id)
-    Bucket.put(bkt, distinct_id, v)
+    Bucket.put(bkt, distinct_id, address_id)
 
     {:ok, offbkt} = offline_visitor_bucket(room_id)
     Bucket.delete(offbkt, distinct_id)
@@ -171,12 +171,12 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   def visitor_offline(room_id, distinct_id) do
     {:ok, bkt} = visitor_bucket(room_id)
-    v = Bucket.get(bkt, distinct_id)
+    address_id = Bucket.get(bkt, distinct_id)
     Bucket.delete(bkt, distinct_id)
 
-    if v do
+    if address_id do
       {:ok, offbkt} = offline_visitor_bucket(room_id)
-      Bucket.put(offbkt, distinct_id, v, @max_offline_size)
+      Bucket.put(offbkt, distinct_id, address_id, @max_offline_size)
     end
   end
 

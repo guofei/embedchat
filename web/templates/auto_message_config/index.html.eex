@@ -32,7 +32,7 @@
     <br/>
     <div class="mdl-cell mdl-cell--12-col">
       <p>
-        <%= link gettext("New auto message"), to: auto_message_config_path(@conn, :new), class: "mdl-button mdl-js-button" %>
+        <%= link gettext("New auto message"), to: auto_message_config_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised" %>
       </p>
     </div>
   </div>
