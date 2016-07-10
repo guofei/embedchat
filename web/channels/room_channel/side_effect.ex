@@ -33,22 +33,24 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     Repo.all(query)
   end
 
+  # TODO send offline message and send email to master
   def new_message_visitor_to_master(%{"from_id" => from_uid, "body" => msg_text}, room_id) do
-    master_uid = random_admin(room_id)
-    with {:ok, sender} <- visitor_sender(from_uid),
-         {:ok, receiver} <- master_receiver(master_uid),
-         {:ok, msg} <- create_message(sender, receiver, room_id, msg_text),
+    with master_uid <- random_online_admin(room_id),
+         {:ok, sender} <- visitor_sender(from_uid),
+         {_, receiver} <- master_receiver(master_uid),
+         {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
            sender = Repo.preload(sender, [:user]),
            resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
       do: {:ok, resp}
   end
 
+  # FIXME set from_id if can
   def new_message_master_to_visitor(%{"to_id" => to_uid, "body" => msg_text}, room_id) do
-    master_uid = random_admin(room_id)
-    with {:ok, sender} <- master_sender(master_uid),
+    with master_uid <- random_admin(room_id),
+         {:ok, sender} <- master_sender(master_uid),
          {:ok, receiver} <- visitor_receiver(to_uid),
-         {:ok, msg} <- create_message(sender, receiver, room_id, msg_text),
+         {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
            sender = Repo.preload(sender, [:user]),
            resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
@@ -85,10 +87,10 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
-  defp create_message(sender, receiver, room_id, text) do
+  defp create_message(sender_id, receiver_id, room_id, text) do
     changeset =
       Message.changeset(
-        %Message{room_id: room_id, from_id: sender.id, to_id: receiver.id},
+        %Message{room_id: room_id, from_id: sender_id, to_id: receiver_id},
         %{message_type: "message", body: text}
       )
       Repo.insert(changeset)
