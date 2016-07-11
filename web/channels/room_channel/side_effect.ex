@@ -45,7 +45,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       do: {:ok, resp}
   end
 
-  # FIXME set from_id if can
+  # FIXME set from_id if possible
   def new_message_master_to_visitor(%{"to_id" => to_uid, "body" => msg_text}, room_id) do
     with master_uid <- random_admin(room_id),
          {:ok, sender} <- master_sender(master_uid),

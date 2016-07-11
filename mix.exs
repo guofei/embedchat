@@ -36,11 +36,13 @@ defmodule EmbedChat.Mixfile do
      {:exrm, "~> 1.0"},
      {:gettext, "~> 0.11"},
      {:hound, "~> 1.0"},
+     {:mailgun, "~> 0.1.2"},
      {:phoenix, "~> 1.2"},
      {:phoenix_ecto, "~> 3.0"},
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:phoenix_pubsub, "~> 1.0"},
+     {:poison, "~> 2.2", override: true},
      {:postgrex, "~> 0.11"},
      {:scrivener_ecto, "~> 1.0"},
      {:scrivener_html, "~> 1.3"}]
