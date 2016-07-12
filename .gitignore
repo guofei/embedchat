@@ -27,3 +27,4 @@ erl_crash.dump
 
 # emacs
 *~
+/config/config.secret.exs
