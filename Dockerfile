@@ -17,6 +17,7 @@ ENV SSL_CERT_PATH /myapp/ssl/lewini_com.crt
 RUN mkdir /myapp
 WORKDIR /myapp
 ADD config/prod.secret.exs /myapp/config/prod.secret.exs
+ADD config/config.secret.exs /myapp/config/config.secret.exs
 ADD . /myapp
 RUN chmod +x run.sh
 RUN mix deps.get && npm install && mix local.rebar

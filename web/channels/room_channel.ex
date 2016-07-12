@@ -148,10 +148,11 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
+  # TODO remove random
   defp auto_message(socket, room_id, distinct_id, %UserLog{} = log) do
     messages = SideEffect.auto_messages(room_id, log)
     Enum.each(messages, fn (msg) ->
-      msg = %{"to_id" => distinct_id, "body" => msg.message}
+      msg = %{"from_id" => SideEffect.random_admin(room_id), "to_id" => distinct_id, "body" => msg.message}
       case SideEffect.new_message_master_to_visitor(msg, room_id) do
         {:ok, resp} ->
           push socket, "new_message", resp
@@ -163,7 +164,7 @@ defmodule EmbedChat.RoomChannel do
   defp new_message(%{"to_id" => to_uid, "body" => msg_text}, socket) do
     room_id = socket.assigns.room_id
     if socket.assigns[:user_id] do
-      mtv = %{"to_id" => to_uid, "body" => msg_text}
+      mtv = %{"from_id" => socket.assigns.distinct_id, "to_id" => to_uid, "body" => msg_text}
       SideEffect.new_message_master_to_visitor(mtv, room_id)
     else
       distinct_id = socket.assigns.distinct_id

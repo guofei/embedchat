@@ -44,6 +44,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end)
   end
 
+  # TODO remove random
   def new_message_visitor_to_master(%{"from_id" => from_uid, "body" => msg_text}, room_id) do
     master_uid = random_online_admin(room_id)
     if master_uid == nil do
@@ -58,10 +59,8 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       do: {:ok, resp}
   end
 
-  # FIXME set from_id if possible
-  def new_message_master_to_visitor(%{"to_id" => to_uid, "body" => msg_text}, room_id) do
-    with master_uid <- random_admin(room_id),
-         {:ok, sender} <- master_sender(master_uid),
+  def new_message_master_to_visitor(%{"from_id" => master_uid, "to_id" => to_uid, "body" => msg_text}, room_id) do
+    with {:ok, sender} <- master_sender(master_uid),
          {:ok, receiver} <- visitor_receiver(to_uid),
          {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
@@ -206,7 +205,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     |> Repo.one
   end
 
-  defp random_admin(room_id) do
+  def random_admin(room_id) do
     cond do
       admin = random_online_admin(room_id) ->
         admin
