@@ -4,6 +4,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.Repo
   alias EmbedChat.Message
   alias EmbedChat.MessageView
+  alias EmbedChat.Room
   alias EmbedChat.Room.Bucket
   alias EmbedChat.Room.Registry
   alias EmbedChat.User
@@ -33,10 +34,22 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     Repo.all(query)
   end
 
-  # TODO send offline message and send email to master
+  defp send_notification_mail(room_id, text) do
+    room =
+      Room
+      |> Repo.get(room_id)
+      |> Repo.preload(:users)
+    Enum.each(room.users, fn(user) ->
+      Task.start(fn -> EmbedChat.Mailer.send_msg_notification(user.email, text) end)
+    end)
+  end
+
   def new_message_visitor_to_master(%{"from_id" => from_uid, "body" => msg_text}, room_id) do
-    with master_uid <- random_online_admin(room_id),
-         {:ok, sender} <- visitor_sender(from_uid),
+    master_uid = random_online_admin(room_id)
+    if master_uid == nil do
+      send_notification_mail(room_id, msg_text)
+    end
+    with {:ok, sender} <- visitor_sender(from_uid),
          {_, receiver} <- master_receiver(master_uid),
          {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
