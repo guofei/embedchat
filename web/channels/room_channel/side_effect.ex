@@ -34,7 +34,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     Repo.all(query)
   end
 
-  defp send_notification_mail(room_id, text) do
+  def send_notification_mail(room_id, text) do
     room =
       Room
       |> Repo.get(room_id)
@@ -44,12 +44,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end)
   end
 
-  # TODO remove random
-  def new_message_visitor_to_master(%{"from_id" => from_uid, "body" => msg_text}, room_id) do
-    master_uid = random_online_admin(room_id)
-    if master_uid == nil do
-      send_notification_mail(room_id, msg_text)
-    end
+  def new_message_visitor_to_master(%{"from_id" => from_uid, "to_id" => master_uid, "body" => msg_text}, room_id) do
     with {:ok, sender} <- visitor_sender(from_uid),
          {_, receiver} <- master_receiver(master_uid),
          {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text),
@@ -216,7 +211,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
-  defp random_online_admin(room_id) do
+  def random_online_admin(room_id) do
     admins = online_admins(room_id)
     if Enum.empty?(admins) do
       nil
