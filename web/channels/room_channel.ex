@@ -160,7 +160,7 @@ defmodule EmbedChat.RoomChannel do
     end)
   end
 
-  # send to master user if the to_id is nil
+  # TODO remove random
   defp new_message(%{"to_id" => to_uid, "body" => msg_text}, socket) do
     room_id = socket.assigns.room_id
     if socket.assigns[:user_id] do
@@ -171,6 +171,7 @@ defmodule EmbedChat.RoomChannel do
       master_uid = SideEffect.random_online_admin(room_id)
       if master_uid == nil do
         SideEffect.send_notification_mail(room_id, msg_text)
+        # TODO send online message
       end
       vtm = %{"from_id" => distinct_id, "to_id" => master_uid, "body" => msg_text}
       SideEffect.new_message_visitor_to_master(vtm, room_id)
