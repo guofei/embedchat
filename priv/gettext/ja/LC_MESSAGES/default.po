@@ -262,3 +262,7 @@ msgstr "全ての言語"
 #: web/templates/auto_message_config/index.html.eex:21
 msgid "All URL"
 msgstr "全てのURL"
+
+#: web/templates/auto_message_config/new.html.eex:7
+msgid "Back"
+msgstr "戻る"
