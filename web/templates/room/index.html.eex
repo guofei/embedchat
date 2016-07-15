@@ -27,6 +27,7 @@
         <%= gettext "We recommend installing the chat code before the closing body tag." %>
         <pre>
           &lt;body&gt;
+          &nbsp;&nbsp;...
           &nbsp;&nbsp;<%= gettext "Add your code here" %>
           &lt;/body&gt;
         </pre>

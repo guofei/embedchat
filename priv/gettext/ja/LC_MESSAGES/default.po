@@ -101,7 +101,7 @@ msgstr "連絡"
 
 #: web/templates/room/index.html.eex:30
 msgid "Add your code here"
-msgstr ""
+msgstr "チャットコードをここで追加"
 
 #: web/templates/room/index.html.eex:5
 msgid "The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page."
