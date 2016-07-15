@@ -136,19 +136,19 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:35
+#: web/templates/auto_message_config/index.html.eex:59
 msgid "New auto message"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:25
+#: web/templates/auto_message_config/index.html.eex:49
 msgid "Delete"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:22
+#: web/templates/auto_message_config/index.html.eex:46
 msgid "Edit"
 msgstr ""
 
-#: web/templates/auto_message_config/form.html.eex:114
+#: web/templates/auto_message_config/form.html.eex:110
 msgid "Submit"
 msgstr ""
 
@@ -238,4 +238,28 @@ msgstr ""
 
 #: web/templates/auto_message_config/index.html.eex:6
 msgid "Page URL"
+msgstr ""
+
+#: web/templates/auto_message_config/form.html.eex:79
+msgid "Language(example: en, ja, zh... default is all language)"
+msgstr ""
+
+#: web/templates/auto_message_config/form.html.eex:21
+msgid "Page URL (default is all url)"
+msgstr ""
+
+#: web/templates/auto_message_config/form.html.eex:40
+msgid "Page view (default is greater than 0)"
+msgstr ""
+
+#: web/templates/auto_message_config/form.html.eex:60
+msgid "Site total page view (default is greater than 0)"
+msgstr ""
+
+#: web/templates/auto_message_config/index.html.eex:42
+msgid "All Language"
+msgstr ""
+
+#: web/templates/auto_message_config/index.html.eex:21
+msgid "All URL"
 msgstr ""

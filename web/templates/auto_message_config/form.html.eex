@@ -18,7 +18,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= text_input f, :current_url, class: "mdl-textfield__input", type: "text", id: "input_current_url" %>
-    <label class="mdl-textfield__label" for="input_current_url">Page URL</label>
+    <label class="mdl-textfield__label" for="input_current_url"><%= gettext "Page URL (default is all url)" %></label>
     <%= error_tag f, :current_url %>
   </div>
 
@@ -37,7 +37,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= number_input f, :single_page_view, class: "mdl-textfield__input", id: "single_page_view_input", type: "text", pattern: "-?[0-9]*?" %>
-    <label class="mdl-textfield__label" for="single_page_view_input">Page view</label>
+    <label class="mdl-textfield__label" for="single_page_view_input"><%= gettext "Page view (default is greater than 0)" %></label>
     <span class="mdl-textfield__error">Input is not a number!</span>
     <%= error_tag f, :single_page_view %>
   </div>
@@ -57,7 +57,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= number_input f, :total_page_view, class: "mdl-textfield__input", id: "total_page_view_input", type: "text", pattern: "-?[0-9]*?" %>
-    <label class="mdl-textfield__label" for="total_page_view_input">Site total page view</label>
+    <label class="mdl-textfield__label" for="total_page_view_input"><%= gettext "Site total page view (default is greater than 0)" %></label>
     <span class="mdl-textfield__error">Input is not a number!</span>
     <%= error_tag f, :total_page_view %>
   </div>
@@ -76,7 +76,7 @@
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= text_input f, :language, class: "mdl-textfield__input", type: "text", id: "input_language" %>
-    <label class="mdl-textfield__label" for="input_language">Language(example: en, ja, zh...)</label>
+    <label class="mdl-textfield__label" for="input_language"><%= gettext "Language(example: en, ja, zh... default is all language)" %></label>
     <%= error_tag f, :language %>
   </div>
 

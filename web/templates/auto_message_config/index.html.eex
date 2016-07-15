@@ -14,10 +14,34 @@
       <tbody>
         <%= for auto_message_config <- @auto_message_configs do %>
           <tr>
-            <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.current_url_pattern %> (<%= auto_message_config.current_url %>)</td>
-            <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.single_page_view_pattern %> (<%= auto_message_config.single_page_view %>)</td>
-            <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.total_page_view_pattern %> (<%= auto_message_config.total_page_view %>)</td>
-            <td class="mdl-data-table__cell--non-numeric"><%= auto_message_config.language_pattern %> (<%= auto_message_config.language %>)</td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= if auto_message_config.current_url_pattern && auto_message_config.current_url do %>
+                <%= auto_message_config.current_url_pattern %> (<%= auto_message_config.current_url %>)
+              <% else %>
+                include (<%= gettext "All URL" %>)
+              <% end %>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= if auto_message_config.single_page_view_pattern && auto_message_config.single_page_view do %>
+                <%= auto_message_config.single_page_view_pattern %> (<%= auto_message_config.single_page_view %>)
+              <% else %>
+                > (0)
+              <% end %>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= if auto_message_config.total_page_view_pattern && auto_message_config.total_page_view do %>
+                <%= auto_message_config.total_page_view_pattern %> (<%= auto_message_config.total_page_view %>)
+              <% else %>
+                > (0)
+              <% end %>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= if auto_message_config.language_pattern && auto_message_config.language do %>
+                <%= auto_message_config.language_pattern %> (<%= auto_message_config.language %>)
+              <% else %>
+                include (<%= gettext "All Language" %>)
+              <% end %>
+            </td>
             <td>
               <%= link gettext("Edit"), to: auto_message_config_path(@conn, :edit, auto_message_config), class: "mdl-button mdl-js-button" %>
             </td>

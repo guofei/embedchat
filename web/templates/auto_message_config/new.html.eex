@@ -1,8 +1,7 @@
 <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--12-col">
     <center>
-      <p><font size="4"><%= gettext "If the conditions are satisfied, the message will be sent to the user automatically" %></font></p>
-      <br/>
+      <h2><font size="4"><%= gettext "If the conditions are satisfied, the message will be sent to the user automatically" %></font></h2>
       <%= render "form.html", changeset: @changeset, rooms: @rooms,
       action: auto_message_config_path(@conn, :create) %>
       <%= link "Back", to: auto_message_config_path(@conn, :index) %>
