@@ -23,8 +23,8 @@ defmodule EmbedChat.AutoMessageConfig do
     timestamps
   end
 
-  @required_fields ~w(message room_id)
-  @optional_fields ~w(delay_time referrer language visit_view current_url_pattern referrer_pattern language_pattern visit_view_pattern current_url single_page_view single_page_view_pattern total_page_view total_page_view_pattern)
+  @required_fields ~w(message room_id)a
+  @all_fields ~w(message room_id delay_time referrer language visit_view current_url_pattern referrer_pattern language_pattern visit_view_pattern current_url single_page_view single_page_view_pattern total_page_view total_page_view_pattern)a
 
   @doc """
   Creates a changeset based on the `model` and `params`.
@@ -32,9 +32,10 @@ defmodule EmbedChat.AutoMessageConfig do
   If no params are provided, an invalid changeset is returned
   with no validation performed.
   """
-  def changeset(model, params \\ %{}) do
-    model
-    |> cast(params, @required_fields, @optional_fields)
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, @all_fields)
+    |> validate_required(@required_fields)
     |> foreign_key_constraint(:room_id)
   end
 

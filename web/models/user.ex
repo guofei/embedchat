@@ -16,13 +16,11 @@ defmodule EmbedChat.User do
     timestamps
   end
 
-  @required_fields ~w(email password name)
-  @optional_fields ~w(name)
-
-  def registration_changeset(model, params) do
-    model
+  def registration_changeset(struct, params) do
+    struct
     |> changeset(params)
-    |> cast(params, ~w(password), [])
+    |> cast(params, [:password])
+    |> validate_required([:password])
     |> validate_length(:password, min: 6, max: 100)
     |> put_pass_hash()
   end
@@ -35,7 +33,8 @@ defmodule EmbedChat.User do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, [:email, :name, :password])
+    |> validate_required([:email, :password])
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:password, min: 6)
