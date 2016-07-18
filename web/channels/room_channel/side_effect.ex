@@ -13,9 +13,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.UserRoom
   alias Phoenix.View
 
-  @max_offline_size 10
-  @max_online_size 20
-
   import Ecto.Query, only: [from: 2]
 
   def create_access_log(%Address{} = address, payload) do
@@ -146,11 +143,24 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
+  @max_offline_size 10
+  @max_online_size 20
   @max_user_log 20
 
   def offline_visitors(room_id) do
-    {:ok, offbkt} = offline_visitor_bucket(room_id)
-    visitors(offbkt, @max_offline_size)
+    {:ok, bkt} = visitor_bucket(room_id)
+    onlines = Bucket.map(bkt)
+    online_size = Enum.count(onlines)
+
+    Address
+    |> Address.latest_for_room_with_logs(room_id, @max_offline_size + online_size)
+    |> Repo.all
+    |> Enum.filter(fn address -> !Map.has_key?(onlines, address.uuid) end)
+    |> Enum.map(fn address ->
+      resp = View.render_many(address.user_logs, UserLogView, "user_log.json")
+      {address.uuid, resp}
+    end)
+    |> Enum.into(%{})
   end
 
   def online_visitors(room_id) do

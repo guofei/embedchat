@@ -33,11 +33,20 @@ defmodule EmbedChat.Address do
       limit: 1
   end
 
-  def latest_for_room(query, room_id) do
+  def latest_for_room(query, room_id, limit) do
     from a in query,
       join: um in UserRoom, on: um.user_id == a.user_id,
       where: ^room_id == um.room_id,
       order_by: [desc: a.id],
-      limit: 1
+      limit: ^limit
+  end
+
+  def latest_for_room(query, room_id) do
+    latest_for_room(query, room_id, 1)
+  end
+
+  def latest_for_room_with_logs(query, room_id, limit) do
+    latest_for_room(query, room_id, limit)
+    |> Ecto.Query.preload(:user_logs)
   end
 end
