@@ -39,6 +39,7 @@ const styles = {
     overflow: 'auto',
     height: '100%',
     minWidth: '300px',
+    textAlign: 'left',
   },
   messageForm: {
     position: 'absolute',

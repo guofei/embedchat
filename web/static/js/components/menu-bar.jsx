@@ -25,7 +25,7 @@ class MenuBar extends React.Component {
       <AppBar
         title={chat}
         onLeftIconButtonTouchTap={this.props.onTouchMenu}
-        titleStyle={{ fontSize: 18 }}
+        titleStyle={{ fontSize: '18px', textAlign: 'left' }}
         iconElementRight={
           <IconButton onTouchTap={this.props.onClose}>
             <NavigationClose />

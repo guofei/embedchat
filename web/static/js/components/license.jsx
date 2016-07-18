@@ -1,11 +1,18 @@
 import React from 'react';
 import { grey500 } from 'material-ui/styles/colors';
 
+const styles = {
+  license: {
+    color: grey500,
+    fontSize: '12px',
+  },
+};
+
 class License extends React.Component {
   render() {
     return (
       <div
-        style={{ color: grey500 }}
+        style={styles.license}
       >
         <center>
           We run on&nbsp;
