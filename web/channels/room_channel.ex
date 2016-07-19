@@ -61,7 +61,7 @@ defmodule EmbedChat.RoomChannel do
     room_id = socket.assigns.room_id
     uuid = SideEffect.messages_owner(payload, socket)
 
-    if address = SideEffect.get_address(uuid) do
+    if address = SideEffect.get_address(uuid, room_id) do
       messages = SideEffect.messages(room_id, address, @messages_size)
       resp = %{uid: uuid, messages: View.render_many(
                   messages,

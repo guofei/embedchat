@@ -42,8 +42,8 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   def new_message_visitor_to_master(%{"from_id" => from_uid, "to_id" => master_uid, "body" => msg_text}, room_id) do
-    with {:ok, sender} <- visitor_sender(from_uid),
-         {_, receiver} <- master_receiver(master_uid),
+    with {:ok, sender} <- visitor_sender(from_uid, room_id),
+         {_, receiver} <- master_receiver(master_uid, room_id),
          {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
            sender = Repo.preload(sender, [:user]),
@@ -52,8 +52,8 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   def new_message_master_to_visitor(%{"from_id" => master_uid, "to_id" => to_uid, "body" => msg_text}, room_id) do
-    with {:ok, sender} <- master_sender(master_uid),
-         {:ok, receiver} <- visitor_receiver(to_uid),
+    with {:ok, sender} <- master_sender(master_uid, room_id),
+         {:ok, receiver} <- visitor_receiver(to_uid, room_id),
          {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
            sender = Repo.preload(sender, [:user]),
@@ -66,25 +66,25 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     EmbedChat.AutoMessageConfig.match(all_messages, log)
   end
 
-  defp visitor_receiver(to) do
-    get_or_create_address(to, nil)
+  defp visitor_receiver(to, room_id) do
+    get_or_create_address(to, nil, room_id)
   end
 
-  defp master_receiver(admin) do
-    admin_address(admin)
+  defp master_receiver(admin, room_id) do
+    admin_address(admin, room_id)
   end
 
-  defp visitor_sender(distinct_id) do
-    get_or_create_address(distinct_id, nil)
+  defp visitor_sender(distinct_id, room_id) do
+    get_or_create_address(distinct_id, nil, room_id)
   end
 
-  defp master_sender(admin) do
-    admin_address(admin)
+  defp master_sender(admin, room_id) do
+    admin_address(admin, room_id)
   end
 
-  defp admin_address(admin) do
+  defp admin_address(admin, room_id) do
     # TODO multi users
-    if address = get_address(admin) do
+    if address = get_address(admin, room_id) do
       {:ok, address}
     else
       {:error, %Address{}}
@@ -101,33 +101,33 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   def create_address(socket) do
-    get_or_create_address(socket.assigns.distinct_id, socket.assigns[:user_id])
+    get_or_create_address(socket.assigns.distinct_id, socket.assigns[:user_id], socket.assigns.room_id)
   end
 
-  defp get_or_create_address(distinct_id, user_id) do
-    if address = get_address(distinct_id) do
+  defp get_or_create_address(distinct_id, user_id, room_id) do
+    if address = get_address(distinct_id, room_id) do
       {:ok, address}
     else
-      create_address(distinct_id, user_id)
+      create_address(distinct_id, user_id, room_id)
     end
   end
 
-  def get_address(distinct_id) when is_nil(distinct_id) do
+  def get_address(distinct_id, room_id) when is_nil(distinct_id) or is_nil(room_id) do
     nil
   end
 
-  def get_address(distinct_id) do
-    Repo.get_by(Address, uuid: distinct_id)
+  def get_address(distinct_id, room_id) do
+    Repo.get_by(Address, uuid: distinct_id, room_id: room_id)
   end
 
-  defp create_address(distinct_id, user_id) do
+  defp create_address(distinct_id, user_id, room_id) do
     changeset =
-      Address.changeset(%Address{user_id: user_id}, %{uuid: distinct_id})
+      Address.changeset(%Address{user_id: user_id}, %{uuid: distinct_id, room_id: room_id})
     case Repo.insert(changeset) do
       {:ok, model} ->
         {:ok, model}
       {:error, changeset} ->
-        if address = get_address(distinct_id) do
+        if address = get_address(distinct_id, room_id) do
           {:ok, address}
         else
           {:error, changeset}

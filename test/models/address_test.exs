@@ -3,7 +3,7 @@ defmodule EmbedChat.AddressTest do
 
   alias EmbedChat.Address
 
-  @valid_attrs %{resource: "some content", uuid: "7488a646-e31f-11e4-aace-600308960662"}
+  @valid_attrs %{resource: "some content", uuid: "7488a646-e31f-11e4-aace-600308960662", room_id: 1}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

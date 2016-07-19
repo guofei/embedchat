@@ -5,6 +5,7 @@ defmodule EmbedChat.Address do
   schema "addresses" do
     field :uuid, Ecto.UUID
     belongs_to :user, EmbedChat.User
+    belongs_to :room, EmbedChat.Room
     has_many :outgoing_messages, EmbedChat.Message, foreign_key: :from_id
     has_many :incoming_messages, EmbedChat.Message, foreign_key: :to_id
     has_many :user_logs, EmbedChat.UserLog
@@ -20,9 +21,8 @@ defmodule EmbedChat.Address do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:uuid])
-    |> validate_required([:uuid])
-    |> unique_constraint(:uuid)
+    |> cast(params, [:uuid, :room_id])
+    |> validate_required([:uuid, :room_id])
   end
 
   def latest_for_user(query, user_id) do
@@ -35,8 +35,7 @@ defmodule EmbedChat.Address do
 
   def latest_for_room(query, room_id, limit) do
     from a in query,
-      join: um in UserRoom, on: um.user_id == a.user_id,
-      where: ^room_id == um.room_id,
+      where: ^room_id == a.room_id,
       order_by: [desc: a.id],
       limit: ^limit
   end
