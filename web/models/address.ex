@@ -23,12 +23,12 @@ defmodule EmbedChat.Address do
     struct
     |> cast(params, [:uuid, :room_id])
     |> validate_required([:uuid, :room_id])
+    |> foreign_key_constraint(:room_id)
   end
 
-  def latest_for_user(query, user_id) do
+  def latest_for_user_room(query, user_id, room_id) do
     from a in query,
-      join: um in UserRoom, on: um.user_id == a.user_id,
-      where: um.user_id == ^user_id,
+      where: a.user_id == ^user_id and a.room_id == ^room_id,
       order_by: [desc: a.id],
       limit: 1
   end

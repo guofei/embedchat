@@ -7,6 +7,7 @@ defmodule EmbedChat.Room do
     has_many :messages, EmbedChat.Message
     has_many :auto_message_configs, EmbedChat.AutoMessageConfig
     has_many :userrooms, EmbedChat.UserRoom
+    has_many :addresses, EmbedChat.Address, on_delete: :nilify_all
     has_many :users, through: [:userrooms, :user]
 
     timestamps

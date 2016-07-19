@@ -29,24 +29,10 @@ defmodule EmbedChat.Auth do
 
   defp put_current_user(conn, user) do
     token = Phoenix.Token.sign(conn, "user socket", user.id)
-    address = create_or_get_address(user)
 
     conn
     |> assign(:current_user, user)
     |> assign(:user_token, token)
-    |> assign(:user_address, address.uuid)
-  end
-
-  defp create_or_get_address(user) do
-    if address = Repo.one(Address.latest_for_user(Address, user.id)) do
-      address
-    else
-      changeset = Ecto.build_assoc(user, :addresses, uuid: Ecto.UUID.generate())
-      case Repo.insert(changeset) do
-        {:ok, address} ->
-          address
-      end
-    end
   end
 
   def logout(conn) do
