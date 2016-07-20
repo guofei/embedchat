@@ -183,20 +183,11 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   def visitor_online(room_id, distinct_id, address_id) do
     {:ok, bkt} = visitor_bucket(room_id)
     Bucket.put(bkt, distinct_id, address_id)
-
-    {:ok, offbkt} = offline_visitor_bucket(room_id)
-    Bucket.delete(offbkt, distinct_id)
   end
 
   def visitor_offline(room_id, distinct_id) do
     {:ok, bkt} = visitor_bucket(room_id)
-    address_id = Bucket.get(bkt, distinct_id)
     Bucket.delete(bkt, distinct_id)
-
-    if address_id do
-      {:ok, offbkt} = offline_visitor_bucket(room_id)
-      Bucket.put(offbkt, distinct_id, address_id, @max_offline_size)
-    end
   end
 
   def online_admins(room_id) do
@@ -243,10 +234,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   defp visitor_bucket(room_id) do
     bucket("visitor:#{room_id}")
-  end
-
-  defp offline_visitor_bucket(room_id) do
-    bucket("offvisitor:#{room_id}")
   end
 
   defp admin_bucket(room_id) do
