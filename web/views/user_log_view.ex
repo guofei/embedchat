@@ -15,6 +15,7 @@ defmodule EmbedChat.UserLogView do
       single_page_view: log.single_page_view,
       total_page_view: log.total_page_view,
       location: log.location,
+      inserted_at: log.inserted_at
     }
   end
 end
