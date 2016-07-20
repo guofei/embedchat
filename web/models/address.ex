@@ -45,7 +45,8 @@ defmodule EmbedChat.Address do
   end
 
   def latest_for_room_with_logs(query, room_id, limit) do
-    latest_for_room(query, room_id, limit)
+    query
+    |> latest_for_room(room_id, limit)
     |> Ecto.Query.preload(:user_logs)
   end
 end
