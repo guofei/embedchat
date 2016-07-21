@@ -41,3 +41,8 @@ config :embed_chat, EmbedChat.Repo,
   database: "embed_chat_dev",
   hostname: "localhost",
   pool_size: 10
+
+config(:exometer_core, report: [reporters: [{:exometer_report_tty, []}]])
+config(:elixometer, reporter: :exometer_report_tty,
+  env: Mix.env,
+  metric_prefix: "embedchat")

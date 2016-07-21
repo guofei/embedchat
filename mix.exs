@@ -18,7 +18,10 @@ defmodule EmbedChat.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {EmbedChat, []},
-     applications: [:phoenix, :phoenix_html, :phoenix_pubsub, :cowboy, :logger, :gettext,
+     # :elixometer, :exometer must before at phoenix.
+     # see: https://groups.google.com/forum/#!topic/elixir-lang-talk/aulK9E4Hxk8
+     applications: [:elixometer, :exometer,
+                    :phoenix, :phoenix_html, :phoenix_pubsub, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex, :comeonin, :hound]]
   end
 
@@ -33,6 +36,13 @@ defmodule EmbedChat.Mixfile do
     [{:comeonin, "~> 2.5"},
      {:cowboy, "~> 1.0"},
      {:credo, "~> 0.4", only: [:dev, :test]},
+     # exometer start
+     {:elixometer, "~>1.2"},
+     {:exometer_core, github: "PSPDFKit-Labs/exometer_core", override: true},
+     {:exometer, github: "PSPDFKit-Labs/exometer", override: true},
+     {:edown, "~> 0.8.1", override: true},
+     {:lager, "~> 3.2", override: true},
+     # exometer end
      {:exrm, "~> 1.0"},
      {:gettext, "~> 0.11"},
      {:hound, "~> 1.0"},
