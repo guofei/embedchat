@@ -45,4 +45,4 @@ config :embed_chat, EmbedChat.Repo,
 config(:exometer_core, report: [reporters: [{:exometer_report_tty, []}]])
 config(:elixometer, reporter: :exometer_report_tty,
   env: Mix.env,
-  metric_prefix: "embedchat")
+  metric_prefix: "embed_chat")

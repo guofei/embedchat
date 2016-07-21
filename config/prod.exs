@@ -91,4 +91,7 @@ config :exometer,
 config :elixometer,
   reporter: :exometer_report_statsd,
   env: Mix.env,
-  metric_prefix: "embedchat"
+  metric_prefix: "embed_chat"
+
+config :embed_chat, EmbedChat.Repo,
+  loggers: [{Ecto.LogEntry, :log, []}, {EmbedChat.Repo.Metrics, :record_metric, []}]
