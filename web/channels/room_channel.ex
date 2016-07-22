@@ -1,5 +1,7 @@
 defmodule EmbedChat.RoomChannel do
   use EmbedChat.Web, :channel
+  use Elixometer
+
   alias EmbedChat.MessageView
   alias EmbedChat.ChannelWatcher
   alias EmbedChat.Room
@@ -57,7 +59,20 @@ defmodule EmbedChat.RoomChannel do
 
   @messages_size 50
 
-  def handle_in("messages", payload, socket) do
+  # Have all channel messages go to a single point
+  @timed(key: "channel_resp_time", units: :millis)
+  def handle_in(event, params, socket) do
+
+    # Use a different named function so we can measure messages
+    response = handle_event(event, params, socket)
+
+    # update event count
+    update_spiral("channel_event_count", 1)
+
+    response
+  end
+
+  def handle_event("messages", payload, socket) do
     room_id = socket.assigns.room_id
     uuid = SideEffect.messages_owner(payload, socket)
 
@@ -74,7 +89,7 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-  def handle_in("contact_list", _payload, socket) do
+  def handle_event("contact_list", _payload, socket) do
     if socket.assigns[:user_id] do
       resp = %{online_users: SideEffect.online_visitors(socket.assigns.room_id),
                offline_users: SideEffect.offline_visitors(socket.assigns.room_id)}
@@ -84,7 +99,7 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-  def handle_in("new_message", payload, socket) do
+  def handle_event("new_message", payload, socket) do
     case new_message(payload, socket) do
       {:ok, resp} ->
         broadcast! socket, "new_message", resp

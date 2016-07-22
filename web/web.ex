@@ -41,6 +41,8 @@ defmodule EmbedChat.Web do
       import EmbedChat.Controllers
 
       import EmbedChat.Auth, only: [authenticate_user: 2]
+
+      plug ElixometerPlug
     end
   end
 
