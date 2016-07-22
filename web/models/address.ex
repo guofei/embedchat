@@ -1,6 +1,5 @@
 defmodule EmbedChat.Address do
   use EmbedChat.Web, :model
-  alias EmbedChat.UserRoom
 
   schema "addresses" do
     field :uuid, Ecto.UUID

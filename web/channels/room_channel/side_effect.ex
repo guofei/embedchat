@@ -7,10 +7,8 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.Room
   alias EmbedChat.Room.Bucket
   alias EmbedChat.Room.Registry
-  alias EmbedChat.User
   alias EmbedChat.UserLog
   alias EmbedChat.UserLogView
-  alias EmbedChat.UserRoom
   alias Phoenix.View
 
   import Ecto.Query, only: [from: 2]

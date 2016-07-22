@@ -1,7 +1,5 @@
 defmodule EmbedChat.Auth do
   import Plug.Conn
-  alias EmbedChat.Address
-  alias EmbedChat.Repo
 
   def init(opts) do
     Keyword.fetch!(opts, :repo)
