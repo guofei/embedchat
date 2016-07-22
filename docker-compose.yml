@@ -9,3 +9,5 @@ services:
       - "443:443"
     depends_on:
       - db
+    external_links:
+      - dogstatsd:dogstatsd
