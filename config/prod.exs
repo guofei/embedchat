@@ -81,8 +81,8 @@ config :exometer,
   report: [
     reporters: [
       {:exometer_report_statsd,
-       [hostname: System.get_env("DOGSTATSD_PORT_8125_UDP_ADDR"),
-        port: System.get_env("DOGSTATSD_PORT_8125_UDP_PORT")]
+       [hostname: "dogstatsd",
+        port: 8125]
       }
     ],
     subscribers: [

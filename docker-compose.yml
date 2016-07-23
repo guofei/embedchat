@@ -2,6 +2,16 @@ version: '2'
 services:
   db:
     image: postgres
+  dogstatsd:
+    image: datadog/docker-dd-agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /proc/mounts:/host/proc/mounts:ro
+      - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+    environment:
+      - DOGSTATSD_ONLY=true
+    env_file:
+      - ./datadog_key.env
   web:
     build: .
     ports:
@@ -9,5 +19,4 @@ services:
       - "443:443"
     depends_on:
       - db
-    external_links:
-      - dogstatsd:dogstatsd
+      - dogstatsd
