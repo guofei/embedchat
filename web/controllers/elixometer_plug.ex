@@ -12,9 +12,9 @@ defmodule ElixometerPlug do
       # increment count
       update_spiral("resp_count", 1)
 
-      # log response time in microseconds
+      # log response time in milliseconds
       req_end_time = :os.timestamp
-      duration = :timer.now_diff(req_end_time, req_start_time)
+      duration = :timer.now_diff(req_end_time, req_start_time) / 1000
       update_histogram("resp_time", duration)
 
       conn
