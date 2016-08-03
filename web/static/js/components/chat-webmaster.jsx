@@ -161,8 +161,12 @@ function select(state) {
     messages: toArr(state.messages).filter(x =>
       x.from_id === selected || x.to_id === selected
     ),
-    onlineUsers: users.filter(x => x.online && x.uid !== current && !x.admin),
-    offlineUsers: users.filter(x => !x.online && x.uid !== current && !x.admin),
+    onlineUsers: users.filter(x =>
+      x.online && x.uid !== current && !x.admin
+     ).sort((a, b) => a.id - b.id),
+    offlineUsers: users.filter(x =>
+      !x.online && x.uid !== current && !x.admin
+    ).sort((a, b) => a.id - b.id),
     logs: toArr(state.logs).filter(x => x.uid === selected).sort((a, b) => a.id - b.id),
     currentUser: current,
     selectedUser: selected,
