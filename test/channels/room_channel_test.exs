@@ -61,6 +61,8 @@ defmodule EmbedChat.RoomChannelTest do
     assert_reply ref, :ok, %{admins: %{}}
   end
 
+  # TODO user_join, user_left, admin_join, admin_left
+
   @tag master: false, visitor: true
   test "visitor send message to offline master", %{socket: socket} do
     msg = %{"body" => "some content", "to_id" => uuid()}

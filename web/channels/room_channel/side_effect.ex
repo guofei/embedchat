@@ -156,7 +156,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     |> Enum.filter(fn address -> !Map.has_key?(onlines, address.uuid) end)
     |> Enum.map(fn address ->
       resp = View.render_many(address.user_logs, UserLogView, "user_log.json")
-      {address.uuid, resp}
+      {address.uuid, %{id: address.id, logs: resp}}
     end)
     |> Enum.into(%{})
   end
@@ -173,7 +173,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     |> Enum.map(fn {distinct_id, address_id} ->
       logs = Repo.all(UserLog.for_address_id(UserLog, address_id, @max_user_log))
       resp = View.render_many(logs, UserLogView, "user_log.json")
-      {distinct_id, resp}
+      {distinct_id, %{id: address_id, logs: resp}}
     end)
     |> Enum.into(%{})
   end

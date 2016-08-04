@@ -59,7 +59,8 @@ function room(socket, roomID, distinctID, store) {
       });
 
       channel.on(userJoin, (user) => {
-        store.dispatch(receiveUserOnline(user));
+        const newUser = { uid: user.uid, id: user.id };
+        store.dispatch(receiveUserOnline(newUser));
         if (user.info) {
           const accesslog = Object.assign({}, user.info, { uid: user.uid });
           store.dispatch(receiveAccessLog(accesslog));
@@ -68,7 +69,8 @@ function room(socket, roomID, distinctID, store) {
       });
 
       channel.on(adminJoin, (admin) => {
-        store.dispatch(receiveAdminOnline(admin));
+        const newAdmin = { uid: admin.uid, id: admin.id };
+        store.dispatch(receiveAdminOnline(newAdmin));
       });
 
       channel.on(adminLeft, (admin) => {
@@ -93,9 +95,9 @@ function room(socket, roomID, distinctID, store) {
                 const newLogs = [];
                 for (const key in users) {
                   if (users.hasOwnProperty(key)) {
-                    const user = { uid: key };
+                    const user = { uid: key, id: users[key].id };
                     newUsers.push(user);
-                    for (const log of users[key]) {
+                    for (const log of users[key].logs) {
                       const newLog = Object.assign({}, log, { uid: key });
                       newLogs.push(newLog);
                     }
@@ -111,9 +113,9 @@ function room(socket, roomID, distinctID, store) {
                 const newLogs = [];
                 for (const key in offlineUsers) {
                   if (offlineUsers.hasOwnProperty(key)) {
-                    const user = { uid: key };
+                    const user = { uid: key, id: offlineUsers[key].id };
                     newUsers.push(user);
-                    for (const log of offlineUsers[key]) {
+                    for (const log of offlineUsers[key].logs) {
                       const newLog = Object.assign({}, log, { uid: key });
                       newLogs.push(newLog);
                     }

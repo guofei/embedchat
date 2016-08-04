@@ -35,6 +35,7 @@ let state_tree = {
   },
   users: {
     xxx-xxx-xxx: {
+      id: 1,
       uid: 'xxx-xxx-xxx',
       name: 'name' // can be empty or null
       online: false,
