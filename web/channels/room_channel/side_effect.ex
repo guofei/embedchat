@@ -7,6 +7,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.Room
   alias EmbedChat.Room.Bucket
   alias EmbedChat.Room.Registry
+  alias EmbedChat.User
   alias EmbedChat.UserLog
   alias EmbedChat.UserLogView
   alias Phoenix.View
@@ -194,8 +195,13 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   defp room_admin_address(room_id) do
+    user =
+      User
+      |> User.latest_for_room(room_id)
+      |> Repo.one
+
     Address
-    |> Address.latest_for_room(room_id)
+    |> Address.latest_for_user_room(user.id, room_id)
     |> Repo.one
   end
 

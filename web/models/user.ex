@@ -56,4 +56,12 @@ defmodule EmbedChat.User do
       user.email
     end
   end
+
+  def latest_for_room(query, room_id, limit \\ 1) do
+    from u in query,
+      join: um in EmbedChat.UserRoom,
+      where: ^room_id == um.room_id,
+      order_by: [desc: u.id],
+      limit: ^limit
+  end
 end
