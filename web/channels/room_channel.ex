@@ -52,6 +52,7 @@ defmodule EmbedChat.RoomChannel do
       SideEffect.visitor_online(room_id, distinct_id, address.id)
       resp = %{uid: distinct_id, id: address.id, info: View.render(UserLogView, "user_log.json", user_log: log)}
       broadcast! socket, "user_join", resp
+      # TODO send history messages
       auto_message(socket, room_id, distinct_id, log)
     end
     {:noreply, socket}
@@ -74,7 +75,7 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_event("messages", payload, socket) do
     room_id = socket.assigns.room_id
-    uuid = SideEffect.messages_owner(payload, socket)
+    uuid = messages_event_owner(payload, socket)
 
     if address = SideEffect.get_address(uuid, room_id) do
       messages = SideEffect.messages(room_id, address, @messages_size)
@@ -149,6 +150,14 @@ defmodule EmbedChat.RoomChannel do
   def leave(room_id, room_uuid, _user_id, distinct_id) do
     EmbedChat.Endpoint.broadcast! "rooms:#{room_uuid}", "admin_left", %{uid: distinct_id}
     SideEffect.admin_offline(room_id, distinct_id)
+  end
+
+  defp messages_event_owner(payload, socket) do
+    if payload["uid"] && socket.assigns[:user_id] do
+      payload["uid"]
+    else
+      socket.assigns.distinct_id
+    end
   end
 
   # Add authorization logic here as required.

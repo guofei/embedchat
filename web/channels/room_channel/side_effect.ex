@@ -134,14 +134,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
-  def messages_owner(payload, socket) do
-    if payload["uid"] && socket.assigns[:user_id] do
-      payload["uid"]
-    else
-      socket.assigns.distinct_id
-    end
-  end
-
   @max_offline_size 10
   @max_online_size 20
   @max_user_log 20
