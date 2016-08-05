@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 import { clientID } from './distinct_id';
 import { clientSocket } from './socket';
-import room from './room';
+import visitorRoom from './visitor_room';
 import ChatVisitor from './components/chat-visitor';
 
 export default function visitor(store, roomID) {
@@ -20,7 +20,7 @@ export default function visitor(store, roomID) {
   node.innerHTML = div;
   document.body.appendChild(node);
 
-  const chatRoom = room(clientSocket, roomID, clientID, store);
+  const chatRoom = visitorRoom(clientSocket, roomID, clientID, store);
   ReactDOM.render(
     <Provider store={store}>
     <ChatVisitor room={chatRoom} />

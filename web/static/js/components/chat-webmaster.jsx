@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectUser } from '../actions';
 
 // import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -44,12 +43,12 @@ class ChatWebmaster extends React.Component {
     }
   }
 
-  handleSelectUser(userName) {
-    this.props.dispatch(selectUser(userName));
+  handleSelectUser(uid) {
+    this.props.room.selectUser(uid);
   }
 
   handleCloseMessages() {
-    this.props.dispatch(selectUser(''));
+    this.props.room.selectUser('');
   }
 
   render() {
