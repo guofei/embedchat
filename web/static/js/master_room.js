@@ -17,19 +17,27 @@ function masterRoom(socket, roomID, distinctID, store) {
   const userLeft = 'user_left';
   const userJoin = 'user_join';
   const messages = 'messages';
+  const accessLogs = 'access_logs';
 
   let channel = null;
 
   function getHistory(userID) {
-    if (typeof userID === 'undefined') {
-      return channel.push(messages)
-        .receive('ok', msgsResp => {
-          store.dispatch(receiveHistoryMessages(msgsResp.messages));
-        });
-    }
     channel.push(messages, { uid: userID })
     .receive('ok', msgsResp => {
       store.dispatch(receiveHistoryMessages(msgsResp.messages));
+    });
+  }
+
+  function getLog(userID) {
+    channel.push(accessLogs, { uid: userID })
+    .receive('ok', resp => {
+      const logs = resp.logs;
+      const newLogs = [];
+      for (const log of logs) {
+        const newLog = Object.assign({}, log, { uid: resp.uid });
+        newLogs.push(newLog);
+      }
+      store.dispatch(receiveMultiAccessLogs(newLogs));
     });
   }
 
@@ -69,36 +77,24 @@ function masterRoom(socket, roomID, distinctID, store) {
               const users = listResp.online_users;
               if (users) {
                 const newUsers = [];
-                const newLogs = [];
                 for (const key in users) {
                   if (users.hasOwnProperty(key)) {
-                    const user = { uid: key, id: users[key].id };
+                    const user = { uid: key, id: users[key] };
                     newUsers.push(user);
-                    for (const log of users[key].logs) {
-                      const newLog = Object.assign({}, log, { uid: key });
-                      newLogs.push(newLog);
-                    }
                   }
                 }
                 store.dispatch(receiveMultiUsersOnline(newUsers));
-                store.dispatch(receiveMultiAccessLogs(newLogs));
               }
               const offlineUsers = listResp.offline_users;
               if (offlineUsers) {
                 const newUsers = [];
-                const newLogs = [];
                 for (const key in offlineUsers) {
                   if (offlineUsers.hasOwnProperty(key)) {
-                    const user = { uid: key, id: offlineUsers[key].id };
+                    const user = { uid: key, id: offlineUsers[key] };
                     newUsers.push(user);
-                    for (const log of offlineUsers[key].logs) {
-                      const newLog = Object.assign({}, log, { uid: key });
-                      newLogs.push(newLog);
-                    }
                   }
                 }
                 store.dispatch(receiveMultiUsersOffline(newUsers));
-                store.dispatch(receiveMultiAccessLogs(newLogs));
               }
             });
         });
@@ -117,6 +113,7 @@ function masterRoom(socket, roomID, distinctID, store) {
       store.dispatch(selectUser(uid));
       if (uid) {
         getHistory(uid);
+        getLog(uid);
       }
     },
   };

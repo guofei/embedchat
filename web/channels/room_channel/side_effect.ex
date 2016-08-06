@@ -30,6 +30,14 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     Repo.all(query)
   end
 
+  def accesslogs(address, limit) do
+    query = from u in UserLog,
+      order_by: [desc: :inserted_at],
+      where: u.address_id == ^(address.id),
+      limit: ^limit
+    Repo.all(query)
+  end
+
   def send_notification_mail(room_id, text) do
     room =
       Room
@@ -144,31 +152,18 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     online_size = Enum.count(onlines)
 
     Address
-    |> Address.latest_for_room_with_logs(room_id, @max_offline_size + online_size)
+    |> Address.latest_for_room(room_id, @max_offline_size + online_size)
     |> Repo.all
     |> Enum.filter(fn address -> !Map.has_key?(onlines, address.uuid) end)
     |> Enum.map(fn address ->
-      resp = View.render_many(address.user_logs, UserLogView, "user_log.json")
-      {address.uuid, %{id: address.id, logs: resp}}
+      {address.uuid, address.id}
     end)
     |> Enum.into(%{})
   end
 
   def online_visitors(room_id) do
     {:ok, bkt} = visitor_bucket(room_id)
-    visitors(bkt, @max_online_size)
-  end
-
-  defp visitors(bucket, limit) do
-    bucket
-    |> Bucket.map
-    |> Enum.take(limit)
-    |> Enum.map(fn {distinct_id, address_id} ->
-      logs = Repo.all(UserLog.for_address_id(UserLog, address_id, @max_user_log))
-      resp = View.render_many(logs, UserLogView, "user_log.json")
-      {distinct_id, %{id: address_id, logs: resp}}
-    end)
-    |> Enum.into(%{})
+    Bucket.map(bkt)
   end
 
   def visitor_online(room_id, distinct_id, address_id) do
@@ -218,9 +213,9 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
-  def admin_online(room_id, distinct_id, user) do
+  def admin_online(room_id, distinct_id, user, address) do
     {:ok, bkt} = admin_bucket(room_id)
-    Bucket.put(bkt, distinct_id, %{id: user.id, name: user.name})
+    Bucket.put(bkt, distinct_id, %{id: address.id, name: user.name})
   end
 
   def admin_offline(room_id, distinct_id) do

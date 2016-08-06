@@ -41,9 +41,9 @@ defmodule EmbedChat.RoomChannel do
   def handle_info(:after_join, socket) do
     if socket.assigns[:user_id] do
       user = Repo.get!(User, socket.assigns.user_id)
-      SideEffect.admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user)
       {:ok, address} = SideEffect.get_or_create_address(socket)
-      broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id, id: address.id}
+      SideEffect.admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user, address)
+      broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id, id: address.id, name: user.name}
     else
       distinct_id = socket.assigns.distinct_id
       room_id = socket.assigns.room_id
@@ -73,17 +73,27 @@ defmodule EmbedChat.RoomChannel do
     response
   end
 
+  @log_size 50
+
+  def handle_event("access_logs", payload, socket) do
+    room_id = socket.assigns.room_id
+    uuid = event_owner(payload, socket)
+    if address = SideEffect.get_address(uuid, room_id) do
+      logs = SideEffect.accesslogs(address, @log_size)
+      resp = View.render_many(logs, UserLogView, "user_log.json")
+      {:reply, {:ok, %{uid: uuid, logs: resp}}, socket}
+    else
+      {:reply, {:error, %{reason: "address error"}}, socket}
+    end
+  end
+
   def handle_event("messages", payload, socket) do
     room_id = socket.assigns.room_id
-    uuid = messages_event_owner(payload, socket)
-
+    uuid = event_owner(payload, socket)
     if address = SideEffect.get_address(uuid, room_id) do
       messages = SideEffect.messages(room_id, address, @messages_size)
-      resp = %{uid: uuid, messages: View.render_many(
-                  messages,
-                  MessageView,
-                  "message.json"
-                )}
+      messages = View.render_many(messages, MessageView, "message.json")
+      resp = %{uid: uuid, messages: messages}
       {:reply, {:ok, resp}, socket}
     else
       {:reply, {:error, %{reason: "address error"}}, socket}
@@ -152,7 +162,7 @@ defmodule EmbedChat.RoomChannel do
     SideEffect.admin_offline(room_id, distinct_id)
   end
 
-  defp messages_event_owner(payload, socket) do
+  defp event_owner(payload, socket) do
     if payload["uid"] && socket.assigns[:user_id] do
       payload["uid"]
     else

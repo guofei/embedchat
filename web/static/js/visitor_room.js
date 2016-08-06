@@ -18,12 +18,6 @@ function visitorRoom(socket, roomID, distinctID, store) {
   let channel = null;
 
   function getHistory(userID) {
-    if (typeof userID === 'undefined') {
-      return channel.push(messages)
-        .receive('ok', msgsResp => {
-          store.dispatch(receiveHistoryMessages(msgsResp.messages));
-        });
-    }
     channel.push(messages, { uid: userID })
     .receive('ok', msgsResp => {
       store.dispatch(receiveHistoryMessages(msgsResp.messages));
@@ -45,7 +39,7 @@ function visitorRoom(socket, roomID, distinctID, store) {
       });
 
       channel.on(adminJoin, (admin) => {
-        const newAdmin = { uid: admin.uid, id: admin.id };
+        const newAdmin = { uid: admin.uid, id: admin.id, name: admin.name };
         store.dispatch(receiveAdminOnline(newAdmin));
       });
 

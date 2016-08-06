@@ -80,9 +80,9 @@ config :exometer,
   ],
   report: [
     reporters: [
-      {:exometer_report_statsd,
-       [hostname: 'dogstatsd',
-        port: 8125]
+      {
+        :exometer_report_statsd,
+        [hostname: 'dogstatsd', port: 8125]
       }
     ],
     subscribers: [
