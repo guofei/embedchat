@@ -22,7 +22,7 @@ defmodule EmbedChat.AttemptController do
     case Repo.insert(changeset) do
       {:ok, attempt} ->
         conn
-        |> put_flash(:info, "Attempt created successfully.")
+        |> put_flash(:info, "waiting...")
         |> redirect(to: attempt_path(conn, :show, attempt))
       {:error, changeset} ->
         render(conn, EmbedChat.PageView, "index.html", attempt: changeset)
