@@ -73,12 +73,14 @@ defmodule EmbedChat.AttemptController do
   end
 
   defp get_source(url) do
-    new_url = get_url(url)
     Hound.start_session
-    navigate_to(new_url)
+    url
+    |> String.trim
+    |> get_url
+    |> navigate_to
     source = page_source
     Hound.end_session
-    String.replace(source, ~r/(href|src)=(\"|\')\/([a-zA-Z0-9])/, "\\1=\\\2#{get_host(url)}/\\3")
+    String.replace(source, ~r/(href|src)=(\"|\')(?!http:|https:|\/\/)/, "\\1=\\2#{get_host(url)}/\\3")
   end
 
   defp get_url(url) do
