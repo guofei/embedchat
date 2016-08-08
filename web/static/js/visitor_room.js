@@ -17,13 +17,6 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
   let channel = null;
 
-  function getHistory(userID) {
-    channel.push(messages, { uid: userID })
-    .receive('ok', msgsResp => {
-      store.dispatch(receiveHistoryMessages(msgsResp.messages));
-    });
-  }
-
   store.dispatch(setCurrentUser(distinctID));
 
   return {
@@ -32,6 +25,10 @@ function visitorRoom(socket, roomID, distinctID, store) {
       if (UserInfo.isBot()) { return; }
       socket.connect();
       channel = socket.channel(`rooms:${roomID}`, UserInfo);
+
+      channel.on(messages, (msgsResp) => {
+        store.dispatch(receiveHistoryMessages(msgsResp.messages));
+      });
 
       channel.on(messageEvent, (msg) => {
         store.dispatch(receiveMessage(msg));
@@ -49,7 +46,6 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
       channel.join()
         .receive('ok', () => {
-          getHistory(distinctID);
           const contactList = 'contact_list';
           channel.push(contactList)
             .receive('ok', listResp => {

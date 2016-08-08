@@ -52,13 +52,23 @@ defmodule EmbedChat.RoomChannel do
       SideEffect.visitor_online(room_id, distinct_id, address.id)
       resp = %{uid: distinct_id, id: address.id, info: View.render(UserLogView, "user_log.json", user_log: log)}
       broadcast! socket, "user_join", resp
-      # TODO send history messages
+      send_message_history(distinct_id, socket)
       auto_message(socket, room_id, distinct_id, log)
     end
     {:noreply, socket}
   end
 
   @messages_size 50
+
+  defp send_message_history(uuid, socket) do
+    room_id = socket.assigns.room_id
+    if address = SideEffect.get_address(uuid, room_id) do
+      messages = SideEffect.messages(room_id, address, @messages_size)
+      messages = View.render_many(messages, MessageView, "message.json")
+      resp = %{uid: uuid, messages: messages}
+      push socket, "messages", resp
+    end
+  end
 
   # Have all channel messages go to a single point
   @timed(key: "channel_resp_time", units: :millis)
