@@ -11,7 +11,9 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.UserLogView
   alias Phoenix.View
 
+  @timed(key: "channel_resp_time", units: :millis)
   def join("rooms:" <> room_uuid, payload, socket) do
+    update_spiral("channel_event_count", 1)
     if room = Repo.get_by(Room, uuid: room_uuid) do
       if authorized?(socket, room) do
         send(self, :after_join)
@@ -38,7 +40,9 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
+  @timed(key: "channel_resp_time", units: :millis)
   def handle_info(:after_join, socket) do
+    update_spiral("channel_event_count", 1)
     if socket.assigns[:user_id] do
       user = Repo.get!(User, socket.assigns.user_id)
       {:ok, address} = SideEffect.get_or_create_address(socket)
