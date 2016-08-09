@@ -11,7 +11,7 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.UserLogView
   alias Phoenix.View
 
-  @timed(key: "channel_resp_time", units: :millis)
+  @timed(key: "channel_resp_time")
   def join("rooms:" <> room_uuid, payload, socket) do
     update_spiral("channel_event_count", 1)
     if room = Repo.get_by(Room, uuid: room_uuid) do
@@ -40,7 +40,7 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-  @timed(key: "channel_resp_time", units: :millis)
+  @timed(key: "channel_resp_time")
   def handle_info(:after_join, socket) do
     update_spiral("channel_event_count", 1)
     if socket.assigns[:user_id] do
@@ -75,7 +75,7 @@ defmodule EmbedChat.RoomChannel do
   end
 
   # Have all channel messages go to a single point
-  @timed(key: "channel_resp_time", units: :millis)
+  @timed(key: "channel_resp_time")
   def handle_in(event, params, socket) do
 
     # Use a different named function so we can measure messages
