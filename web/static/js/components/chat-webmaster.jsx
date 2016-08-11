@@ -103,7 +103,11 @@ class ChatWebmaster extends React.Component {
 }
 
 ChatWebmaster.propTypes = {
-  room: React.PropTypes.object.isRequired,
+  room: React.PropTypes.shape({
+    join: React.PropTypes.func.isRequired,
+    send: React.PropTypes.func.isRequired,
+    selectUser: React.PropTypes.func.isRequired,
+  }),
   dispatch: React.PropTypes.func.isRequired,
   messages: React.PropTypes.array.isRequired,
   onlineUsers: React.PropTypes.array.isRequired,

@@ -141,12 +141,14 @@ class ChatVisitor extends React.Component {
 }
 
 ChatVisitor.propTypes = {
-  room: React.PropTypes.object.isRequired,
+  room: React.PropTypes.shape({
+    join: React.PropTypes.func.isRequired,
+    send: React.PropTypes.func.isRequired,
+  }),
   messages: React.PropTypes.array.isRequired,
   admins: React.PropTypes.array.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   selectedAdmin: React.PropTypes.string.isRequired,
-  // unread: React.PropTypes.number.isRequired,
   openChat: React.PropTypes.bool.isRequired,
   dispatch: React.PropTypes.func.isRequired,
 };
