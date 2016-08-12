@@ -136,6 +136,8 @@ defmodule EmbedChat.RoomChannel do
 
   intercept ["new_message"]
 
+  # TODO maybe better to def join("users:" <> user_id, _params, socket)
+  # http://stackoverflow.com/questions/37680988/phoenix-channels-send-push-to-a-particular-client
   def handle_out("new_message", payload, socket) do
     cond do
       payload[:to_id] == socket.assigns.distinct_id ->
