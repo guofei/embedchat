@@ -23,4 +23,20 @@ defmodule EmbedChat.Message do
     |> cast(params, [:body, :from_id, :to_id])
     |> validate_required([:body])
   end
+
+  def preload_for_user(query, user_id) do
+    from m in query,
+      join: um in EmbedChat.UserRoom, on: m.room_id == um.room_id,
+      where: um.user_id == ^user_id,
+      preload: [:from, :to, :from_user, :to_user],
+      order_by: [desc: :inserted_at]
+  end
+
+  def preload_for_room_and_address(query, room_id, address_id, limit) do
+    from m in query,
+      where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id)),
+      preload: [:from, :to, :from_user],
+      order_by: [desc: :inserted_at],
+      limit: ^limit
+  end
 end

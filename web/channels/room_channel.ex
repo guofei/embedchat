@@ -44,22 +44,30 @@ defmodule EmbedChat.RoomChannel do
   def handle_info(:after_join, socket) do
     update_spiral("channel_event_count", 1)
     if socket.assigns[:user_id] do
-      user = Repo.get!(User, socket.assigns.user_id)
-      {:ok, address} = SideEffect.get_or_create_address(socket)
-      SideEffect.admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user, address)
-      broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id, id: address.id, name: user.name}
+      master_after_join(socket)
     else
-      distinct_id = socket.assigns.distinct_id
-      room_id = socket.assigns.room_id
-      {:ok, address} = SideEffect.get_or_create_address(socket)
-      {:ok, log} = SideEffect.create_access_log(address, socket.assigns[:info])
-      SideEffect.visitor_online(room_id, distinct_id, address.id)
-      resp = %{uid: distinct_id, id: address.id, info: View.render(UserLogView, "user_log.json", user_log: log)}
-      broadcast! socket, "user_join", resp
-      send_message_history(distinct_id, socket)
-      auto_message(socket, room_id, distinct_id, log)
+      visitor_after_join(socket)
     end
     {:noreply, socket}
+  end
+
+  defp master_after_join(socket) do
+    user = Repo.get!(User, socket.assigns.user_id)
+    {:ok, address} = SideEffect.get_or_create_address(socket)
+    SideEffect.admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user, address)
+    broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id, id: address.id, name: user.name}
+  end
+
+  defp visitor_after_join(socket) do
+    distinct_id = socket.assigns.distinct_id
+    room_id = socket.assigns.room_id
+    {:ok, address} = SideEffect.get_or_create_address(socket)
+    {:ok, log} = SideEffect.create_access_log(address, socket.assigns[:info])
+    SideEffect.visitor_online(room_id, distinct_id, address.id)
+    resp = %{uid: distinct_id, id: address.id, info: View.render(UserLogView, "user_log.json", user_log: log)}
+    broadcast! socket, "user_join", resp
+    send_message_history(distinct_id, socket)
+    auto_message(socket, room_id, distinct_id, log)
   end
 
   @messages_size 50

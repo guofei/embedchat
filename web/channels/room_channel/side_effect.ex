@@ -21,18 +21,15 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   def messages(room_id, address, limit) do
-    query = from m in Message,
-      order_by: [desc: :inserted_at],
-      where: m.room_id == ^(room_id) and (m.from_id == ^(address.id) or m.to_id == ^(address.id)),
-      limit: ^limit,
-      preload: [:from, :to, :from_user]
-    Repo.all(query)
+    Message
+    |> Message.preload_for_room_and_address(room_id, address.id, limit)
+    |> Repo.all
   end
 
   def accesslogs(address, limit) do
     query = from u in UserLog,
-      order_by: [desc: :inserted_at],
       where: u.address_id == ^(address.id),
+      order_by: [desc: :inserted_at],
       limit: ^limit
     Repo.all(query)
   end
