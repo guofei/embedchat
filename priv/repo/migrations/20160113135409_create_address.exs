@@ -9,7 +9,7 @@ defmodule EmbedChat.Repo.Migrations.CreateAddress do
       timestamps
     end
     create index(:addresses, [:user_id])
-    create unique_index(:addresses, [:uuid])
+    create index(:addresses, [:uuid])
 
   end
 end

@@ -5,8 +5,6 @@ defmodule EmbedChat.Repo.Migrations.AddRoomIdToAddresses do
     alter table(:addresses) do
       add :room_id, references(:rooms, on_delete: :nilify_all)
     end
-    drop index(:addresses, [:uuid])
-    create index(:addresses, [:uuid])
     create index(:addresses, [:room_id])
   end
 end
