@@ -29,7 +29,6 @@ defmodule EmbedChat.Router do
     resources "/attempts", AttemptController
     resources "/auto_message_configs", AutoMessageConfigController
     resources "/messages", MessageController
-    resources "/visitors", VisitorController, except: [:new, :edit]
   end
 
   scope "/manage", EmbedChat do
@@ -39,7 +38,9 @@ defmodule EmbedChat.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", EmbedChat do
-  #   pipe_through :api
-  # end
+  scope "/api", EmbedChat do
+    pipe_through :api
+
+    resources "/visitors", VisitorController, except: [:new, :edit]
+  end
 end
