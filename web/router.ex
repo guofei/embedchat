@@ -29,6 +29,7 @@ defmodule EmbedChat.Router do
     resources "/attempts", AttemptController
     resources "/auto_message_configs", AutoMessageConfigController
     resources "/messages", MessageController
+    resources "/visitors", VisitorController, except: [:new, :edit]
   end
 
   scope "/manage", EmbedChat do
