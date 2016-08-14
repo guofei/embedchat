@@ -1,4 +1,5 @@
 import React from 'react';
+import { translate } from 'react-i18next';
 
 import TextField from 'material-ui/TextField';
 import License from './license';
@@ -33,11 +34,7 @@ class MessageForm extends React.Component {
   }
 
   render() {
-    // TODO use a i18n library
-    let input = 'Input Message';
-    if ((window.navigator.userLanguage || window.navigator.language) === 'ja') {
-      input = 'メッセージを入力してください';
-    }
+    const { t } = this.props;
     return (
       <div>
         <TextField
@@ -45,7 +42,7 @@ class MessageForm extends React.Component {
           onChange={this.handleChange}
           fullWidth
           value={this.state.value}
-          hintText={input}
+          hintText={t('input')}
         />
         <License />
       </div>
@@ -54,7 +51,8 @@ class MessageForm extends React.Component {
 }
 
 MessageForm.propTypes = {
+  t: React.PropTypes.func.isRequired,
   onInputMessage: React.PropTypes.func.isRequired,
 };
 
-export default MessageForm;
+export default translate(['translation'])(MessageForm);

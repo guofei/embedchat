@@ -1,4 +1,5 @@
 import React from 'react';
+import { translate } from 'react-i18next';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -16,14 +17,10 @@ class MenuBar extends React.Component {
   }
 
   render() {
-    // TODO use a i18n library
-    let chat = 'Chat';
-    if ((window.navigator.userLanguage || window.navigator.language) === 'ja') {
-      chat = 'チャット';
-    }
+    const { t } = this.props;
     return (
       <AppBar
-        title={chat}
+        title={t('chat')}
         onLeftIconButtonTouchTap={this.props.onTouchMenu}
         titleStyle={{ fontSize: '18px', textAlign: 'left' }}
         iconElementRight={
@@ -41,8 +38,9 @@ MenuBar.childContextTypes = {
 };
 
 MenuBar.propTypes = {
+  t: React.PropTypes.func.isRequired,
   onClose: React.PropTypes.func.isRequired,
   onTouchMenu: React.PropTypes.func.isRequired,
 };
 
-export default MenuBar;
+export default translate(['translation'])(MenuBar);
