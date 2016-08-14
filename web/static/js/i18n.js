@@ -10,12 +10,14 @@ i18n
       translation: {
         chat: 'Chat',
         input: 'Input Message',
+        you: 'You',
       },
     },
     ja: {
       translation: {
         chat: 'チャット',
         input: 'メッセージを入力してください',
+        you: 'あなた',
       },
     },
   },

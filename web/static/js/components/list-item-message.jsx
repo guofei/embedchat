@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import { translate } from 'react-i18next';
 import ReactAutolink from 'react-autolink';
 
 import { ListItem } from 'material-ui/List';
@@ -68,7 +69,7 @@ class ListItemMessage extends React.Component {
 
   shortName() {
     if (this.props.currentUser === this.props.from) {
-      return 'You';
+      return this.props.t('you');
     }
     if (this.props.fromName !== this.props.from) {
       return this.props.fromName;
@@ -116,6 +117,7 @@ class ListItemMessage extends React.Component {
 }
 
 ListItemMessage.propTypes = {
+  t: React.PropTypes.func.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   from: React.PropTypes.string.isRequired,
   fromName: React.PropTypes.string.isRequired,
@@ -123,4 +125,4 @@ ListItemMessage.propTypes = {
   children: React.PropTypes.string,
 };
 
-export default ListItemMessage;
+export default translate(['translation'])(ListItemMessage);
