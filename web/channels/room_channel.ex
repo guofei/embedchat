@@ -43,7 +43,7 @@ defmodule EmbedChat.RoomChannel do
   @timed(key: "channel_resp_time")
   def handle_info(:after_join, socket) do
     update_spiral("channel_event_count", 1)
-    if socket.assigns[:user_id] do
+    if master?(socket) do
       master_after_join(socket)
     else
       visitor_after_join(socket)
@@ -123,7 +123,7 @@ defmodule EmbedChat.RoomChannel do
   end
 
   def handle_event("contact_list", _payload, socket) do
-    if socket.assigns[:user_id] do
+    if master?(socket) do
       resp = %{online_users: SideEffect.online_visitors(socket.assigns.room_id),
                offline_users: SideEffect.offline_visitors(socket.assigns.room_id)}
       {:reply, {:ok, resp}, socket}
@@ -135,6 +135,9 @@ defmodule EmbedChat.RoomChannel do
   def handle_event("new_message", payload, socket) do
     case new_message(payload, socket) do
       {:ok, resp} ->
+        if !master?(socket) do
+          request_visitor_email(socket)
+        end
         broadcast! socket, "new_message", resp
         {:reply, {:ok, resp}, socket}
       {:error, changeset} ->
@@ -187,11 +190,15 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp event_owner(payload, socket) do
-    if payload["uid"] && socket.assigns[:user_id] do
+    if payload["uid"] && master?(socket) do
       payload["uid"]
     else
       socket.assigns.distinct_id
     end
+  end
+
+  defp master?(socket) do
+    socket.assigns[:user_id]
   end
 
   # Add authorization logic here as required.
@@ -218,10 +225,26 @@ defmodule EmbedChat.RoomChannel do
     end)
   end
 
+  defp request_visitor_email(socket) do
+    room_id = socket.assigns.room_id
+    distinct_id = socket.assigns.distinct_id
+    if SideEffect.online_admins_empty?(room_id) && SideEffect.can_request_email?(room_id, distinct_id) do
+      from = SideEffect.random_admin(room_id)
+      to = socket.assigns.distinct_id
+      msg = %{"from_id" => from, "to_id" => to, "body" => "Get replies by email"}
+      case SideEffect.new_message_master_to_visitor(msg, room_id, "email_request") do
+        {:ok, resp} ->
+          push socket, "new_message", resp
+        {:error, _} ->
+          nil
+      end
+    end
+  end
+
   # TODO remove random
   defp new_message(%{"to_id" => to_uid, "body" => msg_text}, socket) do
     room_id = socket.assigns.room_id
-    if socket.assigns[:user_id] do
+    if master?(socket) do
       mtv = %{"from_id" => socket.assigns.distinct_id, "to_id" => to_uid, "body" => msg_text}
       SideEffect.new_message_master_to_visitor(mtv, room_id)
     else

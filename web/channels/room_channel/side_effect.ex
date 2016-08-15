@@ -44,20 +44,20 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end)
   end
 
-  def new_message_visitor_to_master(%{"from_id" => from_uid, "to_id" => master_uid, "body" => msg_text}, room_id) do
+  def new_message_visitor_to_master(%{"from_id" => from_uid, "to_id" => master_uid, "body" => msg_text}, room_id, type \\ "normal") do
     with {:ok, sender} <- visitor_sender(from_uid, room_id),
          {_, receiver} <- master_receiver(master_uid, room_id),
-         {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text),
+         {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text, type),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
            sender = Repo.preload(sender, [:user]),
            resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
       do: {:ok, resp}
   end
 
-  def new_message_master_to_visitor(%{"from_id" => master_uid, "to_id" => to_uid, "body" => msg_text}, room_id) do
+  def new_message_master_to_visitor(%{"from_id" => master_uid, "to_id" => to_uid, "body" => msg_text}, room_id, type \\ "normal") do
     with {:ok, sender} <- master_sender(master_uid, room_id),
          {:ok, receiver} <- visitor_receiver(to_uid, room_id),
-         {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text),
+         {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text, type),
            msg = Repo.preload(msg, [:from, :to, :from_user]),
            sender = Repo.preload(sender, [:user]),
            resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
@@ -94,13 +94,13 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
-  defp create_message(sender_id, receiver_id, room_id, text) do
+  defp create_message(sender_id, receiver_id, room_id, text, type) do
     changeset =
       Message.changeset(
         %Message{room_id: room_id, from_id: sender_id, to_id: receiver_id},
-        %{message_type: "message", body: text}
+        %{body: text, type: type}
       )
-      Repo.insert(changeset)
+    Repo.insert(changeset)
   end
 
   def get_or_create_address(socket) do
@@ -175,6 +175,18 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   def online_admins(room_id) do
     {:ok, bkt} = admin_bucket(room_id)
     Bucket.map(bkt)
+  end
+
+  def online_admins_empty?(room_id) do
+    admins = online_admins(room_id)
+    Enum.empty?(admins)
+  end
+
+  def can_request_email?(room_id, uuid) do
+    query = from a in Address,
+      where: a.room_id == ^room_id and a.uuid == ^uuid,
+      select: count("*")
+    Repo.one(query) <= 0
   end
 
   defp room_admin_address(room_id) do

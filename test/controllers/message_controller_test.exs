@@ -7,7 +7,8 @@ defmodule EmbedChat.MessageControllerTest do
 
   setup %{conn: conn} do
     user = insert_user(username: "test")
-    address = insert_address(user)
+    room = insert_room(user, %{})
+    address = insert_address(user, room)
     conn = assign(conn, :current_user, user)
     {:ok, conn: conn, user: user, address: address}
   end
