@@ -3,6 +3,7 @@ defmodule EmbedChat.Message do
 
   schema "messages" do
     field :body, :string
+    field :type, :string
     belongs_to :from, EmbedChat.Address
     belongs_to :to, EmbedChat.Address
     belongs_to :room, EmbedChat.Room
@@ -20,7 +21,7 @@ defmodule EmbedChat.Message do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:body, :from_id, :to_id])
+    |> cast(params, [:body, :from_id, :to_id, :type])
     |> validate_required([:body])
   end
 
