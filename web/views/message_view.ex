@@ -33,6 +33,7 @@ defmodule EmbedChat.MessageView do
   def render("message.json", %{message: %Message{} = msg}) do
     %{
       id: msg.id,
+      type: msg.type,
       body: msg.body,
       from_id: from_id(msg),
       from_name: from_name(msg),

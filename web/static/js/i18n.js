@@ -11,6 +11,7 @@ i18n
         chat: 'Chat',
         input: 'Input Message',
         you: 'You',
+        getEmail: 'Get replies by email',
       },
     },
     ja: {
@@ -18,6 +19,7 @@ i18n
         chat: 'チャット',
         input: 'メッセージを入力してください',
         you: 'あなた',
+        getEmail: 'メールで返信を取得する',
       },
     },
   },

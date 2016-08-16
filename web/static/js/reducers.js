@@ -25,6 +25,7 @@ let state_tree = {
   messages: {
     1: {
       id: 1,
+      type: 'normal',
       from_id: 'xxx-xxx-xxx',
       from_name: 'name',
       to_id: 'xxx-xxx-xxx',
@@ -35,7 +36,7 @@ let state_tree = {
   },
   users: {
     xxx-xxx-xxx: {
-      id: 1, // FIXME visitor: address_id, master: user_id
+      id: 1,
       uid: 'xxx-xxx-xxx',
       name: 'name' // can be empty or null
       online: false,

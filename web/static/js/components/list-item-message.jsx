@@ -7,6 +7,7 @@ import { ListItem } from 'material-ui/List';
 // import Avatar from 'material-ui/lib/avatar';
 import Popover from 'material-ui/Popover';
 import { Card, CardText } from 'material-ui/Card';
+import EmailReqeust from './email-request';
 
 moment.locale(window.navigator.userLanguage || window.navigator.language);
 
@@ -94,7 +95,7 @@ class ListItemMessage extends React.Component {
   }
 
   render() {
-    return (
+    let message = (
       <div>
         <Message
           children={this.props.children}
@@ -113,11 +114,20 @@ class ListItemMessage extends React.Component {
         </Popover>
       </div>
     );
+    if (this.props.type === 'email_request') {
+      message = (
+        <EmailReqeust/>
+      );
+    }
+    return (
+      message
+    );
   }
 }
 
 ListItemMessage.propTypes = {
   t: React.PropTypes.func.isRequired,
+  type: React.PropTypes.string.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   from: React.PropTypes.string.isRequired,
   fromName: React.PropTypes.string.isRequired,

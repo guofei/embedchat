@@ -135,10 +135,10 @@ defmodule EmbedChat.RoomChannel do
   def handle_event("new_message", payload, socket) do
     case new_message(payload, socket) do
       {:ok, resp} ->
+        broadcast! socket, "new_message", resp
         if !master?(socket) do
           request_visitor_email(socket)
         end
-        broadcast! socket, "new_message", resp
         {:reply, {:ok, resp}, socket}
       {:error, changeset} ->
         {:reply, {:error, Enum.into(changeset.errors, %{})}, socket}

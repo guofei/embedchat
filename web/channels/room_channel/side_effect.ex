@@ -21,6 +21,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   def messages(room_id, address, limit) do
+    # TODO check is email exist
     Message
     |> Message.preload_for_room_and_address(room_id, address.id, limit)
     |> Repo.all
@@ -183,6 +184,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   def can_request_email?(room_id, uuid) do
+    # TODO check is email exist
     query = from a in Address,
       where: a.room_id == ^room_id and a.uuid == ^uuid,
       select: count("*")

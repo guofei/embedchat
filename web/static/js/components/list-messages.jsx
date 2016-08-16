@@ -11,6 +11,7 @@ class ListMessages extends React.Component {
         <ListItemMessage
           currentUser={this.props.currentUser}
           key={msg.id}
+          type={msg.type}
           from={msg.from_id}
           fromName={msg.from_name}
           createdAt={msg.inserted_at}
