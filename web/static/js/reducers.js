@@ -6,6 +6,7 @@ import {
   READ_MESSAGE,
   READ_ALL_MESSAGES,
   CURRENT_USER,
+  CURRENT_USER_EMAIL,
   SELECT_USER,
   RECEIVE_USER_ONLINE,
   RECEIVE_USER_OFFLINE,
@@ -60,6 +61,7 @@ let state_tree = {
   },
   // ui state
   currentUser: 'xxx-xxx-xxx',
+  currentUserEmail: 'email@domain.com',
   selectedUser: 'xxx-xxx-xxx',
   openChat: false,
 }
@@ -173,6 +175,15 @@ function currentUser(state = '', action) {
   }
 }
 
+function currentUserEmail(state = '', action) {
+  switch (action.type) {
+    case CURRENT_USER_EMAIL:
+      return action.email;
+    default:
+      return state;
+  }
+}
+
 function selectedUser(state = '', action) {
   switch (action.type) {
     case SELECT_USER:
@@ -207,6 +218,7 @@ function logs(state = {}, action) {
 
 const chatApp = combineReducers({
   currentUser,
+  currentUserEmail,
   selectedUser,
   users,
   messages,

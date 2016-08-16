@@ -118,7 +118,10 @@ class ListItemMessage extends React.Component {
     );
     if (this.props.type === emailRequestType) {
       message = (
-        <EmailReqeust/>
+        <EmailReqeust
+          onInputEmail={this.props.sendEmail}
+          currentUserEmail={this.props.currentUserEmail}
+        />
       );
     }
     return (
@@ -131,10 +134,12 @@ ListItemMessage.propTypes = {
   t: React.PropTypes.func.isRequired,
   type: React.PropTypes.string.isRequired,
   currentUser: React.PropTypes.string.isRequired,
+  currentUserEmail: React.PropTypes.string.isRequired,
   from: React.PropTypes.string.isRequired,
   fromName: React.PropTypes.string.isRequired,
   createdAt: React.PropTypes.string.isRequired,
   children: React.PropTypes.string,
+  sendEmail: React.PropTypes.func.isRequired,
 };
 
 export default translate(['translation'])(ListItemMessage);

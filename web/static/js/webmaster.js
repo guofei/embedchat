@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { I18nextProvider } from 'react-i18next';
 
+import i18n from './i18n';
 import { masterID } from './distinct_id';
 import { masterSocket } from './socket';
 import masterRoom from './master_room';
@@ -13,9 +15,11 @@ export default function webmaster(store) {
     const roomID = masterRoomElement.getAttribute('data-id');
     const chatRoom = masterRoom(masterSocket, roomID, masterID, store);
     ReactDOM.render(
-      <Provider store={store}>
-        <ChatWebmaster room={chatRoom} />
-      </Provider>,
+      <I18nextProvider i18n={ i18n }>
+        <Provider store={store}>
+          <ChatWebmaster room={chatRoom} />
+        </Provider>
+      </I18nextProvider>,
       document.getElementById('webmaster-chat-room')
     );
   }

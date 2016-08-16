@@ -21,6 +21,10 @@ const styles = {
   },
 };
 
+function sendEmail(mail) {
+  return mail;
+}
+
 class Messages extends React.Component {
   constructor(props) {
     super(props);
@@ -66,6 +70,8 @@ class Messages extends React.Component {
           <ListMessages
             messages={this.props.messages}
             currentUser={this.props.currentUser}
+            currentUserEmail={''}
+            sendEmail={sendEmail}
           />
           <div style={styles.messageForm}>
             <MessageForm onInputMessage={this.props.onInputMessage} />

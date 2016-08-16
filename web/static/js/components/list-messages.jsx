@@ -10,11 +10,13 @@ class ListMessages extends React.Component {
       (
         <ListItemMessage
           currentUser={this.props.currentUser}
+          currentUserEmail={this.props.currentUserEmail}
           key={msg.id}
           type={msg.type}
           from={msg.from_id}
           fromName={msg.from_name}
           createdAt={msg.inserted_at}
+          sendEmail={this.props.sendEmail}
         >
           {msg.body}
         </ListItemMessage>
@@ -30,7 +32,9 @@ class ListMessages extends React.Component {
 
 ListMessages.propTypes = {
   currentUser: React.PropTypes.string.isRequired,
+  currentUserEmail: React.PropTypes.string.isRequired,
   messages: React.PropTypes.array.isRequired,
+  sendEmail: React.PropTypes.func.isRequired,
 };
 
 export default ListMessages;

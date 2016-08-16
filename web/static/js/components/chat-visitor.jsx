@@ -112,6 +112,8 @@ class ChatVisitor extends React.Component {
                 <ListMessages
                   messages={this.props.messages}
                   currentUser={this.props.currentUser}
+                  currentUserEmail={this.props.currentUserEmail}
+                  sendEmail={this.props.room.sendEmail}
                 />
               </div>
             </div>
@@ -144,10 +146,12 @@ ChatVisitor.propTypes = {
   room: React.PropTypes.shape({
     join: React.PropTypes.func.isRequired,
     send: React.PropTypes.func.isRequired,
+    sendEmail: React.PropTypes.func.isRequired,
   }),
   messages: React.PropTypes.array.isRequired,
   admins: React.PropTypes.array.isRequired,
   currentUser: React.PropTypes.string.isRequired,
+  currentUserEmail: React.PropTypes.string.isRequired,
   selectedAdmin: React.PropTypes.string.isRequired,
   openChat: React.PropTypes.bool.isRequired,
   dispatch: React.PropTypes.func.isRequired,
@@ -166,6 +170,7 @@ function select(state) {
   return {
     messages: msgs,
     currentUser: state.currentUser,
+    currentUserEmail: state.currentUserEmail,
     selectedAdmin: state.selectedUser,
     admins: adminUsers,
     // unread: msgs.filter(x => x.unread).length,

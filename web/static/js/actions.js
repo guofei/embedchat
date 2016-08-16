@@ -16,6 +16,7 @@ export const RECEIVE_ADMIN_OFFLINE = 'RECEIVE_ADMIN_OFFLINE';
 export const RECEIVE_ACCESS_LOG = 'RECEIVE_ACCESS_LOG';
 export const RECEIVE_MULTI_ACCESS_LOGS = 'RECEIVE_MULTI_ACCESS_LOGS';
 export const CURRENT_USER = 'CURRENT_USER';
+export const CURRENT_USER_EMAIL = 'CURRENT_USER_EMAIL';
 export const SELECT_USER = 'SELECT_USER';
 export const READ_MESSAGE = 'READ_MESSAGE';
 export const READ_ALL_MESSAGES = 'READ_ALL_MESSAGES';
@@ -31,6 +32,10 @@ export function openChat(open) {
 
 export function setCurrentUser(uid) {
   return { type: CURRENT_USER, uid };
+}
+
+export function setCurrentUserEmail(email) {
+  return { type: CURRENT_USER_EMAIL, email };
 }
 
 export function selectUser(uid) {
