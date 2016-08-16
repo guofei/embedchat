@@ -228,11 +228,11 @@ defmodule EmbedChat.RoomChannel do
   defp request_visitor_email(socket) do
     room_id = socket.assigns.room_id
     distinct_id = socket.assigns.distinct_id
-    if SideEffect.online_admins_empty?(room_id) && SideEffect.can_request_email?(room_id, distinct_id) do
+    if SideEffect.can_request_email?(room_id, distinct_id) do
       from = SideEffect.random_admin(room_id)
       to = socket.assigns.distinct_id
       msg = %{"from_id" => from, "to_id" => to, "body" => "Get replies by email"}
-      case SideEffect.new_message_master_to_visitor(msg, room_id, "email_request") do
+      case SideEffect.new_message_master_to_visitor(msg, room_id, EmbedChat.MessageType.email_request) do
         {:ok, resp} ->
           push socket, "new_message", resp
         {:error, _} ->

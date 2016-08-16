@@ -40,4 +40,19 @@ defmodule EmbedChat.Message do
       order_by: [desc: :inserted_at],
       limit: ^limit
   end
+
+  def preload_for_room_and_address_except_email_request(query, room_id, address_id, limit) do
+    from m in query,
+      where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id)) and m.type != ^EmbedChat.MessageType.email_request,
+      preload: [:from, :to, :from_user],
+      order_by: [desc: :inserted_at],
+      limit: ^limit
+  end
+
+  def email_request_count(query, room_id, uuid) do
+    from m in query,
+      join: a in EmbedChat.Address, on: m.to_id == a.id,
+      where: m.room_id == ^room_id and a.uuid == ^uuid and m.type == ^EmbedChat.MessageType.email_request,
+      select: count("*")
+  end
 end

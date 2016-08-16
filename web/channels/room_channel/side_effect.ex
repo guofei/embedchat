@@ -3,6 +3,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.AutoMessageConfig
   alias EmbedChat.Repo
   alias EmbedChat.Message
+  alias EmbedChat.MessageType
   alias EmbedChat.MessageView
   alias EmbedChat.Room
   alias EmbedChat.Room.Bucket
@@ -21,10 +22,15 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   def messages(room_id, address, limit) do
-    # TODO check is email exist
-    Message
-    |> Message.preload_for_room_and_address(room_id, address.id, limit)
-    |> Repo.all
+    if show_request_email?(room_id, address.uuid) do
+      Message
+      |> Message.preload_for_room_and_address(room_id, address.id, limit)
+      |> Repo.all
+    else
+      Message
+      |> Message.preload_for_room_and_address_except_email_request(room_id, address.id, limit)
+      |> Repo.all
+    end
   end
 
   def accesslogs(address, limit) do
@@ -45,7 +51,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end)
   end
 
-  def new_message_visitor_to_master(%{"from_id" => from_uid, "to_id" => master_uid, "body" => msg_text}, room_id, type \\ "normal") do
+  def new_message_visitor_to_master(%{"from_id" => from_uid, "to_id" => master_uid, "body" => msg_text}, room_id, type \\ MessageType.normal) do
     with {:ok, sender} <- visitor_sender(from_uid, room_id),
          {_, receiver} <- master_receiver(master_uid, room_id),
          {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text, type),
@@ -55,7 +61,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       do: {:ok, resp}
   end
 
-  def new_message_master_to_visitor(%{"from_id" => master_uid, "to_id" => to_uid, "body" => msg_text}, room_id, type \\ "normal") do
+  def new_message_master_to_visitor(%{"from_id" => master_uid, "to_id" => to_uid, "body" => msg_text}, room_id, type \\ MessageType.normal) do
     with {:ok, sender} <- master_sender(master_uid, room_id),
          {:ok, receiver} <- visitor_receiver(to_uid, room_id),
          {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text, type),
@@ -178,17 +184,33 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     Bucket.map(bkt)
   end
 
-  def online_admins_empty?(room_id) do
+  defp online_admins_empty?(room_id) do
     admins = online_admins(room_id)
     Enum.empty?(admins)
   end
 
+  defp show_request_email?(room_id, uuid) do
+    if online_admins_empty?(room_id) do
+      visitor_count =
+        Address
+        |> Address.visitor_count(room_id, uuid)
+        |> Repo.one
+      visitor_count <= 0
+    else
+      false
+    end
+  end
+
   def can_request_email?(room_id, uuid) do
-    # TODO check is email exist
-    query = from a in Address,
-      where: a.room_id == ^room_id and a.uuid == ^uuid,
-      select: count("*")
-    Repo.one(query) <= 0
+    if show_request_email?(room_id, uuid) do
+      email_request_count =
+        Message
+        |> Message.email_request_count(room_id, uuid)
+        |> Repo.one
+      email_request_count <= 0
+    else
+      false
+    end
   end
 
   defp room_admin_address(room_id) do

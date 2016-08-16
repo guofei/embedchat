@@ -19,6 +19,8 @@ const styles = {
   },
 };
 
+const emailRequestType = 'email_request';
+
 function Message({ children, createdAt, handleTouchTap, shortName }) {
   return (
     <ListItem
@@ -114,7 +116,7 @@ class ListItemMessage extends React.Component {
         </Popover>
       </div>
     );
-    if (this.props.type === 'email_request') {
+    if (this.props.type === emailRequestType) {
       message = (
         <EmailReqeust/>
       );

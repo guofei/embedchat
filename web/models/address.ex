@@ -4,6 +4,7 @@ defmodule EmbedChat.Address do
   schema "addresses" do
     field :uuid, Ecto.UUID
     belongs_to :user, EmbedChat.User
+    belongs_to :visitor, EmbedChat.Visitor
     belongs_to :room, EmbedChat.Room
     has_many :outgoing_messages, EmbedChat.Message, foreign_key: :from_id
     has_many :incoming_messages, EmbedChat.Message, foreign_key: :to_id
@@ -47,5 +48,11 @@ defmodule EmbedChat.Address do
     query
     |> latest_for_room(room_id, limit)
     |> Ecto.Query.preload(:user_logs)
+  end
+
+  def visitor_count(query, room_id, uuid) do
+    from a in query,
+      where: a.room_id == ^room_id and a.uuid == ^uuid and a.visitor_id > 0,
+      select: count("*")
   end
 end
