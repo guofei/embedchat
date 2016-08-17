@@ -15,23 +15,24 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   import Ecto.Query, only: [from: 2]
 
-  def create_visitor(uuid, room_id, email) do
-    {:ok, visitor} =
-      case Repo.get_by(Visitor, email: email) do
-        nil  -> %Visitor{}
-        visitor -> visitor
-      end
-      |> Visitor.changeset(%{email: email})
-      |> Repo.insert_or_update
-
-    case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
-      nil  -> %Address{}
-      address -> address
+  defp create_or_update_visitor(email) do
+    case Repo.get_by(Visitor, email: email) do
+      nil  -> %Visitor{}
+      visitor -> visitor
     end
-    |> Address.changeset(%{room_id: room_id, uuid: uuid, visitor_id: visitor.id})
+    |> Visitor.changeset(%{email: email})
     |> Repo.insert_or_update
+  end
 
-    visitor
+  def create_visitor(uuid, room_id, email) do
+    with {:ok, visitor} <- create_or_update_visitor(email) do
+      case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
+        nil  -> %Address{}
+        address -> address
+      end
+      |> Address.changeset(%{room_id: room_id, uuid: uuid, visitor_id: visitor.id})
+      |> Repo.insert_or_update
+    end
   end
 
   def create_access_log(%Address{} = address, payload) do
