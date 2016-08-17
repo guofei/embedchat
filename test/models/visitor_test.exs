@@ -3,7 +3,7 @@ defmodule EmbedChat.VisitorTest do
 
   alias EmbedChat.Visitor
 
-  @valid_attrs %{email: "some content", name: "some content", note: "some content"}
+  @valid_attrs %{email: "some@domain.com", name: "some content", note: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

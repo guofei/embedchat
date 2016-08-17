@@ -12,6 +12,7 @@ import {
 
 function visitorRoom(socket, roomID, distinctID, store) {
   const messageEvent = 'new_message';
+  const sendEmail = 'email';
   const adminJoin = 'admin_join';
   const adminLeft = 'admin_left';
   const messages = 'messages';
@@ -76,7 +77,7 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
     sendEmail(email) {
       store.dispatch(setCurrentUserEmail(email));
-      // TODO send to server
+      return channel.push(sendEmail, email);
     },
   };
 }

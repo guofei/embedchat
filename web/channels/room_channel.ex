@@ -97,6 +97,11 @@ defmodule EmbedChat.RoomChannel do
 
   @log_size 50
 
+  def handle_event("email", email, socket) do
+    SideEffect.create_visitor(socket.assigns.distinct_id, socket.assigns.room_id, email)
+    {:noreply, socket}
+  end
+
   def handle_event("access_logs", payload, socket) do
     room_id = socket.assigns.room_id
     uuid = event_owner(payload, socket)

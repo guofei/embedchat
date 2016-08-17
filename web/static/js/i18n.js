@@ -12,6 +12,7 @@ i18n
         input: 'Input Message',
         you: 'You',
         getEmail: 'Get replies by email',
+        youWillBeNotifiedAt: 'You will be notified at {{email}}',
       },
     },
     ja: {
@@ -20,6 +21,7 @@ i18n
         input: 'メッセージを入力してください',
         you: 'あなた',
         getEmail: 'メールで返信を取得する',
+        youWillBeNotifiedAt: 'You will be notified at {{email}}',
       },
     },
   },

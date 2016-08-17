@@ -3,7 +3,7 @@ import { translate } from 'react-i18next';
 import TextField from 'material-ui/TextField';
 import Chip from 'material-ui/Chip';
 // import RaisedButton from 'material-ui/RaisedButton';
-import { lightBlue500 } from 'material-ui/styles/colors';
+import { lightBlue200, lightBlue500 } from 'material-ui/styles/colors';
 
 const styles = {
   floatingLabelStyle: {
@@ -58,8 +58,8 @@ class EmailReqeust extends React.Component {
     );
     if (this.props.currentUserEmail) {
       text = (
-        <Chip style={styles.chip} backgroundColor={lightBlue500} >
-          You will be notified at {this.props.currentUserEmail}
+        <Chip style={styles.chip} backgroundColor={lightBlue200} >
+          {t('youWillBeNotifiedAt', { email: this.props.currentUserEmail })}
         </Chip>
       );
     }

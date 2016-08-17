@@ -2,7 +2,7 @@ defmodule EmbedChat.VisitorControllerTest do
   use EmbedChat.ConnCase
 
   alias EmbedChat.Visitor
-  @valid_attrs %{email: "some content", name: "some content", note: "some content"}
+  @valid_attrs %{email: "some@content", name: "some content", note: "some content"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do

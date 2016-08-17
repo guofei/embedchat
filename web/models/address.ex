@@ -21,9 +21,10 @@ defmodule EmbedChat.Address do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:uuid, :room_id])
+    |> cast(params, [:uuid, :room_id, :visitor_id])
     |> validate_required([:uuid, :room_id])
     |> foreign_key_constraint(:room_id)
+    |> foreign_key_constraint(:visitor_id)
   end
 
   def latest_for_user_room(query, user_id, room_id) do
