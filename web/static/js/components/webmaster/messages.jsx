@@ -57,7 +57,7 @@ class Messages extends React.Component {
           <ToolbarTitle
             text={`Message: ${this.props.selectedUser.substring(0, 7)}`}
           />
-          <ToolbarGroup float="right">
+          <ToolbarGroup>
             <IconButton onTouchTap={this.handleTouchTap}>
               <NavigationClose />
             </IconButton>

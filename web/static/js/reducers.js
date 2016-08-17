@@ -193,23 +193,28 @@ function selectedUser(state = '', action) {
   }
 }
 
-function logsArrToObj(arr, startID) {
-  return arr.reduce((pre, cur, i) =>
-    Object.assign({}, pre, {
-      [startID + i]:
-      Object.assign({}, cur),
-    }), {});
+function log(state = {}, action) {
+  switch (action.type) {
+    case RECEIVE_ACCESS_LOG:
+      return Object.assign({}, state, action.log);
+    default:
+      return state;
+  }
+}
+
+function arrWithIDToLogsObj(arr) {
+  return arr.reduce((pre, cur) => {
+    const obj = Object.assign({}, cur);
+    return Object.assign({}, pre, { [obj.id]: obj });
+  }, {});
 }
 
 function logs(state = {}, action) {
   switch (action.type) {
     case RECEIVE_ACCESS_LOG:
-      return Object.assign({}, state,
-        { [Object.keys(state).length + 1]: action.log });
+      return Object.assign({}, state, { [action.log.id]: log(state[action.log.id], action) });
     case RECEIVE_MULTI_ACCESS_LOGS: {
-      const len = Object.keys(state).length + 1;
-      const obj = logsArrToObj(action.logs, len);
-      return Object.assign({}, state, obj);
+      return Object.assign({}, state, arrWithIDToLogsObj(action.logs));
     }
     default:
       return state;

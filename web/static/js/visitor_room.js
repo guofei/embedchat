@@ -1,4 +1,4 @@
-import UserInfo from './user_info';
+import nextUserAccessLog from './user_info';
 import {
   setCurrentUser,
   setCurrentUserEmail,
@@ -23,10 +23,11 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
   return {
     join() {
+      const userInfo = nextUserAccessLog();
       if (!roomID) { return; }
-      if (UserInfo.isBot()) { return; }
+      if (userInfo.isBot()) { return; }
       socket.connect();
-      channel = socket.channel(`rooms:${roomID}`, UserInfo);
+      channel = socket.channel(`rooms:${roomID}`, userInfo);
 
       channel.on(messages, (msgsResp) => {
         store.dispatch(receiveHistoryMessages(msgsResp.messages));

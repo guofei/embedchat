@@ -29,30 +29,30 @@ function visitView() {
   return autoIncrement(key);
 }
 
-const currentPageView = visitView();
-
 function totalPageView() {
   const key = 'lwn_total_pv_';
   return autoIncrement(key);
 }
 
-const UserInfo = {
-  agent: navigator.userAgent,
-  current_url: location.href,
-  referrer: document.referrer,
-  screen_width: screen.width,
-  screen_height: screen.height,
-  language: getBrowserLanguage(),
-  visit_view: currentPageView,
-  single_page_view: currentPageView,
-  total_page_view: totalPageView(),
-  inserted_at: moment.utc().format(),
-  isBot() {
-    if (navigator.userAgent && navigator.userAgent.indexOf('bot') > -1) {
-      return true;
-    }
-    return false;
-  },
-};
-
-export default UserInfo;
+export default function nextUserAccessLog() {
+  const singlePageView = visitView();
+  const info = {
+    agent: navigator.userAgent,
+    current_url: location.href,
+    referrer: document.referrer,
+    screen_width: screen.width,
+    screen_height: screen.height,
+    language: getBrowserLanguage(),
+    visit_view: singlePageView,
+    single_page_view: singlePageView,
+    total_page_view: totalPageView(),
+    inserted_at: moment.utc().format(),
+    isBot() {
+      if (navigator.userAgent && navigator.userAgent.indexOf('bot') > -1) {
+        return true;
+      }
+      return false;
+    },
+  };
+  return info;
+}

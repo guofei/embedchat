@@ -1,5 +1,6 @@
 import i18n from 'i18next';
 import LngDetector from 'i18next-browser-languagedetector';
+import moment from 'moment';
 
 i18n
 .use(LngDetector)
@@ -21,10 +22,12 @@ i18n
         input: 'メッセージを入力してください',
         you: 'あなた',
         getEmail: 'メールで返信を取得する',
-        youWillBeNotifiedAt: 'You will be notified at {{email}}',
+        youWillBeNotifiedAt: '{{email}}にご返答致します',
       },
     },
   },
+}, () => {
+  moment.locale(i18n.language || window.navigator.userLanguage || window.navigator.language);
 });
 
 export default i18n;

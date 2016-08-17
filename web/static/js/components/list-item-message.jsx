@@ -8,8 +8,7 @@ import { ListItem } from 'material-ui/List';
 import Popover from 'material-ui/Popover';
 import { Card, CardText } from 'material-ui/Card';
 import EmailReqeust from './email-request';
-
-moment.locale(window.navigator.userLanguage || window.navigator.language);
+import i18n from '../i18n';
 
 const styles = {
   pullRight: {
@@ -22,6 +21,9 @@ const styles = {
 const emailRequestType = 'email_request';
 
 function Message({ children, createdAt, handleTouchTap, shortName }) {
+  if (moment.locale() !== i18n.language) {
+    moment.locale(i18n.language);
+  }
   return (
     <ListItem
       secondaryTextLines={children.length > 15 ? 2 : 1}
