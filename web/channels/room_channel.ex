@@ -53,8 +53,7 @@ defmodule EmbedChat.RoomChannel do
 
   defp master_after_join(socket) do
     user = Repo.get!(User, socket.assigns.user_id)
-    # TODO create_or_update_address
-    {:ok, address} = SideEffect.get_or_create_address(socket)
+    {:ok, address} = SideEffect.create_or_update_address(socket)
     SideEffect.admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user, address)
     broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id, id: address.id, name: user.name}
   end
@@ -62,8 +61,7 @@ defmodule EmbedChat.RoomChannel do
   defp visitor_after_join(socket) do
     distinct_id = socket.assigns.distinct_id
     room_id = socket.assigns.room_id
-    # TODO create_or_update_address
-    {:ok, address} = SideEffect.get_or_create_address(socket)
+    {:ok, address} = SideEffect.create_or_update_address(socket)
     {:ok, log} = SideEffect.create_access_log(address, socket.assigns[:info])
     SideEffect.visitor_online(room_id, distinct_id, address.id)
     resp = %{uid: distinct_id, id: address.id, info: View.render(UserLogView, "user_log.json", user_log: log)}

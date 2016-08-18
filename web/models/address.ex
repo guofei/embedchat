@@ -30,14 +30,14 @@ defmodule EmbedChat.Address do
   def latest_for_user_room(query, user_id, room_id) do
     from a in query,
       where: a.user_id == ^user_id and a.room_id == ^room_id,
-      order_by: [desc: a.id],
+      order_by: [desc: a.updated_at],
       limit: 1
   end
 
   def latest_for_room(query, room_id, limit) do
     from a in query,
       where: ^room_id == a.room_id,
-      order_by: [desc: a.id],
+      order_by: [desc: a.updated_at],
       limit: ^limit
   end
 

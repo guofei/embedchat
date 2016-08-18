@@ -15,23 +15,9 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   import Ecto.Query, only: [from: 2]
 
-  defp create_or_update_visitor(email) do
-    case Repo.get_by(Visitor, email: email) do
-      nil  -> %Visitor{}
-      visitor -> visitor
-    end
-    |> Visitor.changeset(%{email: email})
-    |> Repo.insert_or_update
-  end
-
   def create_visitor(uuid, room_id, email) do
     with {:ok, visitor} <- create_or_update_visitor(email) do
-      case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
-        nil  -> %Address{}
-        address -> address
-      end
-      |> Address.changeset(%{room_id: room_id, uuid: uuid, visitor_id: visitor.id})
-      |> Repo.insert_or_update
+      create_or_update_address(uuid, room_id, nil, visitor.id)
     end
   end
 
@@ -73,23 +59,21 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   def new_message_visitor_to_master(%{"from_id" => from_uid, "to_id" => master_uid, "body" => msg_text}, room_id, type \\ MessageType.normal) do
-    with {:ok, sender} <- visitor_sender(from_uid, room_id),
-         {_, receiver} <- master_receiver(master_uid, room_id),
-         {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text, type),
-           msg = Repo.preload(msg, [:from, :to, :from_user]),
-           sender = Repo.preload(sender, [:user]),
-           resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
-      do: {:ok, resp}
+    sender = get_address(from_uid, room_id)
+    receiver = get_address(master_uid, room_id)
+    {:ok, msg} = create_message(sender, receiver, room_id, msg_text, type)
+    msg = Repo.preload(msg, [:from, :to, :from_user])
+    resp = View.render(MessageView, "message.json", message: msg)
+    {:ok, resp}
   end
 
   def new_message_master_to_visitor(%{"from_id" => master_uid, "to_id" => to_uid, "body" => msg_text}, room_id, type \\ MessageType.normal) do
-    with {:ok, sender} <- master_sender(master_uid, room_id),
-         {:ok, receiver} <- visitor_receiver(to_uid, room_id),
-         {:ok, msg} <- create_message(sender.id, receiver.id, room_id, msg_text, type),
-           msg = Repo.preload(msg, [:from, :to, :from_user]),
-           sender = Repo.preload(sender, [:user]),
-           resp = View.render(MessageView, "message.json", message: msg, user: sender.user),
-      do: {:ok, resp}
+    sender = get_address(master_uid, room_id)
+    receiver = get_address(to_uid, room_id)
+    {:ok, msg} = create_message(sender, receiver, room_id, msg_text, type)
+    msg = Repo.preload(msg, [:from, :to, :from_user])
+    resp = View.render(MessageView, "message.json", message: msg)
+    {:ok, resp}
   end
 
   def auto_messages(room_id, %UserLog{} = log) do
@@ -97,50 +81,48 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     EmbedChat.AutoMessageConfig.match(all_messages, log)
   end
 
-  defp visitor_receiver(to, room_id) do
-    get_or_create_address(to, nil, room_id)
-  end
-
-  defp master_receiver(admin, room_id) do
-    admin_address(admin, room_id)
-  end
-
-  defp visitor_sender(distinct_id, room_id) do
-    get_or_create_address(distinct_id, nil, room_id)
-  end
-
-  defp master_sender(admin, room_id) do
-    admin_address(admin, room_id)
-  end
-
-  defp admin_address(admin, room_id) do
-    # TODO multi users
-    if address = get_address(admin, room_id) do
-      {:ok, address}
-    else
-      {:error, %Address{}}
-    end
-  end
-
-  defp create_message(sender_id, receiver_id, room_id, text, type) do
+  defp create_message(sender, receiver, room_id, text, type) when is_nil(receiver) do
     changeset =
       Message.changeset(
-        %Message{room_id: room_id, from_id: sender_id, to_id: receiver_id},
+        %Message{room_id: room_id, from_id: sender.id, to_id: nil},
         %{body: text, type: type}
       )
     Repo.insert(changeset)
   end
 
-  def get_or_create_address(socket) do
-    get_or_create_address(socket.assigns.distinct_id, socket.assigns[:user_id], socket.assigns.room_id)
+  defp create_message(sender, receiver, room_id, text, type) do
+    changeset =
+      Message.changeset(
+        %Message{room_id: room_id, from_id: sender.id, to_id: receiver.id},
+        %{body: text, type: type}
+      )
+    Repo.insert(changeset)
   end
 
-  defp get_or_create_address(distinct_id, user_id, room_id) do
-    if address = get_address(distinct_id, room_id) do
-      {:ok, address}
-    else
-      create_address(distinct_id, user_id, room_id)
+  defp create_or_update_visitor(email) do
+    case Repo.get_by(Visitor, email: email) do
+      nil  -> %Visitor{}
+      visitor -> visitor
     end
+    |> Visitor.changeset(%{email: email})
+    |> Repo.insert_or_update
+  end
+
+  defp create_or_update_address(uuid, room_id, user_id, visitor_id) do
+    case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
+      nil  -> %Address{}
+      address -> address
+    end
+    |> Address.changeset(%{room_id: room_id, uuid: uuid, user_id: user_id, visitor_id: visitor_id})
+    |> Repo.insert_or_update
+  end
+
+  def create_or_update_address(socket) do
+    create_or_update_address(
+      socket.assigns.distinct_id,
+      socket.assigns.room_id,
+      socket.assigns[:user_id],
+      nil)
   end
 
   def get_address(distinct_id, room_id) when is_nil(distinct_id) or is_nil(room_id) do
@@ -149,21 +131,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   def get_address(distinct_id, room_id) do
     Repo.get_by(Address, uuid: distinct_id, room_id: room_id)
-  end
-
-  defp create_address(distinct_id, user_id, room_id) do
-    changeset =
-      Address.changeset(%Address{user_id: user_id}, %{uuid: distinct_id, room_id: room_id})
-    case Repo.insert(changeset) do
-      {:ok, model} ->
-        {:ok, model}
-      {:error, changeset} ->
-        if address = get_address(distinct_id, room_id) do
-          {:ok, address}
-        else
-          {:error, changeset}
-        end
-    end
   end
 
   @max_offline_size 10
