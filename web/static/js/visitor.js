@@ -2,6 +2,7 @@ import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { I18nextProvider } from 'react-i18next';
+import moment from 'moment';
 
 import i18n from './i18n';
 import { clientID } from './distinct_id';
@@ -10,6 +11,9 @@ import visitorRoom from './visitor_room';
 import ChatVisitor from './components/chat-visitor';
 
 export default function visitor(store, roomID) {
+  if (i18n.language && moment.locale() !== i18n.language) {
+    moment.locale(i18n.language);
+  }
   if (!roomID) {
     return;
   }

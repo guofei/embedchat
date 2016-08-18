@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { I18nextProvider } from 'react-i18next';
+import moment from 'moment';
 
 import i18n from './i18n';
 import { masterID } from './distinct_id';
@@ -10,6 +11,9 @@ import masterRoom from './master_room';
 import ChatWebmaster from './components/chat-webmaster';
 
 export default function webmaster(store) {
+  if (i18n.language && moment.locale() !== i18n.language) {
+    moment.locale(i18n.language);
+  }
   const masterRoomElement = document.getElementById('webmaster-chat-room');
   if (masterRoomElement) {
     const roomID = masterRoomElement.getAttribute('data-id');

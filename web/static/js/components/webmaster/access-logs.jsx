@@ -8,9 +8,6 @@ import { List } from 'material-ui/List';
 
 import ItemWithDialog from '../item-with-dialog';
 
-
-moment.locale(window.navigator.userLanguage || window.navigator.language);
-
 const styles = {
   logs: {
     overflow: 'auto',

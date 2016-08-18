@@ -78,7 +78,8 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
     sendEmail(email) {
       store.dispatch(setCurrentUserEmail(email));
-      return channel.push(sendEmail, email);
+      channel.push(messageEvent, { body: email, to_id: 'admin' });
+      channel.push(sendEmail, email);
     },
   };
 }
