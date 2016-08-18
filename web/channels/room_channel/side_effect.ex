@@ -185,6 +185,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     |> Enum.into(%{})
   end
 
+  # return %{"uuid1" => 111, "uuid2" => 222}
   def online_visitors(room_id) do
     {:ok, bkt} = visitor_bucket(room_id)
     Bucket.map(bkt)

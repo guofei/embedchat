@@ -43,30 +43,34 @@ defmodule EmbedChat.MessageView do
   end
 
   def sent_by(preload_msg, user) do
-    if preload_msg.from_user do
-      if preload_msg.from_user.id == user.id do
-        "You"
-      else
-        preload_msg.from_user.email
-      end
-    else
-      preload_msg.from.uuid
+    cond do
+      preload_msg.from_user ->
+        if preload_msg.from_user.id == user.id do
+          "You"
+        else
+          preload_msg.from_user.email
+        end
+      preload_msg.from_visitor ->
+        preload_msg.from_visitor.email
+      true ->
+        preload_msg.from.uuid
     end
   end
 
   def received_by(preload_msg, user) do
-    if preload_msg.to_user do
-      if preload_msg.to_user.id == user.id do
-        "You"
-      else
-        preload_msg.to_user.email
-      end
-    else
-      if preload_msg.to do
+    cond do
+      preload_msg.to_user ->
+        if preload_msg.to_user.id == user.id do
+          "You"
+        else
+          preload_msg.to_user.email
+        end
+      preload_msg.to_visitor ->
+        preload_msg.to_visitor.email
+      preload_msg.to ->
         preload_msg.to.uuid
-      else
+      true ->
         "You"
-      end
     end
   end
 

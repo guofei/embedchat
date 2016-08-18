@@ -28,7 +28,7 @@
               <%= receiver %>
             </div>
             <td class="mdl-data-table__cell--non-numeric" id="body<%= message.id %>">
-              <%= short_message_body(message) %>...
+              <%= short_message_body(message) %>
             </td>
             <div class="mdl-tooltip" for="body<%= message.id %>">
               <%= message.body %>

@@ -9,7 +9,7 @@ defmodule EmbedChat.MessageController do
   def index(conn, params) do
     messages =
       Message
-      |> Message.preload_for_user(conn.assigns.current_user.id)
+      |> Message.preload_for_user_and_visitor(conn.assigns.current_user.id)
       |> Repo.paginate(params)
     render(conn, "index.html", messages: messages)
   end

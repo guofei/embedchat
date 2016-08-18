@@ -7,6 +7,8 @@ defmodule EmbedChat.Message do
     belongs_to :from, EmbedChat.Address
     belongs_to :to, EmbedChat.Address
     belongs_to :room, EmbedChat.Room
+    has_one :from_visitor, through: [:from, :visitor]
+    has_one :to_visitor, through: [:to, :visitor]
     has_one :from_user, through: [:from, :user]
     has_one :to_user, through: [:to, :user]
 
@@ -25,11 +27,11 @@ defmodule EmbedChat.Message do
     |> validate_required([:body])
   end
 
-  def preload_for_user(query, user_id) do
+  def preload_for_user_and_visitor(query, user_id) do
     from m in query,
       join: um in EmbedChat.UserRoom, on: m.room_id == um.room_id,
-      where: um.user_id == ^user_id,
-      preload: [:from, :to, :from_user, :to_user],
+      where: um.user_id == ^user_id and m.type == ^EmbedChat.MessageType.normal(),
+      preload: [:from, :to, :from_user, :to_user, :from_visitor, :to_visitor],
       order_by: [desc: :inserted_at]
   end
 
