@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { translate } from 'react-i18next';
-import ReactAutolink from 'react-autolink';
+import Linkify from 'react-linkify';
 
 import { ListItem } from 'material-ui/List';
 // import Avatar from 'material-ui/lib/avatar';
@@ -35,7 +35,9 @@ function Message({ children, createdAt, handleTouchTap, shortName }) {
       onTouchTap={handleTouchTap}
       secondaryText={
         <div>
-          {ReactAutolink.autolink(children, { target: '_blank', rel: 'nofollow' })}
+          <Linkify properties={{ target: '_blank', rel: 'nofollow' }}>
+            {children}
+          </Linkify>
         </div>
       }
     />
@@ -47,7 +49,9 @@ function PopoverContent({ text }) {
     <div>
       <Card>
         <CardText>
-          {ReactAutolink.autolink(text, { target: '_blank', rel: 'nofollow' })}
+          <Linkify properties={{ target: '_blank', rel: 'nofollow' }}>
+            {text}
+          </Linkify>
         </CardText>
       </Card>
     </div>
