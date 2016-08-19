@@ -1,3 +1,8 @@
+defmodule EmbedChat.RoomChannel.MessageParam do
+  alias EmbedChat.MessageType
+  defstruct [:room_id, :from_uid, :to_uid, :text, type: MessageType.normal()]
+end
+
 defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.Address
   alias EmbedChat.AutoMessageConfig
@@ -8,6 +13,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.Room
   alias EmbedChat.Room.Bucket
   alias EmbedChat.Room.Registry
+  alias EmbedChat.RoomChannel.MessageParam
   alias EmbedChat.User
   alias EmbedChat.UserLog
   alias EmbedChat.Visitor
@@ -58,22 +64,10 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end)
   end
 
-  def new_message_visitor_to_master(%{"from_id" => from_uid, "to_id" => master_uid, "body" => msg_text}, room_id, type \\ MessageType.normal) do
-    sender = get_address(from_uid, room_id)
-    receiver = get_address(master_uid, room_id)
-    {:ok, msg} = create_message(sender, receiver, room_id, msg_text, type)
-    msg = Repo.preload(msg, [:from, :to, :from_user])
-    resp = View.render(MessageView, "message.json", message: msg)
-    {:ok, resp}
-  end
-
-  def new_message_master_to_visitor(%{"from_id" => master_uid, "to_id" => to_uid, "body" => msg_text}, room_id, type \\ MessageType.normal) do
-    sender = get_address(master_uid, room_id)
-    receiver = get_address(to_uid, room_id)
-    {:ok, msg} = create_message(sender, receiver, room_id, msg_text, type)
-    msg = Repo.preload(msg, [:from, :to, :from_user])
-    resp = View.render(MessageView, "message.json", message: msg)
-    {:ok, resp}
+  def create_message(%MessageParam{} = param) do
+    sender = get_address(param.from_uid, param.room_id)
+    receiver = get_address(param.to_uid, param.room_id)
+    create_message(sender, receiver, param.room_id, param.text, param.type)
   end
 
   def auto_messages(room_id, %UserLog{} = log) do

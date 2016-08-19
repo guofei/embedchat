@@ -3,8 +3,10 @@ defmodule EmbedChat.RoomChannel do
   use Elixometer
 
   alias EmbedChat.MessageView
+  alias EmbedChat.MessageType
   alias EmbedChat.ChannelWatcher
   alias EmbedChat.Room
+  alias EmbedChat.RoomChannel.MessageParam
   alias EmbedChat.RoomChannel.SideEffect
   alias EmbedChat.User
   alias EmbedChat.UserLog
@@ -98,7 +100,16 @@ defmodule EmbedChat.RoomChannel do
   @log_size 50
 
   def handle_event("email", email, socket) do
-    SideEffect.create_visitor(socket.assigns.distinct_id, socket.assigns.room_id, email)
+    room_id = socket.assigns.room_id
+    SideEffect.create_visitor(socket.assigns.distinct_id, room_id, email)
+    param = %MessageParam{
+      room_id: room_id,
+      from_uid: socket.assigns.distinct_id,
+      to_uid: SideEffect.random_online_admin(room_id),
+      text: email,
+      type: MessageType.email_response
+    }
+    SideEffect.create_message(param)
     {:noreply, socket}
   end
 
@@ -222,8 +233,8 @@ defmodule EmbedChat.RoomChannel do
   defp auto_message(socket, room_id, distinct_id, %UserLog{} = log) do
     messages = SideEffect.auto_messages(room_id, log)
     Enum.each(messages, fn (msg) ->
-      msg = %{"from_id" => SideEffect.random_admin(room_id), "to_id" => distinct_id, "body" => msg.message}
-      case SideEffect.new_message_master_to_visitor(msg, room_id) do
+      param = %MessageParam{room_id: room_id, from_uid: SideEffect.random_admin(room_id), to_uid: distinct_id, text: msg.message}
+      case create_message_and_view(param) do
         {:ok, resp} ->
           push socket, "new_message", resp
       end
@@ -234,10 +245,14 @@ defmodule EmbedChat.RoomChannel do
     room_id = socket.assigns.room_id
     distinct_id = socket.assigns.distinct_id
     if SideEffect.can_request_email?(room_id, distinct_id) do
-      from = SideEffect.random_admin(room_id)
-      to = socket.assigns.distinct_id
-      msg = %{"from_id" => from, "to_id" => to, "body" => "Get replies by email"}
-      case SideEffect.new_message_master_to_visitor(msg, room_id, EmbedChat.MessageType.email_request) do
+      param = %MessageParam{
+        room_id: room_id,
+        from_uid: SideEffect.random_admin(room_id),
+        to_uid: distinct_id,
+        text: "Get replies by email",
+        type: EmbedChat.MessageType.email_request
+      }
+      case create_message_and_view(param) do
         {:ok, resp} ->
           push socket, "new_message", resp
         {:error, _} ->
@@ -246,20 +261,44 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-  # TODO remove random
   defp new_message(%{"to_id" => to_uid, "body" => msg_text}, socket) do
-    room_id = socket.assigns.room_id
     if master?(socket) do
-      mtv = %{"from_id" => socket.assigns.distinct_id, "to_id" => to_uid, "body" => msg_text}
-      SideEffect.new_message_master_to_visitor(mtv, room_id)
+      new_message_from_master(socket, to_uid, msg_text)
     else
-      distinct_id = socket.assigns.distinct_id
-      master_uid = SideEffect.random_online_admin(room_id)
-      if master_uid == nil do
-        SideEffect.send_notification_mail(room_id, msg_text)
-      end
-      vtm = %{"from_id" => distinct_id, "to_id" => master_uid, "body" => msg_text}
-      SideEffect.new_message_visitor_to_master(vtm, room_id)
+      new_message_from_visitor(socket, msg_text)
     end
+  end
+
+  # TODO remove random
+  defp new_message_from_visitor(socket, text) do
+    room_id = socket.assigns.room_id
+    master_uid = SideEffect.random_online_admin(room_id)
+    if master_uid == nil do
+      SideEffect.send_notification_mail(room_id, text)
+    end
+    param = %MessageParam{
+      room_id: socket.assigns.room_id,
+      from_uid: socket.assigns.distinct_id,
+      to_uid: master_uid,
+      text: text
+    }
+    create_message_and_view(param)
+  end
+
+  defp new_message_from_master(socket, to_uid, text) do
+    param = %MessageParam{
+      room_id: socket.assigns.room_id,
+      from_uid: socket.assigns.distinct_id,
+      to_uid: to_uid,
+      text: text
+    }
+    create_message_and_view(param)
+  end
+
+  def create_message_and_view(%MessageParam{} = param) do
+    {:ok, msg} = SideEffect.create_message(param)
+    msg = Repo.preload(msg, [:from, :to, :from_user])
+    resp = View.render(MessageView, "message.json", message: msg)
+    {:ok, resp}
   end
 end

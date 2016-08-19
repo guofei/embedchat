@@ -164,7 +164,8 @@ function toArr(obj) {
 
 function select(state) {
   const msgs = toArr(state.messages).filter(x =>
-    x.from_id === state.currentUser || x.to_id === state.currentUser
+    x.type !== 'email_response' &&
+    (x.from_id === state.currentUser || x.to_id === state.currentUser)
   );
   const adminUsers = toArr(state.users).filter(x => x.online && x.admin);
   return {
