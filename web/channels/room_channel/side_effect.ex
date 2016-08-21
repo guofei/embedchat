@@ -103,6 +103,15 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     |> Repo.insert_or_update
   end
 
+  defp create_or_update_address(uuid, room_id, user_id, visitor_id) when is_nil(visitor_id) do
+    case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
+      nil  -> %Address{}
+      address -> address
+    end
+    |> Address.changeset(%{room_id: room_id, uuid: uuid, user_id: user_id})
+    |> Repo.insert_or_update
+  end
+
   defp create_or_update_address(uuid, room_id, user_id, visitor_id) do
     case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
       nil  -> %Address{}

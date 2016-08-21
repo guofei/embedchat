@@ -29,7 +29,7 @@ let state_tree = {
       id: 1,
       type: 'normal',
       from_id: 'xxx-xxx-xxx',
-      from_name: 'name', // TODO remove it
+      from_name: 'name',
       to_id: 'xxx-xxx-xxx',
       body: 'hi',
       inserted_at: '11:10',
