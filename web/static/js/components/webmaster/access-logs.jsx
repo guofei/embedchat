@@ -6,7 +6,7 @@ import Paper from 'material-ui/Paper';
 import { Toolbar, ToolbarTitle } from 'material-ui/Toolbar';
 import { List } from 'material-ui/List';
 
-import ItemWithDialog from '../item-with-dialog';
+import ItemWithDialog from '../common/item-with-dialog';
 
 const styles = {
   logs: {

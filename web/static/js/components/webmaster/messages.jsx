@@ -6,8 +6,8 @@ import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
-import ListMessages from '../list-messages';
-import MessageForm from '../message-form';
+import ListMessages from '../common/list-messages';
+import MessageForm from '../common/message-form';
 
 const styles = {
   messages: {

@@ -10,9 +10,9 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import CommunicationMessage from 'material-ui/svg-icons/communication/message';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
-import MenuBar from './menu-bar';
-import ListMessages from './list-messages';
-import MessageForm from './message-form';
+import MenuBar from './common/menu-bar';
+import ListMessages from './common/list-messages';
+import MessageForm from './common/message-form';
 
 injectTapEventPlugin();
 
