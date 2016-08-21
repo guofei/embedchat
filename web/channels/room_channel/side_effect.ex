@@ -8,8 +8,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.AutoMessageConfig
   alias EmbedChat.Repo
   alias EmbedChat.Message
-  alias EmbedChat.MessageType
-  alias EmbedChat.MessageView
   alias EmbedChat.Room
   alias EmbedChat.Room.Bucket
   alias EmbedChat.Room.Registry
@@ -17,7 +15,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.User
   alias EmbedChat.UserLog
   alias EmbedChat.Visitor
-  alias Phoenix.View
 
   import Ecto.Query, only: [from: 2]
 
