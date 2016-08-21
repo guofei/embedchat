@@ -87,7 +87,7 @@ class ChatVisitor extends React.Component {
   }
 
   handleTouchMenu() {
-    // admins = this.props.admins
+    // users = this.props.users
   }
 
   handleInputMessage(inputText) {
@@ -111,6 +111,7 @@ class ChatVisitor extends React.Component {
               <div ref="messages" style={styles.messages}>
                 <ListMessages
                   messages={this.props.messages}
+                  users={this.props.allUsers}
                   currentUser={this.props.currentUser}
                   currentUserEmail={this.props.currentUserEmail}
                   sendEmail={this.props.room.sendEmail}
@@ -149,6 +150,7 @@ ChatVisitor.propTypes = {
     sendEmail: React.PropTypes.func.isRequired,
   }),
   messages: React.PropTypes.array.isRequired,
+  allUsers: React.PropTypes.object.isRequired,
   admins: React.PropTypes.array.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   currentUserEmail: React.PropTypes.string.isRequired,
@@ -173,8 +175,8 @@ function select(state) {
     currentUser: state.currentUser,
     currentUserEmail: state.currentUserEmail,
     selectedAdmin: state.selectedUser,
+    allUsers: state.users,
     admins: adminUsers,
-    // unread: msgs.filter(x => x.unread).length,
     openChat: state.openChat,
   };
 }

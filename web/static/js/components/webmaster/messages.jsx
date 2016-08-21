@@ -21,6 +21,17 @@ const styles = {
   },
 };
 
+// TODO refactoring
+function shortName(fullName) {
+  if (fullName.length > 0) {
+    if (fullName.includes('@')) {
+      return fullName;
+    }
+    return fullName.substring(0, 7);
+  }
+  return 'unknown';
+}
+
 function sendEmail(mail) {
   return mail;
 }
@@ -55,7 +66,7 @@ class Messages extends React.Component {
       <Paper zDepth={1}>
         <Toolbar>
           <ToolbarTitle
-            text={`Message: ${this.props.selectedUser.substring(0, 7)}`}
+            text={`Message: ${shortName(this.props.selectedUser)}`}
           />
           <ToolbarGroup>
             <IconButton onTouchTap={this.handleTouchTap}>
@@ -69,6 +80,7 @@ class Messages extends React.Component {
         >
           <ListMessages
             messages={this.props.messages}
+            users={this.props.users}
             currentUser={this.props.currentUser}
             currentUserEmail={''}
             sendEmail={sendEmail}
@@ -86,6 +98,7 @@ Messages.propTypes = {
   currentUser: React.PropTypes.string.isRequired,
   selectedUser: React.PropTypes.string.isRequired,
   messages: React.PropTypes.array.isRequired,
+  users: React.PropTypes.object.isRequired,
   onInputMessage: React.PropTypes.func.isRequired,
   onClose: React.PropTypes.func.isRequired,
 };

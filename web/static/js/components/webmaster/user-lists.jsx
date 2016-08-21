@@ -18,6 +18,9 @@ const styles = {
 // TODO refactoring
 function shortName(fullName) {
   if (fullName.length > 0) {
+    if (fullName.includes('@')) {
+      return fullName;
+    }
     return fullName.substring(0, 7);
   }
   return 'unknown';
@@ -44,7 +47,7 @@ function messsageTime(msg) {
   return text;
 }
 
-function User({ name, message, onSelected }) {
+function User({ name, uid, message, onSelected }) {
   return (
     <ListItem
       primaryText={
@@ -57,22 +60,24 @@ function User({ name, message, onSelected }) {
       }
       secondaryText={messageText(message)}
       leftAvatar={<Avatar>{avatar(name)}</Avatar>}
-      onTouchTap={function touch() { onSelected(name); }}
+      onTouchTap={function touch() { onSelected(uid); }}
     />
   );
 }
 
 function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
   const onlines = onlineUsers.map((user) =>
-    (<User name={user.uid}
-      key={user.uid}
+    (<User key={user.uid}
+      name={user.name}
+      uid={user.uid}
       message={user.message}
       onSelected={onUserSelected}
     />)
   );
   const offlines = offlineUsers.map((user) =>
-    (<User name={user.uid}
-      key={user.uid}
+    (<User key={user.uid}
+      name={user.name}
+      uid={user.uid}
       message={user.message}
       onSelected={onUserSelected}
     />)

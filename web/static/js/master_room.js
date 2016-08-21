@@ -80,7 +80,7 @@ function masterRoom(socket, roomID, distinctID, store) {
                 const newUsers = [];
                 for (const key in users) {
                   if (users.hasOwnProperty(key)) {
-                    const user = { uid: key, id: users[key] };
+                    const user = { uid: key, id: users[key].id, name: users[key].name };
                     newUsers.push(user);
                   }
                 }
@@ -91,7 +91,8 @@ function masterRoom(socket, roomID, distinctID, store) {
                 const newUsers = [];
                 for (const key in offlineUsers) {
                   if (offlineUsers.hasOwnProperty(key)) {
-                    const user = { uid: key, id: offlineUsers[key] };
+                    const info = offlineUsers[key];
+                    const user = { uid: key, id: info.id, name: info.name };
                     newUsers.push(user);
                   }
                 }

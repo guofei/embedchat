@@ -138,23 +138,35 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
     Address
     |> Address.latest_for_room(room_id, @max_offline_size + online_size)
+    |> Ecto.Query.preload([:visitor])
     |> Repo.all
     |> Enum.filter(fn address -> !Map.has_key?(onlines, address.uuid) end)
     |> Enum.map(fn address ->
-      {address.uuid, address.id}
+      name = if address.visitor do
+          address.visitor.email
+        else
+          address.uuid
+        end
+      {address.uuid, %{id: address.id, name: name}}
     end)
     |> Enum.into(%{})
   end
 
-  # return %{"uuid1" => 111, "uuid2" => 222}
+  # return %{"uuid1" => %{id: id, name: name}, "uuid2" => %{id: id, name: name}}
   def online_visitors(room_id) do
     {:ok, bkt} = visitor_bucket(room_id)
     Bucket.map(bkt)
   end
 
-  def visitor_online(room_id, distinct_id, address_id) do
+  def visitor_online(room_id, distinct_id, address) do
     {:ok, bkt} = visitor_bucket(room_id)
-    Bucket.put(bkt, distinct_id, address_id)
+    address = Repo.preload(address, [:visitor])
+    name = if address.visitor do
+      address.visitor.email
+    else
+      address.uuid
+    end
+    Bucket.put(bkt, distinct_id, %{id: address.id, name: name})
   end
 
   def visitor_offline(room_id, distinct_id) do

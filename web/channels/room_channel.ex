@@ -65,7 +65,7 @@ defmodule EmbedChat.RoomChannel do
     room_id = socket.assigns.room_id
     {:ok, address} = SideEffect.create_or_update_address(socket)
     {:ok, log} = SideEffect.create_access_log(address, socket.assigns[:info])
-    SideEffect.visitor_online(room_id, distinct_id, address.id)
+    SideEffect.visitor_online(room_id, distinct_id, address)
     resp = %{uid: distinct_id, id: address.id, info: View.render(UserLogView, "user_log.json", user_log: log)}
     broadcast! socket, "user_join", resp
     send_message_history(distinct_id, socket)

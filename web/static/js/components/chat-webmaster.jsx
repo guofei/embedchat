@@ -13,10 +13,11 @@ import AccessLogs from './webmaster/access-logs';
 
 // injectTapEventPlugin();
 
-function CurrentMessages({ selected, current, msgs, input, close }) {
+function CurrentMessages({ selected, current, msgs, users, input, close }) {
   return (
     <Messages
       messages={msgs}
+      users={users}
       currentUser={current}
       selectedUser={selected}
       onInputMessage={input}
@@ -53,7 +54,7 @@ class ChatWebmaster extends React.Component {
 
   render() {
     const {
-      onlineUsers, offlineUsers, messages, currentUser, selectedUser, logs,
+      onlineUsers, offlineUsers, messages, allUsers, currentUser, selectedUser, logs,
     } = this.props;
 
     let msgElement = (<EmptyMessage />);
@@ -63,6 +64,7 @@ class ChatWebmaster extends React.Component {
           current={currentUser}
           selected={selectedUser}
           msgs={messages}
+          users={allUsers}
           input={this.handleInputMessage}
           close={this.handleCloseMessages}
         />
@@ -112,6 +114,7 @@ ChatWebmaster.propTypes = {
   messages: React.PropTypes.array.isRequired,
   onlineUsers: React.PropTypes.array.isRequired,
   offlineUsers: React.PropTypes.array.isRequired,
+  allUsers: React.PropTypes.object.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   selectedUser: React.PropTypes.string.isRequired,
   logs: React.PropTypes.array.isRequired,
@@ -164,6 +167,7 @@ function select(state) {
     messages: toArr(state.messages).filter(x =>
       x.from_id === selected || x.to_id === selected
     ),
+    allUsers: state.users,
     onlineUsers: users.filter(x =>
       x.online && x.uid !== current && !x.admin
     ).sort((a, b) => b.id - a.id),
