@@ -7,7 +7,7 @@ import moment from 'moment';
 import i18n from './i18n';
 import { clientID } from './distinct_id';
 import { clientSocket } from './socket';
-import visitorRoom from './visitor_room';
+import visitorRoom from './room_visitor';
 import ChatVisitor from './components/chat-visitor';
 
 export default function visitor(store, roomID) {

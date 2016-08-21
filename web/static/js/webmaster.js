@@ -7,7 +7,7 @@ import moment from 'moment';
 import i18n from './i18n';
 import { masterID } from './distinct_id';
 import { masterSocket } from './socket';
-import masterRoom from './master_room';
+import masterRoom from './room_master';
 import ChatWebmaster from './components/chat-webmaster';
 
 export default function webmaster(store) {
