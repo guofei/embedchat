@@ -14,6 +14,8 @@ import MenuBar from './common/menu-bar';
 import ListMessages from './common/list-messages';
 import MessageForm from './common/message-form';
 
+import { objectToArray } from '../utils';
+
 injectTapEventPlugin();
 
 const styles = {
@@ -159,17 +161,12 @@ ChatVisitor.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
 };
 
-// TODO refactoring
-function toArr(obj) {
-  return Object.keys(obj).map((k) => obj[k]);
-}
-
 function select(state) {
-  const msgs = toArr(state.messages).filter(x =>
+  const msgs = objectToArray(state.messages).filter(x =>
     x.type !== 'email_response' &&
     (x.from_id === state.currentUser || x.to_id === state.currentUser)
   );
-  const adminUsers = toArr(state.users).filter(x => x.online && x.admin);
+  const adminUsers = objectToArray(state.users).filter(x => x.online && x.admin);
   return {
     messages: msgs,
     currentUser: state.currentUser,

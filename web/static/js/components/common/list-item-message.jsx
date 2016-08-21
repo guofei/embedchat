@@ -19,14 +19,14 @@ const styles = {
 
 const emailRequestType = 'email_request';
 
-function Message({ children, createdAt, handleTouchTap, shortName }) {
+function Message({ children, createdAt, handleTouchTap, shortUserName }) {
   return (
     <ListItem
       secondaryTextLines={children.length > 15 ? 2 : 1}
       // leftAvatar={<Avatar>{this.avatar()}</Avatar>}
       primaryText={
         <div>
-          {shortName}
+          {shortUserName}
           <span style={styles.pullRight}>
             {moment.utc(createdAt).fromNow()}
           </span>
@@ -105,7 +105,7 @@ class ListItemMessage extends React.Component {
           children={this.props.children}
           createdAt={this.props.createdAt}
           handleTouchTap={this.handleTouchTap}
-          shortName={this.shortName()}
+          shortUserName={this.shortName()}
         />
         <Popover
           open={this.state.open}
@@ -136,12 +136,12 @@ ListItemMessage.propTypes = {
   t: React.PropTypes.func.isRequired,
   type: React.PropTypes.string.isRequired,
   currentUser: React.PropTypes.string.isRequired,
-  currentUserEmail: React.PropTypes.string.isRequired,
   from: React.PropTypes.string.isRequired,
   fromName: React.PropTypes.string.isRequired,
   createdAt: React.PropTypes.string.isRequired,
-  children: React.PropTypes.string,
+  children: React.PropTypes.string.isRequired,
   sendEmail: React.PropTypes.func.isRequired,
+  currentUserEmail: React.PropTypes.string,
 };
 
 export default translate(['translation'])(ListItemMessage);

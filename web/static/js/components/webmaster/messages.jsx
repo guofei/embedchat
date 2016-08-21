@@ -9,6 +9,8 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import ListMessages from '../common/list-messages';
 import MessageForm from '../common/message-form';
 
+import { userShortName } from '../../utils';
+
 const styles = {
   messages: {
     overflow: 'auto',
@@ -20,17 +22,6 @@ const styles = {
     marginLeft: '10px',
   },
 };
-
-// TODO refactoring
-function shortName(fullName) {
-  if (fullName.length > 0) {
-    if (fullName.includes('@')) {
-      return fullName;
-    }
-    return fullName.substring(0, 7);
-  }
-  return 'unknown';
-}
 
 function sendEmail(mail) {
   return mail;
@@ -66,7 +57,7 @@ class Messages extends React.Component {
       <Paper zDepth={1}>
         <Toolbar>
           <ToolbarTitle
-            text={`Message: ${shortName(this.props.selectedUser)}`}
+            text={`Message: ${userShortName(this.props.selectedUser, this.props.users)}`}
           />
           <ToolbarGroup>
             <IconButton onTouchTap={this.handleTouchTap}>
@@ -82,7 +73,6 @@ class Messages extends React.Component {
             messages={this.props.messages}
             users={this.props.users}
             currentUser={this.props.currentUser}
-            currentUserEmail={''}
             sendEmail={sendEmail}
           />
           <div style={styles.messageForm}>

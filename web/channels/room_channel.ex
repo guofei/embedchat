@@ -66,7 +66,12 @@ defmodule EmbedChat.RoomChannel do
     {:ok, address} = SideEffect.create_or_update_address(socket)
     {:ok, log} = SideEffect.create_access_log(address, socket.assigns[:info])
     SideEffect.visitor_online(room_id, distinct_id, address)
-    resp = %{uid: distinct_id, id: address.id, info: View.render(UserLogView, "user_log.json", user_log: log)}
+    resp = %{
+      uid: distinct_id,
+      id: address.id,
+      name: SideEffect.address_name(address),
+      info: View.render(UserLogView, "user_log.json", user_log: log)
+    }
     broadcast! socket, "user_join", resp
     send_message_history(distinct_id, socket)
     auto_message(socket, room_id, distinct_id, log)
@@ -101,7 +106,7 @@ defmodule EmbedChat.RoomChannel do
 
   def handle_event("email", email, socket) do
     room_id = socket.assigns.room_id
-    SideEffect.create_visitor(socket.assigns.distinct_id, room_id, email)
+    {:ok, visitor} = SideEffect.create_visitor(socket.assigns.distinct_id, room_id, email)
     param = %MessageParam{
       room_id: room_id,
       from_uid: socket.assigns.distinct_id,
@@ -110,6 +115,7 @@ defmodule EmbedChat.RoomChannel do
       type: MessageType.email_response
     }
     SideEffect.create_message(param)
+    SideEffect.visitor_update_online(room_id, socket.assigns.distinct_id, visitor.email)
     {:noreply, socket}
   end
 

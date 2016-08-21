@@ -24,6 +24,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   def create_visitor(uuid, room_id, email) do
     with {:ok, visitor} <- create_or_update_visitor(email) do
       create_or_update_address(uuid, room_id, nil, visitor.id)
+      {:ok, visitor}
     end
   end
 
@@ -127,6 +128,15 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     Repo.get_by(Address, uuid: distinct_id, room_id: room_id)
   end
 
+  def address_name(address) do
+    address = Repo.preload(address, [:visitor])
+    if address.visitor do
+      address.visitor.email
+    else
+      address.uuid
+    end
+  end
+
   @max_offline_size 10
   @max_online_size 20
   @max_user_log 20
@@ -160,13 +170,14 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   def visitor_online(room_id, distinct_id, address) do
     {:ok, bkt} = visitor_bucket(room_id)
-    address = Repo.preload(address, [:visitor])
-    name = if address.visitor do
-      address.visitor.email
-    else
-      address.uuid
+    Bucket.put(bkt, distinct_id, %{id: address.id, name: address_name(address)})
+  end
+
+  def visitor_update_online(room_id, distinct_id, name) do
+    {:ok, bkt} = visitor_bucket(room_id)
+    if %{id: id, name: _} = Bucket.get(bkt, distinct_id) do
+      Bucket.put(bkt, distinct_id, %{id: id, name: name})
     end
-    Bucket.put(bkt, distinct_id, %{id: address.id, name: name})
   end
 
   def visitor_offline(room_id, distinct_id) do

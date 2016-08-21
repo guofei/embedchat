@@ -19,6 +19,7 @@ import {
   RECEIVE_MULTI_ACCESS_LOGS,
   OPEN_CHAT,
 } from './actions';
+import { arrayToObject } from './utils.js';
 
 // state tree sample
 /*
@@ -28,7 +29,7 @@ let state_tree = {
       id: 1,
       type: 'normal',
       from_id: 'xxx-xxx-xxx',
-      from_name: 'name', // TODO remove this
+      from_name: 'name', // TODO remove it
       to_id: 'xxx-xxx-xxx',
       body: 'hi',
       inserted_at: '11:10',
@@ -87,13 +88,6 @@ function readAll(obj) {
   return newObj;
 }
 
-function arrWithIDToObj(arr) {
-  return arr.reduce((pre, cur) => {
-    const obj = Object.assign({}, cur, { unread: false });
-    return Object.assign({}, pre, { [obj.id]: obj });
-  }, {});
-}
-
 function messages(state = {}, action) {
   switch (action.type) {
     case RECEIVE_MESSAGE:
@@ -105,7 +99,7 @@ function messages(state = {}, action) {
         { [action.message.id]:
           Object.assign({}, action.message, { unread: false }) });
     case RECEIVE_HISTORY_MESSAGES:
-      return Object.assign({}, state, arrWithIDToObj(action.messages));
+      return Object.assign({}, state, arrayToObject(action.messages, 'id', { unread: false }));
     case READ_MESSAGE:
       return Object.assign({}, state,
         { [action.message.id]:
@@ -136,14 +130,6 @@ function user(state = {}, action) {
   }
 }
 
-function usersArrToObj(arr, isOnline, isAdmin) {
-  return arr.reduce((pre, cur) =>
-    Object.assign({}, pre, {
-      [cur.uid]:
-      Object.assign({}, cur, { online: isOnline, admin: isAdmin }),
-    }), {});
-}
-
 function users(state = {}, action) {
   switch (action.type) {
     case RECEIVE_USER_ONLINE:
@@ -154,13 +140,13 @@ function users(state = {}, action) {
         { [action.user.uid]: user(state[action.user.uid], action) });
     case RECEIVE_MULTI_USERS_ONLINE:
       return Object.assign({}, state,
-        usersArrToObj(action.users, true, false));
+        arrayToObject(action.users, 'uid', { online: true, admin: false }));
     case RECEIVE_MULTI_USERS_OFFLINE:
       return Object.assign({}, state,
-        usersArrToObj(action.users, false, false));
+        arrayToObject(action.users, 'uid', { online: false, admin: false }));
     case RECEIVE_MULTI_ADMINS_ONLINE:
       return Object.assign({}, state,
-        usersArrToObj(action.users, true, true));
+        arrayToObject(action.users, 'uid', { online: true, admin: true }));
     default:
       return state;
   }
@@ -202,19 +188,12 @@ function log(state = {}, action) {
   }
 }
 
-function arrWithIDToLogsObj(arr) {
-  return arr.reduce((pre, cur) => {
-    const obj = Object.assign({}, cur);
-    return Object.assign({}, pre, { [obj.id]: obj });
-  }, {});
-}
-
 function logs(state = {}, action) {
   switch (action.type) {
     case RECEIVE_ACCESS_LOG:
       return Object.assign({}, state, { [action.log.id]: log(state[action.log.id], action) });
     case RECEIVE_MULTI_ACCESS_LOGS: {
-      return Object.assign({}, state, arrWithIDToLogsObj(action.logs));
+      return Object.assign({}, state, arrayToObject(action.logs, 'id'));
     }
     default:
       return state;

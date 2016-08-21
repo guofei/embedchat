@@ -4,12 +4,7 @@ import { List } from 'material-ui/List';
 
 import ListItemMessage from './list-item-message';
 
-function messageFromName(msg, users) {
-  if (users[msg.from_id]) {
-    return users[msg.from_id].name;
-  }
-  return msg.from_name;
-}
+import { userName } from '../../utils';
 
 class ListMessages extends React.Component {
   render() {
@@ -21,7 +16,7 @@ class ListMessages extends React.Component {
           key={msg.id}
           type={msg.type}
           from={msg.from_id}
-          fromName={messageFromName(msg, this.props.users)}
+          fromName={userName(msg.from_id, this.props.users, msg.from_name)}
           createdAt={msg.inserted_at}
           sendEmail={this.props.sendEmail}
         >
@@ -38,8 +33,8 @@ class ListMessages extends React.Component {
 }
 
 ListMessages.propTypes = {
+  currentUserEmail: React.PropTypes.string,
   currentUser: React.PropTypes.string.isRequired,
-  currentUserEmail: React.PropTypes.string.isRequired,
   messages: React.PropTypes.array.isRequired,
   users: React.PropTypes.object.isRequired,
   sendEmail: React.PropTypes.func.isRequired,

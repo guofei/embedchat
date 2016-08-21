@@ -11,6 +11,8 @@ import Messages from './webmaster/messages';
 import EmptyMessage from './webmaster/empty-message';
 import AccessLogs from './webmaster/access-logs';
 
+import { objectToArray } from '../utils';
+
 // injectTapEventPlugin();
 
 function CurrentMessages({ selected, current, msgs, users, input, close }) {
@@ -120,11 +122,6 @@ ChatWebmaster.propTypes = {
   logs: React.PropTypes.array.isRequired,
 };
 
-// TODO refactoring
-function toArr(obj) {
-  return Object.keys(obj).map((k) => obj[k]);
-}
-
 function updateUserMessage(user, uid, msg) {
   if (!user || user.uid !== uid) {
     return user;
@@ -161,10 +158,10 @@ function usersWithMessage(state) {
 
 function select(state) {
   const current = state.currentUser;
-  const users = toArr(usersWithMessage(state));
+  const users = objectToArray(usersWithMessage(state));
   const selected = state.selectedUser;
   return {
-    messages: toArr(state.messages).filter(x =>
+    messages: objectToArray(state.messages).filter(x =>
       x.from_id === selected || x.to_id === selected
     ),
     allUsers: state.users,
@@ -174,7 +171,7 @@ function select(state) {
     offlineUsers: users.filter(x =>
       !x.online && x.uid !== current && !x.admin
     ).sort((a, b) => b.id - a.id),
-    logs: toArr(state.logs).filter(x => x.uid === selected).sort((a, b) => b.id - a.id),
+    logs: objectToArray(state.logs).filter(x => x.uid === selected).sort((a, b) => b.id - a.id),
     currentUser: current,
     selectedUser: selected,
   };

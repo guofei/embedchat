@@ -7,6 +7,8 @@ import Avatar from 'material-ui/Avatar';
 import Paper from 'material-ui/Paper';
 import { Toolbar, ToolbarTitle } from 'material-ui/Toolbar';
 
+import { avatar, shortName } from '../../utils';
+
 const styles = {
   pullRight: {
     float: 'right',
@@ -14,22 +16,6 @@ const styles = {
     fontSize: 'small',
   },
 };
-
-// TODO refactoring
-function shortName(fullName) {
-  if (fullName.length > 0) {
-    if (fullName.includes('@')) {
-      return fullName;
-    }
-    return fullName.substring(0, 7);
-  }
-  return 'unknown';
-}
-
-// TODO refactoring
-function avatar(fullName) {
-  return shortName(fullName)[0].toUpperCase();
-}
 
 function messageText(msg) {
   let text = '';

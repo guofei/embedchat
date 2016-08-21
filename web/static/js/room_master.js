@@ -60,7 +60,7 @@ function masterRoom(socket, roomID, distinctID, store) {
       });
 
       channel.on(userJoin, (user) => {
-        const newUser = { uid: user.uid, id: user.id };
+        const newUser = { uid: user.uid, id: user.id, name: user.name };
         store.dispatch(receiveUserOnline(newUser));
         if (user.info) {
           const accesslog = Object.assign({}, user.info, { uid: user.uid });
