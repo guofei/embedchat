@@ -2,16 +2,14 @@
   <%= content_tag :div, "", id: "webmaster-chat-room", data: [id: @room.uuid] %>
 <% else %>
   <div class="page-content-max">
+    <h1 class="large">
+      <center>
+        <%= gettext "A better tool to chat with your customers" %>
+      </center>
+    </h1>
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--12-col">
         <center>
-          <h2>
-            <%= gettext "A better tool to chat with your customers" %>
-          </h2>
-          <h5><%= gettext "Customers support: simple, prompt, personal" %></h5>
-          <h5><%= gettext "Get high quality feedback from customers" %></h5>
-          <h5><%= gettext "Convert visitors to customers by chat" %></h5>
-          <br/>
           <p><%= gettext "Start live chat with visitors on your website!" %></p>
           <p>
             <div id="progress" style="display: none;">
@@ -28,9 +26,64 @@
               </p>
             <% end %>
           </p>
-          <img src="<%= static_path(@conn, "/images/chat_screen_shot.png") %>" class="lp-img">
         </center>
       </div>
     </div>
+    <h2 class="large">
+      <center>
+        <%= gettext "Benefits" %>
+      </center>
+    </h2>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--4-col">
+        <p class="large"><%= gettext "Customers support: simple, prompt, personal" %></p>
+        <p>
+          チャットを使ってサポートすることで、顧客の「ちょっと聞きたい」というニーズに対応することができます。また、リアルタイムに対応するサポート窓口があることで、ウェブサービスの信頼性向上にも繋がります。
+        </p>
+      </div>
+      <div class="mdl-cell mdl-cell--4-col">
+        <p class="large"><%= gettext "Get high quality feedback from customers" %></p>
+        <p>
+          チャットによるコミュニケーションは、メールや問い合わせフォームより、リアルタイム性が高いです。顧客は疑問を抱えているそのタイミングでサポート担当者とやりとりし、迅速な対応ができて、高い満足度に繋がります。
+        </p>
+      </div>
+      <div class="mdl-cell mdl-cell--4-col">
+        <p class="large"><%= gettext "Convert visitors to customers by chat" %></p>
+        <p>
+          チャットによって、サイトに離脱する前にユーザーを目的のページに誘導し、コンバージョン率を向上させることができます。さらに、ユーザの要望を聞き出し、ユーザーの拡大やユーザー体験の向上などにも繋がります。
+        </p>
+      </div>
+    </div>
+    <h2 class="large">
+      <center>
+        <%= gettext "Use Cases" %>
+      </center>
+    </h2>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--4-col">
+        <p class="large">EC・アパレルサイト</p>
+        <p>
+          チャットサポートは、実店舗のような購入体験をECサイトでも提供でき、ECサイトの安心感をつくりだすこともできます。リアルタイムな対応がお客様とのエンゲージメントを高め、サイトの売り上げ向上に貢献します。
+        </p>
+      </div>
+      <div class="mdl-cell mdl-cell--4-col">
+        <p class="large">グロースハックツール</p>
+        <p>
+          新規Webサービスやスタートアップ企業のグロースハックツールとして提供できます、ユーザーの利用状況を把握した上で迅速で快適なユーザーとのコミュニケーションを取ることで、Webサービスのグロースに繋がります。
+        </p>
+      </div>
+      <div class="mdl-cell mdl-cell--4-col">
+        <p class="large">アフィリエイトサイト</p>
+        <p>
+          個人で運営しているアフィリエイトサイトなどでもアフィリリンクのクリック率・コンバージョン率をアップするツールとして利用することができます。不在時でもメッセージを受け取り、後で返信することができます。
+        </p>
+      </div>
+    </div>
+    <p>
+      <center>
+        <%= link gettext("Get Start Now"), to: user_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+      </center>
+    </p>
+    <br/>
   </div>
 <% end %>

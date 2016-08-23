@@ -64,7 +64,7 @@ msgstr "お名前"
 msgid "Password"
 msgstr "パスワード"
 
-#: web/templates/page/index.html.eex:15
+#: web/templates/page/index.html.eex:13
 msgid "Start live chat with visitors on your website!"
 msgstr "今すぐお持ちのウェブサイトをチャットサポートできる店に変える！"
 
@@ -99,7 +99,7 @@ msgstr "サイトに訪問したお客様とリアルタイムチャットで、
 msgid "Contact"
 msgstr "連絡"
 
-#: web/templates/room/index.html.eex:30
+#: web/templates/room/index.html.eex:31
 msgid "Add your code here"
 msgstr "チャットコードをここで追加"
 
@@ -127,7 +127,7 @@ msgstr "今すぐ試す"
 msgid "Auto Message"
 msgstr "自動話しかけ"
 
-#: web/templates/page/index.html.eex:27
+#: web/templates/page/index.html.eex:25
 msgid "Surprise Me"
 msgstr "すぐ効果を見る"
 
@@ -187,23 +187,23 @@ msgstr "1000人"
 msgid "If the conditions are satisfied, the message will be sent to the user automatically"
 msgstr "以下の条件が満たられると、メッセージを自動的にユーザーに送信します"
 
-#: web/templates/page/index.html.eex:24
+#: web/templates/page/index.html.eex:22
 msgid "Please input your website URL"
 msgstr "貴方のサイトのURLを入力してください"
 
-#: web/templates/page/index.html.eex:9
+#: web/templates/page/index.html.eex:7
 msgid "A better tool to chat with your customers"
 msgstr "シンプルで高機能なチャット接客ツール"
 
-#: web/templates/page/index.html.eex:13
+#: web/templates/page/index.html.eex:51
 msgid "Convert visitors to customers by chat"
 msgstr "コンバージョン率を上げる"
 
-#: web/templates/page/index.html.eex:11
+#: web/templates/page/index.html.eex:39
 msgid "Customers support: simple, prompt, personal"
 msgstr "問い合わせの数を増やす"
 
-#: web/templates/page/index.html.eex:12
+#: web/templates/page/index.html.eex:45
 msgid "Get high quality feedback from customers"
 msgstr "顧客満足度を向上させる"
 
@@ -266,3 +266,15 @@ msgstr "全てのURL"
 #: web/templates/auto_message_config/new.html.eex:7
 msgid "Back"
 msgstr "戻る"
+
+#: web/templates/page/index.html.eex:34
+msgid "Benefits"
+msgstr "ベネフィット"
+
+#: web/templates/page/index.html.eex:84
+msgid "Get Start Now"
+msgstr "今すぐ登録"
+
+#: web/templates/page/index.html.eex:59
+msgid "Use Cases"
+msgstr "利用ケース"
