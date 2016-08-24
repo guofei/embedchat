@@ -92,28 +92,34 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   defp create_or_update_visitor(email) do
-    case Repo.get_by(Visitor, email: email) do
-      nil  -> %Visitor{}
-      visitor -> visitor
-    end
+    struct =
+      case Repo.get_by(Visitor, email: email) do
+        nil  -> %Visitor{}
+        visitor -> visitor
+      end
+    struct
     |> Visitor.changeset(%{email: email})
     |> Repo.insert_or_update
   end
 
   defp create_or_update_address(uuid, room_id, user_id, visitor_id) when is_nil(visitor_id) do
-    case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
-      nil  -> %Address{}
-      address -> address
-    end
+    struct =
+      case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
+        nil  -> %Address{}
+        address -> address
+      end
+    struct
     |> Address.changeset(%{room_id: room_id, uuid: uuid, user_id: user_id})
     |> Repo.insert_or_update
   end
 
   defp create_or_update_address(uuid, room_id, user_id, visitor_id) do
-    case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
-      nil  -> %Address{}
-      address -> address
-    end
+    struct =
+      case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
+        nil  -> %Address{}
+        address -> address
+      end
+    struct
     |> Address.changeset(%{room_id: room_id, uuid: uuid, user_id: user_id, visitor_id: visitor_id})
     |> Repo.insert_or_update
   end
@@ -181,8 +187,11 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   def visitor_update_online(room_id, distinct_id, name) do
     {:ok, bkt} = visitor_bucket(room_id)
-    if %{id: id, name: _} = Bucket.get(bkt, distinct_id) do
-      Bucket.put(bkt, distinct_id, %{id: id, name: name})
+    case Bucket.get(bkt, distinct_id) do
+      %{id: id, name: _} ->
+        Bucket.put(bkt, distinct_id, %{id: id, name: name})
+      _ ->
+        nil
     end
   end
 
