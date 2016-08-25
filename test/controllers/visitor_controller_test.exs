@@ -3,7 +3,7 @@ defmodule EmbedChat.VisitorControllerTest do
 
   alias EmbedChat.Visitor
   @valid_attrs %{email: "some@content", name: "some content", note: "some content"}
-  @invalid_attrs %{}
+  @invalid_attrs %{email: "nonmail"}
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}

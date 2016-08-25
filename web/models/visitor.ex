@@ -16,7 +16,7 @@ defmodule EmbedChat.Visitor do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :email, :note])
-    |> validate_required([:email])
+    |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
   end
 end
