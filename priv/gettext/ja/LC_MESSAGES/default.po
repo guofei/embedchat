@@ -195,7 +195,7 @@ msgstr "貴方のサイトのURLを入力してください"
 msgid "A better tool to chat with your customers"
 msgstr "シンプルで高機能なチャット接客ツール"
 
-#: web/templates/page/index.html.eex:51
+#: web/templates/page/index.html.eex:53
 msgid "Convert visitors to customers by chat"
 msgstr "コンバージョン率を上げる"
 
@@ -203,7 +203,7 @@ msgstr "コンバージョン率を上げる"
 msgid "Customers support: simple, prompt, personal"
 msgstr "問い合わせの数を増やす"
 
-#: web/templates/page/index.html.eex:45
+#: web/templates/page/index.html.eex:46
 msgid "Get high quality feedback from customers"
 msgstr "顧客満足度を向上させる"
 
@@ -271,10 +271,46 @@ msgstr "戻る"
 msgid "Benefits"
 msgstr "ベネフィット"
 
-#: web/templates/page/index.html.eex:84
+#: web/templates/page/index.html.eex:100
 msgid "Get Start Now"
 msgstr "今すぐ登録"
 
-#: web/templates/page/index.html.eex:59
+#: web/templates/page/index.html.eex:63
 msgid "Use Cases"
 msgstr "利用ケース"
+
+#: web/templates/page/index.html.eex:48
+msgid "Compared to email, communications in chat software are real-time, which will allow you to respond to customers right when they have questions and increase customer’s satisfaction."
+msgstr "チャットによるコミュニケーションは、メールや問い合わせフォームより、リアルタイム性が高いです。顧客は疑問を抱えているそのタイミングでサポート担当者とやりとりし、迅速な対応ができて、高い満足度に繋がります。"
+
+#: web/templates/page/index.html.eex:69
+msgid "E-commerce website"
+msgstr "EC・アパレルサイト"
+
+#: web/templates/page/index.html.eex:83
+msgid "For emerging websites and new startups, you can use it as a growth hacking tool that allows you to speak directly with your customer and get to know how customers use the site."
+msgstr "新規Webサービスやスタートアップ企業のグロースハックツールとして提供できます、ユーザーの利用状況を把握した上で迅速で快適なユーザーとのコミュニケーションを取ることで、Webサービスのグロースに繋がります。"
+
+#: web/templates/page/index.html.eex:93
+msgid "For personal affiliate sites, you can also use it as a tool to improve affiliate click rate and conversion rate. Even if you’re not online when the customer contacts you, you can still respond later."
+msgstr "個人で運営しているアフィリエイトサイトなどでもアフィリリンクのクリック率・コンバージョン率をアップするツールとして利用することができます。不在時でもメッセージを受け取り、後で返信することができます。"
+
+#: web/templates/page/index.html.eex:79
+msgid "Growth hacking tool"
+msgstr "グロースハックツール"
+
+#: web/templates/page/index.html.eex:89
+msgid "Personal site"
+msgstr "アフィリエイトサイト"
+
+#: web/templates/page/index.html.eex:41
+msgid "Use this chat software and you can respond quickly when customers want to ask something. Additionally, real-time response can help your customers know that your website is reliable."
+msgstr "チャットを使ってサポートすることで、顧客の「ちょっと聞きたい」というニーズに対応することができます。また、リアルタイムに対応するサポート窓口があることで、ウェブサービスの信頼性向上にも繋がります。"
+
+#: web/templates/page/index.html.eex:55
+msgid "Using software can increase your website’s conversion rate and attract more users and improve user experience. You can also check in with your customers using the chat software.\n"
+msgstr "チャットによって、サイトに離脱する前にユーザーを目的のページに誘導し、コンバージョン率を向上させることができます。さらに、ユーザの要望を聞き出し、ユーザーの拡大やユーザー体験の向上などにも繋がります。"
+
+#: web/templates/page/index.html.eex:73
+msgid "We can provide service to make customers feel like they’re buying something in a brick-and-mortar store, which will make customers feel more secure while real-time responses improve customer engagement. Which, in turn, will improve sales."
+msgstr "チャットサポートは、実店舗のような購入体験をECサイトでも提供でき、ECサイトの安心感をつくりだすこともできます。リアルタイムな対応がお客様とのエンゲージメントを高め、サイトの売り上げ向上に貢献します。"
