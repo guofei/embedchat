@@ -19,7 +19,21 @@ defmodule EmbedChat.TestHelpers do
     room
   end
 
+  def insert_room() do
+    user = insert_user
+    {_, room} = Repo.insert(%EmbedChat.Room{uuid: uuid()})
+    Repo.insert(%EmbedChat.UserRoom{user_id: user.id, room_id: room.id})
+    room
+  end
+
   def insert_address(user, room) do
+    {_, address} = Repo.insert(%EmbedChat.Address{user_id: user.id, uuid: uuid(), room_id: room.id})
+    address
+  end
+
+  def insert_address() do
+    user = insert_user
+    room = insert_room(user)
     {_, address} = Repo.insert(%EmbedChat.Address{user_id: user.id, uuid: uuid(), room_id: room.id})
     address
   end
