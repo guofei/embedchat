@@ -6,7 +6,14 @@ defmodule EmbedChat.VisitorControllerTest do
   @invalid_attrs %{email: "nonmail"}
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    user = insert_user(username: "test")
+    room = insert_room(user, %{})
+    address = insert_address(user, room)
+    conn =
+      conn
+      |> put_req_header("accept", "application/json")
+      |> assign(:current_user, user)
+    {:ok, conn: conn, address: address}
   end
 
   test "lists all entries on index", %{conn: conn} do
@@ -29,14 +36,14 @@ defmodule EmbedChat.VisitorControllerTest do
     end
   end
 
-  test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, visitor_path(conn, :create), visitor: @valid_attrs
+  test "creates and renders resource when data is valid", %{conn: conn, address: address} do
+    conn = post conn, visitor_path(conn, :create), visitor: @valid_attrs, uuid: address.uuid
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Visitor, @valid_attrs)
   end
 
-  test "does not create resource and renders errors when data is invalid", %{conn: conn} do
-    conn = post conn, visitor_path(conn, :create), visitor: @invalid_attrs
+  test "does not create resource and renders errors when data is invalid", %{conn: conn, address: address} do
+    conn = post conn, visitor_path(conn, :create), visitor: @invalid_attrs, uuid: address.uuid
     assert json_response(conn, 422)["errors"] != %{}
   end
 
