@@ -15,6 +15,7 @@ defmodule EmbedChat.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug EmbedChat.AuthAPI, repo: EmbedChat.Repo
   end
 
   scope "/", EmbedChat do

@@ -3,8 +3,6 @@ defmodule EmbedChat.VisitorController do
 
   alias EmbedChat.Visitor
 
-  plug :authenticate_user when action in [:create, :update, :delete]
-
   def index(conn, _params) do
     visitors = Repo.all(Visitor)
     render(conn, "index.json", visitors: visitors)

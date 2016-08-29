@@ -26,7 +26,7 @@ defmodule EmbedChat.Auth do
   end
 
   defp put_current_user(conn, user) do
-    token = Phoenix.Token.sign(conn, "user socket", user.id)
+    token = Phoenix.Token.sign(conn, "user", user.id)
 
     conn
     |> assign(:current_user, user)

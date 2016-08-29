@@ -28,7 +28,7 @@ defmodule EmbedChat.UserSocket do
   def connect(%{"token" => token, "distinct_id" => distinct_id}, socket) do
     case Ecto.UUID.cast(distinct_id) do
       {:ok, distinct_id} ->
-        case Phoenix.Token.verify(socket, "user socket", token, max_age: @max_age) do
+        case Phoenix.Token.verify(socket, "user", token, max_age: @max_age) do
           {:ok, user_id} ->
             {:ok,
              socket
