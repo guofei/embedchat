@@ -8,7 +8,7 @@ defmodule EmbedChat.VisitorController do
     render(conn, "index.json", visitors: visitors)
   end
 
-  def create(conn, %{"visitor" => visitor_params}) do
+  def create(conn, %{"visitor" => visitor_params, "uuid" => uuid}) do
     changeset = Visitor.changeset(%Visitor{}, visitor_params)
 
     case Repo.insert(changeset) do
