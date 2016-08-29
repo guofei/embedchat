@@ -4,6 +4,7 @@
   "cf": {:hex, :cf, "0.2.1", "69d0b1349fd4d7d4dc55b7f407d29d7a840bf9a1ef5af529f1ebe0ce153fc2ab", [:rebar3], []},
   "comeonin": {:hex, :comeonin, "2.5.2", "bbad773af30a7632a63053014d5cfebf6df2c1ad114167b4db02f05b5c60901b", [:mix, :make, :make], []},
   "connection": {:hex, :connection, "1.0.4", "a1cae72211f0eef17705aaededacac3eb30e6625b04a6117c1b2db6ace7d5976", [:mix], []},
+  "cors_plug": {:hex, :cors_plug, "1.1.2", "3e7451286996f745c7b629c39d24a6493e59b0c8191f27e67f6ab097f96ffd23", [:mix], [{:cowboy, "~> 1.0.0", [hex: :cowboy, optional: false]}, {:plug, "> 0.8.0", [hex: :plug, optional: false]}]},
   "cowboy": {:hex, :cowboy, "1.0.4", "a324a8df9f2316c833a470d918aaf73ae894278b8aa6226ce7a9bf699388f878", [:rebar, :make], [{:cowlib, "~> 1.0.0", [hex: :cowlib, optional: false]}, {:ranch, "~> 1.0", [hex: :ranch, optional: false]}]},
   "cowlib": {:hex, :cowlib, "1.0.2", "9d769a1d062c9c3ac753096f868ca121e2730b9a377de23dec0f7e08b1df84ee", [:make], []},
   "credo": {:hex, :credo, "0.4.11", "03a64e9d53309b7132556284dda0be57ba1013885725124cfea7748d740c6170", [:mix], [{:bunt, "~> 0.1.6", [hex: :bunt, optional: false]}]},

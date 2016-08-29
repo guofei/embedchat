@@ -35,5 +35,6 @@ defmodule EmbedChat.Endpoint do
     key: "_embed_chat_key",
     signing_salt: "vyCqNltg"
 
+  plug CORSPlug
   plug EmbedChat.Router
 end

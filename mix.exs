@@ -36,6 +36,7 @@ defmodule EmbedChat.Mixfile do
     [{:comeonin, "~> 2.5"},
      {:cowboy, "~> 1.0"},
      {:credo, "~> 0.4", only: [:dev, :test]},
+     {:cors_plug, "~> 1.1"},
      # exometer start
      {:elixometer, "~>1.2"},
      {:exometer_core, github: "PSPDFKit-Labs/exometer_core", override: true},
