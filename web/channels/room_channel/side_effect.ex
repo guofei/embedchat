@@ -21,7 +21,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   def create_visitor(uuid, room_id, email) do
     with {:ok, visitor} <- create_or_update_visitor(email) do
       create_or_update_address(uuid, room_id, nil, visitor.id)
-      {:ok, visitor}
     end
   end
 
@@ -143,7 +142,14 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   def address_name(address) do
     address = Repo.preload(address, [:visitor])
     if address.visitor do
-      address.visitor.email
+      cond do
+        address.visitor.name ->
+          address.visitor.name
+        address.visitor.email ->
+          address.visitor.email
+        true ->
+          address.uuid
+      end
     else
       address.uuid
     end
@@ -153,6 +159,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   @max_online_size 20
   @max_user_log 20
 
+  # return %{"uuid1" => %{id: id, name: name}, "uuid2" => %{id: id, name: name}}
   def offline_visitors(room_id) do
     {:ok, bkt} = visitor_bucket(room_id)
     onlines = Bucket.map(bkt)
@@ -163,36 +170,26 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     |> Ecto.Query.preload([:visitor])
     |> Repo.all
     |> Enum.filter(fn address -> !Map.has_key?(onlines, address.uuid) end)
-    |> Enum.map(fn address ->
-      name = if address.visitor do
-          address.visitor.email
-        else
-          address.uuid
-        end
-      {address.uuid, %{id: address.id, name: name}}
-    end)
+    |> Enum.map(fn address -> {address.uuid, %{id: address.id, name: address_name(address)}} end)
     |> Enum.into(%{})
   end
 
   # return %{"uuid1" => %{id: id, name: name}, "uuid2" => %{id: id, name: name}}
   def online_visitors(room_id) do
     {:ok, bkt} = visitor_bucket(room_id)
-    Bucket.map(bkt)
+    map = Bucket.map(bkt)
+    id_list = Enum.map(map, fn {_k, v} -> v end)
+    Address
+    |> Address.where_in(room_id, id_list)
+    |> Ecto.Query.preload([:visitor])
+    |> Repo.all
+    |> Enum.map(fn address -> {address.uuid, %{id: address.id, name: address_name(address)}} end)
+    |> Enum.into(%{})
   end
 
   def visitor_online(room_id, distinct_id, address) do
     {:ok, bkt} = visitor_bucket(room_id)
-    Bucket.put(bkt, distinct_id, %{id: address.id, name: address_name(address)})
-  end
-
-  def visitor_update_online(room_id, distinct_id, name) do
-    {:ok, bkt} = visitor_bucket(room_id)
-    case Bucket.get(bkt, distinct_id) do
-      %{id: id, name: _} ->
-        Bucket.put(bkt, distinct_id, %{id: id, name: name})
-      _ ->
-        nil
-    end
+    Bucket.put(bkt, distinct_id, address.id)
   end
 
   def visitor_offline(room_id, distinct_id) do
@@ -200,6 +197,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     Bucket.delete(bkt, distinct_id)
   end
 
+  # return %{"uuid1" => %{id: id, name: name}, "uuid2" => %{id: id, name: name}}
   def online_admins(room_id) do
     {:ok, bkt} = admin_bucket(room_id)
     Bucket.map(bkt)

@@ -41,6 +41,11 @@ defmodule EmbedChat.Address do
       limit: ^limit
   end
 
+  def where_in(query, room_id, ids) when is_list(ids) do
+    from a in query,
+      where: a.id in ^ids and a.room_id == ^room_id
+  end
+
   def latest_for_room(query, room_id) do
     latest_for_room(query, room_id, 1)
   end

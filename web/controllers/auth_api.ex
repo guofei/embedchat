@@ -6,11 +6,10 @@ defmodule EmbedChat.AuthAPI do
   end
 
   def call(conn, repo) do
-    cond do
-      conn.assigns[:current_user] ->
-        conn
-      true ->
-        conn |> validate_token(conn.params["token"], repo)
+    if conn.assigns[:current_user] do
+      conn
+    else
+      conn |> validate_token(conn.params["token"], repo)
     end
   end
 

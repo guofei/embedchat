@@ -114,8 +114,7 @@ defmodule EmbedChat.RoomChannel do
       type: MessageType.email_response
     }
     SideEffect.create_message(param)
-    {:ok, visitor} = SideEffect.create_visitor(socket.assigns.distinct_id, room_id, email)
-    SideEffect.visitor_update_online(room_id, socket.assigns.distinct_id, visitor.email)
+    SideEffect.create_visitor(socket.assigns.distinct_id, room_id, email)
     {:noreply, socket}
   end
 
