@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.2.0/material.cyan-blue.min.css" />
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="alternate" hreflang="en" href=<%= current_locale_url(@conn, "en") %> />
+    <link rel="alternate" hreflang="ja" href=<%= current_locale_url(@conn, "ja") %> />
     <%= render "track.html" %>
   </head>
 
