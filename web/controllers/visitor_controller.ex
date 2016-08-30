@@ -1,6 +1,8 @@
 defmodule EmbedChat.VisitorController do
   use EmbedChat.Web, :controller
 
+  alias EmbedChat.Address
+  alias EmbedChat.Repo
   alias EmbedChat.Visitor
 
   def index(conn, _params) do
@@ -10,9 +12,12 @@ defmodule EmbedChat.VisitorController do
 
   def create(conn, %{"visitor" => visitor_params, "uuid" => uuid, "room_id" => room_id}) do
     changeset = Visitor.changeset(%Visitor{}, visitor_params)
-
+    address = Repo.get_by!(Address, room_id: room_id, uuid: uuid)
     case Repo.insert(changeset) do
       {:ok, visitor} ->
+        address
+        |> Address.changeset(%{room_id: room_id, uuid: uuid, visitor_id: visitor.id})
+        |> Repo.update
         conn
         |> put_status(:created)
         |> put_resp_header("location", visitor_path(conn, :show, visitor))
