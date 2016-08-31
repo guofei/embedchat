@@ -71,7 +71,7 @@ function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
   return (
     <Paper zDepth={1}>
       <Toolbar>
-        <ToolbarTitle text="User" />
+        <ToolbarTitle text="Visitor" />
       </Toolbar>
       <List>
         <Subheader>Online</Subheader>

@@ -3,8 +3,17 @@ import ReactDOM from 'react-dom';
 import moment from 'moment';
 
 import Paper from 'material-ui/Paper';
-import { Toolbar, ToolbarTitle } from 'material-ui/Toolbar';
+import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar';
 import { List } from 'material-ui/List';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
+import IconButton from 'material-ui/IconButton';
+import FlatButton from 'material-ui/FlatButton';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import IconMenu from 'material-ui/IconMenu';
+import Person from 'material-ui/svg-icons/social/person';
+import Timeline from 'material-ui/svg-icons/action/Timeline';
+
 
 import ItemWithDialog from '../common/item-with-dialog';
 
@@ -61,7 +70,17 @@ class AccessLogs extends React.Component {
     return (
       <Paper zDepth={1}>
         <Toolbar>
-          <ToolbarTitle text="AccessLog" />
+          <ToolbarTitle text="Detail" />
+            <ToolbarGroup>
+              <IconMenu
+                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+              >
+                <MenuItem primaryText="Log" leftIcon={<Timeline />} />
+                <MenuItem primaryText="Visitor" leftIcon={<Person />} />
+              </IconMenu>
+            </ToolbarGroup>
         </Toolbar>
         <div
           ref="logs"
