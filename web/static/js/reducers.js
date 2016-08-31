@@ -41,6 +41,7 @@ let state_tree = {
       id: 1,
       uid: 'xxx-xxx-xxx',
       name: 'name',
+      email: 'email' or null
       online: false,
       admin: false,
     },

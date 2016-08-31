@@ -139,6 +139,15 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     Repo.get_by(Address, uuid: distinct_id, room_id: room_id)
   end
 
+  def address_email(address) do
+    address = Repo.preload(address, [:visitor])
+    if address.visitor do
+      address.visitor.email
+    else
+      nil
+    end
+  end
+
   def address_name(address) do
     address = Repo.preload(address, [:visitor])
     if address.visitor do
@@ -159,7 +168,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   @max_online_size 20
   @max_user_log 20
 
-  # return %{"uuid1" => %{id: id, name: name}, "uuid2" => %{id: id, name: name}}
+  # return %{"uuid1" => %{id: id, name: name, email: "name@domain"}, "uuid2" => %{id: id, name: name, email: nil}}
   def offline_visitors(room_id) do
     {:ok, bkt} = visitor_bucket(room_id)
     onlines = Bucket.map(bkt)
@@ -170,11 +179,11 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     |> Ecto.Query.preload([:visitor])
     |> Repo.all
     |> Enum.filter(fn address -> !Map.has_key?(onlines, address.uuid) end)
-    |> Enum.map(fn address -> {address.uuid, %{id: address.id, name: address_name(address)}} end)
+    |> Enum.map(fn a -> {a.uuid, %{id: a.id, name: address_name(a), email: address_email(a)}} end)
     |> Enum.into(%{})
   end
 
-  # return %{"uuid1" => %{id: id, name: name}, "uuid2" => %{id: id, name: name}}
+  # return %{"uuid1" => %{id: id, name: name, email: "name@domain"}, "uuid2" => %{id: id, name: name, email: nil}}
   def online_visitors(room_id) do
     {:ok, bkt} = visitor_bucket(room_id)
     map = Bucket.map(bkt)
@@ -183,7 +192,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     |> Address.where_in(room_id, id_list)
     |> Ecto.Query.preload([:visitor])
     |> Repo.all
-    |> Enum.map(fn address -> {address.uuid, %{id: address.id, name: address_name(address)}} end)
+    |> Enum.map(fn a -> {a.uuid, %{id: a.id, name: address_name(a), email: address_email(a)}} end)
     |> Enum.into(%{})
   end
 

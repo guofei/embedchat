@@ -70,6 +70,7 @@ defmodule EmbedChat.RoomChannel do
       uid: distinct_id,
       id: address.id,
       name: SideEffect.address_name(address),
+      email: SideEffect.address_email(address),
       info: View.render(UserLogView, "user_log.json", user_log: log)
     }
     broadcast! socket, "user_join", resp

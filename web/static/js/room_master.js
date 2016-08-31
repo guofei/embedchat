@@ -60,7 +60,7 @@ function masterRoom(socket, roomID, distinctID, store) {
       });
 
       channel.on(userJoin, (user) => {
-        const newUser = { uid: user.uid, id: user.id, name: user.name };
+        const newUser = { uid: user.uid, id: user.id, name: user.name, email: user.email };
         store.dispatch(receiveUserOnline(newUser));
         if (user.info) {
           const accesslog = Object.assign({}, user.info, { uid: user.uid });
@@ -80,7 +80,8 @@ function masterRoom(socket, roomID, distinctID, store) {
                 const newUsers = [];
                 for (const key in users) {
                   if (users.hasOwnProperty(key)) {
-                    const user = { uid: key, id: users[key].id, name: users[key].name };
+                    const info = users[key];
+                    const user = { uid: key, id: info.id, name: info.name, email: info.email };
                     newUsers.push(user);
                   }
                 }
@@ -92,7 +93,7 @@ function masterRoom(socket, roomID, distinctID, store) {
                 for (const key in offlineUsers) {
                   if (offlineUsers.hasOwnProperty(key)) {
                     const info = offlineUsers[key];
-                    const user = { uid: key, id: info.id, name: info.name };
+                    const user = { uid: key, id: info.id, name: info.name, email: info.email };
                     newUsers.push(user);
                   }
                 }
