@@ -1,14 +1,11 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import moment from 'moment';
 
 import Paper from 'material-ui/Paper';
 import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar';
 import { List } from 'material-ui/List';
-import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
-import FlatButton from 'material-ui/FlatButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import IconMenu from 'material-ui/IconMenu';
 import Person from 'material-ui/svg-icons/social/person';
@@ -18,7 +15,7 @@ import Timeline from 'material-ui/svg-icons/action/Timeline';
 import ItemWithDialog from '../common/item-with-dialog';
 
 const styles = {
-  logs: {
+  content: {
     overflow: 'auto',
     minHeight: '300px',
     maxHeight: '600px',
@@ -40,33 +37,45 @@ function LogContent({ log }) {
 }
 
 class AccessLogs extends React.Component {
-  componentDidMount() {
-    this.scrollLogs();
+  constructor(props) {
+    super(props);
+
+    this.handleMenuChange = this.handleMenuChange.bind(this);
   }
 
-  componentDidUpdate() {
-    this.scrollLogs();
-  }
-
-  scrollLogs() {
-    const node = ReactDOM.findDOMNode(this.refs.logs);
-    if (node) {
-      node.scrollTop = node.scrollHeight;
-    }
+  handleMenuChange(event, value) {
+    this.props.onSelectedMenu(value);
   }
 
   render() {
-    const logs = this.props.logs.map((log) =>
-      (
-        <ItemWithDialog
-          key={log.id}
-          title={log.current_url}
-          moment={moment.utc(log.inserted_at).fromNow()}
-        >
-          <LogContent log={log} />
-        </ItemWithDialog>
-      )
+    let content = (
+      <div style={styles.content} ></div>
     );
+    if (this.props.selectedMenu === 'log') {
+      const logs = this.props.logs.map((log) =>
+        (
+          <ItemWithDialog
+            key={log.id}
+            title={log.current_url}
+            moment={moment.utc(log.inserted_at).fromNow()}
+          >
+            <LogContent log={log} />
+          </ItemWithDialog>
+        )
+      );
+      content = (
+        <div style={styles.content} >
+          <List>
+            { logs }
+          </List>
+        </div>
+      );
+    } else if (this.props.selectedMenu === 'profile') {
+      content = (
+        <div style={styles.content} >
+        </div>
+      );
+    }
     return (
       <Paper zDepth={1}>
         <Toolbar>
@@ -74,30 +83,26 @@ class AccessLogs extends React.Component {
             <ToolbarGroup>
               <IconMenu
                 iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                onChange={this.handleMenuChange}
                 anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                 targetOrigin={{ horizontal: 'left', vertical: 'top' }}
               >
-                <MenuItem primaryText="Log" leftIcon={<Timeline />} />
-                <MenuItem primaryText="Visitor" leftIcon={<Person />} />
+                <MenuItem value="log" primaryText="Log" leftIcon={<Timeline />} />
+                <MenuItem value="profile" primaryText="Profile" leftIcon={<Person />} />
               </IconMenu>
             </ToolbarGroup>
         </Toolbar>
-        <div
-          ref="logs"
-          style={styles.logs}
-        >
-          <List>
-            { logs }
-          </List>
-        </div>
+        {content}
       </Paper>
     );
   }
 }
 
 AccessLogs.propTypes = {
+  selectedMenu: React.PropTypes.string.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   logs: React.PropTypes.array.isRequired,
+  onSelectedMenu: React.PropTypes.func.isRequired,
 };
 
 export default AccessLogs;

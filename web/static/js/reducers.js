@@ -8,6 +8,7 @@ import {
   CURRENT_USER,
   CURRENT_USER_EMAIL,
   SELECT_USER,
+  SELECT_USER_DETAIL_MENU,
   RECEIVE_USER_ONLINE,
   RECEIVE_USER_OFFLINE,
   RECEIVE_MULTI_USERS_ONLINE,
@@ -65,6 +66,7 @@ let state_tree = {
   currentUser: 'xxx-xxx-xxx',
   currentUserEmail: 'email@domain.com',
   selectedUser: 'xxx-xxx-xxx',
+  selectedUserDetailMenu: 'log', // 'log' or 'profile'
   openChat: false,
 }
 */
@@ -73,6 +75,15 @@ function openChat(state = false, action) {
   switch (action.type) {
     case OPEN_CHAT:
       return action.open;
+    default:
+      return state;
+  }
+}
+
+function selectedUserDetailMenu(state = 'log', action) {
+  switch (action.type) {
+    case SELECT_USER_DETAIL_MENU:
+      return action.menu;
     default:
       return state;
   }
@@ -205,6 +216,7 @@ const chatApp = combineReducers({
   currentUser,
   currentUserEmail,
   selectedUser,
+  selectedUserDetailMenu,
   users,
   messages,
   logs,

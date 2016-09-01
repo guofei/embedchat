@@ -11,6 +11,7 @@ import Messages from './webmaster/messages';
 import EmptyMessage from './webmaster/empty-message';
 import AccessLogs from './webmaster/access-logs';
 
+import { selectUserDetailMenu } from '../actions';
 import { objectToArray } from '../utils';
 
 // injectTapEventPlugin();
@@ -34,6 +35,7 @@ class ChatWebmaster extends React.Component {
     this.handleInputMessage = this.handleInputMessage.bind(this);
     this.handleSelectUser = this.handleSelectUser.bind(this);
     this.handleCloseMessages = this.handleCloseMessages.bind(this);
+    this.handleSelectUserDetailMenu = this.handleSelectUserDetailMenu.bind(this);
   }
 
   componentDidMount() {
@@ -50,13 +52,18 @@ class ChatWebmaster extends React.Component {
     this.props.room.selectUser(uid);
   }
 
+  handleSelectUserDetailMenu(menu) {
+    this.props.dispatch(selectUserDetailMenu(menu));
+  }
+
   handleCloseMessages() {
     this.props.room.selectUser('');
   }
 
   render() {
     const {
-      onlineUsers, offlineUsers, messages, allUsers, currentUser, selectedUser, logs,
+      onlineUsers, offlineUsers, messages, allUsers,
+      currentUser, selectedUser, logs, selectedUserDetailMenu,
     } = this.props;
 
     let msgElement = (<EmptyMessage />);
@@ -90,6 +97,8 @@ class ChatWebmaster extends React.Component {
           <div className="mdl-cell mdl-cell--3-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
             <AccessLogs
               currentUser={currentUser}
+              onSelectedMenu={this.handleSelectUserDetailMenu}
+              selectedMenu={selectedUserDetailMenu}
               logs={logs}
             />
           </div>
@@ -119,6 +128,7 @@ ChatWebmaster.propTypes = {
   allUsers: React.PropTypes.object.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   selectedUser: React.PropTypes.string.isRequired,
+  selectedUserDetailMenu: React.PropTypes.string.isRequired,
   logs: React.PropTypes.array.isRequired,
 };
 
@@ -174,6 +184,7 @@ function select(state) {
     logs: objectToArray(state.logs).filter(x => x.uid === selected).sort((a, b) => b.id - a.id),
     currentUser: current,
     selectedUser: selected,
+    selectedUserDetailMenu: state.selectedUserDetailMenu,
   };
 }
 
