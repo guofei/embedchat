@@ -6,7 +6,7 @@ import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar';
 import { List } from 'material-ui/List';
 import MenuItem from 'material-ui/MenuItem';
 import IconButton from 'material-ui/IconButton';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import IconMenu from 'material-ui/IconMenu';
 import Person from 'material-ui/svg-icons/social/person';
 import Timeline from 'material-ui/svg-icons/action/Timeline';
@@ -36,7 +36,45 @@ function LogContent({ log }) {
   );
 }
 
-class AccessLogs extends React.Component {
+function Profile({}) {
+  return (
+    <div style={styles.content} >
+    </div>
+  );
+}
+
+function Logs({ allLogs }) {
+  const logs = allLogs.map((log) =>
+    (
+      <ItemWithDialog
+        key={log.id}
+        title={log.current_url}
+        moment={moment.utc(log.inserted_at).fromNow()}
+      >
+        <LogContent log={log} />
+      </ItemWithDialog>
+    )
+  );
+  return (
+    <div style={styles.content} >
+      <List>
+        { logs }
+      </List>
+    </div>
+  );
+}
+
+function menuName(menu) {
+  let title = 'Detail';
+  if (menu === 'log') {
+    title = 'Log';
+  } else if (menu === 'profile') {
+    title = 'Profile';
+  }
+  return title;
+}
+
+class UserDetail extends React.Component {
   constructor(props) {
     super(props);
 
@@ -48,41 +86,22 @@ class AccessLogs extends React.Component {
   }
 
   render() {
-    let content = (
-      <div style={styles.content} ></div>
-    );
-    if (this.props.selectedMenu === 'log') {
-      const logs = this.props.logs.map((log) =>
-        (
-          <ItemWithDialog
-            key={log.id}
-            title={log.current_url}
-            moment={moment.utc(log.inserted_at).fromNow()}
-          >
-            <LogContent log={log} />
-          </ItemWithDialog>
-        )
-      );
-      content = (
-        <div style={styles.content} >
-          <List>
-            { logs }
-          </List>
-        </div>
-      );
-    } else if (this.props.selectedMenu === 'profile') {
-      content = (
-        <div style={styles.content} >
-        </div>
-      );
+    const { selectedMenu, logs } = this.props;
+
+    let content = (<div style={styles.content} ></div>);
+    if (selectedMenu === 'log') {
+      content = (<Logs allLogs={logs} />);
+    } else if (selectedMenu === 'profile') {
+      content = (<Profile/>);
     }
+
     return (
       <Paper zDepth={1}>
         <Toolbar>
-          <ToolbarTitle text="Detail" />
+          <ToolbarTitle text={ menuName(selectedMenu) } />
             <ToolbarGroup>
               <IconMenu
-                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                iconButtonElement={<IconButton><NavigationExpandMoreIcon /></IconButton>}
                 onChange={this.handleMenuChange}
                 anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                 targetOrigin={{ horizontal: 'left', vertical: 'top' }}
@@ -98,11 +117,11 @@ class AccessLogs extends React.Component {
   }
 }
 
-AccessLogs.propTypes = {
+UserDetail.propTypes = {
   selectedMenu: React.PropTypes.string.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   logs: React.PropTypes.array.isRequired,
   onSelectedMenu: React.PropTypes.func.isRequired,
 };
 
-export default AccessLogs;
+export default UserDetail;
