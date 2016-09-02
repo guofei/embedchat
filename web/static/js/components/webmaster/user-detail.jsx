@@ -10,6 +10,8 @@ import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-mo
 import IconMenu from 'material-ui/IconMenu';
 import Person from 'material-ui/svg-icons/social/person';
 import Timeline from 'material-ui/svg-icons/action/Timeline';
+import TextField from 'material-ui/TextField';
+import FlatButton from 'material-ui/FlatButton';
 
 
 import ItemWithDialog from '../common/item-with-dialog';
@@ -19,6 +21,10 @@ const styles = {
     overflow: 'auto',
     minHeight: '300px',
     maxHeight: '600px',
+  },
+  profile: {
+    padding: '4px 24px 10px',
+    margin: 0,
   },
 };
 
@@ -39,6 +45,25 @@ function LogContent({ log }) {
 function Profile({}) {
   return (
     <div style={styles.content} >
+      <div style={styles.profile}>
+        <TextField
+          fullWidth
+          hintText="Name"
+        />
+        <TextField
+          fullWidth
+          hintText="Email"
+        />
+        <TextField
+          fullWidth
+          multiLine
+          hintText="Note"
+          floatingLabelText="Note"
+        />
+      </div>
+      <center>
+        <FlatButton label="Update" primary />
+      </center>
     </div>
   );
 }
