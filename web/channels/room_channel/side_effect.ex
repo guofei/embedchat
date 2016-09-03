@@ -109,7 +109,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       end
     struct
     |> Address.changeset(%{room_id: room_id, uuid: uuid, user_id: user_id})
-    |> Repo.insert_or_update
+    |> Repo.insert_or_update(force: true)
   end
 
   defp create_or_update_address(uuid, room_id, user_id, visitor_id) do
