@@ -10,11 +10,10 @@ import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-mo
 import IconMenu from 'material-ui/IconMenu';
 import Person from 'material-ui/svg-icons/social/person';
 import Timeline from 'material-ui/svg-icons/action/Timeline';
-import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
 
 
 import ItemWithDialog from '../common/item-with-dialog';
+import Profile from './profile';
 
 const styles = {
   content: {
@@ -38,32 +37,6 @@ function LogContent({ log }) {
       ScreenHeight: {log.screen_height}<br/>
       PageView: {log.total_page_view}<br/>
       Time: {moment.utc(log.inserted_at).fromNow()}
-    </div>
-  );
-}
-
-function Profile({}) {
-  return (
-    <div style={styles.content} >
-      <div style={styles.profile}>
-        <TextField
-          fullWidth
-          hintText="Name"
-        />
-        <TextField
-          fullWidth
-          hintText="Email"
-        />
-        <TextField
-          fullWidth
-          multiLine
-          hintText="Note"
-          floatingLabelText="Note"
-        />
-      </div>
-      <center>
-        <FlatButton label="Update" primary />
-      </center>
     </div>
   );
 }
@@ -111,13 +84,13 @@ class UserDetail extends React.Component {
   }
 
   render() {
-    const { selectedMenu, logs } = this.props;
+    const { selectedMenu, logs, user } = this.props;
 
     let content = (<div style={styles.content} ></div>);
     if (selectedMenu === 'log') {
       content = (<Logs allLogs={logs} />);
     } else if (selectedMenu === 'profile') {
-      content = (<Profile/>);
+      content = (<div style={styles.content}><Profile user={user} /></div>);
     }
 
     return (
@@ -144,7 +117,7 @@ class UserDetail extends React.Component {
 
 UserDetail.propTypes = {
   selectedMenu: React.PropTypes.string.isRequired,
-  currentUser: React.PropTypes.string.isRequired,
+  user: React.PropTypes.object,
   logs: React.PropTypes.array.isRequired,
   onSelectedMenu: React.PropTypes.func.isRequired,
 };

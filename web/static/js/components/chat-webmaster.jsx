@@ -79,7 +79,6 @@ class ChatWebmaster extends React.Component {
         />
       );
     }
-
     const paper = (
         <div className="mdl-grid">
           <div className="mdl-cell mdl-cell--3-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
@@ -96,7 +95,7 @@ class ChatWebmaster extends React.Component {
           </div>
           <div className="mdl-cell mdl-cell--3-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
             <UserDetail
-              currentUser={currentUser}
+              user={Object.assign({}, allUsers[selectedUser])}
               onSelectedMenu={this.handleSelectUserDetailMenu}
               selectedMenu={selectedUserDetailMenu}
               logs={logs}
