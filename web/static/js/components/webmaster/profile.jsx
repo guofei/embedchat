@@ -14,7 +14,7 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
 
-    const user = this.props.user;
+    const { user } = this.props;
     const userName = user && user.name ? user.name : '';
     const userEmail = user && user.email ? user.email : '';
     const userNote = user && user.note ? user.note : '';
@@ -28,6 +28,20 @@ class Profile extends React.Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleNoteChange = this.handleNoteChange.bind(this);
+    this.handleTouchTap = this.handleTouchTap.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const user = nextProps.user;
+    const userName = user && user.name ? user.name : '';
+    const userEmail = user && user.email ? user.email : '';
+    const userNote = user && user.note ? user.note : '';
+
+    this.setState({
+      name: userName,
+      email: userEmail,
+      note: userNote,
+    });
   }
 
   handleNameChange(event) {
@@ -48,46 +62,51 @@ class Profile extends React.Component {
     });
   }
 
-  render() {
-    const user = this.props.user;
-    const userName = user && user.name ? user.name : '';
-    const userEmail = user && user.email ? user.email : '';
-    const userNote = user && user.note ? user.note : '';
+  handleTouchTap() {
+    console.log(this.state);
+  }
 
-    return (
-      <div>
-        <div style={styles.profile}>
-          <TextField
-            fullWidth
-            value={userName}
-            onChange={this.handleNameChange}
-            hintText="Name"
-          />
-          <TextField
-            fullWidth
-            value={userEmail}
-            onChange={this.handleEmailChange}
-            hintText="Email"
-          />
-          <TextField
-            fullWidth
-            multiLine
-            hintText="Note"
-            value={userNote}
-            onChange={this.handleNoteChange}
-            floatingLabelText="Note"
-          />
+  render() {
+    const { user } = this.props;
+
+    let profile = (<div></div>);
+    if (user && Object.keys(user).length > 0) {
+      profile = (
+        <div>
+          <div style={styles.profile}>
+            <TextField
+              fullWidth
+              value={this.state.name}
+              onChange={this.handleNameChange}
+              hintText="Name"
+            />
+            <TextField
+              fullWidth
+              value={this.state.email}
+              onChange={this.handleEmailChange}
+              hintText="Email"
+            />
+            <TextField
+              fullWidth
+              multiLine
+              hintText="Note"
+              value={this.state.note}
+              onChange={this.handleNoteChange}
+              floatingLabelText="Note"
+            />
+          </div>
+          <center>
+            <FlatButton label="Update" onTouchTap={this.handleTouchTap} primary />
+          </center>
         </div>
-        <center>
-          <FlatButton label="Update" primary />
-        </center>
-      </div>
-    );
+      );
+    }
+    return profile;
   }
 }
 
 Profile.propTypes = {
-  user: React.PropTypes.object,
+  user: React.PropTypes.object.isRequired,
 };
 
 export default Profile;
