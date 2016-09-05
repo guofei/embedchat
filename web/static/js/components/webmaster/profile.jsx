@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
+import { shortName } from '../../utils';
 
 const styles = {
   profile: {
@@ -15,9 +16,9 @@ class Profile extends React.Component {
     super(props);
 
     const { user } = this.props;
-    const userName = user && user.name ? user.name : '';
-    const userEmail = user && user.email ? user.email : '';
-    const userNote = user && user.note ? user.note : '';
+    const userName = user.name ? user.name : shortName(user.uid);
+    const userEmail = user.email ? user.email : '';
+    const userNote = user.note ? user.note : '';
 
     this.state = {
       name: userName,
@@ -33,9 +34,9 @@ class Profile extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     const user = nextProps.user;
-    const userName = user && user.name ? user.name : '';
-    const userEmail = user && user.email ? user.email : '';
-    const userNote = user && user.note ? user.note : '';
+    const userName = user.name ? user.name : shortName(user.uid);
+    const userEmail = user.email ? user.email : '';
+    const userNote = user.note ? user.note : '';
 
     this.setState({
       name: userName,

@@ -33,19 +33,19 @@ function messsageTime(msg) {
   return text;
 }
 
-function User({ name, uid, message, onSelected }) {
+function User({ name, email, uid, message, onSelected }) {
   return (
     <ListItem
       primaryText={
         <div>
-          {shortName(name)}
+          {shortName(name || email || uid)}
           <div style={styles.pullRight}>
             {messsageTime(message)}
           </div>
         </div>
       }
       secondaryText={messageText(message)}
-      leftAvatar={<Avatar>{avatar(name)}</Avatar>}
+      leftAvatar={<Avatar>{avatar(name || email || uid)}</Avatar>}
       onTouchTap={function touch() { onSelected(uid); }}
     />
   );
@@ -55,6 +55,7 @@ function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
   const onlines = onlineUsers.map((user) =>
     (<User key={user.uid}
       name={user.name}
+      email={user.email}
       uid={user.uid}
       message={user.message}
       onSelected={onUserSelected}
@@ -63,6 +64,7 @@ function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
   const offlines = offlineUsers.map((user) =>
     (<User key={user.uid}
       name={user.name}
+      email={user.email}
       uid={user.uid}
       message={user.message}
       onSelected={onUserSelected}

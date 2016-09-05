@@ -9,9 +9,31 @@ export function objectToArray(obj) {
   return Object.keys(obj).map((k) => obj[k]);
 }
 
+export function shortName(fullName) {
+  if (fullName && fullName.length > 0) {
+    if (fullName.includes('@')) {
+      return fullName;
+    }
+    return fullName.substring(0, 7);
+  }
+  const defaultName = 'unknown';
+  return defaultName.substring(0, 7);
+}
+
+export function avatar(fullName) {
+  if (fullName && fullName.length > 0) {
+    return shortName(fullName)[0].toUpperCase();
+  }
+  const defaultName = 'unknown';
+  return defaultName[0].toUpperCase();
+}
+
 export function userName(uuid, users, name = '') {
   if (users[uuid]) {
-    return users[uuid].name;
+    const user = users[uuid];
+    if (user.name || user.email) {
+      return user.name || user.email;
+    }
   }
   if (name) {
     return name;
@@ -19,23 +41,12 @@ export function userName(uuid, users, name = '') {
   return uuid;
 }
 
-export function shortName(fullName) {
-  if (fullName.length > 0) {
-    if (fullName.includes('@')) {
-      return fullName;
-    }
-    return fullName.substring(0, 7);
-  }
-  return 'unknown';
-}
-
-export function avatar(fullName) {
-  return shortName(fullName)[0].toUpperCase();
-}
-
 export function userShortName(uuid, users, name = '') {
   if (users[uuid]) {
-    return shortName(users[uuid].name);
+    const user = users[uuid];
+    if (user.name || user.email) {
+      return shortName(user.name || user.email);
+    }
   }
   if (name) {
     return shortName(name);
