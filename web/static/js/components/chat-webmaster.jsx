@@ -9,7 +9,7 @@ import Paper from 'material-ui/Paper';
 import UserLists from './webmaster/user-lists';
 import Messages from './webmaster/messages';
 import EmptyMessage from './webmaster/empty-message';
-import UserDetail from './webmaster/user-detail';
+import VisitorDetail from './webmaster/visitor-detail';
 
 import { selectUserDetailMenu } from '../actions';
 import { objectToArray } from '../utils';
@@ -94,8 +94,8 @@ class ChatWebmaster extends React.Component {
             {msgElement}
           </div>
           <div className="mdl-cell mdl-cell--3-col mdl-cell--8-col-tablet mdl-cell--4-col-phone">
-            <UserDetail
-              user={Object.assign({}, allUsers[selectedUser])}
+            <VisitorDetail
+              visitor={Object.assign({}, allUsers[selectedUser])}
               onSelectedMenu={this.handleSelectUserDetailMenu}
               selectedMenu={selectedUserDetailMenu}
               logs={logs}

@@ -15,10 +15,10 @@ class Profile extends React.Component {
   constructor(props) {
     super(props);
 
-    const { user } = this.props;
-    const userName = user.name ? user.name : shortName(user.uid);
-    const userEmail = user.email ? user.email : '';
-    const userNote = user.note ? user.note : '';
+    const { visitor } = this.props;
+    const userName = visitor.name ? visitor.name : shortName(visitor.uid);
+    const userEmail = visitor.email ? visitor.email : '';
+    const userNote = visitor.note ? visitor.note : '';
 
     this.state = {
       name: userName,
@@ -33,10 +33,10 @@ class Profile extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const user = nextProps.user;
-    const userName = user.name ? user.name : shortName(user.uid);
-    const userEmail = user.email ? user.email : '';
-    const userNote = user.note ? user.note : '';
+    const visitor = nextProps.visitor;
+    const userName = visitor.name ? visitor.name : shortName(visitor.uid);
+    const userEmail = visitor.email ? visitor.email : '';
+    const userNote = visitor.note ? visitor.note : '';
 
     this.setState({
       name: userName,
@@ -68,10 +68,10 @@ class Profile extends React.Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { visitor } = this.props;
 
     let profile = (<div></div>);
-    if (user && Object.keys(user).length > 0) {
+    if (visitor && Object.keys(visitor).length > 0) {
       profile = (
         <div>
           <div style={styles.profile}>
@@ -107,7 +107,7 @@ class Profile extends React.Component {
 }
 
 Profile.propTypes = {
-  user: React.PropTypes.shape({
+  visitor: React.PropTypes.shape({
     id: React.PropTypes.number.isRequired,
     uid: React.PropTypes.string.isRequired,
     name: React.PropTypes.string,

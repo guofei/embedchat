@@ -84,14 +84,14 @@ class UserDetail extends React.Component {
   }
 
   render() {
-    const { selectedMenu, logs, user } = this.props;
+    const { selectedMenu, logs, visitor } = this.props;
 
     let content = (<div style={styles.content} ></div>);
     if (selectedMenu === 'log') {
       content = (<Logs allLogs={logs} />);
     } else if (selectedMenu === 'profile') {
-      if (user && Object.keys(user).length > 0) {
-        content = (<div style={styles.content}><Profile user={user} /></div>);
+      if (visitor && Object.keys(visitor).length > 0) {
+        content = (<div style={styles.content}><Profile visitor={visitor} /></div>);
       } else {
         content = (<div style={styles.content}></div>);
       }
@@ -121,7 +121,7 @@ class UserDetail extends React.Component {
 
 UserDetail.propTypes = {
   selectedMenu: React.PropTypes.string.isRequired,
-  user: React.PropTypes.object,
+  visitor: React.PropTypes.object,
   logs: React.PropTypes.array.isRequired,
   onSelectedMenu: React.PropTypes.func.isRequired,
 };
