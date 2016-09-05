@@ -90,7 +90,11 @@ class UserDetail extends React.Component {
     if (selectedMenu === 'log') {
       content = (<Logs allLogs={logs} />);
     } else if (selectedMenu === 'profile') {
-      content = (<div style={styles.content}><Profile user={user} /></div>);
+      if (user && Object.keys(user).length > 0) {
+        content = (<div style={styles.content}><Profile user={user} /></div>);
+      } else {
+        content = (<div style={styles.content}></div>);
+      }
     }
 
     return (

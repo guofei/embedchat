@@ -151,16 +151,9 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   def address_name(address) do
     address = Repo.preload(address, [:visitor])
     if address.visitor do
-      cond do
-        address.visitor.name ->
-          address.visitor.name
-        address.visitor.email ->
-          address.visitor.email
-        true ->
-          address.uuid
-      end
+      address.visitor.name
     else
-      address.uuid
+      nil
     end
   end
 
