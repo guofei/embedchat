@@ -36,6 +36,7 @@ class ChatWebmaster extends React.Component {
     this.handleSelectUser = this.handleSelectUser.bind(this);
     this.handleCloseMessages = this.handleCloseMessages.bind(this);
     this.handleSelectUserDetailMenu = this.handleSelectUserDetailMenu.bind(this);
+    this.handleUpdateVisitorInfo = this.handleUpdateVisitorInfo.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +47,10 @@ class ChatWebmaster extends React.Component {
     if (this.props.selectedUser) {
       this.props.room.send(inputText, this.props.selectedUser);
     }
+  }
+
+  handleUpdateVisitorInfo() {
+    // TODO
   }
 
   handleSelectUser(uid) {
@@ -98,6 +103,7 @@ class ChatWebmaster extends React.Component {
               visitor={Object.assign({}, allUsers[selectedUser])}
               onSelectedMenu={this.handleSelectUserDetailMenu}
               selectedMenu={selectedUserDetailMenu}
+              onUpdateVisitor={this.handleUpdateVisitorInfo}
               logs={logs}
             />
           </div>

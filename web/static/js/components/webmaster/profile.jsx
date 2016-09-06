@@ -114,6 +114,7 @@ Profile.propTypes = {
     email: React.PropTypes.string,
     note: React.PropTypes.string,
   }),
+  onUpdateVisitor: React.PropTypes.func.isRequired,
 };
 
 export default Profile;

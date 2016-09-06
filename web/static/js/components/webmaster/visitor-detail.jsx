@@ -91,7 +91,10 @@ class UserDetail extends React.Component {
       content = (<Logs allLogs={logs} />);
     } else if (selectedMenu === 'profile') {
       if (visitor && Object.keys(visitor).length > 0) {
-        content = (<div style={styles.content}><Profile visitor={visitor} /></div>);
+        content = (
+          <div style={styles.content}>
+            <Profile onUpdateVisitor={this.props.onUpdateVisitor} visitor={visitor} />
+          </div>);
       } else {
         content = (<div style={styles.content}></div>);
       }
@@ -124,6 +127,7 @@ UserDetail.propTypes = {
   visitor: React.PropTypes.object,
   logs: React.PropTypes.array.isRequired,
   onSelectedMenu: React.PropTypes.func.isRequired,
+  onUpdateVisitor: React.PropTypes.func.isRequired,
 };
 
 export default UserDetail;
