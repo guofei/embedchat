@@ -11,13 +11,28 @@ defmodule EmbedChat.VisitorController do
   end
 
   def create(conn, %{"visitor" => visitor_params, "uuid" => uuid, "room_id" => room_id}) do
-    changeset = Visitor.changeset(%Visitor{}, visitor_params)
-    address = Repo.get_by!(Address, room_id: room_id, uuid: uuid)
-    case Repo.insert(changeset) do
+    address =
+      Address
+      |> Address.with_visitor(room_id, uuid)
+      |> Repo.one!
+
+    struct =
+      case address.visitor do
+        nil -> %Visitor{}
+        visitor -> visitor
+      end
+    result =
+      struct
+      |> Visitor.changeset(visitor_params)
+      |> Repo.insert_or_update
+
+    case result do
       {:ok, visitor} ->
-        address
-        |> Address.changeset(%{room_id: room_id, uuid: uuid, visitor_id: visitor.id})
-        |> Repo.update
+        if !address.visitor do
+          address
+          |> Address.changeset(%{room_id: room_id, uuid: uuid, visitor_id: visitor.id})
+          |> Repo.update
+        end
         conn
         |> put_status(:created)
         |> put_resp_header("location", visitor_path(conn, :show, visitor))
