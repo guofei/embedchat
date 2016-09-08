@@ -29,7 +29,7 @@ class Profile extends React.Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleNoteChange = this.handleNoteChange.bind(this);
-    this.handleTouchTap = this.handleTouchTap.bind(this);
+    this.handleUpdateVisitor = this.handleUpdateVisitor.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,7 +63,7 @@ class Profile extends React.Component {
     });
   }
 
-  handleTouchTap() {
+  handleUpdateVisitor() {
     console.log(this.state);
   }
 
@@ -97,7 +97,7 @@ class Profile extends React.Component {
             />
           </div>
           <center>
-            <FlatButton label="Update" onTouchTap={this.handleTouchTap} primary />
+            <FlatButton label="Update" onTouchTap={this.handleUpdateVisitor} primary />
           </center>
         </div>
       );
