@@ -5,14 +5,15 @@
 // and connect at the socket path in 'lib/my_app/endpoint.ex':
 import { Socket } from 'phoenix';
 import { clientID, masterID } from './distinct_id';
+import { websocketURL } from './global';
 
-const clientSocket = new Socket('wss://www.lewini.com/socket', {
+const clientSocket = new Socket(websocketURL, {
   params: {
     distinct_id: clientID,
   },
 });
 
-const masterSocket = new Socket('wss://www.lewini.com/socket', {
+const masterSocket = new Socket(websocketURL, {
   params: {
     token: window.userToken,
     distinct_id: masterID,

@@ -22,6 +22,8 @@ export const SELECT_USER_DETAIL_MENU = 'SELECT_USER_DETAIL_MENU';
 export const READ_MESSAGE = 'READ_MESSAGE';
 export const READ_ALL_MESSAGES = 'READ_ALL_MESSAGES';
 export const OPEN_CHAT = 'OPEN_CHAT';
+export const UPDATE_VISITOR = 'UPDATE_VISITOR';
+
 
 /*
  * action function
@@ -41,6 +43,10 @@ export function setCurrentUserEmail(email) {
 
 export function selectUser(uid) {
   return { type: SELECT_USER, uid };
+}
+
+export function updateVisitor(user) {
+  return { type: UPDATE_VISITOR, user };
 }
 
 export function selectUserDetailMenu(menu) {

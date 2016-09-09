@@ -13,7 +13,7 @@ import VisitorDetail from './webmaster/visitor-detail';
 
 import fetch from 'isomorphic-fetch';
 
-import { selectUserDetailMenu } from '../actions';
+import { selectUserDetailMenu, updateVisitor } from '../actions';
 import { objectToArray } from '../utils';
 import { host } from '../global';
 
@@ -53,6 +53,7 @@ class ChatWebmaster extends React.Component {
   }
 
   handleUpdateVisitorInfo(visitor) {
+    this.props.dispatch(updateVisitor(visitor));
     const data = {
       visitor: { name: visitor.name, email: visitor.email, note: visitor.note },
       uuid: visitor.uid,

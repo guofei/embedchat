@@ -18,6 +18,7 @@ import {
   RECEIVE_MULTI_ADMINS_ONLINE,
   RECEIVE_ACCESS_LOG,
   RECEIVE_MULTI_ACCESS_LOGS,
+  UPDATE_VISITOR,
   OPEN_CHAT,
 } from './actions';
 import { arrayToObject } from './utils.js';
@@ -138,6 +139,8 @@ function user(state = {}, action) {
     case RECEIVE_ADMIN_OFFLINE:
       return Object.assign({}, state,
         action.user, { online: false });
+    case UPDATE_VISITOR:
+      return Object.assign({}, state, action.user);
     default:
       return state;
   }
@@ -149,6 +152,7 @@ function users(state = {}, action) {
     case RECEIVE_USER_OFFLINE:
     case RECEIVE_ADMIN_ONLINE:
     case RECEIVE_ADMIN_OFFLINE:
+    case UPDATE_VISITOR:
       return Object.assign({}, state,
         { [action.user.uid]: user(state[action.user.uid], action) });
     case RECEIVE_MULTI_USERS_ONLINE:
