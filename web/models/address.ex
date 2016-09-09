@@ -56,9 +56,10 @@ defmodule EmbedChat.Address do
     |> Ecto.Query.preload(:user_logs)
   end
 
-  def with_visitor(query, room_id, uuid) do
+  def with_visitor(query, room_uuid, uuid) do
     from a in query,
-      where: a.room_id == ^room_id and a.uuid == ^uuid,
+      join: r in EmbedChat.Room, on: r.id == a.room_id,
+      where: r.uuid == ^room_uuid and a.uuid == ^uuid,
       preload: :visitor
   end
 

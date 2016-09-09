@@ -10,10 +10,10 @@ defmodule EmbedChat.VisitorController do
     render(conn, "index.json", visitors: visitors)
   end
 
-  def create(conn, %{"visitor" => visitor_params, "uuid" => uuid, "room_id" => room_id}) do
+  def create(conn, %{"visitor" => visitor_params, "uuid" => uuid, "room_uuid" => room_uuid}) do
     address =
       Address
-      |> Address.with_visitor(room_id, uuid)
+      |> Address.with_visitor(room_uuid, uuid)
       |> Repo.one!
 
     struct =
@@ -30,7 +30,7 @@ defmodule EmbedChat.VisitorController do
       {:ok, visitor} ->
         if !address.visitor do
           address
-          |> Address.changeset(%{room_id: room_id, uuid: uuid, visitor_id: visitor.id})
+          |> Address.changeset(%{room_id: address.room_id, uuid: uuid, visitor_id: visitor.id})
           |> Repo.update
         end
         conn

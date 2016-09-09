@@ -18,7 +18,7 @@ defmodule EmbedChat.AuthAPI do
   end
 
   def validate_token(conn, token, repo) do
-    case validate_token(conn, token, repo) do
+    case assign_user(conn, token, repo) do
       :invalid_token ->
         conn |> send_resp(401, "Invalid API token") |> halt
       {:authenticated, user} ->

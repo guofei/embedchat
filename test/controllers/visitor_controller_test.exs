@@ -37,13 +37,13 @@ defmodule EmbedChat.VisitorControllerTest do
   end
 
   test "creates and renders resource when data is valid", %{conn: conn, address: address, room: room} do
-    conn = post conn, visitor_path(conn, :create), visitor: @valid_attrs, uuid: address.uuid, room_id: room.id
+    conn = post conn, visitor_path(conn, :create), visitor: @valid_attrs, uuid: address.uuid, room_uuid: room.uuid
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Visitor, @valid_attrs)
   end
 
   test "does not create resource and renders errors when data is invalid", %{conn: conn, address: address, room: room} do
-    conn = post conn, visitor_path(conn, :create), visitor: @invalid_attrs, uuid: address.uuid, room_id: room.id
+    conn = post conn, visitor_path(conn, :create), visitor: @invalid_attrs, uuid: address.uuid, room_uuid: room.uuid
     assert json_response(conn, 422)["errors"] != %{}
   end
 
