@@ -12,7 +12,7 @@ import {
   receiveMultiAccessLogs,
 } from './actions';
 
-function masterRoom(socket, roomID, distinctID, store) {
+function masterRoom(socket, roomUUID, distinctID, store) {
   const messageEvent = 'new_message';
   const userLeft = 'user_left';
   const userJoin = 'user_join';
@@ -46,10 +46,10 @@ function masterRoom(socket, roomID, distinctID, store) {
   return {
     join() {
       const userInfo = nextUserAccessLog();
-      if (!roomID) { return; }
+      if (!roomUUID) { return; }
       if (userInfo.isBot()) { return; }
       socket.connect();
-      channel = socket.channel(`rooms:${roomID}`, userInfo);
+      channel = socket.channel(`rooms:${roomUUID}`, userInfo);
 
       channel.on(messageEvent, (msg) => {
         store.dispatch(receiveMessage(msg));
@@ -107,6 +107,10 @@ function masterRoom(socket, roomID, distinctID, store) {
               }
             });
         });
+    },
+
+    getRoomUUID() {
+      return roomUUID;
     },
 
     isSelf(uid) {

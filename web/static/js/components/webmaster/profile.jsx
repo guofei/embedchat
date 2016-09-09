@@ -64,7 +64,8 @@ class Profile extends React.Component {
   }
 
   handleUpdateVisitor() {
-    console.log(this.state);
+    const v = Object.assign({}, this.state, { uid: this.props.visitor.uid });
+    this.props.onUpdateVisitor(v);
   }
 
   render() {

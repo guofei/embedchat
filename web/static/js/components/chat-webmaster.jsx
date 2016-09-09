@@ -11,8 +11,11 @@ import Messages from './webmaster/messages';
 import EmptyMessage from './webmaster/empty-message';
 import VisitorDetail from './webmaster/visitor-detail';
 
+import fetch from 'isomorphic-fetch';
+
 import { selectUserDetailMenu } from '../actions';
 import { objectToArray } from '../utils';
+import { host } from '../global';
 
 // injectTapEventPlugin();
 
@@ -49,8 +52,20 @@ class ChatWebmaster extends React.Component {
     }
   }
 
-  handleUpdateVisitorInfo() {
-    // TODO
+  handleUpdateVisitorInfo(visitor) {
+    const data = {
+      visitor: { name: visitor.name, email: visitor.email, note: visitor.note },
+      uuid: visitor.uid,
+      room_uuid: this.props.room.getRoomUUID(),
+    };
+    fetch(`//${host}/api/visitors?token=${window.userToken}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
   }
 
   handleSelectUser(uid) {
@@ -125,6 +140,7 @@ ChatWebmaster.propTypes = {
     join: React.PropTypes.func.isRequired,
     send: React.PropTypes.func.isRequired,
     selectUser: React.PropTypes.func.isRequired,
+    getRoomUUID: React.PropTypes.func.isRequired,
   }),
   dispatch: React.PropTypes.func.isRequired,
   messages: React.PropTypes.array.isRequired,
