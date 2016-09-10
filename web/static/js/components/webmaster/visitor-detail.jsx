@@ -9,7 +9,7 @@ import IconButton from 'material-ui/IconButton';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 import IconMenu from 'material-ui/IconMenu';
 import Person from 'material-ui/svg-icons/social/person';
-import Timeline from 'material-ui/svg-icons/action/Timeline';
+import Timeline from 'material-ui/svg-icons/action/timeline';
 
 
 import ItemWithDialog from '../common/item-with-dialog';
