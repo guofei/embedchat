@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Language: INSERT LANGUAGE HERE\n"
 
-#: web/templates/layout/app.html.eex:45
+#: web/templates/layout/app.html.eex:47
 msgid "English"
 msgstr ""
 
@@ -20,7 +20,7 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:48
+#: web/templates/layout/app.html.eex:50
 msgid "Japanese"
 msgstr ""
 
@@ -73,31 +73,13 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
-#: web/templates/page/price.html.eex:30
+#: web/templates/page/price.html.eex:30 web/templates/page/price.html.eex:48
+#: web/templates/page/price.html.eex:66
 msgid "Sign Up"
-msgstr ""
-
-#: web/templates/page/price.html.eex:20
-msgid "Monthly cost"
-msgstr ""
-
-#: web/templates/page/price.html.eex:17
-msgid "Plan"
-msgstr ""
-
-#: web/templates/page/price.html.eex:37 web/templates/page/price.html.eex:44
-#: web/templates/page/price.html.eex:51 web/templates/page/price.html.eex:58
-#: web/templates/page/price.html.eex:65 web/templates/page/price.html.eex:72
-#: web/templates/page/price.html.eex:79
-msgid "Purchase"
 msgstr ""
 
 #: web/templates/page/price.html.eex:6
 msgid "Chat with visitors to your website in real-time, capture them as leads, and convert them to customers."
-msgstr ""
-
-#: web/templates/page/price.html.eex:86
-msgid "Contact"
 msgstr ""
 
 #: web/templates/room/index.html.eex:31
@@ -114,10 +96,6 @@ msgstr ""
 
 #: web/templates/room/index.html.eex:9
 msgid "Your code:"
-msgstr ""
-
-#: web/templates/page/price.html.eex:9
-msgid "During Beta period( ~ %{endtime}), free access without limit will be available!"
 msgstr ""
 
 #: web/templates/attempt/form.html.eex:22
@@ -152,38 +130,6 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: web/templates/page/price.html.eex:62
-msgid "10000 People"
-msgstr ""
-
-#: web/templates/page/price.html.eex:83
-msgid "100000+ People"
-msgstr ""
-
-#: web/templates/page/price.html.eex:69
-msgid "20000 People"
-msgstr ""
-
-#: web/templates/page/price.html.eex:34
-msgid "250 People"
-msgstr ""
-
-#: web/templates/page/price.html.eex:41
-msgid "500 People"
-msgstr ""
-
-#: web/templates/page/price.html.eex:55
-msgid "5000 People"
-msgstr ""
-
-#: web/templates/page/price.html.eex:76
-msgid "50000 People"
-msgstr ""
-
-#: web/templates/page/price.html.eex:48
-msgid "1000 People"
-msgstr ""
-
 #: web/templates/auto_message_config/new.html.eex:4
 msgid "If the conditions are satisfied, the message will be sent to the user automatically"
 msgstr ""
@@ -196,7 +142,7 @@ msgstr ""
 msgid "A better tool to chat with your customers"
 msgstr ""
 
-#: web/templates/page/index.html.eex:53
+#: web/templates/page/index.html.eex:51
 msgid "Convert visitors to customers by chat"
 msgstr ""
 
@@ -204,7 +150,7 @@ msgstr ""
 msgid "Customers support: simple, prompt, personal"
 msgstr ""
 
-#: web/templates/page/index.html.eex:46
+#: web/templates/page/index.html.eex:45
 msgid "Get high quality feedback from customers"
 msgstr ""
 
@@ -272,35 +218,35 @@ msgstr ""
 msgid "Benefits"
 msgstr ""
 
-#: web/templates/page/index.html.eex:100
+#: web/templates/page/index.html.eex:91
 msgid "Get Start Now"
 msgstr ""
 
-#: web/templates/page/index.html.eex:63
+#: web/templates/page/index.html.eex:60
 msgid "Use Cases"
 msgstr ""
 
-#: web/templates/page/index.html.eex:48
+#: web/templates/page/index.html.eex:47
 msgid "Compared to email, communications in chat software are real-time, which will allow you to respond to customers right when they have questions and increase customer’s satisfaction."
 msgstr ""
 
-#: web/templates/page/index.html.eex:69
+#: web/templates/page/index.html.eex:66
 msgid "E-commerce website"
 msgstr ""
 
-#: web/templates/page/index.html.eex:83
+#: web/templates/page/index.html.eex:77
 msgid "For emerging websites and new startups, you can use it as a growth hacking tool that allows you to speak directly with your customer and get to know how customers use the site."
 msgstr ""
 
-#: web/templates/page/index.html.eex:93
+#: web/templates/page/index.html.eex:85
 msgid "For personal affiliate sites, you can also use it as a tool to improve affiliate click rate and conversion rate. Even if you’re not online when the customer contacts you, you can still respond later."
 msgstr ""
 
-#: web/templates/page/index.html.eex:79
+#: web/templates/page/index.html.eex:74
 msgid "Growth hacking tool"
 msgstr ""
 
-#: web/templates/page/index.html.eex:89
+#: web/templates/page/index.html.eex:82
 msgid "Personal site"
 msgstr ""
 
@@ -308,10 +254,14 @@ msgstr ""
 msgid "Use this chat software and you can respond quickly when customers want to ask something. Additionally, real-time response can help your customers know that your website is reliable."
 msgstr ""
 
-#: web/templates/page/index.html.eex:55
+#: web/templates/page/index.html.eex:53
 msgid "Using software can increase your website’s conversion rate and attract more users and improve user experience. You can also check in with your customers using the chat software.\n"
 msgstr ""
 
-#: web/templates/page/index.html.eex:73
+#: web/templates/page/index.html.eex:69
 msgid "We can provide service to make customers feel like they’re buying something in a brick-and-mortar store, which will make customers feel more secure while real-time responses improve customer engagement. Which, in turn, will improve sales."
+msgstr ""
+
+#: web/templates/page/price.html.eex:9
+msgid "During Campaign period( ~ %{endtime}), free access without limit will be available!"
 msgstr ""

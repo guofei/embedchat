@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Language: ja\n"
 
-#: web/templates/layout/app.html.eex:45
+#: web/templates/layout/app.html.eex:47
 msgid "English"
 msgstr ""
 
@@ -19,7 +19,7 @@ msgstr ""
 msgid "Home"
 msgstr "ホーム"
 
-#: web/templates/layout/app.html.eex:48
+#: web/templates/layout/app.html.eex:50
 msgid "Japanese"
 msgstr "日本語"
 
@@ -72,32 +72,14 @@ msgstr "今すぐお持ちのウェブサイトをチャットサポートでき
 msgid "Price"
 msgstr "料金"
 
-#: web/templates/page/price.html.eex:30
+#: web/templates/page/price.html.eex:30 web/templates/page/price.html.eex:48
+#: web/templates/page/price.html.eex:66
 msgid "Sign Up"
 msgstr "登録"
-
-#: web/templates/page/price.html.eex:20
-msgid "Monthly cost"
-msgstr "月額"
-
-#: web/templates/page/price.html.eex:17
-msgid "Plan"
-msgstr "プラン"
-
-#: web/templates/page/price.html.eex:37 web/templates/page/price.html.eex:44
-#: web/templates/page/price.html.eex:51 web/templates/page/price.html.eex:58
-#: web/templates/page/price.html.eex:65 web/templates/page/price.html.eex:72
-#: web/templates/page/price.html.eex:79
-msgid "Purchase"
-msgstr "購入"
 
 #: web/templates/page/price.html.eex:6
 msgid "Chat with visitors to your website in real-time, capture them as leads, and convert them to customers."
 msgstr "サイトに訪問したお客様とリアルタイムチャットで、新規顧客を獲得しましょう"
-
-#: web/templates/page/price.html.eex:86
-msgid "Contact"
-msgstr "連絡"
 
 #: web/templates/room/index.html.eex:31
 msgid "Add your code here"
@@ -114,10 +96,6 @@ msgstr "貼り付ける場所：チャットしたいページのbodyタグの�
 #: web/templates/room/index.html.eex:9
 msgid "Your code:"
 msgstr "チャットコード："
-
-#: web/templates/page/price.html.eex:9
-msgid "During Beta period( ~ %{endtime}), free access without limit will be available!"
-msgstr "Beta版運用期間中（ ～ %{endtime}）は制限なく完全無料でご利用いただけます"
 
 #: web/templates/attempt/form.html.eex:22
 msgid "Try Now"
@@ -151,38 +129,6 @@ msgstr "編集"
 msgid "Submit"
 msgstr "保存する"
 
-#: web/templates/page/price.html.eex:62
-msgid "10000 People"
-msgstr "10000人"
-
-#: web/templates/page/price.html.eex:83
-msgid "100000+ People"
-msgstr "100000以上"
-
-#: web/templates/page/price.html.eex:69
-msgid "20000 People"
-msgstr "20000人"
-
-#: web/templates/page/price.html.eex:34
-msgid "250 People"
-msgstr "250人"
-
-#: web/templates/page/price.html.eex:41
-msgid "500 People"
-msgstr "500人"
-
-#: web/templates/page/price.html.eex:55
-msgid "5000 People"
-msgstr "5000人"
-
-#: web/templates/page/price.html.eex:76
-msgid "50000 People"
-msgstr "50000人"
-
-#: web/templates/page/price.html.eex:48
-msgid "1000 People"
-msgstr "1000人"
-
 #: web/templates/auto_message_config/new.html.eex:4
 msgid "If the conditions are satisfied, the message will be sent to the user automatically"
 msgstr "以下の条件が満たられると、メッセージを自動的にユーザーに送信します"
@@ -195,7 +141,7 @@ msgstr "貴方のサイトのURLを入力してください"
 msgid "A better tool to chat with your customers"
 msgstr "シンプルで高機能なチャット接客ツール"
 
-#: web/templates/page/index.html.eex:53
+#: web/templates/page/index.html.eex:51
 msgid "Convert visitors to customers by chat"
 msgstr "コンバージョン率を上げる"
 
@@ -203,7 +149,7 @@ msgstr "コンバージョン率を上げる"
 msgid "Customers support: simple, prompt, personal"
 msgstr "問い合わせの数を増やす"
 
-#: web/templates/page/index.html.eex:46
+#: web/templates/page/index.html.eex:45
 msgid "Get high quality feedback from customers"
 msgstr "顧客満足度を向上させる"
 
@@ -271,35 +217,35 @@ msgstr "戻る"
 msgid "Benefits"
 msgstr "ベネフィット"
 
-#: web/templates/page/index.html.eex:100
+#: web/templates/page/index.html.eex:91
 msgid "Get Start Now"
 msgstr "今すぐ登録"
 
-#: web/templates/page/index.html.eex:63
+#: web/templates/page/index.html.eex:60
 msgid "Use Cases"
 msgstr "利用ケース"
 
-#: web/templates/page/index.html.eex:48
+#: web/templates/page/index.html.eex:47
 msgid "Compared to email, communications in chat software are real-time, which will allow you to respond to customers right when they have questions and increase customer’s satisfaction."
 msgstr "チャットによるコミュニケーションは、メールや問い合わせフォームより、リアルタイム性が高いです。顧客は疑問を抱えているそのタイミングでサポート担当者とやりとりし、迅速な対応ができて、高い満足度に繋がります。"
 
-#: web/templates/page/index.html.eex:69
+#: web/templates/page/index.html.eex:66
 msgid "E-commerce website"
 msgstr "EC・アパレルサイト"
 
-#: web/templates/page/index.html.eex:83
+#: web/templates/page/index.html.eex:77
 msgid "For emerging websites and new startups, you can use it as a growth hacking tool that allows you to speak directly with your customer and get to know how customers use the site."
 msgstr "新規Webサービスやスタートアップ企業のグロースハックツールとして提供できます、ユーザーの利用状況を把握した上で迅速で快適なユーザーとのコミュニケーションを取ることで、Webサービスのグロースに繋がります。"
 
-#: web/templates/page/index.html.eex:93
+#: web/templates/page/index.html.eex:85
 msgid "For personal affiliate sites, you can also use it as a tool to improve affiliate click rate and conversion rate. Even if you’re not online when the customer contacts you, you can still respond later."
 msgstr "個人で運営しているアフィリエイトサイトなどでもアフィリリンクのクリック率・コンバージョン率をアップするツールとして利用することができます。不在時でもメッセージを受け取り、後で返信することができます。"
 
-#: web/templates/page/index.html.eex:79
+#: web/templates/page/index.html.eex:74
 msgid "Growth hacking tool"
 msgstr "グロースハックツール"
 
-#: web/templates/page/index.html.eex:89
+#: web/templates/page/index.html.eex:82
 msgid "Personal site"
 msgstr "アフィリエイトサイト"
 
@@ -307,10 +253,14 @@ msgstr "アフィリエイトサイト"
 msgid "Use this chat software and you can respond quickly when customers want to ask something. Additionally, real-time response can help your customers know that your website is reliable."
 msgstr "チャットを使ってサポートすることで、顧客の「ちょっと聞きたい」というニーズに対応することができます。また、リアルタイムに対応するサポート窓口があることで、ウェブサービスの信頼性向上にも繋がります。"
 
-#: web/templates/page/index.html.eex:55
+#: web/templates/page/index.html.eex:53
 msgid "Using software can increase your website’s conversion rate and attract more users and improve user experience. You can also check in with your customers using the chat software.\n"
 msgstr "チャットによって、サイトに離脱する前にユーザーを目的のページに誘導し、コンバージョン率を向上させることができます。さらに、ユーザの要望を聞き出し、ユーザーの拡大やユーザー体験の向上などにも繋がります。"
 
-#: web/templates/page/index.html.eex:73
+#: web/templates/page/index.html.eex:69
 msgid "We can provide service to make customers feel like they’re buying something in a brick-and-mortar store, which will make customers feel more secure while real-time responses improve customer engagement. Which, in turn, will improve sales."
 msgstr "チャットサポートは、実店舗のような購入体験をECサイトでも提供でき、ECサイトの安心感をつくりだすこともできます。リアルタイムな対応がお客様とのエンゲージメントを高め、サイトの売り上げ向上に貢献します。"
+
+#: web/templates/page/price.html.eex:9
+msgid "During Campaign period( ~ %{endtime}), free access without limit will be available!"
+msgstr "新規入会キャンペーン期間内（ ～ %{endtime}）は制限なく完全無料でご利用いただけます"
