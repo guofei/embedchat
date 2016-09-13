@@ -68,7 +68,7 @@ let state_tree = {
   currentUser: 'xxx-xxx-xxx',
   currentUserEmail: 'email@domain.com',
   selectedUser: 'xxx-xxx-xxx',
-  selectedUserDetailMenu: 'log', // 'log' or 'profile'
+  selectedUserDetailMenu: 'tracking', // 'tracking' or 'profile'
   openChat: false,
 }
 */
@@ -82,7 +82,7 @@ function openChat(state = false, action) {
   }
 }
 
-function selectedUserDetailMenu(state = 'log', action) {
+function selectedUserDetailMenu(state = 'tracking', action) {
   switch (action.type) {
     case SELECT_USER_DETAIL_MENU:
       return action.menu;

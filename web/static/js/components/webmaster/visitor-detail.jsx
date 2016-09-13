@@ -63,9 +63,9 @@ function Logs({ allLogs }) {
 }
 
 function menuName(menu) {
-  let title = 'Detail';
-  if (menu === 'log') {
-    title = 'Log';
+  let title = 'Tracking';
+  if (menu === 'tracking') {
+    title = 'Tracking';
   } else if (menu === 'profile') {
     title = 'Profile';
   }
@@ -87,7 +87,7 @@ class UserDetail extends React.Component {
     const { selectedMenu, logs, visitor } = this.props;
 
     let content = (<div style={styles.content} ></div>);
-    if (selectedMenu === 'log') {
+    if (selectedMenu === 'tracking') {
       content = (<Logs allLogs={logs} />);
     } else if (selectedMenu === 'profile') {
       if (visitor && Object.keys(visitor).length > 0) {
@@ -111,7 +111,7 @@ class UserDetail extends React.Component {
                 anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                 targetOrigin={{ horizontal: 'left', vertical: 'top' }}
               >
-                <MenuItem value="log" primaryText="Log" leftIcon={<Timeline />} />
+                <MenuItem value="tracking" primaryText="Tracking" leftIcon={<Timeline />} />
                 <MenuItem value="profile" primaryText="Profile" leftIcon={<Person />} />
               </IconMenu>
             </ToolbarGroup>
