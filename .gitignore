@@ -30,3 +30,4 @@ erl_crash.dump
 /config/config.secret.exs
 /log/
 /ssl/
+/datadog_key.env
