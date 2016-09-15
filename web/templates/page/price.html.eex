@@ -17,12 +17,12 @@
         <h2 class="mdl-card__title-text">Basic ($0)</h2>
       </div>
       <div class="mdl-card__supporting-text">
-        <p>Basic chat features: </p>
+        <p><%= gettext "Basic chat features:" %></p>
         <p>
           <br/>
-          2 Chats at a time <br/>
-          14-day Chat History <br/>
-          Real-time Visitor tracking <br/>
+          <%= gettext "2 Chats at a time" %><br/>
+          <%= gettext "14-day Chat History" %><br/>
+          <%= gettext "Real-time Visitor tracking" %><br/>
           <br/>
         </p>
       </div>
@@ -35,17 +35,17 @@
         <h2 class="mdl-card__title-text">PRO ($12)</h2>
       </div>
       <div class="mdl-card__supporting-text">
-        <p>All the Basic features plus: </p>
+        <p><%= gettext "All the Basic features plus:" %></p>
         <p>
-          Unlimited chats <br/>
-          Unlimited Chat History <br/>
-          Visitor profiles <br/>
-          3 Automatic Messages <br/>
-          Remove Lewini Branding <br/>
+          <%= gettext "Unlimited chats" %><br/>
+          <%= gettext "Unlimited Chat History" %><br/>
+          <%= gettext "Visitor profiles" %><br/>
+          <%= gettext "3 Automatic Messages" %><br/>
+          <br/>
         </p>
       </div>
       <div class="mdl-card__actions mdl-card--border">
-        <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
+        <%= link gettext("Try for free"), to: user_path(@conn, :new), class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
       </div>
     </div>
     <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp">
@@ -53,17 +53,17 @@
         <h2 class="mdl-card__title-text">Premium ($24)</h2>
       </div>
       <div class="mdl-card__supporting-text">
-        <p>All the PRO features plus: </p>
+        <p><%= gettext "All the PRO features plus:" %></p>
         <p>
-          Tags <br/>
-          Departments <br/>
-          Manage team member permissions <br/>
-          Unlimited Automatic Messages <br/>
-          <br/>
+          <%= gettext "Tags" %><br/>
+          <%= gettext "Departments" %><br/>
+          <%= gettext "Manage team member permissions" %><br/>
+          <%= gettext "Unlimited Automatic Messages" %><br/>
+          <%= gettext "Remove Lewini Branding" %><br/>
         </p>
       </div>
       <div class="mdl-card__actions mdl-card--border">
-        <%= link gettext("Sign Up"), to: user_path(@conn, :new), class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
+        <%= link gettext("Try for free"), to: user_path(@conn, :new), class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
       </div>
     </div>
   </div>

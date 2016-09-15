@@ -72,8 +72,7 @@ msgstr "今すぐお持ちのウェブサイトをチャットサポートでき
 msgid "Price"
 msgstr "料金"
 
-#: web/templates/page/price.html.eex:30 web/templates/page/price.html.eex:48
-#: web/templates/page/price.html.eex:66
+#: web/templates/page/price.html.eex:30
 msgid "Sign Up"
 msgstr "登録"
 
@@ -264,3 +263,67 @@ msgstr "チャットサポートは、実店舗のような購入体験をECサ�
 #: web/templates/page/price.html.eex:9
 msgid "During Campaign period( ~ %{endtime}), free access without limit will be available!"
 msgstr "新規入会キャンペーン期間内（ ～ %{endtime}）は制限なく完全無料でご利用いただけます"
+
+#: web/templates/page/price.html.eex:24
+msgid "14-day Chat History"
+msgstr "14日間のチャット履歴"
+
+#: web/templates/page/price.html.eex:23
+msgid "2 Chats at a time"
+msgstr "2同時チャット"
+
+#: web/templates/page/price.html.eex:43
+msgid "3 Automatic Messages"
+msgstr "3自動話しかけ"
+
+#: web/templates/page/price.html.eex:38
+msgid "All the Basic features plus:"
+msgstr "Basicプランの機能プラス"
+
+#: web/templates/page/price.html.eex:20
+msgid "Basic chat features:"
+msgstr "Basicプランの機能"
+
+#: web/templates/page/price.html.eex:59
+msgid "Departments"
+msgstr "部署設定機能"
+
+#: web/templates/page/price.html.eex:60
+msgid "Manage team member permissions"
+msgstr "チームメンバー管理機能"
+
+#: web/templates/page/price.html.eex:25
+msgid "Real-time Visitor tracking"
+msgstr "リアルタイムユーザー追跡"
+
+#: web/templates/page/price.html.eex:62
+msgid "Remove Lewini Branding"
+msgstr "ロゴ削除"
+
+#: web/templates/page/price.html.eex:58
+msgid "Tags"
+msgstr "タグ設定機能"
+
+#: web/templates/page/price.html.eex:48 web/templates/page/price.html.eex:66
+msgid "Try for free"
+msgstr "無料トライアル"
+
+#: web/templates/page/price.html.eex:61
+msgid "Unlimited Automatic Messages"
+msgstr "自動話しかけ 無制限"
+
+#: web/templates/page/price.html.eex:41
+msgid "Unlimited Chat History"
+msgstr "チャット履歴 無制限"
+
+#: web/templates/page/price.html.eex:40
+msgid "Unlimited chats"
+msgstr "同時チャット 無制限"
+
+#: web/templates/page/price.html.eex:42
+msgid "Visitor profiles"
+msgstr "ユーザープロファイル"
+
+#: web/templates/page/price.html.eex:56
+msgid "All the PRO features plus:"
+msgstr "PROプランの機能プラス"

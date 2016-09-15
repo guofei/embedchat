@@ -72,8 +72,7 @@ msgstr ""
 msgid "Price"
 msgstr ""
 
-#: web/templates/page/price.html.eex:30 web/templates/page/price.html.eex:48
-#: web/templates/page/price.html.eex:66
+#: web/templates/page/price.html.eex:30
 msgid "Sign Up"
 msgstr ""
 
@@ -263,4 +262,68 @@ msgstr ""
 
 #: web/templates/page/price.html.eex:9
 msgid "During Campaign period( ~ %{endtime}), free access without limit will be available!"
+msgstr ""
+
+#: web/templates/page/price.html.eex:24
+msgid "14-day Chat History"
+msgstr ""
+
+#: web/templates/page/price.html.eex:23
+msgid "2 Chats at a time"
+msgstr ""
+
+#: web/templates/page/price.html.eex:43
+msgid "3 Automatic Messages"
+msgstr ""
+
+#: web/templates/page/price.html.eex:38
+msgid "All the Basic features plus:"
+msgstr ""
+
+#: web/templates/page/price.html.eex:20
+msgid "Basic chat features:"
+msgstr ""
+
+#: web/templates/page/price.html.eex:59
+msgid "Departments"
+msgstr ""
+
+#: web/templates/page/price.html.eex:60
+msgid "Manage team member permissions"
+msgstr ""
+
+#: web/templates/page/price.html.eex:25
+msgid "Real-time Visitor tracking"
+msgstr ""
+
+#: web/templates/page/price.html.eex:62
+msgid "Remove Lewini Branding"
+msgstr ""
+
+#: web/templates/page/price.html.eex:58
+msgid "Tags"
+msgstr ""
+
+#: web/templates/page/price.html.eex:48 web/templates/page/price.html.eex:66
+msgid "Try for free"
+msgstr ""
+
+#: web/templates/page/price.html.eex:61
+msgid "Unlimited Automatic Messages"
+msgstr ""
+
+#: web/templates/page/price.html.eex:41
+msgid "Unlimited Chat History"
+msgstr ""
+
+#: web/templates/page/price.html.eex:40
+msgid "Unlimited chats"
+msgstr ""
+
+#: web/templates/page/price.html.eex:42
+msgid "Visitor profiles"
+msgstr ""
+
+#: web/templates/page/price.html.eex:56
+msgid "All the PRO features plus:"
 msgstr ""
