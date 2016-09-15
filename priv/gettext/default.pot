@@ -29,7 +29,7 @@ msgstr ""
 msgid "Login"
 msgstr ""
 
-#: web/templates/layout/header_login_nav.html.eex:5
+#: web/templates/layout/header_login_nav.html.eex:6
 msgid "Logout"
 msgstr ""
 
@@ -327,4 +327,8 @@ msgstr ""
 
 #: web/templates/page/price.html.eex:56
 msgid "All the PRO features plus:"
+msgstr ""
+
+#: web/templates/layout/header_login_nav.html.eex:5
+msgid "Account"
 msgstr ""

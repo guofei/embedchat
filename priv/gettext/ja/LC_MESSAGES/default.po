@@ -28,7 +28,7 @@ msgstr "日本語"
 msgid "Login"
 msgstr "ログイン"
 
-#: web/templates/layout/header_login_nav.html.eex:5
+#: web/templates/layout/header_login_nav.html.eex:6
 msgid "Logout"
 msgstr "ログアウト"
 
@@ -327,3 +327,7 @@ msgstr "ユーザープロファイル"
 #: web/templates/page/price.html.eex:56
 msgid "All the PRO features plus:"
 msgstr "PROプランの機能プラス"
+
+#: web/templates/layout/header_login_nav.html.eex:5
+msgid "Account"
+msgstr "アカウント"
