@@ -2,5 +2,5 @@
 <%= link gettext("Messages"),     to: message_path(@conn, :index), class: "mdl-navigation__link" %>
 <%= link gettext("Auto Message"), to: auto_message_config_path(@conn, :index), class: "mdl-navigation__link" %>
 <%= link gettext("Setup"),        to: room_path(@conn, :index), class: "mdl-navigation__link" %>
-<%= link gettext("Account"),       to: user_path(@conn, :show, @current_user), class: "mdl-navigation__link" %>
+<%= link gettext("Account"),      to: user_path(@conn, :show, @current_user), class: "mdl-navigation__link" %>
 <%= link gettext("Logout"),       to: session_path(@conn, :delete, @current_user), method: :delete, class: "mdl-navigation__link" %>
