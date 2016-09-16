@@ -27,8 +27,13 @@ defmodule EmbedChat.UserController do
 
   def show(conn, %{"id" => id}) do
     user = Repo.get!(User, id)
-    user = Repo.preload user, :rooms
     render(conn, "show.html", user: user)
+  end
+
+  def edit(conn, %{"id" => id}) do
+    user = Repo.get!(User, id)
+    changeset = User.changeset(user)
+    render(conn, "edit.html", user: user, changeset: changeset)
   end
 
   defp create_room(user) do
