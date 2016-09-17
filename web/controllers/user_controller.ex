@@ -36,6 +36,9 @@ defmodule EmbedChat.UserController do
     render(conn, "edit.html", user: user, changeset: changeset)
   end
 
+  def update(conn, %{"id" => id, "user" => user_params}) do
+  end
+
   defp create_room(user) do
     case Repo.insert(%Room{uuid: Ecto.UUID.generate()}) do
       {:ok, room} ->
