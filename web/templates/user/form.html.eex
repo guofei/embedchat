@@ -1,0 +1,36 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if f.errors != [] do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below:</p>
+      <ul>
+        <%= for {attr, message} <- f.errors do %>
+          <li><%= humanize(attr) %> <%= translate_error(message) %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mdl-textfield mdl-js-textfield">
+    <%= text_input f, :email, class: "mdl-textfield__input", type: "email", id: "email" %>
+    <label class="mdl-textfield__label" for="email"><%= gettext("Email") %>...</label>
+  </div>
+
+  <br/>
+
+  <div class="mdl-textfield mdl-js-textfield">
+    <%= text_input f, :name, class: "mdl-textfield__input", type: "text", id: "name" %>
+    <label class="mdl-textfield__label" for="name"><%= gettext("Name") %>...</label>
+  </div>
+
+  <br/>
+
+  <div class="mdl-textfield mdl-js-textfield">
+    <%= password_input f, :password, class: "mdl-textfield__input", type: "password", id: "password" %>
+    <label class="mdl-textfield__label" for="password"><%= gettext("Password") %>...</label>
+  </div>
+
+  <br/><br/>
+
+  <%= submit gettext("Submit"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
+
+<% end %>
