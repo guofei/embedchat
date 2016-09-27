@@ -52,15 +52,17 @@ msgstr "アカウント登録"
 msgid "Signup"
 msgstr "アカウント登録"
 
-#: web/templates/session/new.html.eex:9 web/templates/user/new.html.eex:20
+#: web/templates/session/new.html.eex:9 web/templates/user/form.html.eex:15
+#: web/templates/user/new.html.eex:20
 msgid "Email"
 msgstr ""
 
-#: web/templates/user/new.html.eex:27
+#: web/templates/user/form.html.eex:22 web/templates/user/new.html.eex:27
 msgid "Name"
 msgstr "お名前"
 
-#: web/templates/session/new.html.eex:16 web/templates/user/new.html.eex:34
+#: web/templates/session/new.html.eex:16 web/templates/user/form.html.eex:29
+#: web/templates/user/new.html.eex:34
 msgid "Password"
 msgstr "パスワード"
 
@@ -104,10 +106,6 @@ msgstr "今すぐ試す"
 msgid "Auto Message"
 msgstr "自動話しかけ"
 
-#: web/templates/page/index.html.eex:25
-msgid "Surprise Me"
-msgstr "すぐ効果を見る"
-
 #: web/templates/layout/header_login_nav.html.eex:2
 msgid "Messages"
 msgstr "履歴"
@@ -125,6 +123,7 @@ msgid "Edit"
 msgstr "編集"
 
 #: web/templates/auto_message_config/form.html.eex:110
+#: web/templates/user/form.html.eex:34
 msgid "Submit"
 msgstr "保存する"
 
@@ -329,5 +328,14 @@ msgid "All the PRO features plus:"
 msgstr "PROプランの機能プラス"
 
 #: web/templates/layout/header_login_nav.html.eex:5
+#: web/templates/user/show.html.eex:6
 msgid "Account"
 msgstr "アカウント"
+
+#: web/templates/user/edit.html.eex:3
+msgid "Update"
+msgstr ""
+
+#: web/templates/page/index.html.eex:25
+msgid "View Live Demo"
+msgstr "デモを見る"

@@ -22,7 +22,7 @@
                 <label class="mdl-textfield__label" for="furl"><%= gettext "Please input your website URL" %></label>
               </div>
               <p>
-                <%= submit gettext("Surprise Me"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+                <%= submit gettext("View Live Demo"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
               </p>
             <% end %>
           </p>

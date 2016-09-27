@@ -53,15 +53,17 @@ msgstr ""
 msgid "Signup"
 msgstr ""
 
-#: web/templates/session/new.html.eex:9 web/templates/user/new.html.eex:20
+#: web/templates/session/new.html.eex:9 web/templates/user/form.html.eex:15
+#: web/templates/user/new.html.eex:20
 msgid "Email"
 msgstr ""
 
-#: web/templates/user/new.html.eex:27
+#: web/templates/user/form.html.eex:22 web/templates/user/new.html.eex:27
 msgid "Name"
 msgstr ""
 
-#: web/templates/session/new.html.eex:16 web/templates/user/new.html.eex:34
+#: web/templates/session/new.html.eex:16 web/templates/user/form.html.eex:29
+#: web/templates/user/new.html.eex:34
 msgid "Password"
 msgstr ""
 
@@ -105,10 +107,6 @@ msgstr ""
 msgid "Auto Message"
 msgstr ""
 
-#: web/templates/page/index.html.eex:25
-msgid "Surprise Me"
-msgstr ""
-
 #: web/templates/layout/header_login_nav.html.eex:2
 msgid "Messages"
 msgstr ""
@@ -126,6 +124,7 @@ msgid "Edit"
 msgstr ""
 
 #: web/templates/auto_message_config/form.html.eex:110
+#: web/templates/user/form.html.eex:34
 msgid "Submit"
 msgstr ""
 
@@ -330,5 +329,14 @@ msgid "All the PRO features plus:"
 msgstr ""
 
 #: web/templates/layout/header_login_nav.html.eex:5
+#: web/templates/user/show.html.eex:6
 msgid "Account"
+msgstr ""
+
+#: web/templates/user/edit.html.eex:3
+msgid "Update"
+msgstr ""
+
+#: web/templates/page/index.html.eex:25
+msgid "View Live Demo"
 msgstr ""
