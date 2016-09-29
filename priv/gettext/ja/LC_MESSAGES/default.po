@@ -271,11 +271,11 @@ msgstr "14日間のチャット履歴"
 msgid "2 Chats at a time"
 msgstr "2同時チャット"
 
-#: web/templates/page/price.html.eex:43
+#: web/templates/page/price.html.eex:46
 msgid "3 Automatic Messages"
 msgstr "3自動話しかけ"
 
-#: web/templates/page/price.html.eex:38
+#: web/templates/page/price.html.eex:41
 msgid "All the Basic features plus:"
 msgstr "Basicプランの機能プラス"
 
@@ -283,11 +283,11 @@ msgstr "Basicプランの機能プラス"
 msgid "Basic chat features:"
 msgstr "Basicプランの機能"
 
-#: web/templates/page/price.html.eex:59
+#: web/templates/page/price.html.eex:65
 msgid "Departments"
 msgstr "部署設定機能"
 
-#: web/templates/page/price.html.eex:60
+#: web/templates/page/price.html.eex:66
 msgid "Manage team member permissions"
 msgstr "チームメンバー管理機能"
 
@@ -295,35 +295,35 @@ msgstr "チームメンバー管理機能"
 msgid "Real-time Visitor tracking"
 msgstr "リアルタイムユーザー追跡"
 
-#: web/templates/page/price.html.eex:62
+#: web/templates/page/price.html.eex:68
 msgid "Remove Lewini Branding"
 msgstr "ロゴ削除"
 
-#: web/templates/page/price.html.eex:58
+#: web/templates/page/price.html.eex:64
 msgid "Tags"
 msgstr "タグ設定機能"
 
-#: web/templates/page/price.html.eex:48 web/templates/page/price.html.eex:66
+#: web/templates/page/price.html.eex:51 web/templates/page/price.html.eex:72
 msgid "Try for free"
 msgstr "無料トライアル"
 
-#: web/templates/page/price.html.eex:61
+#: web/templates/page/price.html.eex:67
 msgid "Unlimited Automatic Messages"
 msgstr "自動話しかけ 無制限"
 
-#: web/templates/page/price.html.eex:41
+#: web/templates/page/price.html.eex:44
 msgid "Unlimited Chat History"
 msgstr "チャット履歴 無制限"
 
-#: web/templates/page/price.html.eex:40
+#: web/templates/page/price.html.eex:43
 msgid "Unlimited chats"
 msgstr "同時チャット 無制限"
 
-#: web/templates/page/price.html.eex:42
+#: web/templates/page/price.html.eex:45
 msgid "Visitor profiles"
 msgstr "ユーザープロファイル"
 
-#: web/templates/page/price.html.eex:56
+#: web/templates/page/price.html.eex:62
 msgid "All the PRO features plus:"
 msgstr "PROプランの機能プラス"
 
@@ -339,3 +339,7 @@ msgstr ""
 #: web/templates/page/index.html.eex:25
 msgid "View Live Demo"
 msgstr "デモを見る"
+
+#: web/templates/page/price.html.eex:37 web/templates/page/price.html.eex:58
+msgid "per agent/mo."
+msgstr "/月･人"

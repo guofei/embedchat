@@ -14,7 +14,7 @@
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp">
       <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text">Basic ($0)</h2>
+        <h2 class="mdl-card__title-text">Basic $0</h2>
       </div>
       <div class="mdl-card__supporting-text">
         <p><%= gettext "Basic chat features:" %></p>
@@ -32,7 +32,10 @@
     </div>
     <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp">
       <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text">PRO ($12)</h2>
+        <h2 class="mdl-card__title-text">
+          PRO $12
+          <small><%= gettext "per agent/mo." %></small>
+        </h2>
       </div>
       <div class="mdl-card__supporting-text">
         <p><%= gettext "All the Basic features plus:" %></p>
@@ -50,7 +53,10 @@
     </div>
     <div class="mdl-cell mdl-cell--4-col mdl-card mdl-shadow--2dp">
       <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text">Premium ($24)</h2>
+        <h2 class="mdl-card__title-text">
+          Premium $24
+          <small><%= gettext "per agent/mo." %></small>
+        </h2>
       </div>
       <div class="mdl-card__supporting-text">
         <p><%= gettext "All the PRO features plus:" %></p>
