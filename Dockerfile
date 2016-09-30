@@ -2,10 +2,6 @@ FROM elixir
 MAINTAINER kaku <kaku@kaku>
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl wget make gcc postgresql bzip2 libfontconfig
-
-RUN mix local.hex --force
-RUN mix archive.install --force https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
-
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && apt-get install -y nodejs
 
 ENV PORT 80
@@ -17,10 +13,10 @@ ENV SSL_INTERMEDIATE_CERT_PATH /myapp/ssl/cacert.crt
 
 RUN mkdir /myapp
 WORKDIR /myapp
-ADD config/prod.secret.exs /myapp/config/prod.secret.exs
-ADD config/config.secret.exs /myapp/config/config.secret.exs
 ADD . /myapp
 RUN chmod +x run.sh
+RUN mix local.hex --force
+RUN mix archive.install --force https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
 RUN mix deps.get && npm install && mix local.rebar
 RUN npm run compile
 RUN mix compile
