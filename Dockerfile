@@ -13,6 +13,7 @@ ENV HOST lewini.com
 ENV MIX_ENV prod
 ENV SSL_KEY_PATH /myapp/ssl/private.key
 ENV SSL_CERT_PATH /myapp/ssl/lewini_com.crt
+ENV SSL_INTERMEDIATE_CERT_PATH /myapp/ssl/cacert.crt
 
 RUN mkdir /myapp
 WORKDIR /myapp
