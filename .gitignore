@@ -31,3 +31,6 @@ erl_crash.dump
 /log/
 /ssl/
 /datadog_key.env
+
+# mac
+.DS_Store
