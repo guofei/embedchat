@@ -35,15 +35,15 @@
   <%= content_tag :div, "", id: "webmaster-chat-room", data: [id: @room.uuid] %>
 <% else %>
   <div class="page-content-max">
-    <h1 class="large">
-      <center>
-        <%= gettext "A better tool to chat with your customers" %>
-      </center>
-    </h1>
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--12-col">
+        <h1 class="large">
+          <center>
+            <%= gettext "A better tool to chat with your customers" %>
+          </center>
+        </h1>
         <center>
-          <p><%= gettext "Start live chat with visitors on your website!" %></p>
+          <p class="mid"><%= gettext "Start live chat with visitors on your website!" %></p>
           <p>
             <div id="progress" style="display: none;">
               <div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div>
