@@ -34,7 +34,7 @@
 <%= if @current_user do %>
   <%= content_tag :div, "", id: "webmaster-chat-room", data: [id: @room.uuid] %>
 <% else %>
-  <div class="page-content-max">
+  <div class="lp-content-max">
     <div class="mdl-grid">
       <div class="mdl-cell mdl-cell--12-col">
         <h1 class="large">

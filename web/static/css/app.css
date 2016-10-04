@@ -8,6 +8,11 @@
     margin: auto;
 }
 
+.lp-content-max {
+    max-width: 1100px;
+    margin: auto;
+}
+
 .nav-page nav ul li {
     display: inline-block;
     margin-right: 15px;
