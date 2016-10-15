@@ -1,5 +1,6 @@
 import moment from 'moment';
 import store from 'store';
+import isbot from 'is-bot';
 
 function getBrowserLanguage() {
   const first = window.navigator.languages
@@ -25,7 +26,7 @@ function autoIncrement(key) {
 }
 
 function visitView() {
-  const key = `${location.pathname}_vv`;
+  const key = `${window.location.pathname}_vv`;
   return autoIncrement(key);
 }
 
@@ -37,21 +38,18 @@ function totalPageView() {
 export default function nextUserAccessLog() {
   const singlePageView = visitView();
   const info = {
-    agent: navigator.userAgent,
-    current_url: location.href,
+    agent: window.navigator.userAgent,
+    current_url: window.location.href,
     referrer: document.referrer,
-    screen_width: screen.width,
-    screen_height: screen.height,
+    screen_width: window.screen.width,
+    screen_height: window.screen.height,
     language: getBrowserLanguage(),
     visit_view: singlePageView,
     single_page_view: singlePageView,
     total_page_view: totalPageView(),
     inserted_at: moment.utc().format(),
     isBot() {
-      if (navigator.userAgent && navigator.userAgent.indexOf('bot') > -1) {
-        return true;
-      }
-      return false;
+      return isbot(window.navigator.userAgent);
     },
   };
   return info;
