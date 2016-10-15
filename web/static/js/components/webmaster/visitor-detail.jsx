@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import parser from 'ua-parser-js';
 
 import Paper from 'material-ui/Paper';
 import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar';
@@ -28,15 +29,17 @@ const styles = {
 };
 
 function LogContent({ log }) {
+  const ua = parser(log.agent);
   return (
     <div>
-      User Agent: {log.agent}<br/>
+      PageView: {log.single_page_view}<br/>
+      TotalPageView: {log.total_page_view}<br/>
+      OS: {`${ua.os.name} ${ua.os.version}`}<br/>
+      Browser: {`${ua.browser.name} ${ua.browser.version}`}<br/>
       Referrer: {log.referrer}<br/>
       Language: {log.language}<br/>
       screenWidth: {log.screen_width}<br/>
       ScreenHeight: {log.screen_height}<br/>
-      PageView: {log.total_page_view}<br/>
-      Time: {moment.utc(log.inserted_at).fromNow()}
     </div>
   );
 }
