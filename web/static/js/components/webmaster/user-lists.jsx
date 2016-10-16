@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { List, ListItem } from 'material-ui/List';
+import { List, ListItem, makeSelectable } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
@@ -33,57 +33,49 @@ function messsageTime(msg) {
   return text;
 }
 
-function User({ name, email, uid, message, onSelected }) {
+function userItem(user, onSelected) {
   return (
     <ListItem
+      key={user.uid}
+      value={user.uid}
       primaryText={
         <div>
-          {shortName(name || email || uid)}
+          {shortName(user.name || user.email || user.uid)}
           <div style={styles.pullRight}>
-            {messsageTime(message)}
+            {messsageTime(user.message)}
           </div>
         </div>
       }
-      secondaryText={messageText(message)}
-      leftAvatar={<Avatar>{avatar(name || email || uid)}</Avatar>}
-      onTouchTap={function touch() { onSelected(uid); }}
+      secondaryText={messageText(user.message)}
+      leftAvatar={<Avatar>{avatar(user.name || user.email || user.uid)}</Avatar>}
+      onTouchTap={function touch() { onSelected(user.uid); }}
     />
   );
 }
 
-function UserLists({ onlineUsers, offlineUsers, onUserSelected }) {
+const SelectableList = makeSelectable(List);
+
+function UserLists({ onlineUsers, offlineUsers, selectedUser, onUserSelected }) {
   const onlines = onlineUsers.map((user) =>
-    (<User key={user.uid}
-      name={user.name}
-      email={user.email}
-      uid={user.uid}
-      message={user.message}
-      onSelected={onUserSelected}
-    />)
+    userItem(user, onUserSelected)
   );
   const offlines = offlineUsers.map((user) =>
-    (<User key={user.uid}
-      name={user.name}
-      email={user.email}
-      uid={user.uid}
-      message={user.message}
-      onSelected={onUserSelected}
-    />)
+    userItem(user, onUserSelected)
   );
   return (
     <Paper zDepth={1}>
       <Toolbar>
         <ToolbarTitle text="Visitor" />
       </Toolbar>
-      <List>
+      <SelectableList value={selectedUser} onChange={function fun() {}}>
         <Subheader>Online</Subheader>
         {onlines}
-      </List>
+      </SelectableList>
       <Divider />
-      <List>
+      <SelectableList value={selectedUser} onChange={function fun() {}}>
         <Subheader>Offline</Subheader>
         {offlines}
-      </List>
+      </SelectableList>
     </Paper>
   );
 }

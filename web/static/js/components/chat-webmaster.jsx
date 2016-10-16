@@ -107,6 +107,7 @@ class ChatWebmaster extends React.Component {
               <UserLists
                 onlineUsers={onlineUsers}
                 offlineUsers={offlineUsers}
+                selectedUser={selectedUser}
                 onUserSelected={this.handleSelectUser}
               />
             </Paper>
