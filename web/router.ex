@@ -23,6 +23,7 @@ defmodule EmbedChat.Router do
 
     get "/", PageController, :index
     get "/price", PageController, :price
+    get "/welcome", PageController, :welcome
 
     resources "/users", UserController, only: [:index, :new, :create, :show, :edit, :update]
     resources "/sessions", SessionController, only: [:new, :create, :delete]

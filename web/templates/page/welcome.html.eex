@@ -1,0 +1,25 @@
+<style>
+ .welcome {
+   position: relative;
+   top: 30%;
+   -webkit-transform: translateY(-50%);
+   -ms-transform: translateY(-50%);
+   transform: translateY(-50%);
+ }
+</style>
+
+<div class="page-content-max">
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--12-col">
+        <div class="welcome">
+          <center>
+            <h2 style="color:gray;">Welcome!</h2>
+            <p>
+              <%= gettext "Lewini Live Chat: A Live Chat Software for Business!" %>
+            </p>
+            <%= link gettext("Setup"), to: room_path(@conn, :index), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+          </center>
+        </div>
+      </div>
+    </div>
+</div>
