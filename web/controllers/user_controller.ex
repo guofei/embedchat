@@ -18,7 +18,6 @@ defmodule EmbedChat.UserController do
         create_room user
         conn
         |> EmbedChat.Auth.login(user)
-        |> put_flash(:info, "Your account was created!")
         |> redirect(to: page_path(conn, :welcome))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
