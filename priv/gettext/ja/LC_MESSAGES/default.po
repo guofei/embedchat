@@ -40,7 +40,7 @@ msgstr "アカウント登録"
 msgid "Setup"
 msgstr "設置"
 
-#: web/templates/layout/app.html.eex:10 web/templates/page/welcome.html.eex:18
+#: web/templates/layout/app.html.eex:10 web/templates/page/welcome.html.eex:20
 msgid "Lewini Live Chat: A Live Chat Software for Business!"
 msgstr "Lewiniライブチャット - シンプルで高機能なチャット接客・オンラインサポートツール"
 
@@ -344,6 +344,10 @@ msgstr "デモを見る"
 msgid "per agent/mo."
 msgstr "/月･人"
 
-#: web/templates/page/welcome.html.eex:20
+#: web/templates/page/welcome.html.eex:22
 msgid "SET UP NOW"
 msgstr "今すぐ設置する"
+
+#: web/templates/page/welcome.html.eex:17
+msgid "Welcome!"
+msgstr "ようこそ"

@@ -13,7 +13,9 @@
       <div class="mdl-cell mdl-cell--12-col">
         <div class="welcome">
           <center>
-            <h2 style="color:gray;">Welcome!</h2>
+            <h2 style="color:gray;">
+              <%= gettext "Welcome!" %>
+            </h2>
             <p>
               <%= gettext "Lewini Live Chat: A Live Chat Software for Business!" %>
             </p>

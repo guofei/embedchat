@@ -40,7 +40,7 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:10 web/templates/page/welcome.html.eex:18
+#: web/templates/layout/app.html.eex:10 web/templates/page/welcome.html.eex:20
 msgid "Lewini Live Chat: A Live Chat Software for Business!"
 msgstr ""
 
@@ -344,6 +344,10 @@ msgstr ""
 msgid "per agent/mo."
 msgstr ""
 
-#: web/templates/page/welcome.html.eex:20
+#: web/templates/page/welcome.html.eex:22
 msgid "SET UP NOW"
+msgstr ""
+
+#: web/templates/page/welcome.html.eex:17
+msgid "Welcome!"
 msgstr ""
