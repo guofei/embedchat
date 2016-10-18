@@ -17,7 +17,7 @@
             <p>
               <%= gettext "Lewini Live Chat: A Live Chat Software for Business!" %>
             </p>
-            <%= link gettext("Setup"), to: room_path(@conn, :index), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+            <%= link gettext("SET UP NOW"), to: room_path(@conn, :index), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
           </center>
         </div>
       </div>

@@ -41,7 +41,7 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:10
+#: web/templates/layout/app.html.eex:10 web/templates/page/welcome.html.eex:18
 msgid "Lewini Live Chat: A Live Chat Software for Business!"
 msgstr ""
 
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: web/templates/page/index.html.eex:13
+#: web/templates/page/index.html.eex:46
 msgid "Start live chat with visitors on your website!"
 msgstr ""
 
@@ -132,23 +132,23 @@ msgstr ""
 msgid "If the conditions are satisfied, the message will be sent to the user automatically"
 msgstr ""
 
-#: web/templates/page/index.html.eex:22
+#: web/templates/page/index.html.eex:55
 msgid "Please input your website URL"
 msgstr ""
 
-#: web/templates/page/index.html.eex:7
+#: web/templates/page/index.html.eex:42
 msgid "A better tool to chat with your customers"
 msgstr ""
 
-#: web/templates/page/index.html.eex:51
+#: web/templates/page/index.html.eex:94
 msgid "Convert visitors to customers by chat"
 msgstr ""
 
-#: web/templates/page/index.html.eex:39
+#: web/templates/page/index.html.eex:74
 msgid "Customers support: simple, prompt, personal"
 msgstr ""
 
-#: web/templates/page/index.html.eex:45
+#: web/templates/page/index.html.eex:84
 msgid "Get high quality feedback from customers"
 msgstr ""
 
@@ -212,51 +212,51 @@ msgstr ""
 msgid "Back"
 msgstr ""
 
-#: web/templates/page/index.html.eex:34
+#: web/templates/page/index.html.eex:67
 msgid "Benefits"
 msgstr ""
 
-#: web/templates/page/index.html.eex:91
+#: web/templates/page/index.html.eex:142
 msgid "Get Start Now"
 msgstr ""
 
-#: web/templates/page/index.html.eex:60
+#: web/templates/page/index.html.eex:105
 msgid "Use Cases"
 msgstr ""
 
-#: web/templates/page/index.html.eex:47
+#: web/templates/page/index.html.eex:88
 msgid "Compared to email, communications in chat software are real-time, which will allow you to respond to customers right when they have questions and increase customer’s satisfaction."
 msgstr ""
 
-#: web/templates/page/index.html.eex:66
+#: web/templates/page/index.html.eex:112
 msgid "E-commerce website"
 msgstr ""
 
-#: web/templates/page/index.html.eex:77
+#: web/templates/page/index.html.eex:126
 msgid "For emerging websites and new startups, you can use it as a growth hacking tool that allows you to speak directly with your customer and get to know how customers use the site."
 msgstr ""
 
-#: web/templates/page/index.html.eex:85
+#: web/templates/page/index.html.eex:136
 msgid "For personal affiliate sites, you can also use it as a tool to improve affiliate click rate and conversion rate. Even if you’re not online when the customer contacts you, you can still respond later."
 msgstr ""
 
-#: web/templates/page/index.html.eex:74
+#: web/templates/page/index.html.eex:122
 msgid "Growth hacking tool"
 msgstr ""
 
-#: web/templates/page/index.html.eex:82
+#: web/templates/page/index.html.eex:132
 msgid "Personal site"
 msgstr ""
 
-#: web/templates/page/index.html.eex:41
+#: web/templates/page/index.html.eex:78
 msgid "Use this chat software and you can respond quickly when customers want to ask something. Additionally, real-time response can help your customers know that your website is reliable."
 msgstr ""
 
-#: web/templates/page/index.html.eex:53
+#: web/templates/page/index.html.eex:98
 msgid "Using software can increase your website’s conversion rate and attract more users and improve user experience. You can also check in with your customers using the chat software.\n"
 msgstr ""
 
-#: web/templates/page/index.html.eex:69
+#: web/templates/page/index.html.eex:116
 msgid "We can provide service to make customers feel like they’re buying something in a brick-and-mortar store, which will make customers feel more secure while real-time responses improve customer engagement. Which, in turn, will improve sales."
 msgstr ""
 
@@ -333,14 +333,18 @@ msgstr ""
 msgid "Account"
 msgstr ""
 
-#: web/templates/user/edit.html.eex:3
+#: web/templates/user/edit.html.eex:8
 msgid "Update"
 msgstr ""
 
-#: web/templates/page/index.html.eex:25
+#: web/templates/page/index.html.eex:58
 msgid "View Live Demo"
 msgstr ""
 
 #: web/templates/page/price.html.eex:37 web/templates/page/price.html.eex:58
 msgid "per agent/mo."
+msgstr ""
+
+#: web/templates/page/welcome.html.eex:20
+msgid "SET UP NOW"
 msgstr ""
