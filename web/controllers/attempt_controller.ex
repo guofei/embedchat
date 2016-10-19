@@ -103,12 +103,12 @@ defmodule EmbedChat.AttemptController do
 
   defp is_https(url) do
     uri = URI.parse(get_url(url))
-    uri.scheme == :https
+    uri.scheme == "https"
   end
 
   defp to_http(conn, attempt) do
     path = attempt_path(conn, :show, attempt)
-    if conn.port == 80 do
+    if conn.port == 80 || conn.port == 443 do
       "http://#{conn.host}#{path}"
     else
       "http://#{conn.host}:#{conn.port}#{path}"

@@ -5,6 +5,7 @@ defmodule EmbedChat.AutoMessageConfigController do
 
   plug :scrub_params, "auto_message_config" when action in [:create, :update]
   plug :authenticate_user
+  plug :scrub_room_param when action in [:create, :update]
 
   def index(conn, _params) do
     auto_message_configs =
@@ -21,13 +22,11 @@ defmodule EmbedChat.AutoMessageConfigController do
     render(conn, "new.html", changeset: changeset, rooms: rooms)
   end
 
-  # FIXME check room id when create, edit and udpate
-
-  def create(conn, %{"auto_message_config" => auto_message_config_params}) do
+  def create(conn, %{"auto_message_config" => params}) do
     changeset =
       conn.assigns.current_user
       |> build_assoc(:auto_message_configs)
-      |> AutoMessageConfig.changeset(auto_message_config_params)
+      |> AutoMessageConfig.changeset(params)
 
     case Repo.insert(changeset) do
       {:ok, _auto_message_config} ->
@@ -52,9 +51,9 @@ defmodule EmbedChat.AutoMessageConfigController do
     render(conn, "edit.html", auto_message_config: auto_message_config, changeset: changeset, rooms: rooms)
   end
 
-  def update(conn, %{"id" => id, "auto_message_config" => auto_message_config_params}) do
+  def update(conn, %{"id" => id, "auto_message_config" => params}) do
     auto_message_config = Repo.get!(user_configs(conn), id)
-    changeset = AutoMessageConfig.changeset(auto_message_config, auto_message_config_params)
+    changeset = AutoMessageConfig.changeset(auto_message_config, params)
 
     case Repo.update(changeset) do
       {:ok, _auto_message_config} ->
@@ -77,6 +76,27 @@ defmodule EmbedChat.AutoMessageConfigController do
     conn
     |> put_flash(:info, "Auto message config deleted successfully.")
     |> redirect(to: auto_message_config_path(conn, :index))
+  end
+
+  def scrub_room_param(conn, _param) do
+    scrub_room(conn, conn.params["auto_message_config"]["room_id"])
+  end
+
+  alias EmbedChat.Router.Helpers
+  defp scrub_room(conn, room_id) when is_nil(room_id) do
+    conn
+    |> put_flash(:error, "You must be logged in to access that page")
+    |> redirect(to: Helpers.page_path(conn, :index))
+    |> halt()
+  end
+
+  defp scrub_room(conn, room_id) do
+    room = Repo.get(user_rooms(conn), room_id)
+    if room do
+      conn
+    else
+      scrub_room(conn, nil)
+    end
   end
 
   defp user_configs(conn) do
