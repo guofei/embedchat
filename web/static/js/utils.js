@@ -45,11 +45,11 @@ export function userShortName(uuid, users, name = '') {
   if (users[uuid]) {
     const user = users[uuid];
     if (user.name || user.email) {
-      return shortName(user.name || user.email);
+      return user.name || shortName(user.email);
     }
   }
   if (name) {
-    return shortName(name);
+    return name;
   }
   return shortName(uuid);
 }

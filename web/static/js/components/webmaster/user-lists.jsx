@@ -40,7 +40,7 @@ function userItem(user, onSelected) {
       value={user.uid}
       primaryText={
         <div>
-          {shortName(user.name || user.email || user.uid)}
+          {user.name || shortName(user.email || user.uid)}
           <div style={styles.pullRight}>
             {messsageTime(user.message)}
           </div>
