@@ -31,12 +31,16 @@ defmodule EmbedChat.AttemptController do
 
   def show(conn, %{"id" => id}) do
     attempt = Repo.get!(Attempt, id)
-    room = EmbedChat.Room |> EmbedChat.Room.first |> Repo.one
-    source = get_source(attempt.url)
-    if source == "<html><head></head><body></body></html>" do
-      render(conn, "show.html", data: "Not found :( <br> url: #{attempt.url}", room: room)
+    if conn.scheme == :https && !is_https(attempt.url) do
+      redirect(conn, external: to_http(conn, attempt))
     else
-      render(conn, "show.html", data: source, room: room)
+      room = EmbedChat.Room |> EmbedChat.Room.first |> Repo.one
+      source = get_source(attempt.url)
+      if source == "<html><head></head><body></body></html>" do
+        render(conn, "show.html", data: "Not found :( <br> url: #{attempt.url}", room: room)
+      else
+        render(conn, "show.html", data: source, room: room)
+      end
     end
   end
 
@@ -95,5 +99,19 @@ defmodule EmbedChat.AttemptController do
   defp get_host(url) do
     uri = URI.parse(get_url(url))
     uri.scheme <> "://" <> uri.host
+  end
+
+  defp is_https(url) do
+    uri = URI.parse(get_url(url))
+    uri.scheme == :https
+  end
+
+  defp to_http(conn, attempt) do
+    path = attempt_path(conn, :show, attempt)
+    if conn.port == 80 do
+      "http://#{conn.host}#{path}"
+    else
+      "http://#{conn.host}:#{conn.port}#{path}"
+    end
   end
 end
