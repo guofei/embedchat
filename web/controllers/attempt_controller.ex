@@ -29,14 +29,18 @@ defmodule EmbedChat.AttemptController do
 
   def show(conn, %{"id" => id}) do
     attempt = Repo.get!(Attempt, id)
-    url = get_url(attempt.url)
-    room = EmbedChat.Room |> EmbedChat.Room.first |> Repo.one
-    if frame_ok?(url) do
-      render(conn, "show.html", room: room, url: url)
+    if conn.scheme == :https && !is_https(attempt.url) do
+      redirect(conn, external: to_http(conn, attempt))
     else
-      conn
-      |> put_flash(:info, gettext("Lewini uses iframing to display the demo, but this page doesn't support iframes."))
-      |> render("show.html", room: room, url: url)
+      url = get_url(attempt.url)
+      room = EmbedChat.Room |> EmbedChat.Room.first |> Repo.one
+      if frame_ok?(url) do
+        render(conn, "show.html", room: room, url: url)
+      else
+        conn
+        |> put_flash(:info, gettext("Lewini uses iframing to display the demo, but this page doesn't support iframes."))
+        |> render("show.html", room: room, url: url)
+      end
     end
   end
 
@@ -102,6 +106,20 @@ defmodule EmbedChat.AttemptController do
       end
     else
       true
+    end
+  end
+
+  defp is_https(url) do
+    uri = URI.parse(get_url(url))
+    uri.scheme == "https"
+  end
+
+  defp to_http(conn, attempt) do
+    path = attempt_path(conn, :show, attempt)
+    if conn.port == 80 || conn.port == 443 do
+      "http://#{conn.host}#{path}"
+    else
+      "http://#{conn.host}:#{conn.port}#{path}"
     end
   end
 end
