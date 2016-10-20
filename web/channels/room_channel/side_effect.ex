@@ -57,7 +57,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       |> Repo.get(room_id)
       |> Repo.preload(:users)
     Enum.each(room.users, fn(user) ->
-      Task.start(fn -> EmbedChat.Mailer.send_msg_notification(user.email, text) end)
+      EmbedChat.UserEmail.send_msg_notification(user.email, text) |> EmbedChat.Mailer.deliver_later
     end)
   end
 
