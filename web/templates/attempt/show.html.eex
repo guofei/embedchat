@@ -1,9 +1,24 @@
-<script>document.body.style.display = 'none';</script>
-<div style="display:none">
-  <div id="embedded-site">
-    <%= raw @data %>
-  </div>
+<style>
+ .iframe-content {
+   position: relative;
+   width: 100%;
+   padding: 75% 0 0 0;
+ }
+ .iframe-content iframe {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+ }
+</style>
 
-  <script>window.room_uuid = "<%= @room.uuid %>"</script>
-  <script>window.js_src = "<%= static_path(@conn, "/js/app.js") %>"</script>
+<div class="iframe-content">
+  <iframe id="i-frame" src="<%= @url %>" frameborder="0"></iframe>
 </div>
+
+<script>window.room_uuid = "<%= @room.uuid %>"</script>
+<script>window.js_src = "<%= static_path(@conn, "/js/app.js") %>"</script>
+<script>
+  document.getElementsByClassName('mdl-layout__header')[0].style.display="none";
+</script>

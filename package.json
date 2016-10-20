@@ -33,15 +33,13 @@
     "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
-    "phantomjs-prebuilt": "^2.1.12",
     "redux-devtools": "^3.3.1",
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.2"
   },
   "scripts": {
-    "compile": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors",
-    "phantomjs": "phantomjs --wd"
+    "compile": "webpack -p --define process.env.NODE_ENV='\"production\"' --progress --colors"
   },
   "license": "MIT"
 }

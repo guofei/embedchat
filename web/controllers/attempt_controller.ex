@@ -1,6 +1,5 @@
 defmodule EmbedChat.AttemptController do
   use EmbedChat.Web, :controller
-  use Hound.Helpers
   alias EmbedChat.Attempt
 
   plug :authenticate_user when action in [:index, :update, :edit, :delete]
@@ -22,7 +21,6 @@ defmodule EmbedChat.AttemptController do
     case Repo.insert(changeset) do
       {:ok, attempt} ->
         conn
-        |> put_flash(:info, "waiting...")
         |> redirect(to: attempt_path(conn, :show, attempt))
       {:error, changeset} ->
         render(conn, EmbedChat.PageView, "index.html", attempt: changeset)
@@ -31,16 +29,14 @@ defmodule EmbedChat.AttemptController do
 
   def show(conn, %{"id" => id}) do
     attempt = Repo.get!(Attempt, id)
-    if conn.scheme == :https && !is_https(attempt.url) do
-      redirect(conn, external: to_http(conn, attempt))
+    url = get_url(attempt.url)
+    room = EmbedChat.Room |> EmbedChat.Room.first |> Repo.one
+    if frame_ok?(url) do
+      render(conn, "show.html", room: room, url: url)
     else
-      room = EmbedChat.Room |> EmbedChat.Room.first |> Repo.one
-      source = get_source(attempt.url)
-      if source == "<html><head></head><body></body></html>" do
-        render(conn, "show.html", data: "Not found :( <br> url: #{attempt.url}", room: room)
-      else
-        render(conn, "show.html", data: source, room: room)
-      end
+      conn
+      |> put_flash(:info, gettext("Lewini uses iframing to display the demo, but this page doesn't support iframes."))
+      |> render("show.html", room: room, url: url)
     end
   end
 
@@ -76,18 +72,6 @@ defmodule EmbedChat.AttemptController do
     |> redirect(to: attempt_path(conn, :index))
   end
 
-  defp get_source(url) do
-    Hound.start_session
-    url
-    |> String.trim
-    |> get_url
-    |> navigate_to
-    source = page_source
-    current_url = current_url()
-    Hound.end_session
-    String.replace(source, ~r/(href|src)=(\"|\')(?!http:|https:|\/\/)/, "\\1=\\2#{get_host(current_url)}/\\3")
-  end
-
   defp get_url(url) do
     new_url = URI.encode(url)
     if URI.parse(new_url).scheme do
@@ -97,22 +81,27 @@ defmodule EmbedChat.AttemptController do
     end
   end
 
-  defp get_host(url) do
-    uri = URI.parse(get_url(url))
-    uri.scheme <> "://" <> uri.host
+  defp frame_ok?(url) do
+    new_url = get_url url
+    case HTTPoison.get(new_url, [], [follow_redirect: true]) do
+      {:ok, %HTTPoison.Response{status_code: 200, headers: headers, body: _body}} ->
+        x_frame_options headers
+      {:ok, %HTTPoison.Response{status_code: 404}} ->
+        false
+      {:error, %HTTPoison.Error{reason: _reason}} ->
+        false
+    end
   end
 
-  defp is_https(url) do
-    uri = URI.parse(get_url(url))
-    uri.scheme == "https"
-  end
-
-  defp to_http(conn, attempt) do
-    path = attempt_path(conn, :show, attempt)
-    if conn.port == 80 || conn.port == 443 do
-      "http://#{conn.host}#{path}"
+  defp x_frame_options(headers) do
+    if option = List.keyfind(headers, "X-Frame-Options", 0) do
+      if elem(option, 1) == "SAMEORIGIN" || elem(option, 1) == "deny" do
+        false
+      else
+        true
+      end
     else
-      "http://#{conn.host}:#{conn.port}#{path}"
+      true
     end
   end
 end
