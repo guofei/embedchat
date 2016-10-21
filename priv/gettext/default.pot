@@ -352,3 +352,7 @@ msgstr ""
 #: web/templates/page/welcome.html.eex:17
 msgid "Welcome!"
 msgstr ""
+
+#: web/controllers/attempt_controller.ex:38
+msgid "Lewini uses iframing to display the demo, but this page doesn't support iframes."
+msgstr ""

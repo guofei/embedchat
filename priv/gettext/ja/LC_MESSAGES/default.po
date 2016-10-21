@@ -351,3 +351,7 @@ msgstr "今すぐ設置する"
 #: web/templates/page/welcome.html.eex:17
 msgid "Welcome!"
 msgstr "ようこそ"
+
+#: web/controllers/attempt_controller.ex:38
+msgid "Lewini uses iframing to display the demo, but this page doesn't support iframes."
+msgstr "このページはiframeを表示しないように設定されているため、デモが表示できません。"
