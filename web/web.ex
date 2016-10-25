@@ -40,8 +40,6 @@ defmodule EmbedChat.Web do
       # common controller function module
       import EmbedChat.Controllers
 
-      import EmbedChat.Auth, only: [authenticate_user: 2]
-
       plug ElixometerPlug
     end
   end
@@ -65,8 +63,6 @@ defmodule EmbedChat.Web do
   def router do
     quote do
       use Phoenix.Router
-
-      import EmbedChat.Auth, only: [authenticate_user: 2]
     end
   end
 

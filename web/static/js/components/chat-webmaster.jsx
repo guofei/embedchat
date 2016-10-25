@@ -59,11 +59,12 @@ class ChatWebmaster extends React.Component {
       uuid: visitor.uid,
       room_uuid: this.props.room.getRoomUUID(),
     };
-    fetch(`//${host}/api/visitors?token=${window.userToken}`, {
+    fetch(`//${host}/api/visitors`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${window.userToken}`,
       },
       body: JSON.stringify(data),
     });

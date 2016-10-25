@@ -2,10 +2,11 @@ defmodule EmbedChat.PageController do
   use EmbedChat.Web, :controller
   alias EmbedChat.Attempt
 
-  plug :authenticate_user when action in [:welcome]
+  plug Guardian.Plug.EnsureAuthenticated, [handler: EmbedChat.AuthErrorHandler] when action in [:welcome]
 
   def index(conn, _params) do
-    if conn.assigns.current_user do
+    user = Guardian.Plug.current_resource(conn)
+    if user do
       room = Repo.one(user_rooms conn)
       render conn, "index.html", room: room
     else

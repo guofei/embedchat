@@ -8,7 +8,7 @@ defmodule EmbedChat.AutoMessageConfigControllerTest do
   setup %{conn: conn} do
     user = insert_user(username: "test")
     room = insert_room(user)
-    conn = assign(conn, :current_user, user)
+    conn = guardian_login(conn, user)
     {:ok, conn: conn, user: user, room: room}
   end
 

@@ -4,12 +4,13 @@ defmodule EmbedChat.MessageController do
   alias EmbedChat.Message
 
   plug :scrub_params, "message" when action in [:create, :update]
-  plug :authenticate_user
+  plug Guardian.Plug.EnsureAuthenticated, [handler: EmbedChat.AuthErrorHandler]
 
   def index(conn, params) do
+    user = Guardian.Plug.current_resource(conn)
     messages =
       Message
-      |> Message.preload_for_user_and_visitor(conn.assigns.current_user.id)
+      |> Message.preload_for_user_and_visitor(user.id)
       |> Repo.paginate(params)
     render(conn, "index.html", messages: messages)
   end

@@ -8,7 +8,7 @@ defmodule EmbedChat.AttemptControllerTest do
   setup %{conn: conn} = config do
     if username = config[:login_as] do
       user = insert_user(username: username)
-      conn = assign(conn, :current_user, user)
+      conn = guardian_login(conn, user)
       {:ok, conn: conn, user: user}
     else
       :ok

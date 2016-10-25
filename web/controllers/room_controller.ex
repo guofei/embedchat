@@ -5,7 +5,7 @@ defmodule EmbedChat.RoomController do
   alias EmbedChat.UserRoom
 
   plug :scrub_params, "room" when action in [:create, :update]
-  plug :authenticate_user when action in [:index, :new, :create, :edit, :update, :delete]
+  plug Guardian.Plug.EnsureAuthenticated, [handler: EmbedChat.AuthErrorHandler] when action in [:index, :new, :create, :edit, :update, :delete]
 
   def index(conn, _params) do
     rooms = Repo.all(user_rooms(conn))
@@ -23,7 +23,7 @@ defmodule EmbedChat.RoomController do
 
     case Repo.insert(changeset) do
       {:ok, room} ->
-        user = conn.assigns.current_user
+        user = Guardian.Plug.current_resource(conn)
         # TODO check if connect user and room
         Repo.insert(%UserRoom{user_id: user.id, room_id: room.id})
         conn

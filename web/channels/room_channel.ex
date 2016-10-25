@@ -8,7 +8,6 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.Room
   alias EmbedChat.RoomChannel.MessageParam
   alias EmbedChat.RoomChannel.SideEffect
-  alias EmbedChat.User
   alias EmbedChat.UserLog
   alias EmbedChat.UserLogView
   alias Phoenix.View
@@ -24,7 +23,7 @@ defmodule EmbedChat.RoomChannel do
           self,
           {__MODULE__, :leave, [room.id,
                                 room.uuid,
-                                socket.assigns[:user_id],
+                                socket.assigns[:current_user],
                                 socket.assigns.distinct_id]
           }
         )
@@ -54,7 +53,7 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp master_after_join(socket) do
-    user = Repo.get!(User, socket.assigns.user_id)
+    user = socket.assigns.current_user
     {:ok, address} = SideEffect.create_or_update_address(socket)
     SideEffect.admin_online(socket.assigns.room_id, socket.assigns.distinct_id, user, address)
     broadcast! socket, "admin_join", %{uid: socket.assigns.distinct_id, id: address.id, name: user.name}
@@ -197,17 +196,17 @@ defmodule EmbedChat.RoomChannel do
     EmbedChat.ChannelWatcher.demonitor(:rooms, self())
 
     distinct_id = socket.assigns.distinct_id
-    leave(socket.assigns.room_id, socket.assigns.room_uuid, socket.assigns[:user_id], distinct_id)
+    leave(socket.assigns.room_id, socket.assigns.room_uuid, socket.assigns[:current_user], distinct_id)
 
     {:noreply, socket}
   end
 
-  def leave(room_id, room_uuid, user_id, distinct_id) when is_nil(user_id) do
+  def leave(room_id, room_uuid, user, distinct_id) when is_nil(user) do
     EmbedChat.Endpoint.broadcast! "rooms:#{room_uuid}", "user_left", %{uid: distinct_id}
     SideEffect.visitor_offline(room_id, distinct_id)
   end
 
-  def leave(room_id, room_uuid, _user_id, distinct_id) do
+  def leave(room_id, room_uuid, _user, distinct_id) do
     EmbedChat.Endpoint.broadcast! "rooms:#{room_uuid}", "admin_left", %{uid: distinct_id}
     SideEffect.admin_offline(room_id, distinct_id)
   end
@@ -221,15 +220,14 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp master?(socket) do
-    socket.assigns[:user_id]
+    socket.assigns[:current_user]
   end
 
   # Add authorization logic here as required.
   defp authorized?(socket, room) do
-    if user_id = socket.assigns[:user_id] do
+    if user = socket.assigns[:current_user] do
       room = Repo.preload room, :users
       users = room.users
-      user = Repo.get!(User, user_id)
       Enum.any?(users, &(&1.id == user.id))
     else
       true

@@ -4,7 +4,7 @@ defmodule EmbedChat.UserController do
   alias EmbedChat.UserRoom
   alias EmbedChat.Room
 
-  plug :authenticate_user when action in [:index, :show, :edit, :update]
+  plug Guardian.Plug.EnsureAuthenticated, [handler: EmbedChat.AuthErrorHandler] when action in [:index, :show, :edit, :update]
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})

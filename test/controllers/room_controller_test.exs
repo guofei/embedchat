@@ -8,7 +8,7 @@ defmodule EmbedChat.RoomControllerTest do
   setup %{conn: conn} = config do
     if username = config[:login_as] do
       user = insert_user(username: username)
-      conn = assign(conn, :current_user, user)
+      conn = guardian_login(conn, user)
       {:ok, conn: conn, user: user}
     else
       :ok
@@ -30,11 +30,10 @@ defmodule EmbedChat.RoomControllerTest do
   end
 
   @tag login_as: "max"
-  test "authorizes actions against access by other users",
-  %{user: owner, conn: conn} do
+  test "authorizes actions against access by other users", %{user: owner, conn: conn} do
     room = insert_room(owner, @valid_attrs)
     non_owner = insert_user(username: "sneaky")
-    conn = assign(conn, :current_user, non_owner)
+    conn = guardian_login(conn, non_owner)
 
     assert_error_sent :not_found, fn ->
       get(conn, room_path(conn, :edit, room))

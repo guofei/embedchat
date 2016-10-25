@@ -1,6 +1,19 @@
 defmodule EmbedChat.Router do
   use EmbedChat.Web, :router
 
+  pipeline :browser_auth do
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.LoadResource
+    plug EmbedChat.UserPlug
+    plug EmbedChat.UserTokenPlug
+    plug EmbedChat.UserAddressPlug, repo: EmbedChat.Repo
+  end
+
+  pipeline :api_auth do
+    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    plug Guardian.Plug.LoadResource
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -8,18 +21,15 @@ defmodule EmbedChat.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug EmbedChat.Locale, "en"
-    plug EmbedChat.Auth, repo: EmbedChat.Repo
-    plug EmbedChat.AuthAddress, repo: EmbedChat.Repo
     plug EmbedChat.SDK, repo: EmbedChat.Repo
   end
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug EmbedChat.AuthAPI, repo: EmbedChat.Repo
   end
 
   scope "/", EmbedChat do
-    pipe_through :browser # Use the default browser stack
+    pipe_through [:browser, :browser_auth]
 
     get "/", PageController, :index
     get "/price", PageController, :price
@@ -34,14 +44,12 @@ defmodule EmbedChat.Router do
   end
 
   scope "/manage", EmbedChat do
-    pipe_through [:browser, :authenticate_user]
-
     # resources "/chats", VideoController
   end
 
   # Other scopes may use custom stacks.
   scope "/api", EmbedChat do
-    pipe_through :api
+    pipe_through [:api, :api_auth]
 
     resources "/visitors", VisitorController, except: [:new, :edit]
   end

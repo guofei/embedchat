@@ -2,7 +2,7 @@ defmodule EmbedChat.AttemptController do
   use EmbedChat.Web, :controller
   alias EmbedChat.Attempt
 
-  plug :authenticate_user when action in [:index, :update, :edit, :delete]
+  plug Guardian.Plug.EnsureAuthenticated, [handler: EmbedChat.AuthErrorHandler] when action in [:index, :update, :edit, :delete]
   plug :scrub_params, "attempt" when action in [:create, :update]
 
   def index(conn, _params) do

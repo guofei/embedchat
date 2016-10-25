@@ -1,17 +1,17 @@
-defmodule EmbedChat.AuthAddress do
+defmodule EmbedChat.UserAddressPlug do
   import Plug.Conn
   alias EmbedChat.Address
-  alias EmbedChat.Repo
 
   def init(opts) do
     Keyword.fetch!(opts, :repo)
   end
 
   def call(conn, repo) do
-    if user = conn.assigns[:current_user] do
+    user = Guardian.Plug.current_resource(conn)
+    if user do
       room = EmbedChat.Room |> EmbedChat.Room.first |> repo.one
       if room do
-        address = create_or_get_address(user, room)
+        address = create_or_get_address(user, room, repo)
         assign(conn, :user_address, address.uuid)
       else
         assign(conn, :user_address, nil)
@@ -21,12 +21,12 @@ defmodule EmbedChat.AuthAddress do
     end
   end
 
-  defp create_or_get_address(user, room) do
-    if address = Repo.one(Address.latest_for_user_room(Address, user.id, room.id)) do
+  defp create_or_get_address(user, room, repo) do
+    if address = repo.one(Address.latest_for_user_room(Address, user.id, room.id)) do
       address
     else
       changeset = Ecto.build_assoc(user, :addresses, uuid: Ecto.UUID.generate(), room_id: room.id)
-      case Repo.insert(changeset) do
+      case repo.insert(changeset) do
         {:ok, address} ->
           address
       end

@@ -9,10 +9,8 @@ defmodule EmbedChat.VisitorControllerTest do
     user = insert_user(username: "test")
     room = insert_room(user, %{})
     address = insert_address(user, room)
-    conn =
-      conn
-      |> put_req_header("accept", "application/json")
-      |> assign(:current_user, user)
+    {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user)
+    conn = put_req_header(conn, "authorization", "Bearer #{jwt}")
     {:ok, conn: conn, address: address, room: room}
   end
 

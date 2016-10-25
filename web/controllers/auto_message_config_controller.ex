@@ -4,7 +4,7 @@ defmodule EmbedChat.AutoMessageConfigController do
   alias EmbedChat.AutoMessageConfig
 
   plug :scrub_params, "auto_message_config" when action in [:create, :update]
-  plug :authenticate_user
+  plug Guardian.Plug.EnsureAuthenticated, [handler: EmbedChat.AuthErrorHandler]
   plug :scrub_room_param when action in [:create, :update]
 
   def index(conn, _params) do
@@ -24,7 +24,8 @@ defmodule EmbedChat.AutoMessageConfigController do
 
   def create(conn, %{"auto_message_config" => params}) do
     changeset =
-      conn.assigns.current_user
+      conn
+      |> Guardian.Plug.current_resource
       |> build_assoc(:auto_message_configs)
       |> AutoMessageConfig.changeset(params)
 
@@ -100,7 +101,8 @@ defmodule EmbedChat.AutoMessageConfigController do
   end
 
   defp user_configs(conn) do
-    conn.assigns.current_user
+    conn
+    |> Guardian.Plug.current_resource
     |> Ecto.assoc(:auto_message_configs)
   end
 end

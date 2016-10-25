@@ -5,6 +5,8 @@ defmodule EmbedChat.VisitorController do
   alias EmbedChat.Repo
   alias EmbedChat.Visitor
 
+  plug Guardian.Plug.EnsureAuthenticated
+
   def index(conn, _params) do
     visitors = Repo.all(Visitor)
     render(conn, "index.json", visitors: visitors)

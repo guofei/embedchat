@@ -6,11 +6,11 @@ defmodule EmbedChat.RoomChannelTest do
     {room, owner} = create_room
     cond do
       config[:master] && config[:visitor] ->
-        {:ok, _, master} = join_room(owner.id, uuid(), room.uuid)
+        {:ok, _, master} = join_room(owner, uuid(), room.uuid)
         {:ok, _, visitor} = join_room(uuid(), room.uuid)
         {:ok, master: master, visitor: visitor}
       config[:master] ->
-        {:ok, _, master} = join_room(owner.id, uuid(), room.uuid)
+        {:ok, _, master} = join_room(owner, uuid(), room.uuid)
         {:ok, socket: master}
       true ->
         {:ok, _, visitor} = join_room(uuid(), room.uuid)
@@ -103,11 +103,11 @@ defmodule EmbedChat.RoomChannelTest do
     |> subscribe_and_join(RoomChannel, "rooms:#{room_uuid}")
   end
 
-  defp join_room(user_id, distinct_id, room_uuid) do
+  defp join_room(user, distinct_id, room_uuid) do
     info = %{"userAgent" => "IE", "href" => "http://a.com"}
     socket = socket(distinct_id, %{distinct_id: distinct_id, info: info})
     socket
-    |> Phoenix.Socket.assign(:user_id, user_id)
+    |> Phoenix.Socket.assign(:current_user, user)
     |> subscribe_and_join(RoomChannel, "rooms:#{room_uuid}")
   end
 end

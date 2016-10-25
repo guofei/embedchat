@@ -1,5 +1,6 @@
 defmodule EmbedChat.UserSocket do
   use Phoenix.Socket
+  import Guardian.Phoenix.Socket
 
   ## Channels
   channel "rooms:*", EmbedChat.RoomChannel
@@ -28,14 +29,15 @@ defmodule EmbedChat.UserSocket do
   def connect(%{"token" => token, "distinct_id" => distinct_id}, socket) do
     case Ecto.UUID.cast(distinct_id) do
       {:ok, distinct_id} ->
-        case Phoenix.Token.verify(socket, "user", token, max_age: @max_age) do
-          {:ok, user_id} ->
+        case sign_in(socket, token) do
+          {:ok, authed_socket, _guardian_params} ->
+            user = Guardian.Phoenix.Socket.current_resource(authed_socket)
             {:ok,
-             socket
-             |> assign(:user_id, user_id)
+             authed_socket
+             |> assign(:current_user, user)
              |> assign(:distinct_id, distinct_id)}
-          {:error, _reason} ->
-            :error
+          _ ->
+            {:ok, assign(socket, :distinct_id, distinct_id)}
         end
       {:error, _reason} ->
         :error
