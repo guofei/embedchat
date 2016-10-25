@@ -1,4 +1,7 @@
 <style>
+ .center-container {
+   height: 640px;
+ }
  .welcome {
    position: relative;
    top: 30%;
@@ -9,8 +12,9 @@
 </style>
 
 <div class="page-content-max">
-    <div class="mdl-grid">
-      <div class="mdl-cell mdl-cell--12-col">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+      <div class="center-container">
         <div class="welcome">
           <center>
             <h2 style="color:gray;">
@@ -19,9 +23,12 @@
             <p>
               <%= gettext "Lewini Live Chat: A Live Chat Software for Business!" %>
             </p>
-            <%= link gettext("SET UP NOW"), to: room_path(@conn, :index), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+            <p>
+              <%= link gettext("SET UP NOW"), to: room_path(@conn, :index), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--accent" %>
+            </p>
           </center>
         </div>
       </div>
     </div>
+  </div>
 </div>
