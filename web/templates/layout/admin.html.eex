@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title><%= gettext "Lewini Live Chat: A Live Chat Software for Business!" %></title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.cyan-blue.min.css" />
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link rel="alternate" hreflang="en" href=<%= current_locale_url(@conn, "en") %> />
+    <link rel="alternate" hreflang="ja" href=<%= current_locale_url(@conn, "ja") %> />
+    <%= render "track.html" %>
+  </head>
+
+  <body>
+    <!-- Always shows a header, even in smaller screens. -->
+    <!-- <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--fixed-drawer"> -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Lewini</span>
+          <!-- Add spacer, to align navigation to the right -->
+          <div class="mdl-layout-spacer"></div>
+          <!-- Navigation -->
+          <nav class="mdl-navigation mdl-layout--large-screen-only">
+            <%= if @admin do %>
+              <%= render "header_login_nav.html", conn: @conn, current_user: @admin %>
+            <% else %>
+              <%= render "header_nologin_nav.html", conn: @conn %>
+            <% end %>
+          </nav>
+
+          <!-- Right aligned menu below button -->
+          <button id="menu-lower-right"
+            class="mdl-button mdl-js-button mdl-button--icon">
+            <i class="material-icons">more_vert</i>
+          </button>
+          <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+            for="menu-lower-right">
+            <li class="mdl-menu__item">
+              <%= link gettext("English"), to: current_locale_path(@conn, "en"), class: "mdl-button mdl-js-button" %>
+            </li>
+            <li class="mdl-menu__item">
+              <%= link gettext("Japanese"), to: current_locale_path(@conn, "ja"), class: "mdl-button mdl-js-button" %>
+            </li>
+          </ul>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer">
+        <%= if @admin do %>
+          <span class="mdl-layout-title">
+            <%= @admin.email %>
+          </span>
+          <nav class="mdl-navigation">
+            <%= render "header_login_nav.html", conn: @conn, current_user: @admin %>
+          </nav>
+        <% else %>
+          <span class="mdl-layout-title">
+            Lewini
+          </span>
+          <nav class="mdl-navigation">
+            <%= render "header_nologin_nav.html", conn: @conn %>
+          </nav>
+        <% end %>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="page-content">
+          <!-- Your content goes here -->
+          <%= if get_flash(@conn, :info) || get_flash(@conn, :error) do %>
+            <center>
+              <p>
+                <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+                <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+              </p>
+            </center>
+          <% end %>
+          <%= render @view_module, @view_template, assigns %>
+        </div>
+      </main>
+    </div>
+
+    <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+  </body>
+</html>

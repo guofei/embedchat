@@ -1,10 +1,10 @@
-defmodule EmbedChat.UserController do
+defmodule EmbedChat.Admin.UserController do
   use EmbedChat.Web, :controller
   alias EmbedChat.User
   alias EmbedChat.UserRoom
   alias EmbedChat.Room
 
-  plug Guardian.Plug.EnsureAuthenticated, [handler: EmbedChat.AuthErrorHandler] when action in [:index, :show, :edit, :update]
+  plug Guardian.Plug.EnsureAuthenticated, [key: :admin]
 
   def new(conn, _params) do
     changeset = User.changeset(%User{})
@@ -17,38 +17,37 @@ defmodule EmbedChat.UserController do
       {:ok, user} ->
         create_room user
         conn
-        |> EmbedChat.Auth.login(user)
-        |> redirect(to: page_path(conn, :welcome))
+        |> redirect(to: admin_user_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
   end
 
-  def index(conn, _params) do
-    user = conn.assigns.current_user
+  def index(conn, params) do
+    users = EmbedChat.User |> Repo.paginate(params)
+    render(conn, "index.html", users: users)
+  end
+
+  def show(conn, %{"id" => id}) do
+    user = Repo.get!(User, id)
     render(conn, "show.html", user: user)
   end
 
-  def show(conn, %{"id" => _id}) do
-    user = conn.assigns.current_user
-    render(conn, "show.html", user: user)
-  end
-
-  def edit(conn, %{"id" => _id}) do
-    user = conn.assigns.current_user
+  def edit(conn, %{"id" => id}) do
+    user = Repo.get!(User, id)
     changeset = User.changeset(user)
     render(conn, "edit.html", user: user, changeset: changeset)
   end
 
-  def update(conn, %{"id" => _id, "user" => user_params}) do
-    user = conn.assigns.current_user
-    changeset = User.registration_changeset(user, user_params)
+  def update(conn, %{"id" => id, "user" => user_params}) do
+    user = Repo.get!(User, id)
+    changeset = User.changeset(user, user_params)
 
     case Repo.update(changeset) do
       {:ok, user} ->
         conn
         |> put_flash(:info, "User updated successfully.")
-        |> redirect(to: user_path(conn, :show, user))
+        |> redirect(to: admin_user_path(conn, :show, user))
       {:error, changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
     end

@@ -1,7 +1,12 @@
 defmodule EmbedChat.Auth do
   def login(conn, user) do
-    conn
-    |> Guardian.Plug.sign_in(user)
+    if EmbedChat.User.admin?(user) do
+      conn
+      |> Guardian.Plug.sign_in(user, :access, key: :admin)
+    else
+      conn
+      |> Guardian.Plug.sign_in(user)
+    end
   end
 
   def logout(conn) do

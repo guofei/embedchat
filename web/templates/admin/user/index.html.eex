@@ -1,0 +1,48 @@
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--12-col">
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">ID</th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "Email" %></th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "Name" %></th>
+          <th class="mdl-data-table__cell--non-numeric">Crypted</th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "Created At" %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for user <- @users do %>
+          <tr>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= user.id %>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= user.email %>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= user.name %>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= String.slice(user.crypted_password, -5..-1) %>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= user.inserted_at %>
+            </td>
+            <td>
+              <%= link gettext("Edit"), to: admin_user_path(@conn, :edit, user), class: "mdl-button mdl-js-button" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <center>
+      <div class="nav-page">
+        <%= pagination_links @conn, @users %>
+      </div>
+    </center>
+    <br/>
+    <br/>
+  </div>
+</div>
+

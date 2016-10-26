@@ -1,0 +1,10 @@
+<div class="page-content-max">
+  <center>
+
+    <h3>Edit</h3>
+
+    <%= render "form.html", changeset: @changeset,
+    action: admin_user_path(@conn, :update, @user),
+    submit_value: gettext("Update") %>
+  </center>
+</div>

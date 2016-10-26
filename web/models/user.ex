@@ -33,11 +33,12 @@ defmodule EmbedChat.User do
   """
   def changeset(model, params \\ %{}) do
     model
-    |> cast(params, [:email, :name, :password])
-    |> validate_required([:email, :password])
+    |> cast(params, [:email, :name])
+    |> validate_required([:email])
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
-    |> validate_length(:password, min: 6)
+    |> validate_length(:email, min: 1, max: 50)
+    |> validate_length(:name, min: 1, max: 20)
   end
 
   defp put_pass_hash(changeset) do
@@ -54,6 +55,14 @@ defmodule EmbedChat.User do
       user.name
     else
       user.email
+    end
+  end
+
+  def admin?(struct) do
+    if struct.id == 1 do
+      true
+    else
+      false
     end
   end
 

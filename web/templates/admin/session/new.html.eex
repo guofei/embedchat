@@ -1,0 +1,25 @@
+<div class="page-content-max">
+  <center>
+
+    <h3><%= gettext("Login") %></h3>
+
+  <%= form_for @conn, session_path(@conn, :create), [as: :session], fn f -> %>
+    <div class="mdl-textfield mdl-js-textfield">
+      <%= text_input f, :email, class: "mdl-textfield__input", type: "email", id: "email" %>
+      <label class="mdl-textfield__label" for="email"><%= gettext("Email") %>...</label>
+    </div>
+
+    <br/>
+
+    <div class="mdl-textfield mdl-js-textfield">
+      <%= password_input f, :password, class: "mdl-textfield__input", type: "password", id: "password" %>
+      <label class="mdl-textfield__label" for="password"><%= gettext("Password") %>...</label>
+    </div>
+
+    <br/><br/>
+
+    <%= submit gettext("Login"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
+  <% end %>
+
+  </center>
+</div>
