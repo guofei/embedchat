@@ -1,13 +1,15 @@
 defmodule EmbedChat.Admin.SessionController do
   use EmbedChat.Web, :controller
 
+  plug Guardian.Plug.EnsureAuthenticated, [key: :admin] when action in [:delete, :impersonate, :stop_impersonating]
+
   def new(conn, _params) do
     render conn, "new.html"
   end
 
   def create(conn, %{"session" => %{"email" => email, "password" =>
                                      pass}}) do
-    case EmbedChat.Auth.login_by_email_and_pass(conn, email, pass, repo:
+    case EmbedChat.Auth.admin_login_by_email_and_pass(conn, email, pass, repo:
           Repo) do
       {:ok, conn} ->
         conn
@@ -21,8 +23,22 @@ defmodule EmbedChat.Admin.SessionController do
 
   def delete(conn, _) do
     conn
-    |> EmbedChat.Auth.logout()
+    |> Guardian.Plug.sign_out(:admin)
     |> put_flash(:info, "You have been logged out")
     |> redirect(to: page_path(conn, :index))
+  end
+
+  def impersonate(conn, params) do
+    user = Repo.get(EmbedChat.User, params["user_id"])
+    conn
+    |> Guardian.Plug.sign_out(:default)
+    |> Guardian.Plug.sign_in(user)
+    |> redirect(to: "/")
+  end
+
+  def stop_impersonating(conn, _) do
+    conn
+    |> Guardian.Plug.sign_out(:default)
+    |> redirect(to: admin_user_path(conn, :index))
   end
 end

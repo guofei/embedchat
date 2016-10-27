@@ -30,44 +30,17 @@
           <!-- Navigation -->
           <nav class="mdl-navigation mdl-layout--large-screen-only">
             <%= if @admin do %>
-              <%= render "header_login_nav.html", conn: @conn, current_user: @admin %>
+              <%= link gettext("Home"),   to: admin_user_path(@conn, :index), class: "mdl-navigation__link" %>
+              <%= link gettext("Users"),  to: admin_user_path(@conn, :index), class: "mdl-navigation__link" %>
+              <%= link gettext("Logout"), to: admin_session_path(@conn, :delete, @admin), method: :delete, class: "mdl-navigation__link" %>
             <% else %>
-              <%= render "header_nologin_nav.html", conn: @conn %>
+              <%= link gettext("Home"),   to: admin_user_path(@conn, :index), class: "mdl-navigation__link" %>
+              <%= link gettext("Login"),  to: admin_session_path(@conn, :new), class: "mdl-navigation__link" %>
             <% end %>
           </nav>
-
-          <!-- Right aligned menu below button -->
-          <button id="menu-lower-right"
-            class="mdl-button mdl-js-button mdl-button--icon">
-            <i class="material-icons">more_vert</i>
-          </button>
-          <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-            for="menu-lower-right">
-            <li class="mdl-menu__item">
-              <%= link gettext("English"), to: current_locale_path(@conn, "en"), class: "mdl-button mdl-js-button" %>
-            </li>
-            <li class="mdl-menu__item">
-              <%= link gettext("Japanese"), to: current_locale_path(@conn, "ja"), class: "mdl-button mdl-js-button" %>
-            </li>
-          </ul>
         </div>
       </header>
       <div class="mdl-layout__drawer">
-        <%= if @admin do %>
-          <span class="mdl-layout-title">
-            <%= @admin.email %>
-          </span>
-          <nav class="mdl-navigation">
-            <%= render "header_login_nav.html", conn: @conn, current_user: @admin %>
-          </nav>
-        <% else %>
-          <span class="mdl-layout-title">
-            Lewini
-          </span>
-          <nav class="mdl-navigation">
-            <%= render "header_nologin_nav.html", conn: @conn %>
-          </nav>
-        <% end %>
       </div>
       <main class="mdl-layout__content">
         <div class="page-content">
@@ -86,5 +59,6 @@
     </div>
 
     <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

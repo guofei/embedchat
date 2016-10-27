@@ -24,7 +24,7 @@ defmodule EmbedChat.Admin.UserController do
   end
 
   def index(conn, params) do
-    users = EmbedChat.User |> Repo.paginate(params)
+    users = EmbedChat.User |> EmbedChat.User.sorted |> Repo.paginate(params)
     render(conn, "index.html", users: users)
   end
 

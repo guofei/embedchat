@@ -38,7 +38,7 @@ defmodule EmbedChat.Web do
       import EmbedChat.Gettext
 
       # common controller function module
-      import EmbedChat.Controllers
+      import EmbedChat.Helpers
 
       plug ElixometerPlug
     end
@@ -55,6 +55,7 @@ defmodule EmbedChat.Web do
       use Phoenix.HTML
 
       import EmbedChat.Router.Helpers
+      import EmbedChat.ViewHelpers
       import EmbedChat.ErrorHelpers
       import EmbedChat.Gettext
     end

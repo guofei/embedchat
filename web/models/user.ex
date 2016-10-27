@@ -66,6 +66,10 @@ defmodule EmbedChat.User do
     end
   end
 
+  def sorted(query) do
+    from p in query, order_by: [desc: p.id]
+  end
+
   def latest_for_room(query, room_id, limit \\ 1) do
     from u in query,
       join: um in EmbedChat.UserRoom, on: u.id == um.user_id,

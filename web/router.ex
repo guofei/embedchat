@@ -75,6 +75,8 @@ defmodule EmbedChat.Router do
     pipe_through [:browser, :admin_browser_auth, :admin_layout]
 
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    post "/impersonate/:user_id", SessionController, :impersonate, as: :impersonation
+    delete "/impersonate", SessionController, :stop_impersonating
     resources "/users", UserController
   end
 

@@ -6,8 +6,9 @@
           <th class="mdl-data-table__cell--non-numeric">ID</th>
           <th class="mdl-data-table__cell--non-numeric"><%= gettext "Email" %></th>
           <th class="mdl-data-table__cell--non-numeric"><%= gettext "Name" %></th>
-          <th class="mdl-data-table__cell--non-numeric">Crypted</th>
           <th class="mdl-data-table__cell--non-numeric"><%= gettext "Created At" %></th>
+          <th class="mdl-data-table__cell--non-numeric"><%= gettext "Updated At" %></th>
+          <th class="mdl-data-table__cell--non-numeric">Action</th>
           <th></th>
         </tr>
       </thead>
@@ -24,13 +25,19 @@
               <%= user.name %>
             </td>
             <td class="mdl-data-table__cell--non-numeric">
-              <%= String.slice(user.crypted_password, -5..-1) %>
-            </td>
-            <td class="mdl-data-table__cell--non-numeric">
               <%= user.inserted_at %>
             </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= user.updated_at %>
+            </td>
+            <td class="mdl-data-table__cell--non-numeric">
+              <%= link gettext("Impersonate"),
+                       to: admin_impersonation_path(@conn, :impersonate, to_string(user.id)),
+                       method: :post,
+                       class: "mdl-button mdl-js-button mdl-button--raised" %>
+            </td>
             <td>
-              <%= link gettext("Edit"), to: admin_user_path(@conn, :edit, user), class: "mdl-button mdl-js-button" %>
+              <%= link gettext("Edit"), to: admin_user_path(@conn, :edit, user), class: "mdl-button mdl-js-button mdl-button--raised" %>
             </td>
           </tr>
         <% end %>

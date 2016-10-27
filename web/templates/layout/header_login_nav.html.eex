@@ -4,3 +4,10 @@
 <%= link gettext("Setup"),        to: room_path(@conn, :index), class: "mdl-navigation__link" %>
 <%= link gettext("Account"),      to: user_path(@conn, :index), class: "mdl-navigation__link" %>
 <%= link gettext("Logout"),       to: session_path(@conn, :delete, @current_user), method: :delete, class: "mdl-navigation__link" %>
+<%= if admin_logged_in?(@conn) do %>
+  <%= link gettext("Stop Impersonating"),
+           to: admin_session_path(@conn, :stop_impersonating),
+           method: "DELETE",
+           class: "mdl-navigation__link"
+  %>
+<% end %>
