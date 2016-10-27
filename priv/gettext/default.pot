@@ -15,6 +15,7 @@ msgstr ""
 msgid "English"
 msgstr ""
 
+#: web/templates/layout/admin.html.eex:33 web/templates/layout/admin.html.eex:37
 #: web/templates/layout/header_login_nav.html.eex:1
 #: web/templates/layout/header_nologin_nav.html.eex:1
 msgid "Home"
@@ -24,11 +25,15 @@ msgstr ""
 msgid "Japanese"
 msgstr ""
 
+#: web/templates/admin/session/new.html.eex:4
+#: web/templates/admin/session/new.html.eex:21
+#: web/templates/layout/admin.html.eex:38
 #: web/templates/layout/header_nologin_nav.html.eex:3
 #: web/templates/session/new.html.eex:4 web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr ""
 
+#: web/templates/layout/admin.html.eex:35
 #: web/templates/layout/header_login_nav.html.eex:6
 msgid "Logout"
 msgstr ""
@@ -41,27 +46,36 @@ msgstr ""
 msgid "Setup"
 msgstr ""
 
-#: web/templates/layout/app.html.eex:10 web/templates/page/welcome.html.eex:20
+#: web/templates/layout/admin.html.eex:10 web/templates/layout/app.html.eex:10
+#: web/templates/page/welcome.html.eex:24
 msgid "Lewini Live Chat: A Live Chat Software for Business!"
 msgstr ""
 
-#: web/templates/user/new.html.eex:4
+#: web/templates/admin/user/new.html.eex:4 web/templates/user/new.html.eex:4
 msgid "Create an account"
 msgstr ""
 
-#: web/templates/user/new.html.eex:39
+#: web/templates/admin/user/new.html.eex:39 web/templates/user/new.html.eex:39
 msgid "Signup"
 msgstr ""
 
-#: web/templates/session/new.html.eex:9 web/templates/user/form.html.eex:15
-#: web/templates/user/new.html.eex:20
+#: web/templates/admin/session/new.html.eex:9
+#: web/templates/admin/user/form.html.eex:15
+#: web/templates/admin/user/index.html.eex:7
+#: web/templates/admin/user/new.html.eex:20 web/templates/session/new.html.eex:9
+#: web/templates/user/form.html.eex:15 web/templates/user/new.html.eex:20
 msgid "Email"
 msgstr ""
 
-#: web/templates/user/form.html.eex:22 web/templates/user/new.html.eex:27
+#: web/templates/admin/user/form.html.eex:22
+#: web/templates/admin/user/index.html.eex:8
+#: web/templates/admin/user/new.html.eex:27 web/templates/user/form.html.eex:22
+#: web/templates/user/new.html.eex:27
 msgid "Name"
 msgstr ""
 
+#: web/templates/admin/session/new.html.eex:16
+#: web/templates/admin/user/new.html.eex:34
 #: web/templates/session/new.html.eex:16 web/templates/user/form.html.eex:29
 #: web/templates/user/new.html.eex:34
 msgid "Password"
@@ -119,10 +133,12 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
+#: web/templates/admin/user/index.html.eex:40
 #: web/templates/auto_message_config/index.html.eex:46
 msgid "Edit"
 msgstr ""
 
+#: web/templates/admin/user/form.html.eex:31
 #: web/templates/auto_message_config/form.html.eex:110
 #: web/templates/user/form.html.eex:34
 msgid "Submit"
@@ -152,6 +168,7 @@ msgstr ""
 msgid "Get high quality feedback from customers"
 msgstr ""
 
+#: web/templates/admin/user/index.html.eex:9
 #: web/templates/message/index.html.eex:9
 msgid "Created At"
 msgstr ""
@@ -328,12 +345,13 @@ msgstr ""
 msgid "All the PRO features plus:"
 msgstr ""
 
+#: web/templates/admin/user/show.html.eex:6
 #: web/templates/layout/header_login_nav.html.eex:5
 #: web/templates/user/show.html.eex:6
 msgid "Account"
 msgstr ""
 
-#: web/templates/user/edit.html.eex:8
+#: web/templates/admin/user/edit.html.eex:8 web/templates/user/edit.html.eex:8
 msgid "Update"
 msgstr ""
 
@@ -345,14 +363,30 @@ msgstr ""
 msgid "per agent/mo."
 msgstr ""
 
-#: web/templates/page/welcome.html.eex:22
+#: web/templates/page/welcome.html.eex:27
 msgid "SET UP NOW"
 msgstr ""
 
-#: web/templates/page/welcome.html.eex:17
+#: web/templates/page/welcome.html.eex:21
 msgid "Welcome!"
 msgstr ""
 
-#: web/controllers/attempt_controller.ex:38
+#: web/controllers/attempt_controller.ex:41
 msgid "Lewini uses iframing to display the demo, but this page doesn't support iframes."
+msgstr ""
+
+#: web/templates/admin/user/index.html.eex:34
+msgid "Impersonate"
+msgstr ""
+
+#: web/templates/layout/header_login_nav.html.eex:8
+msgid "Stop Impersonating"
+msgstr ""
+
+#: web/templates/admin/user/index.html.eex:10
+msgid "Updated At"
+msgstr ""
+
+#: web/templates/layout/admin.html.eex:34
+msgid "Users"
 msgstr ""

@@ -14,6 +14,7 @@ msgstr ""
 msgid "English"
 msgstr ""
 
+#: web/templates/layout/admin.html.eex:33 web/templates/layout/admin.html.eex:37
 #: web/templates/layout/header_login_nav.html.eex:1
 #: web/templates/layout/header_nologin_nav.html.eex:1
 msgid "Home"
@@ -23,11 +24,15 @@ msgstr "ホーム"
 msgid "Japanese"
 msgstr "日本語"
 
+#: web/templates/admin/session/new.html.eex:4
+#: web/templates/admin/session/new.html.eex:21
+#: web/templates/layout/admin.html.eex:38
 #: web/templates/layout/header_nologin_nav.html.eex:3
 #: web/templates/session/new.html.eex:4 web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr "ログイン"
 
+#: web/templates/layout/admin.html.eex:35
 #: web/templates/layout/header_login_nav.html.eex:6
 msgid "Logout"
 msgstr "ログアウト"
@@ -40,27 +45,36 @@ msgstr "アカウント登録"
 msgid "Setup"
 msgstr "設置"
 
-#: web/templates/layout/app.html.eex:10 web/templates/page/welcome.html.eex:20
+#: web/templates/layout/admin.html.eex:10 web/templates/layout/app.html.eex:10
+#: web/templates/page/welcome.html.eex:24
 msgid "Lewini Live Chat: A Live Chat Software for Business!"
 msgstr "Lewiniライブチャット - シンプルで高機能なチャット接客・オンラインサポートツール"
 
-#: web/templates/user/new.html.eex:4
+#: web/templates/admin/user/new.html.eex:4 web/templates/user/new.html.eex:4
 msgid "Create an account"
 msgstr "アカウント登録"
 
-#: web/templates/user/new.html.eex:39
+#: web/templates/admin/user/new.html.eex:39 web/templates/user/new.html.eex:39
 msgid "Signup"
 msgstr "アカウント登録"
 
-#: web/templates/session/new.html.eex:9 web/templates/user/form.html.eex:15
-#: web/templates/user/new.html.eex:20
+#: web/templates/admin/session/new.html.eex:9
+#: web/templates/admin/user/form.html.eex:15
+#: web/templates/admin/user/index.html.eex:7
+#: web/templates/admin/user/new.html.eex:20 web/templates/session/new.html.eex:9
+#: web/templates/user/form.html.eex:15 web/templates/user/new.html.eex:20
 msgid "Email"
 msgstr ""
 
-#: web/templates/user/form.html.eex:22 web/templates/user/new.html.eex:27
+#: web/templates/admin/user/form.html.eex:22
+#: web/templates/admin/user/index.html.eex:8
+#: web/templates/admin/user/new.html.eex:27 web/templates/user/form.html.eex:22
+#: web/templates/user/new.html.eex:27
 msgid "Name"
 msgstr "お名前"
 
+#: web/templates/admin/session/new.html.eex:16
+#: web/templates/admin/user/new.html.eex:34
 #: web/templates/session/new.html.eex:16 web/templates/user/form.html.eex:29
 #: web/templates/user/new.html.eex:34
 msgid "Password"
@@ -118,10 +132,12 @@ msgstr "追加する"
 msgid "Delete"
 msgstr "削除"
 
+#: web/templates/admin/user/index.html.eex:40
 #: web/templates/auto_message_config/index.html.eex:46
 msgid "Edit"
 msgstr "編集"
 
+#: web/templates/admin/user/form.html.eex:31
 #: web/templates/auto_message_config/form.html.eex:110
 #: web/templates/user/form.html.eex:34
 msgid "Submit"
@@ -151,6 +167,7 @@ msgstr "問い合わせの数を増やす"
 msgid "Get high quality feedback from customers"
 msgstr "顧客満足度を向上させる"
 
+#: web/templates/admin/user/index.html.eex:9
 #: web/templates/message/index.html.eex:9
 msgid "Created At"
 msgstr "時間"
@@ -327,12 +344,13 @@ msgstr "ユーザープロファイル"
 msgid "All the PRO features plus:"
 msgstr "PROプランの機能プラス"
 
+#: web/templates/admin/user/show.html.eex:6
 #: web/templates/layout/header_login_nav.html.eex:5
 #: web/templates/user/show.html.eex:6
 msgid "Account"
 msgstr "アカウント"
 
-#: web/templates/user/edit.html.eex:8
+#: web/templates/admin/user/edit.html.eex:8 web/templates/user/edit.html.eex:8
 msgid "Update"
 msgstr ""
 
@@ -344,14 +362,30 @@ msgstr "デモを見る"
 msgid "per agent/mo."
 msgstr "/月･人"
 
-#: web/templates/page/welcome.html.eex:22
+#: web/templates/page/welcome.html.eex:27
 msgid "SET UP NOW"
 msgstr "今すぐ設置する"
 
-#: web/templates/page/welcome.html.eex:17
+#: web/templates/page/welcome.html.eex:21
 msgid "Welcome!"
 msgstr "ようこそ"
 
-#: web/controllers/attempt_controller.ex:38
+#: web/controllers/attempt_controller.ex:41
 msgid "Lewini uses iframing to display the demo, but this page doesn't support iframes."
 msgstr "このページはiframeを表示しないように設定されているため、デモが表示できません。"
+
+#: web/templates/admin/user/index.html.eex:34
+msgid "Impersonate"
+msgstr "成りすまし"
+
+#: web/templates/layout/header_login_nav.html.eex:8
+msgid "Stop Impersonating"
+msgstr "成りすまし停止"
+
+#: web/templates/admin/user/index.html.eex:10
+msgid "Updated At"
+msgstr "更新"
+
+#: web/templates/layout/admin.html.eex:34
+msgid "Users"
+msgstr "ユーザー"
