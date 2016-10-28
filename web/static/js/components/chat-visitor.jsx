@@ -19,6 +19,9 @@ import { objectToArray } from '../utils';
 injectTapEventPlugin();
 
 const styles = {
+  init: {
+    all: 'initial',
+  },
   fixed: {
     position: 'fixed',
     bottom: '20px',
@@ -130,7 +133,7 @@ class ChatVisitor extends React.Component {
         );
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <div>
+        <div styles={styles.init}>
           <div style={styles.fixed}>
             <FloatingActionButton
               onTouchTap={this.handleTouchTap}
