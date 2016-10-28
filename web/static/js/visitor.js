@@ -7,8 +7,11 @@ import moment from 'moment';
 import i18n from './i18n';
 import { clientID } from './distinct_id';
 import { clientSocket } from './socket';
+import insertNormalizeCSS from './normalize_css';
 import visitorRoom from './room_visitor';
 import ChatVisitor from './components/chat-visitor';
+
+const uiClassName = 'lewini-block';
 
 export default function visitor(store, roomID) {
   if (i18n.language && moment.locale() !== i18n.language) {
@@ -18,13 +21,16 @@ export default function visitor(store, roomID) {
     return;
   }
 
-  const div = '<div style="position:absolute; left:0px; top:0px; z-index:99999;">' +
-  '<div id="lewini-chat-id"></div>' +
-  '</div>';
+  const div = `
+      <div style="position:absolute; left:0px; top:0px; z-index:99999;">
+        <div id="lewini-chat-id" class="${uiClassName}"></div>
+      </div>
+      `;
   const node = document.createElement('div');
   node.setAttribute('style', 'position:relative;');
   node.innerHTML = div;
   document.body.appendChild(node);
+  insertNormalizeCSS();
 
   const chatRoom = visitorRoom(clientSocket, roomID, clientID, store);
   ReactDOM.render(
