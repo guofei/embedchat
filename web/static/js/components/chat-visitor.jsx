@@ -133,7 +133,7 @@ class ChatVisitor extends React.Component {
         );
     return (
       <MuiThemeProvider muiTheme={getMuiTheme()}>
-        <div styles={styles.init}>
+        <div style={styles.init}>
           <div style={styles.fixed}>
             <FloatingActionButton
               onTouchTap={this.handleTouchTap}
