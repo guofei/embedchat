@@ -36,7 +36,7 @@ defmodule EmbedChat.Mixfile do
     [{:bamboo, "~> 0.7"},
      {:comeonin, "~> 2.6"},
      {:cowboy, "~> 1.0"},
-     {:credo, "~> 0.4", only: [:dev, :test]},
+     {:credo, "~> 0.5", only: [:dev, :test]},
      {:cors_plug, "~> 1.1"},
      # exometer start
      {:elixometer, "~>1.2"},
@@ -47,7 +47,7 @@ defmodule EmbedChat.Mixfile do
      # exometer end
      {:exsentry, "~> 0.7.1"},
      {:guardian, "~> 0.13.0"},
-     {:gettext, "~> 0.11"},
+     {:gettext, "~> 0.12"},
      {:httpoison, "~> 0.9"},
      {:phoenix, "~> 1.2"},
      {:phoenix_ecto, "~> 3.0"},
