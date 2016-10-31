@@ -134,6 +134,7 @@ msgstr ""
 
 #: web/templates/admin/user/index.html.eex:40
 #: web/templates/auto_message_config/index.html.eex:46
+#: web/templates/user/show.html.eex:19
 msgid "Edit"
 msgstr ""
 
@@ -388,4 +389,8 @@ msgstr ""
 
 #: web/templates/layout/admin.html.eex:34
 msgid "Users"
+msgstr ""
+
+#: web/templates/user/show.html.eex:18
+msgid "Invite members"
 msgstr ""
