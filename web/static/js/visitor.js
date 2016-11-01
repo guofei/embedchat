@@ -14,11 +14,11 @@ import ChatVisitor from './components/chat-visitor';
 const uiClassName = 'lewini-block';
 
 export default function visitor(store, roomID) {
+  if (!store || !roomID || !clientID || !clientSocket) {
+    return;
+  }
   if (i18n.language && moment.locale() !== i18n.language) {
     moment.locale(i18n.language);
-  }
-  if (!roomID) {
-    return;
   }
 
   const div = `
