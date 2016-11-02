@@ -8,8 +8,9 @@ defmodule EmbedChat.User do
     field :crypted_password, :string
 
     has_many :addresses, EmbedChat.Address
-    has_many :userrooms, EmbedChat.UserRoom
-    has_many :rooms, through: [:userrooms, :room]
+    has_many :userprojects, EmbedChat.UserProject
+    has_many :projects, through: [:userprojects, :project]
+    has_many :rooms, through: [:projects, :room]
 
     has_many :auto_message_configs, EmbedChat.AutoMessageConfig
 
@@ -70,10 +71,10 @@ defmodule EmbedChat.User do
     from p in query, order_by: [desc: p.id]
   end
 
-  def latest_for_room(query, room_id, limit \\ 1) do
+  def latest_for_room(query, room, limit \\ 1) do
     from u in query,
-      join: um in EmbedChat.UserRoom, on: u.id == um.user_id,
-      where: ^room_id == um.room_id,
+      join: up in EmbedChat.UserProject, on: u.id == up.user_id,
+      where: ^room.project_id == up.project_id,
       order_by: [desc: u.id],
       limit: ^limit
   end

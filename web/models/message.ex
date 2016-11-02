@@ -29,8 +29,9 @@ defmodule EmbedChat.Message do
 
   def preload_for_user_and_visitor(query, user_id) do
     from m in query,
-      join: um in EmbedChat.UserRoom, on: m.room_id == um.room_id,
-      where: um.user_id == ^user_id and m.type == ^EmbedChat.MessageType.normal(),
+      join: r in EmbedChat.Room, on: m.room_id == r.id,
+      join: up in EmbedChat.UserProject, on: up.project_id == r.project_id,
+      where: up.user_id == ^user_id and m.type == ^EmbedChat.MessageType.normal(),
       preload: [:from, :to, :from_user, :to_user, :from_visitor, :to_visitor],
       order_by: [desc: :inserted_at]
   end

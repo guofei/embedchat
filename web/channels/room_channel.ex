@@ -27,10 +27,12 @@ defmodule EmbedChat.RoomChannel do
                                 socket.assigns.distinct_id]
           }
         )
+        # TODO remove room_id and room_uuid
         new_socket =
           socket
           |> assign(:room_id, room.id)
           |> assign(:room_uuid, room.uuid)
+          |> assign(:room, room)
           |> assign(:info, payload)
         {:ok, new_socket}
       else
@@ -75,7 +77,7 @@ defmodule EmbedChat.RoomChannel do
     }
     broadcast! socket, "user_join", resp
     send_message_history(distinct_id, socket)
-    auto_message(socket, room_id, distinct_id, log)
+    auto_message(socket, log)
   end
 
   @messages_size 50
@@ -235,10 +237,12 @@ defmodule EmbedChat.RoomChannel do
   end
 
   # TODO remove random
-  defp auto_message(socket, room_id, distinct_id, %UserLog{} = log) do
-    messages = SideEffect.auto_messages(room_id, log)
+  defp auto_message(socket, %UserLog{} = log) do
+    distinct_id = socket.assigns.distinct_id
+    room = socket.assigns.room
+    messages = SideEffect.auto_messages(room.id, log)
     Enum.each(messages, fn (msg) ->
-      param = %MessageParam{room_id: room_id, from_uid: SideEffect.random_admin(room_id), to_uid: distinct_id, text: msg.message}
+      param = %MessageParam{room_id: room.id, from_uid: SideEffect.random_admin(room), to_uid: distinct_id, text: msg.message}
       case create_message_and_view(param) do
         {:ok, resp} ->
           push socket, "new_message", resp
@@ -247,12 +251,12 @@ defmodule EmbedChat.RoomChannel do
   end
 
   defp request_visitor_email(socket) do
-    room_id = socket.assigns.room_id
+    room = socket.assigns.room
     distinct_id = socket.assigns.distinct_id
-    if SideEffect.can_request_email?(room_id, distinct_id) do
+    if SideEffect.can_request_email?(room.id, distinct_id) do
       param = %MessageParam{
-        room_id: room_id,
-        from_uid: SideEffect.random_admin(room_id),
+        room_id: room.id,
+        from_uid: SideEffect.random_admin(room),
         to_uid: distinct_id,
         text: "Get replies by email",
         type: EmbedChat.MessageType.email_request

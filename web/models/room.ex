@@ -6,9 +6,9 @@ defmodule EmbedChat.Room do
 
     has_many :messages, EmbedChat.Message
     has_many :auto_message_configs, EmbedChat.AutoMessageConfig
-    has_many :userrooms, EmbedChat.UserRoom
     has_many :addresses, EmbedChat.Address, on_delete: :nilify_all
-    has_many :users, through: [:userrooms, :user]
+    belongs_to :project, EmbedChat.Project
+    has_many :users, through: [:project, :userprojects, :user]
 
     timestamps
   end
@@ -21,7 +21,8 @@ defmodule EmbedChat.Room do
   """
   def changeset(strcut, params \\ %{}) do
     strcut
-    |> cast(params, [:uuid])
+    |> cast(params, [:uuid, :project_id])
+    |> validate_required([:uuid, :project_id])
     |> unique_constraint(:uuid)
   end
 

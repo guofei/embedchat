@@ -14,15 +14,19 @@ defmodule EmbedChat.TestHelpers do
   end
 
   def insert_room(user, _attrs \\ %{}) do
-    {_, room} = Repo.insert(%EmbedChat.Room{uuid: uuid()})
-    Repo.insert(%EmbedChat.UserRoom{user_id: user.id, room_id: room.id})
+    {_, project} = Repo.insert(%EmbedChat.Project{})
+    Repo.insert(%EmbedChat.UserProject{user_id: user.id, project_id: project.id})
+    {_, room} = Repo.insert(%EmbedChat.Room{uuid: uuid(), project_id: project.id})
+    # Repo.insert(%EmbedChat.UserRoom{user_id: user.id, room_id: room.id})
     room
   end
 
   def insert_room() do
     user = insert_user
-    {_, room} = Repo.insert(%EmbedChat.Room{uuid: uuid()})
-    Repo.insert(%EmbedChat.UserRoom{user_id: user.id, room_id: room.id})
+    {_, project} = Repo.insert(%EmbedChat.Project{})
+    Repo.insert(%EmbedChat.UserProject{user_id: user.id, project_id: project.id})
+    {_, room} = Repo.insert(%EmbedChat.Room{uuid: uuid(), project_id: project.id})
+    # Repo.insert(%EmbedChat.UserRoom{user_id: user.id, room_id: room.id})
     room
   end
 

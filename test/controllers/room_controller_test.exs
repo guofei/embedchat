@@ -60,7 +60,9 @@ defmodule EmbedChat.RoomControllerTest do
 
   @tag login_as: "max"
   test "creates resource and redirects when data is valid", %{conn: conn, user: user} do
-    conn = post conn, room_path(conn, :create), room: @valid_attrs
+    {:ok, project} = Repo.insert(%EmbedChat.Project{})
+    Repo.insert(%EmbedChat.UserProject{user_id: user.id, project_id: project.id})
+    conn = post conn, room_path(conn, :create), room: Map.put(@valid_attrs, :project_id,  project.id)
     assert redirected_to(conn) == room_path(conn, :index)
     room = Repo.get_by(Room, @valid_attrs)
     |> EmbedChat.Repo.preload(:users)

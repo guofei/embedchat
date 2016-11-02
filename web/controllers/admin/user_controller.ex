@@ -1,8 +1,6 @@
 defmodule EmbedChat.Admin.UserController do
   use EmbedChat.Web, :controller
   alias EmbedChat.User
-  alias EmbedChat.UserRoom
-  alias EmbedChat.Room
 
   plug Guardian.Plug.EnsureAuthenticated, [key: :admin]
 
@@ -15,7 +13,7 @@ defmodule EmbedChat.Admin.UserController do
     changeset = User.registration_changeset(%User{}, user_params)
     case Repo.insert(changeset) do
       {:ok, user} ->
-        create_room user
+        create_project user
         conn
         |> redirect(to: admin_user_path(conn, :index))
       {:error, changeset} ->
@@ -50,13 +48,6 @@ defmodule EmbedChat.Admin.UserController do
         |> redirect(to: admin_user_path(conn, :show, user))
       {:error, changeset} ->
         render(conn, "edit.html", user: user, changeset: changeset)
-    end
-  end
-
-  defp create_room(user) do
-    case Repo.insert(%Room{uuid: Ecto.UUID.generate()}) do
-      {:ok, room} ->
-        Repo.insert(%UserRoom{user_id: user.id, room_id: room.id})
     end
   end
 end

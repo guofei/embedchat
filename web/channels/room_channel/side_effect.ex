@@ -254,22 +254,22 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
-  defp room_admin_address(room_id) do
+  defp room_admin_address(room) do
     user =
       User
-      |> User.latest_for_room(room_id)
+      |> User.latest_for_room(room)
       |> Repo.one
 
     Address
-    |> Address.latest_for_user_room(user.id, room_id)
+    |> Address.latest_for_user_room(user.id, room.id)
     |> Repo.one
   end
 
-  def random_admin(room_id) do
+  def random_admin(room) do
     cond do
-      admin = random_online_admin(room_id) ->
+      admin = random_online_admin(room.id) ->
         admin
-      address = room_admin_address(room_id) ->
+      address = room_admin_address(room) ->
         address.uuid
       true ->
         nil
