@@ -46,12 +46,16 @@ defmodule EmbedChat.MessageView do
     cond do
       preload_msg.from_user ->
         if preload_msg.from_user.id == user.id do
-          "You"
+          gettext "You"
         else
           preload_msg.from_user.email
         end
       preload_msg.from_visitor ->
-        preload_msg.from_visitor.email
+        if preload_msg.from_visitor.name do
+          preload_msg.from_visitor.name
+        else
+          preload_msg.from_visitor.email
+        end
       true ->
         preload_msg.from.uuid
     end
@@ -61,16 +65,20 @@ defmodule EmbedChat.MessageView do
     cond do
       preload_msg.to_user ->
         if preload_msg.to_user.id == user.id do
-          "You"
+          gettext "You"
         else
           preload_msg.to_user.email
         end
       preload_msg.to_visitor ->
-        preload_msg.to_visitor.email
+        if preload_msg.to_visitor.name do
+          preload_msg.to_visitor.name
+        else
+          preload_msg.to_visitor.email
+        end
       preload_msg.to ->
         preload_msg.to.uuid
       true ->
-        "You"
+        gettext "You"
     end
   end
 

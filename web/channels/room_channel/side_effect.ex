@@ -126,10 +126,15 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   def create_or_update_address(socket) do
+    user_id = if user = socket.assigns[:current_user] do
+      user.id
+    else
+      nil
+    end
     create_or_update_address(
       socket.assigns.distinct_id,
       socket.assigns.room_id,
-      socket.assigns[:user_id],
+      user_id,
       nil)
   end
 
