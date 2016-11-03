@@ -133,7 +133,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
     create_or_update_address(
       socket.assigns.distinct_id,
-      socket.assigns.room_id,
+      socket.assigns.room.id,
       user_id,
       nil)
   end
@@ -209,12 +209,12 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     |> Enum.into(%{})
   end
 
-  def visitor_online(room_id, distinct_id, address) do
+  def visitor_online(distinct_id, room_id, address) do
     {:ok, bkt} = visitor_bucket(room_id)
     Bucket.put(bkt, distinct_id, address.id)
   end
 
-  def visitor_offline(room_id, distinct_id) do
+  def visitor_offline(distinct_id, room_id) do
     {:ok, bkt} = visitor_bucket(room_id)
     Bucket.delete(bkt, distinct_id)
   end
@@ -286,12 +286,12 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
-  def admin_online(room_id, distinct_id, user, address) do
+  def admin_online(distinct_id, room_id, user_name, address_id) do
     {:ok, bkt} = admin_bucket(room_id)
-    Bucket.put(bkt, distinct_id, %{id: address.id, name: user.name})
+    Bucket.put(bkt, distinct_id, %{id: address_id, name: user_name})
   end
 
-  def admin_offline(room_id, distinct_id) do
+  def admin_offline(distinct_id, room_id) do
     {:ok, bkt} = admin_bucket(room_id)
     Bucket.delete(bkt, distinct_id)
   end
