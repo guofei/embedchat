@@ -20,9 +20,9 @@ defmodule EmbedChat.Mixfile do
     [mod: {EmbedChat, []},
      # :elixometer, :exometer must before at phoenix.
      # see: https://groups.google.com/forum/#!topic/elixir-lang-talk/aulK9E4Hxk8
-     applications: [:elixometer, :exometer,
+     applications: [:elixometer, :exometer, :sentry,
                     :phoenix, :phoenix_html, :phoenix_pubsub, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :comeonin, :exsentry, :httpoison, :bamboo]]
+                    :phoenix_ecto, :postgrex, :comeonin, :httpoison, :bamboo]]
   end
 
   # Specifies which paths to compile per environment.
@@ -45,7 +45,7 @@ defmodule EmbedChat.Mixfile do
      {:edown, "~> 0.8.1", override: true},
      {:lager, "~> 3.2", override: true},
      # exometer end
-     {:exsentry, "~> 0.7.1"},
+     {:sentry, "~> 1.1"},
      {:guardian, "~> 0.13.0"},
      {:gettext, "~> 0.12"},
      {:httpoison, "~> 0.9"},

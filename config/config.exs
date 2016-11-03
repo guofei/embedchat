@@ -36,7 +36,3 @@ config :embed_chat, EmbedChat.Gettext,
 
 config :scrivener_html,
   routes_helper: EmbedChat.Router.Helpers
-
-config :exsentry,
-  otp_app: :embed_chat,
-  dsn: ""
