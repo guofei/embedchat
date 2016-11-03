@@ -12,6 +12,8 @@ Install Docker and run:
 ```
 docker-compose build
 docker-compose up -d
+docker-compose run web mix ecto.create
+docker-compose run web mix ecto.migrate
 ```
 
 ## License
