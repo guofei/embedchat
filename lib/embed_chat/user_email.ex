@@ -3,11 +3,11 @@ defmodule EmbedChat.UserEmail do
 
   @from "Lewini <notification@lewini.com>"
 
-  def send_msg_notification(email_address, text) do
+  def send_msg_notification(user, _text) do
     new_email
-    |> to(email_address)
+    |> to(user.email)
     |> from(@from)
-    |> subject("New message")
-    |> text_body(text)
+    |> subject("[#{user.name} lewini.com] New message")
+    |> text_body("There is an unread message. Check it from https://www.lewini.com")
   end
 end

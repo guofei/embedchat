@@ -35,7 +35,7 @@ defmodule EmbedChat.User do
   def changeset(model, params \\ %{}) do
     model
     |> cast(params, [:email, :name])
-    |> validate_required([:email])
+    |> validate_required([:email, :name])
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
     |> validate_length(:email, min: 1, max: 50)
