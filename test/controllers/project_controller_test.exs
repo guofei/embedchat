@@ -5,6 +5,12 @@ defmodule EmbedChat.ProjectControllerTest do
   @valid_attrs %{domain: "some content", name: "some content"}
   @invalid_attrs %{}
 
+  setup %{conn: conn} do
+    user = insert_user(username: "test")
+    conn = guardian_login(conn, user)
+    {:ok, conn: conn}
+  end
+
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, project_path(conn, :index)
     assert html_response(conn, 200) =~ "Listing projects"

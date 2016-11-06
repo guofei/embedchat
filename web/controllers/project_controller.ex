@@ -3,6 +3,8 @@ defmodule EmbedChat.ProjectController do
 
   alias EmbedChat.Project
 
+  plug Guardian.Plug.EnsureAuthenticated, [handler: EmbedChat.AuthErrorHandler]
+
   def index(conn, _params) do
     projects = Repo.all(Project)
     render(conn, "index.html", projects: projects)
