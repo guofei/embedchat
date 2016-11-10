@@ -31,7 +31,7 @@ defmodule EmbedChat.RoomController do
   end
 
   def show(conn, %{"id" => id}) do
-    room = Repo.get!(Room, id)
+    room = Repo.get!(user_rooms(conn), id)
     render(conn, "show.html", room: room)
   end
 
