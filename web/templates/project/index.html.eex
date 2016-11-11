@@ -1,28 +1,32 @@
-<h2>Listing projects</h2>
+<div class="page-content-max">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
+      <%= link "New project", to: project_path(@conn, :new) %>
+    </div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Domain</th>
-      <th>Name</th>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+      <thead>
+        <tr>
+          <th>Name</th>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for project <- @projects do %>
-    <tr>
-      <td><%= project.domain %></td>
-      <td><%= project.name %></td>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for project <- @projects do %>
+          <tr>
+            <td><%= project_name project %></td>
 
-      <td class="text-right">
-        <%= link "Show", to: project_path(@conn, :show, project), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: project_path(@conn, :edit, project), class: "btn btn-default btn-xs" %>
-        <%= link "Delete", to: project_path(@conn, :delete, project), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
+            <td class="text-right">
+              <%= link "Show", to: project_path(@conn, :show, project), class: "btn btn-default btn-xs" %>
+              <%= link "Edit", to: project_path(@conn, :edit, project), class: "btn btn-default btn-xs" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-<%= link "New project", to: project_path(@conn, :new) %>
+  </div>
+</div>
+
+

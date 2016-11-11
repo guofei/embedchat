@@ -6,7 +6,7 @@ defmodule EmbedChat.ProjectController do
   plug Guardian.Plug.EnsureAuthenticated, [handler: EmbedChat.AuthErrorHandler]
 
   def index(conn, _params) do
-    projects = Repo.all(Project)
+    projects = Repo.all(user_projects(conn))
     render(conn, "index.html", projects: projects)
   end
 
@@ -29,7 +29,11 @@ defmodule EmbedChat.ProjectController do
   end
 
   def show(conn, %{"id" => id}) do
-    project = Repo.get!(Project, id)
+    projects = user_projects(conn)
+    project =
+      projects
+      |> Repo.get!(id)
+      |> Repo.preload([:room])
     render(conn, "show.html", project: project)
   end
 
@@ -63,5 +67,9 @@ defmodule EmbedChat.ProjectController do
     conn
     |> put_flash(:info, "Project deleted successfully.")
     |> redirect(to: project_path(conn, :index))
+  end
+
+  defp user_projects(conn) do
+    conn.assigns.current_user |> Ecto.assoc(:projects)
   end
 end

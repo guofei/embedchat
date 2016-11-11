@@ -1,18 +1,15 @@
-<h2>Show project</h2>
+<div class="page-content-max">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
 
-<ul>
+      <strong>Name:</strong>
+      <%= @project.name %>
 
-  <li>
-    <strong>Domain:</strong>
-    <%= @project.domain %>
-  </li>
+      <%= @project.room.id %>
 
-  <li>
-    <strong>Name:</strong>
-    <%= @project.name %>
-  </li>
+      <%= link "Edit", to: project_path(@conn, :edit, @project) %>
+      <%= link "Back", to: project_path(@conn, :index) %>
 
-</ul>
-
-<%= link "Edit", to: project_path(@conn, :edit, @project) %>
-<%= link "Back", to: project_path(@conn, :index) %>
+    </div>
+  </div>
+</div>

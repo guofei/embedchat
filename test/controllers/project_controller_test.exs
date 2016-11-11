@@ -8,12 +8,12 @@ defmodule EmbedChat.ProjectControllerTest do
   setup %{conn: conn} do
     user = insert_user(username: "test")
     conn = guardian_login(conn, user)
-    {:ok, conn: conn}
+    {:ok, conn: conn, user: user}
   end
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, project_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing projects"
+    assert html_response(conn, 200) =~ "New project"
   end
 
   test "renders form for new resources", %{conn: conn} do
@@ -32,10 +32,10 @@ defmodule EmbedChat.ProjectControllerTest do
     assert html_response(conn, 200) =~ "New project"
   end
 
-  test "shows chosen resource", %{conn: conn} do
-    project = Repo.insert! %Project{}
+  test "shows chosen resource", %{conn: conn, user: user} do
+    project = insert_project user, %Project{}
     conn = get conn, project_path(conn, :show, project)
-    assert html_response(conn, 200) =~ "Show project"
+    assert html_response(conn, 200) =~ "Name"
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do
@@ -68,5 +68,12 @@ defmodule EmbedChat.ProjectControllerTest do
     conn = delete conn, project_path(conn, :delete, project)
     assert redirected_to(conn) == project_path(conn, :index)
     refute Repo.get(Project, project.id)
+  end
+
+  defp insert_project(user, attrs) do
+    {_, project} = Repo.insert(attrs)
+    Repo.insert!(%EmbedChat.UserProject{user_id: user.id, project_id: project.id})
+    Repo.insert!(%EmbedChat.Room{uuid: uuid(), project_id: project.id})
+    project
   end
 end
