@@ -30,9 +30,6 @@
           &lt;/body&gt;
         </pre>
       </p>
-
-      <%= link "Edit", to: project_path(@conn, :edit, @project) %>
-      <%= link "Back", to: project_path(@conn, :index) %>
     </div>
   </div>
 </div>
