@@ -1,6 +1,16 @@
-<h2>New project</h2>
+<div class="page-content-max">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
 
-<%= render "form.html", changeset: @changeset,
-                        action: project_path(@conn, :create) %>
+      <center>
+        <%= render "form.html", changeset: @changeset,
+        action: project_path(@conn, :create) %>
 
-<%= link "Back", to: project_path(@conn, :index) %>
+        <br/>
+
+        <%= link "Back", to: project_path(@conn, :index) %>
+      </center>
+
+    </div>
+  </div>
+</div>

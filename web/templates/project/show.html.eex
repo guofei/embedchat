@@ -1,15 +1,38 @@
 <div class="page-content-max">
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-
-      <strong>Name:</strong>
-      <%= @project.name %>
-
-      <%= @project.room.id %>
+      <p>
+        <%= gettext "The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page." %>
+      </p>
+      <p>
+        <%= gettext "Your code:" %>
+        <pre>
+          &lt;script&gt;
+           (function(i, d, s, id, r) {
+             i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();
+             var js, fjs = d.getElementsByTagName(s)[0];
+             if (d.getElementById(id)) return;
+             js = d.createElement(s);
+             js.id = id; js.async=1;
+             js.src = '//www.lewini.com/js/sdk.js';
+             fjs.parentNode.insertBefore(js, fjs);
+           }(window, document, 'script', 'lewini-jssdk', 'lwn'));
+           lwn('init', '<%= @project.room.uuid  %>');
+          &lt;/script&gt;
+        </pre>
+      </p>
+      <p>
+        <%= gettext "We recommend installing the chat code before the closing body tag." %>
+        <pre>
+          &lt;body&gt;
+          &nbsp;&nbsp;...
+          &nbsp;&nbsp;<%= gettext "Add your code here" %>
+          &lt;/body&gt;
+        </pre>
+      </p>
 
       <%= link "Edit", to: project_path(@conn, :edit, @project) %>
       <%= link "Back", to: project_path(@conn, :index) %>
-
     </div>
   </div>
 </div>

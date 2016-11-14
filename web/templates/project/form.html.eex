@@ -5,19 +5,22 @@
     </div>
   <% end %>
 
-  <div class="form-group">
-    <%= label f, :domain, class: "control-label" %>
-    <%= text_input f, :domain, class: "form-control" %>
+  <div class="mdl-textfield mdl-js-textfield">
+    <%= label f, :domain, class: "mdl-textfield__label" %>
+    <%= text_input f, :domain, class: "mdl-textfield__input" %>
     <%= error_tag f, :domain %>
   </div>
 
-  <div class="form-group">
-    <%= label f, :name, class: "control-label" %>
-    <%= text_input f, :name, class: "form-control" %>
+  <br/>
+
+  <div class="mdl-textfield mdl-js-textfield">
+    <%= label f, :name, class: "mdl-textfield__label" %>
+    <%= text_input f, :name, class: "mdl-textfield__input" %>
     <%= error_tag f, :name %>
   </div>
 
-  <div class="form-group">
-    <%= submit "Submit", class: "btn btn-primary" %>
-  </div>
+  <br/><br/>
+
+  <%= submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
+
 <% end %>
