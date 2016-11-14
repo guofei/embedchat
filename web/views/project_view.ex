@@ -5,7 +5,7 @@ defmodule EmbedChat.ProjectView do
     if name = project.name do
       name
     else
-      "unnamed project"
+      "unnamed"
     end
   end
 end

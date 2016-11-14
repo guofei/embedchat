@@ -1,14 +1,14 @@
 <div class="page-content-max">
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-      <%= link "New project", to: project_path(@conn, :new) %>
+      <%= link "New project", to: project_path(@conn, :new), class: "mdl-button mdl-js-button mdl-button--raised" %>
     </div>
 
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
       <thead>
         <tr>
-          <th>Name</th>
-
+          <th>Project Name</th>
+          <th></th>
           <th></th>
         </tr>
       </thead>
@@ -16,9 +16,10 @@
         <%= for project <- @projects do %>
           <tr>
             <td><%= project_name project %></td>
-
-            <td class="text-right">
+            <td>
               <%= link "Show", to: project_path(@conn, :show, project), class: "btn btn-default btn-xs" %>
+            </td>
+            <td>
               <%= link "Edit", to: project_path(@conn, :edit, project), class: "btn btn-default btn-xs" %>
             </td>
           </tr>
