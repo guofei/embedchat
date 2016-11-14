@@ -7,7 +7,12 @@ defmodule EmbedChat.ProjectController do
 
   def index(conn, _params) do
     projects = Repo.all(user_projects(conn))
-    render(conn, "index.html", projects: projects)
+    if Enum.count(projects) == 1 do
+      project = Enum.fetch!(projects, 0)
+      conn |> redirect(to: project_path(conn, :show, project))
+    else
+      render(conn, "index.html", projects: projects)
+    end
   end
 
   def new(conn, _params) do
