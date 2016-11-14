@@ -48,13 +48,13 @@ defmodule EmbedChat.Mixfile do
      {:sentry, "~> 1.1"},
      {:guardian, "~> 0.13.0"},
      {:gettext, "~> 0.12"},
-     {:httpoison, "~> 0.9"},
+     {:httpoison, "~> 0.10"},
      {:phoenix, "~> 1.2"},
      {:phoenix_ecto, "~> 3.0"},
-     {:phoenix_html, "~> 2.6"},
+     {:phoenix_html, "~> 2.7"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:phoenix_pubsub, "~> 1.0"},
-     {:postgrex, "~> 0.11"},
+     {:postgrex, "~> 0.12"},
      {:scrivener_ecto, "~> 1.0"},
      {:scrivener_html, "~> 1.3"}]
   end
