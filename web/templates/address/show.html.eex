@@ -1,0 +1,27 @@
+<h2>Show address</h2>
+
+<ul>
+
+  <li>
+    <strong>User:</strong>
+    <%= @address.user_id %>
+  </li>
+
+  <li>
+    <strong>Room:</strong>
+    <%= @address.room_id %>
+  </li>
+
+  <li>
+    <strong>Visitor:</strong>
+    <%= @address.visitor_id %>
+  </li>
+
+  <li>
+    <strong>Uuid:</strong>
+    <%= @address.uuid %>
+  </li>
+
+</ul>
+
+<%= link "Back", to: address_path(@conn, :index) %>

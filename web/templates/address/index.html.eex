@@ -1,0 +1,29 @@
+<h2>Listing addresses</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Room</th>
+      <th>Visitor</th>
+      <th>Uuid</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for address <- @addresses do %>
+    <tr>
+      <td><%= address.user_id %></td>
+      <td><%= address.room_id %></td>
+      <td><%= address.visitor_id %></td>
+      <td><%= address.uuid %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: address_path(@conn, :show, address), class: "btn btn-default btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+

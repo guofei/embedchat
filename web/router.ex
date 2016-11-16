@@ -64,6 +64,7 @@ defmodule EmbedChat.Router do
     resources "/auto_message_configs", AutoMessageConfigController
     resources "/messages", MessageController
     resources "/projects", ProjectController
+    resources "/addresses", AddressController, only: [:show, :index]
   end
 
   pipeline :admin_layout do
