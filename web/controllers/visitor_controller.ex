@@ -7,8 +7,8 @@ defmodule EmbedChat.VisitorController do
 
   plug Guardian.Plug.EnsureAuthenticated
 
-  def index(conn, _params) do
-    visitors = Repo.all(Visitor)
+  def index(conn, params) do
+    visitors = Repo.paginate(Visitor, params)
     render(conn, "index.json", visitors: visitors)
   end
 
