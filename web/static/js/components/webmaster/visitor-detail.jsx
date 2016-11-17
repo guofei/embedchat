@@ -107,17 +107,17 @@ class UserDetail extends React.Component {
       <Paper zDepth={1}>
         <Toolbar>
           <ToolbarTitle text={ menuName(selectedMenu) } />
-            <ToolbarGroup>
-              <IconMenu
-                iconButtonElement={<IconButton><NavigationExpandMoreIcon /></IconButton>}
-                onChange={this.handleMenuChange}
-                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-              >
-                <MenuItem value="tracking" primaryText="Tracking" leftIcon={<Timeline />} />
-                <MenuItem value="profile" primaryText="Profile" leftIcon={<Person />} />
-              </IconMenu>
-            </ToolbarGroup>
+          <ToolbarGroup>
+            <IconMenu
+              iconButtonElement={<IconButton><NavigationExpandMoreIcon /></IconButton>}
+              onChange={this.handleMenuChange}
+              anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+              targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+            >
+              <MenuItem value="tracking" primaryText="Tracking" leftIcon={<Timeline />} />
+              <MenuItem value="profile" primaryText="Profile" leftIcon={<Person />} />
+            </IconMenu>
+          </ToolbarGroup>
         </Toolbar>
         {content}
       </Paper>
