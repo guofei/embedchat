@@ -261,7 +261,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       |> Repo.one
 
     Address
-    |> Address.latest_for_user_room(user.id, room.id)
+    |> Address.latest_for_room_master(user.id, room.id)
     |> Repo.one
   end
 

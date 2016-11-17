@@ -1,27 +1,28 @@
-<h2>Show address</h2>
-
-<ul>
-
-  <li>
-    <strong>User:</strong>
-    <%= @address.user_id %>
-  </li>
-
-  <li>
-    <strong>Room:</strong>
-    <%= @address.room_id %>
-  </li>
-
-  <li>
-    <strong>Visitor:</strong>
-    <%= @address.visitor_id %>
-  </li>
-
-  <li>
-    <strong>Uuid:</strong>
-    <%= @address.uuid %>
-  </li>
-
-</ul>
-
-<%= link "Back", to: address_path(@conn, :index) %>
+<div class="page-content-max">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--2dp">
+      <div class="mdl-card__title mdl-card--expand">
+        <h2 class="mdl-card__title-text">
+          Profile
+        </h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+        <p>
+          ID: <%= @address.uuid %>
+        </p>
+        <p>
+          Name: <%= visitor_name(@address) %>
+        </p>
+        <p>
+          Email: <%= visitor_email(@address) %>
+        </p>
+        <p>
+          Note: <%= visitor_note(@address) %>
+        </p>
+      </div>
+      <div class="mdl-card__actions mdl-card--border">
+        <%= link "Back", to: address_path(@conn, :index), class: "mdl-button mdl-js-button mdl-button--raised" %>
+      </div>
+    </div>
+  </div>
+</div>

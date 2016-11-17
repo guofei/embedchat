@@ -23,7 +23,7 @@ defmodule EmbedChat.UserAddressPlug do
   end
 
   defp create_or_get_address(user, room, repo) do
-    if address = repo.one(Address.latest_for_user_room(Address, user.id, room.id)) do
+    if address = repo.one(Address.latest_for_room_master(Address, user.id, room.id)) do
       address
     else
       changeset = Ecto.build_assoc(user, :addresses, uuid: Ecto.UUID.generate(), room_id: room.id)

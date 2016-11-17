@@ -1,34 +1,34 @@
-<h2>Listing addresses</h2>
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--12-col">
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th>Room</th>
-      <th>Visitor</th>
-      <th>Uuid</th>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Name</th>
+          <th class="mdl-data-table__cell--non-numeric">ID</th>
+          <th class="mdl-data-table__cell--non-numeric">Updated At</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= for address <- @addresses do %>
+          <tr>
+            <td class="mdl-data-table__cell--non-numeric"><%= visitor_name(address) %></td>
+            <td class="mdl-data-table__cell--non-numeric"><%= address.uuid %></td>
+            <td class="mdl-data-table__cell--non-numeric"><%= address.updated_at %></td>
+            <td class="mdl-data-table__cell--non-numeric"">
+              <%= link "Show", to: address_path(@conn, :show, address), class: "mdl-button mdl-js-button mdl-button--raised" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= for address <- @addresses do %>
-      <tr>
-        <td><%= address.user_id %></td>
-        <td><%= address.room_id %></td>
-        <td><%= address.visitor_id %></td>
-        <td><%= address.uuid %></td>
+    <center>
+      <div class="nav-page">
+        <%= pagination_links @conn, @addresses %>
+      </div>
+    </center>
 
-        <td class="text-right">
-          <%= link "Show", to: address_path(@conn, :show, address), class: "btn btn-default btn-xs" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<center>
-  <div class="nav-page">
-    <%= pagination_links @conn, @addresses %>
   </div>
-</center>
+</div>

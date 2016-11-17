@@ -27,17 +27,32 @@ defmodule EmbedChat.Address do
     |> foreign_key_constraint(:visitor_id)
   end
 
-  def latest_for_user_room(query, user_id, room_id) do
+  def latest_for_room_master(query, user_id, room_id) do
     from a in query,
       where: a.user_id == ^user_id and a.room_id == ^room_id,
       order_by: [desc: a.updated_at],
       limit: 1
   end
 
-  def for_room(query, room_id) do
+  def get_by_master(query, user_id, address_id) do
+    from a in query,
+      join: r in EmbedChat.Room, on: r.id == a.room_id,
+      join: up in EmbedChat.UserProject, on: r.project_id == up.project_id and up.user_id == ^user_id,
+      where: a.id == ^address_id,
+      preload: :visitor
+  end
+
+  defp for_room(query, room_id) do
     from a in query,
       where: ^room_id == a.room_id,
       order_by: [desc: a.updated_at]
+  end
+
+  def for_room_with_visitors(query, room_id) do
+    query
+    |> for_room(room_id)
+    |> Ecto.Query.where([address], is_nil(address.user_id))
+    |> Ecto.Query.preload(:visitor)
   end
 
   def latest_for_room(query, room_id, limit) do
