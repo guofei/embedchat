@@ -34,11 +34,14 @@ defmodule EmbedChat.Address do
       limit: 1
   end
 
-  def latest_for_room(query, room_id, limit) do
+  def for_room(query, room_id) do
     from a in query,
       where: ^room_id == a.room_id,
-      order_by: [desc: a.updated_at],
-      limit: ^limit
+      order_by: [desc: a.updated_at]
+  end
+
+  def latest_for_room(query, room_id, limit) do
+    query |> for_room(room_id) |> Ecto.Query.limit(^limit)
   end
 
   def where_in(query, room_id, ids) when is_list(ids) do

@@ -6,7 +6,17 @@ defmodule EmbedChat.AddressController do
 
   def index(conn, params) do
     user = Guardian.Plug.current_resource(conn)
-    addresses = Repo.paginate(Address, params)
+
+    # TODO user user current project
+    room =
+      user
+      |> Ecto.assoc(:rooms)
+      |> Repo.all
+      |> Enum.at(0)
+    addresses =
+      Address
+      |> Address.for_room(room.id)
+      |> Repo.paginate(params)
     render(conn, "index.html", addresses: addresses)
   end
 
