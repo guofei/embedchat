@@ -4,6 +4,10 @@ MAINTAINER kaku <kaku@kaku>
 RUN apt-get update && apt-get upgrade -y && apt-get install -y curl wget make gcc postgresql bzip2 libfontconfig
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && apt-get install -y nodejs
 
+RUN curl https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y yarn
+
 ENV PORT 80
 ENV HOST lewini.com
 ENV MIX_ENV prod
@@ -17,8 +21,8 @@ ADD . /myapp
 RUN chmod +x run.sh
 RUN mix local.hex --force
 RUN mix archive.install --force https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
-RUN mix deps.get && npm install && mix local.rebar
-RUN npm run compile
+RUN mix deps.get && yarn install && mix local.rebar
+RUN yarn run compile
 RUN mix compile
 RUN mix phoenix.digest
 # RUN mix release
