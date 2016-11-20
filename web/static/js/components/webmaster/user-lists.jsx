@@ -6,11 +6,8 @@ import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import Paper from 'material-ui/Paper';
 import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import ActionList from 'material-ui/svg-icons/action/list';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+import ActionOpenInNew from 'material-ui/svg-icons/action/open-in-new';
+import FlatButton from 'material-ui/FlatButton';
 
 import { avatar, shortName } from '../../utils';
 
@@ -71,21 +68,15 @@ function UserLists({ onlineUsers, offlineUsers, selectedUser, onUserSelected }) 
     <Paper zDepth={1}>
       <Toolbar>
         <ToolbarTitle text="Visitor" />
-          <ToolbarGroup>
-            <IconMenu
-              iconButtonElement={<IconButton><NavigationExpandMoreIcon /></IconButton>}
-              anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-              targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-            >
-              <MenuItem
-                linkButton
-                href="/addresses"
-                value="allVisitors"
-                primaryText="All"
-                leftIcon={<ActionList />}
-              />
-            </IconMenu>
-          </ToolbarGroup>
+        <ToolbarGroup>
+          <FlatButton
+            href="/addresses"
+            label="all"
+            primary
+            style={styles.button}
+            icon={<ActionOpenInNew />}
+          />
+        </ToolbarGroup>
       </Toolbar>
       <SelectableList value={selectedUser} onChange={function fun() {}}>
         <Subheader>Online</Subheader>
