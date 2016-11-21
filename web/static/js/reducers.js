@@ -21,6 +21,7 @@ import {
   UPDATE_VISITOR,
   OPEN_CHAT,
 } from './actions';
+import { USERMENU } from './components/common/ui-const.js';
 import { arrayToObject } from './utils.js';
 
 // state tree sample
@@ -68,7 +69,7 @@ let state_tree = {
   currentUser: 'xxx-xxx-xxx',
   currentUserEmail: 'email@domain.com',
   selectedUser: 'xxx-xxx-xxx',
-  selectedUserDetailMenu: 'tracking', // 'tracking' or 'profile'
+  selectedUserDetailMenu: USERMENU,
   openChat: false,
 }
 */
@@ -82,7 +83,7 @@ function openChat(state = false, action) {
   }
 }
 
-function selectedUserDetailMenu(state = 'tracking', action) {
+function selectedUserDetailMenu(state = USERMENU.TRACKING, action) {
   switch (action.type) {
     case SELECT_USER_DETAIL_MENU:
       return action.menu;

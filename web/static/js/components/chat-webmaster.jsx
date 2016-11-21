@@ -152,7 +152,7 @@ ChatWebmaster.propTypes = {
   allUsers: React.PropTypes.object.isRequired,
   currentUser: React.PropTypes.string.isRequired,
   selectedUser: React.PropTypes.string.isRequired,
-  selectedUserDetailMenu: React.PropTypes.string.isRequired,
+  selectedUserDetailMenu: React.PropTypes.number.isRequired,
   logs: React.PropTypes.array.isRequired,
 };
 

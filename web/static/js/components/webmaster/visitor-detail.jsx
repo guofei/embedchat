@@ -12,7 +12,7 @@ import IconMenu from 'material-ui/IconMenu';
 import Person from 'material-ui/svg-icons/social/person';
 import Timeline from 'material-ui/svg-icons/action/timeline';
 
-
+import { USERMENU } from '../common/ui-const.js';
 import ItemWithDialog from '../common/item-with-dialog';
 import Profile from './profile';
 
@@ -69,7 +69,7 @@ function menuName(menu) {
   let title = 'Tracking';
   if (menu === 'tracking') {
     title = 'Tracking';
-  } else if (menu === 'profile') {
+  } else if (menu === USERMENU.PROFILE) {
     title = 'Profile';
   }
   return title;
@@ -90,9 +90,9 @@ class UserDetail extends React.Component {
     const { selectedMenu, logs, visitor } = this.props;
 
     let content = (<div style={styles.content} ></div>);
-    if (selectedMenu === 'tracking') {
+    if (selectedMenu === USERMENU.TRACKING) {
       content = (<Logs allLogs={logs} />);
-    } else if (selectedMenu === 'profile') {
+    } else if (selectedMenu === USERMENU.PROFILE) {
       if (visitor && Object.keys(visitor).length > 0) {
         content = (
           <div style={styles.content}>
@@ -106,7 +106,7 @@ class UserDetail extends React.Component {
     return (
       <Paper zDepth={1}>
         <Toolbar>
-          <ToolbarTitle text={ menuName(selectedMenu) } />
+          <ToolbarTitle text={menuName(selectedMenu)} />
           <ToolbarGroup>
             <IconMenu
               iconButtonElement={<IconButton><NavigationExpandMoreIcon /></IconButton>}
@@ -114,8 +114,16 @@ class UserDetail extends React.Component {
               anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
               targetOrigin={{ horizontal: 'left', vertical: 'top' }}
             >
-              <MenuItem value="tracking" primaryText="Tracking" leftIcon={<Timeline />} />
-              <MenuItem value="profile" primaryText="Profile" leftIcon={<Person />} />
+              <MenuItem
+                value={USERMENU.TRACKING}
+                primaryText={menuName(USERMENU.TRACKING)}
+                leftIcon={<Timeline />}
+              />
+              <MenuItem
+                value={USERMENU.PROFILE}
+                primaryText={menuName(USERMENU.PROFILE)}
+                leftIcon={<Person />}
+              />
             </IconMenu>
           </ToolbarGroup>
         </Toolbar>
@@ -126,7 +134,7 @@ class UserDetail extends React.Component {
 }
 
 UserDetail.propTypes = {
-  selectedMenu: React.PropTypes.string.isRequired,
+  selectedMenu: React.PropTypes.number.isRequired,
   visitor: React.PropTypes.object,
   logs: React.PropTypes.array.isRequired,
   onSelectedMenu: React.PropTypes.func.isRequired,
