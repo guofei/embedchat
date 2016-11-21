@@ -34,12 +34,11 @@ defmodule EmbedChat.AttemptController do
     else
       url = get_url(attempt.url)
       room = EmbedChat.Room |> EmbedChat.Room.first |> Repo.one
-      if frame_ok?(url) do
-        render(conn, "show.html", room: room, url: url)
-      else
-        conn
-        |> put_flash(:info, gettext("Lewini uses iframing to display the demo, but this page doesn't support iframes."))
-        |> render("show.html", room: room, url: url)
+      case frame(url) do
+        {:ok, _} ->
+          render(conn, "show.html", room: room, url: url, body: false)
+        {:error, body} ->
+          render(conn, "show.html", room: room, url: url, body: body)
       end
     end
   end
@@ -85,21 +84,52 @@ defmodule EmbedChat.AttemptController do
     end
   end
 
-  defp frame_ok?(url) do
+  defp get_host(url) do
+    uri = URI.parse(get_url(url))
+    uri.scheme <> "://" <> uri.host
+  end
+
+  defp frame(url) do
     new_url = get_url url
     case HTTPoison.get(new_url, [], [follow_redirect: true]) do
-      {:ok, %HTTPoison.Response{status_code: 200, headers: headers, body: _body}} ->
-        x_frame_options headers
+      {:ok, %HTTPoison.Response{status_code: 200, headers: headers, body: body}} ->
+        if x_frame_options(headers) do
+          {:ok, body}
+        else
+          body =
+            body
+            |> get_valid_str
+            |> replace_url(new_url)
+          {:error, get_valid_str(body)}
+        end
       {:ok, %HTTPoison.Response{status_code: 404}} ->
-        false
+        {:error, "404 error" }
       {:error, %HTTPoison.Error{reason: _reason}} ->
-        false
+        {:error, "error"}
+    end
+  end
+
+  defp replace_url(str, url) do
+    String.replace(str, ~r/(href|src)=(\"|\')(?!http:|https:|\/\/)/, "\\1=\\2#{get_host(url)}/\\3")
+  end
+
+  defp get_valid_str(str) do
+    if String.valid?(str) do
+      str
+    else
+      String.graphemes(str)
+      |> Enum.filter(&(String.valid?(&1)))
+      |> List.to_string
     end
   end
 
   defp x_frame_options(headers) do
     if option = List.keyfind(headers, "X-Frame-Options", 0) do
-      if elem(option, 1) == "SAMEORIGIN" || elem(option, 1) == "deny" do
+      v =
+        option
+        |> elem(1)
+        |> String.downcase
+      if String.contains? v, ["sameorigin", "deny", "allow-from"] do
         false
       else
         true

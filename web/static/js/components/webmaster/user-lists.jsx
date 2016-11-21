@@ -6,7 +6,7 @@ import Divider from 'material-ui/Divider';
 import Avatar from 'material-ui/Avatar';
 import Paper from 'material-ui/Paper';
 import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar';
-import ActionOpenInNew from 'material-ui/svg-icons/action/open-in-new';
+import ActionViewList from 'material-ui/svg-icons/action/view-list';
 import FlatButton from 'material-ui/FlatButton';
 
 import { avatar, shortName } from '../../utils';
@@ -73,7 +73,7 @@ function UserLists({ onlineUsers, offlineUsers, selectedUser, onUserSelected }) 
             href="/addresses"
             label="all"
             primary
-            icon={<ActionOpenInNew />}
+            icon={<ActionViewList />}
           />
         </ToolbarGroup>
       </Toolbar>

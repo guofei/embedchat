@@ -14,7 +14,24 @@
 </style>
 
 <div class="iframe-content">
-  <iframe id="i-frame" src="<%= @url %>" frameborder="0"></iframe>
+  <%= if @body do %>
+    <script type="text/javascript">
+     (function () {
+       var iframe = document.getElementById("i-frame");
+       if (iframe.contentWindow.document.body) {
+         if (iframe.contentWindow.document.body.innerHTML != "") {
+           return;
+         }
+       }
+       iframe.contentWindow.document.open();
+       iframe.contentWindow.document.write(iframe.getAttribute("srcdoc"));
+       iframe.contentWindow.document.close();
+     })();
+    </script>
+    <iframe id="i-frame" frameborder="0" srcdoc='<%= @body %>'></iframe>
+  <% else %>
+    <iframe id="i-frame" src="<%= @url %>" frameborder="0"></iframe>
+  <% end %>
 </div>
 
 <script>window.room_uuid = "<%= @room.uuid %>"</script>
