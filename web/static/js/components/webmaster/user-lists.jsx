@@ -73,7 +73,6 @@ function UserLists({ onlineUsers, offlineUsers, selectedUser, onUserSelected }) 
             href="/addresses"
             label="all"
             primary
-            style={styles.button}
             icon={<ActionOpenInNew />}
           />
         </ToolbarGroup>

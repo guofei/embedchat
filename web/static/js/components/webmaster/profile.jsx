@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
 
 import { shortName } from '../../utils';
 
@@ -98,7 +98,7 @@ class Profile extends React.Component {
             />
           </div>
           <center>
-            <FlatButton label="Update" onTouchTap={this.handleUpdateVisitor} primary />
+            <RaisedButton label="Update" onTouchTap={this.handleUpdateVisitor} primary />
           </center>
         </div>
       );

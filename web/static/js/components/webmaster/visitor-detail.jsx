@@ -5,12 +5,9 @@ import parser from 'ua-parser-js';
 import Paper from 'material-ui/Paper';
 import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar';
 import { List } from 'material-ui/List';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-import IconMenu from 'material-ui/IconMenu';
 import Person from 'material-ui/svg-icons/social/person';
 import Timeline from 'material-ui/svg-icons/action/timeline';
+import FlatButton from 'material-ui/FlatButton';
 
 import { USERMENU } from '../common/ui-const.js';
 import ItemWithDialog from '../common/item-with-dialog';
@@ -66,23 +63,52 @@ function Logs({ allLogs }) {
 }
 
 function menuName(menu) {
-  let title = 'Tracking';
-  if (menu === 'tracking') {
-    title = 'Tracking';
+  if (menu === USERMENU.TRACKING) {
+    return 'Tracking';
   } else if (menu === USERMENU.PROFILE) {
-    title = 'Profile';
+    return 'Profile';
   }
-  return title;
+  return 'Unknown';
+}
+
+function MenuButton({ menu, handleChangeMenu }) {
+  let button = (<div/>);
+  if (menu === USERMENU.TRACKING) {
+    button = (
+      <FlatButton
+        primary
+        icon={<Person />}
+        label={menuName(USERMENU.PROFILE)}
+        onTouchTap={handleChangeMenu}
+      />
+    );
+  } else if (menu === USERMENU.PROFILE) {
+    button = (
+      <FlatButton
+        primary
+        icon={<Timeline />}
+        label={menuName(USERMENU.TRACKING)}
+        onTouchTap={handleChangeMenu}
+      />
+    );
+  }
+  return button;
 }
 
 class UserDetail extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleMenuChange = this.handleMenuChange.bind(this);
+    this.handleChangeMenu = this.handleChangeMenu.bind(this);
   }
 
-  handleMenuChange(event, value) {
+  handleChangeMenu() {
+    let value = USERMENU.PROFILE;
+    if (this.props.selectedMenu === USERMENU.TRACKING) {
+      value = USERMENU.PROFILE;
+    } else if (this.props.selectedMenu === USERMENU.PROFILE) {
+      value = USERMENU.TRACKING;
+    }
     this.props.onSelectedMenu(value);
   }
 
@@ -108,23 +134,7 @@ class UserDetail extends React.Component {
         <Toolbar>
           <ToolbarTitle text={menuName(selectedMenu)} />
           <ToolbarGroup>
-            <IconMenu
-              iconButtonElement={<IconButton><NavigationExpandMoreIcon /></IconButton>}
-              onChange={this.handleMenuChange}
-              anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-              targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-            >
-              <MenuItem
-                value={USERMENU.TRACKING}
-                primaryText={menuName(USERMENU.TRACKING)}
-                leftIcon={<Timeline />}
-              />
-              <MenuItem
-                value={USERMENU.PROFILE}
-                primaryText={menuName(USERMENU.PROFILE)}
-                leftIcon={<Person />}
-              />
-            </IconMenu>
+            <MenuButton menu={selectedMenu} handleChangeMenu={this.handleChangeMenu} />
           </ToolbarGroup>
         </Toolbar>
         {content}
