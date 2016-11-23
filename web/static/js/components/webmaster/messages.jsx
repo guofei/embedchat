@@ -65,10 +65,7 @@ class Messages extends React.Component {
             </IconButton>
           </ToolbarGroup>
         </Toolbar>
-        <div
-          ref="messages"
-          style={styles.messages}
-        >
+        <div ref="messages" style={styles.messages}>
           <ListMessages
             messages={this.props.messages}
             users={this.props.users}
