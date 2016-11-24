@@ -6,6 +6,7 @@ import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 
+import Mailer from './mailer';
 import ListMessages from '../common/list-messages';
 import MessageForm from '../common/message-form';
 
@@ -22,6 +23,10 @@ const styles = {
     marginLeft: '10px',
   },
 };
+
+function mailerTmp(mail) {
+  console.log(mail);
+}
 
 function sendEmail(mail) {
   return mail;
@@ -53,11 +58,13 @@ class Messages extends React.Component {
   }
 
   render() {
+    const { selectedUser, currentUser, users, messages, onInputMessage } = this.props;
+
     return (
       <Paper zDepth={1}>
         <Toolbar>
           <ToolbarTitle
-            text={`Message: ${userShortName(this.props.selectedUser, this.props.users)}`}
+            text={`Message: ${userShortName(selectedUser, users)}`}
           />
           <ToolbarGroup>
             <IconButton onTouchTap={this.handleTouchTap}>
@@ -67,13 +74,19 @@ class Messages extends React.Component {
         </Toolbar>
         <div ref="messages" style={styles.messages}>
           <ListMessages
-            messages={this.props.messages}
-            users={this.props.users}
-            currentUser={this.props.currentUser}
+            messages={messages}
+            users={users}
+            currentUser={currentUser}
             sendEmail={sendEmail}
           />
+          <div>
+            <Mailer
+              visitor={users[selectedUser]}
+              onMailMessagesToUser={mailerTmp}
+            />
+          </div>
           <div style={styles.messageForm}>
-            <MessageForm onInputMessage={this.props.onInputMessage} />
+            <MessageForm onInputMessage={onInputMessage} />
           </div>
         </div>
       </Paper>

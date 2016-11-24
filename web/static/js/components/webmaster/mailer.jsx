@@ -1,0 +1,79 @@
+import React from 'react';
+
+import Dialog from 'material-ui/Dialog';
+import CommunicationEmail from 'material-ui/svg-icons/communication/email';
+import FlatButton from 'material-ui/FlatButton';
+
+class Mailer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false,
+    };
+
+    this.handleEmailMessages = this.handleEmailMessages.bind(this);
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+  }
+
+  handleOpen() {
+    this.setState({ open: true });
+  }
+
+  handleClose() {
+    this.setState({ open: false });
+  }
+
+  handleEmailMessages() {
+    this.setState({ open: false });
+    this.props.onMailMessagesToUser(this.props.visitor.email);
+  }
+
+  render() {
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary
+        onTouchTap={this.handleClose}
+      />,
+      <FlatButton
+        label="Send"
+        primary
+        keyboardFocused
+        onTouchTap={this.handleEmailMessages}
+      />,
+    ];
+    return (
+      <div>
+        <FlatButton
+          label="Send Email to User"
+          onTouchTap={this.handleOpen}
+          primary
+          icon={<CommunicationEmail />}
+        />
+        <Dialog
+          title="Send Email to User"
+          actions={actions}
+          modal={false}
+          open={this.state.open}
+          onRequestClose={this.handleClose}
+        >
+          Send current 10 messages to user's email.
+        </Dialog>
+      </div>
+    );
+  }
+}
+
+Mailer.propTypes = {
+  visitor: React.PropTypes.shape({
+    id: React.PropTypes.number.isRequired,
+    uid: React.PropTypes.string.isRequired,
+    name: React.PropTypes.string,
+    email: React.PropTypes.string,
+  }),
+  onMailMessagesToUser: React.PropTypes.func.isRequired,
+};
+
+export default Mailer;
