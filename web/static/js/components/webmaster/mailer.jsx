@@ -27,10 +27,11 @@ class Mailer extends React.Component {
 
   handleEmailMessages() {
     this.setState({ open: false });
-    this.props.onMailMessagesToUser(this.props.visitor.email);
+    this.props.onMailMessagesToUser(this.props.visitor);
   }
 
   render() {
+    const { visitor } = this.props;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -44,25 +45,28 @@ class Mailer extends React.Component {
         onTouchTap={this.handleEmailMessages}
       />,
     ];
-    return (
-      <div>
-        <FlatButton
-          label="Send Email to User"
-          onTouchTap={this.handleOpen}
-          primary
-          icon={<CommunicationEmail />}
-        />
-        <Dialog
-          title="Send Email to User"
-          actions={actions}
-          modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
-        >
-          Send current 10 messages to user's email.
-        </Dialog>
-      </div>
-    );
+    if (visitor.email) {
+      return (
+        <div>
+          <FlatButton
+            label="Send Email to User"
+            onTouchTap={this.handleOpen}
+            primary
+            icon={<CommunicationEmail />}
+          />
+          <Dialog
+            title="Send Email to User"
+            actions={actions}
+            modal={false}
+            open={this.state.open}
+            onRequestClose={this.handleClose}
+          >
+            Send current 10 messages to user's email.
+          </Dialog>
+        </div>
+      );
+    }
+    return (<div/>);
   }
 }
 

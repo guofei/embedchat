@@ -19,7 +19,7 @@ import { host } from '../global';
 
 // injectTapEventPlugin();
 
-function CurrentMessages({ selected, current, msgs, users, input, close }) {
+function CurrentMessages({ selected, current, msgs, users, input, close, sendmail }) {
   return (
     <Messages
       messages={msgs}
@@ -28,6 +28,7 @@ function CurrentMessages({ selected, current, msgs, users, input, close }) {
       selectedUser={selected}
       onInputMessage={input}
       onClose={close}
+      onSendMessagesToUser={sendmail}
     />
   );
 }
@@ -40,6 +41,7 @@ class ChatWebmaster extends React.Component {
     this.handleCloseMessages = this.handleCloseMessages.bind(this);
     this.handleSelectUserDetailMenu = this.handleSelectUserDetailMenu.bind(this);
     this.handleUpdateVisitorInfo = this.handleUpdateVisitorInfo.bind(this);
+    this.handleSendMessagesToUser = this.handleSendMessagesToUser.bind(this);
   }
 
   componentDidMount() {
@@ -50,6 +52,24 @@ class ChatWebmaster extends React.Component {
     if (this.props.selectedUser) {
       this.props.room.send(inputText, this.props.selectedUser);
     }
+  }
+
+  handleSendMessagesToUser(visitor) {
+    const data = {
+      message_mailer: {
+        room_uuid: this.props.room.getRoomUUID(),
+        address_uuid: visitor.uid,
+      },
+    };
+    fetch(`//${host}/api/message_mailers`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${window.userToken}`,
+      },
+      body: JSON.stringify(data),
+    });
   }
 
   handleUpdateVisitorInfo(visitor) {
@@ -98,6 +118,7 @@ class ChatWebmaster extends React.Component {
           users={allUsers}
           input={this.handleInputMessage}
           close={this.handleCloseMessages}
+          sendmail={this.handleSendMessagesToUser}
         />
       );
     }

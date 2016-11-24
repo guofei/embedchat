@@ -24,10 +24,6 @@ const styles = {
   },
 };
 
-function mailerTmp(mail) {
-  console.log(mail);
-}
-
 function sendEmail(mail) {
   return mail;
 }
@@ -58,7 +54,10 @@ class Messages extends React.Component {
   }
 
   render() {
-    const { selectedUser, currentUser, users, messages, onInputMessage } = this.props;
+    const {
+      selectedUser, currentUser, users, messages,
+      onInputMessage, onSendMessagesToUser,
+    } = this.props;
 
     return (
       <Paper zDepth={1}>
@@ -82,7 +81,7 @@ class Messages extends React.Component {
           <div>
             <Mailer
               visitor={users[selectedUser]}
-              onMailMessagesToUser={mailerTmp}
+              onMailMessagesToUser={onSendMessagesToUser}
             />
           </div>
           <div style={styles.messageForm}>
@@ -101,6 +100,7 @@ Messages.propTypes = {
   users: React.PropTypes.object.isRequired,
   onInputMessage: React.PropTypes.func.isRequired,
   onClose: React.PropTypes.func.isRequired,
+  onSendMessagesToUser: React.PropTypes.func.isRequired,
 };
 
 export default Messages;

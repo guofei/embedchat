@@ -91,5 +91,10 @@ defmodule EmbedChat.Router do
     pipe_through [:api, :api_auth]
 
     resources "/visitors", VisitorController, except: [:new, :edit]
+    resources "/message_mailers", MessageMailerController, only: [:create]
+  end
+
+  if Mix.env == :dev do
+    forward "/sent_emails", Bamboo.EmailPreviewPlug
   end
 end

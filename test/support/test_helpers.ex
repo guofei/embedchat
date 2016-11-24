@@ -17,7 +17,6 @@ defmodule EmbedChat.TestHelpers do
     {_, project} = Repo.insert(%EmbedChat.Project{})
     Repo.insert(%EmbedChat.UserProject{user_id: user.id, project_id: project.id})
     {_, room} = Repo.insert(%EmbedChat.Room{uuid: uuid(), project_id: project.id})
-    # Repo.insert(%EmbedChat.UserRoom{user_id: user.id, room_id: room.id})
     room
   end
 
@@ -26,12 +25,21 @@ defmodule EmbedChat.TestHelpers do
     {_, project} = Repo.insert(%EmbedChat.Project{})
     Repo.insert(%EmbedChat.UserProject{user_id: user.id, project_id: project.id})
     {_, room} = Repo.insert(%EmbedChat.Room{uuid: uuid(), project_id: project.id})
-    # Repo.insert(%EmbedChat.UserRoom{user_id: user.id, room_id: room.id})
     room
   end
 
-  def insert_address(user, room) do
+  def insert_visitor() do
+    {_, visitor} = Repo.insert(%EmbedChat.Visitor{email: "user#{Base.encode16(:crypto.strong_rand_bytes(8))}@email.com"})
+    visitor
+  end
+
+  def insert_address(%EmbedChat.User{} = user, room) do
     {_, address} = Repo.insert(%EmbedChat.Address{user_id: user.id, uuid: uuid(), room_id: room.id})
+    address
+  end
+
+  def insert_address(%EmbedChat.Visitor{} = visitor, room) do
+    {_, address} = Repo.insert(%EmbedChat.Address{visitor_id: visitor.id, uuid: uuid(), room_id: room.id})
     address
   end
 
