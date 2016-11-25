@@ -36,6 +36,3 @@ config :embed_chat, EmbedChat.Gettext,
 
 config :scrivener_html,
   routes_helper: EmbedChat.Router.Helpers
-
-config :embed_chat, EmbedChat.Mailer,
-  adapter: Bamboo.LocalAdapter

@@ -18,3 +18,6 @@ config :embed_chat, EmbedChat.Repo,
 
 config :comeonin, :bcrypt_log_rounds, 4
 config :comeonin, :pbkdf2_rounds, 1
+
+config :embed_chat, EmbedChat.Mailer,
+  adapter: Bamboo.LocalAdapter

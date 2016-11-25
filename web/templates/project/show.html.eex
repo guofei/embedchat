@@ -1,5 +1,28 @@
 <div class="page-content-max">
   <div class="mdl-grid">
+    <table class="mdl-data-table mdl-js-data-table mdl-cell mdl-cell--12-col">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Project Domain</th>
+          <th class="mdl-data-table__cell--non-numeric">Project Name</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mdl-data-table__cell--non-numeric">
+            <%= @project.domain %>
+          </td>
+          <td class="mdl-data-table__cell--non-numeric">
+            <%= @project.name %>
+          </td>
+          <td>
+            <%= link gettext("Edit"), to: project_path(@conn, :edit, @project), class: "mdl-button mdl-js-button mdl-button--raised" %>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
     <div class="mdl-cell mdl-cell--12-col">
       <p>
         <%= gettext "The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page." %>

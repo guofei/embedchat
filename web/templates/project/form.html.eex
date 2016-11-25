@@ -5,7 +5,7 @@
     </div>
   <% end %>
 
-  <div class="mdl-textfield mdl-js-textfield">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= label f, :domain, class: "mdl-textfield__label" %>
     <%= text_input f, :domain, class: "mdl-textfield__input" %>
     <%= error_tag f, :domain %>
@@ -13,7 +13,7 @@
 
   <br/>
 
-  <div class="mdl-textfield mdl-js-textfield">
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= label f, :name, class: "mdl-textfield__label" %>
     <%= text_input f, :name, class: "mdl-textfield__input" %>
     <%= error_tag f, :name %>

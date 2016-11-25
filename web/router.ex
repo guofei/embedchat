@@ -1,6 +1,11 @@
 defmodule EmbedChat.Router do
   use EmbedChat.Web, :router
 
+  if Mix.env == :pod do
+    use Plug.ErrorHandler
+    use Sentry.Plug
+  end
+
   # This plug will look for a Guardian token in the session in the default location
   # Then it will attempt to load the resource found in the JWT.
   # If it doesn't find a JWT in the default location it doesn't do anything

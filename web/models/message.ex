@@ -32,20 +32,20 @@ defmodule EmbedChat.Message do
       join: r in EmbedChat.Room, on: m.room_id == r.id,
       join: up in EmbedChat.UserProject, on: up.project_id == r.project_id,
       where: up.user_id == ^user_id and m.type == ^EmbedChat.MessageType.normal(),
-      order_by: [desc: :inserted_at]
+      order_by: [desc: :id]
   end
 
   def for_room_and_address(query, room_id, address_id, limit) do
     from m in query,
       where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id)),
-      order_by: [desc: :inserted_at],
+      order_by: [desc: :id],
       limit: ^limit
   end
 
   def for_room_and_address_except_email_request(query, room_id, address_id, limit) do
     from m in query,
-      where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id)) and m.type != ^EmbedChat.MessageType.email_request,
-      order_by: [desc: :inserted_at],
+      where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id) or is_nil(m.to_id)) and m.type != ^EmbedChat.MessageType.email_request,
+      order_by: [desc: :id],
       limit: ^limit
   end
 

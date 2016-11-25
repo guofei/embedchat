@@ -46,3 +46,6 @@ config :embed_chat, EmbedChat.Repo,
 # config(:elixometer, reporter: :exometer_report_tty,
 #   env: Mix.env,
 #   metric_prefix: "embed_chat")
+
+config :embed_chat, EmbedChat.Mailer,
+  adapter: Bamboo.LocalAdapter
