@@ -27,7 +27,7 @@ defmodule EmbedChat.Message do
     |> validate_required([:body])
   end
 
-  def for_user_and_visitor(query, user_id) do
+  def for_user(query, user_id) do
     from m in query,
       join: r in EmbedChat.Room, on: m.room_id == r.id,
       join: up in EmbedChat.UserProject, on: up.project_id == r.project_id,
@@ -35,23 +35,23 @@ defmodule EmbedChat.Message do
       order_by: [desc: :id]
   end
 
-  def for_room_and_address(query, room_id, address_id, limit) do
+  def visitor_history(query, room_id, address_id, limit) do
     from m in query,
-      where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id)),
+      where: m.room_id == ^room_id and (m.from_id == ^address_id or m.to_id == ^address_id),
       order_by: [desc: :id],
       limit: ^limit
   end
 
-  def for_room_and_address_except_email_request(query, room_id, address_id, limit) do
+  def visitor_history_except_email_request(query, room_id, address_id, limit) do
     from m in query,
-      where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id) or is_nil(m.to_id)) and m.type != ^EmbedChat.MessageType.email_request,
+      where: m.room_id == ^room_id and (m.from_id == ^address_id or m.to_id == ^address_id) and m.type != ^EmbedChat.MessageType.email_request,
       order_by: [desc: :id],
       limit: ^limit
   end
 
-  def for_room_and_address_not_nil_except_email_request(query, room_id, address_id, limit) do
+  def master_history(query, room_id, address_id, limit) do
     from m in query,
-      where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id)) and m.type != ^EmbedChat.MessageType.email_request,
+      where: m.room_id == ^room_id and (m.from_id == ^address_id or m.to_id == ^address_id or is_nil(m.to_id)) and m.type != ^EmbedChat.MessageType.email_request,
       order_by: [desc: :id],
       limit: ^limit
   end
