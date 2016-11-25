@@ -49,6 +49,13 @@ defmodule EmbedChat.Message do
       limit: ^limit
   end
 
+  def for_room_and_address_not_nil_except_email_request(query, room_id, address_id, limit) do
+    from m in query,
+      where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id)) and m.type != ^EmbedChat.MessageType.email_request,
+      order_by: [desc: :id],
+      limit: ^limit
+  end
+
   def email_request_count(query, room_id, uuid) do
     from m in query,
       join: a in EmbedChat.Address, on: m.to_id == a.id,
