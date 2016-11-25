@@ -1,1 +1,30 @@
-<p>html test</p>
+<table>
+  <thead>
+    <tr>
+      <th><%= gettext "Time" %></th>
+      <th><%= gettext "From" %></th>
+      <th><%= gettext "To" %></th>
+      <th><%= gettext "Message" %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= for message <- @messages do %>
+      <tr>
+        <td>
+          <%= message.inserted_at %>
+        </td>
+        <td>
+          <%= from_name(message) %>
+        </td>
+        <td>
+          <%= to_name(message) %>
+        </td>
+        <td>
+          <%= message.body %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

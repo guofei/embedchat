@@ -34,11 +34,13 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   def messages(room_id, address, limit) do
     if show_request_email?(room_id, address.uuid) do
       Message
-      |> Message.preload_for_room_and_address(room_id, address.id, limit)
+      |> Message.for_room_and_address(room_id, address.id, limit)
+      |> Ecto.Query.preload([:from, :to, :from_user])
       |> Repo.all
     else
       Message
-      |> Message.preload_for_room_and_address_except_email_request(room_id, address.id, limit)
+      |> Message.for_room_and_address_except_email_request(room_id, address.id, limit)
+      |> Ecto.Query.preload([:from, :to, :from_user])
       |> Repo.all
     end
   end

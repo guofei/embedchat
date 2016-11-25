@@ -28,7 +28,8 @@ defmodule EmbedChat.MessageMailerController do
 
     messages =
       Message
-      |> Message.preload_for_room_and_address_except_email_request(room.id, address.id, 10)
+      |> Message.for_room_and_address_except_email_request(room.id, address.id, 10)
+      |> Ecto.Query.preload([:from_user, :to_user])
       |> Repo.all
 
     address.visitor

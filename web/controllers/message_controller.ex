@@ -10,7 +10,8 @@ defmodule EmbedChat.MessageController do
     user = Guardian.Plug.current_resource(conn)
     messages =
       Message
-      |> Message.preload_for_user_and_visitor(user.id)
+      |> Message.for_user_and_visitor(user.id)
+      |> Ecto.Query.preload([:from, :to, :from_user, :to_user, :from_visitor, :to_visitor])
       |> Repo.paginate(params)
     render(conn, "index.html", messages: messages)
   end

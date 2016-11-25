@@ -1,7 +1,7 @@
 defmodule EmbedChat.MessageMailerControllerTest do
   use EmbedChat.ConnCase
 
-  alias EmbedChat.MessageMailer
+  # alias EmbedChat.MessageMailer
   @invalid_attrs %{}
 
   setup %{conn: conn} do

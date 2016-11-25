@@ -1,1 +1,5 @@
-text test
+<%= gettext "Time" %> <%= gettext "From" %> <%= gettext "To" %> <%= gettext "Message" %>
+<%= for message <- @messages do %>
+  <%= message.inserted_at %> <%= from_name(message) %> <%= to_name(message) %> <%= message.body %>
+<% end %>
+

@@ -27,27 +27,24 @@ defmodule EmbedChat.Message do
     |> validate_required([:body])
   end
 
-  def preload_for_user_and_visitor(query, user_id) do
+  def for_user_and_visitor(query, user_id) do
     from m in query,
       join: r in EmbedChat.Room, on: m.room_id == r.id,
       join: up in EmbedChat.UserProject, on: up.project_id == r.project_id,
       where: up.user_id == ^user_id and m.type == ^EmbedChat.MessageType.normal(),
-      preload: [:from, :to, :from_user, :to_user, :from_visitor, :to_visitor],
       order_by: [desc: :inserted_at]
   end
 
-  def preload_for_room_and_address(query, room_id, address_id, limit) do
+  def for_room_and_address(query, room_id, address_id, limit) do
     from m in query,
       where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id)),
-      preload: [:from, :to, :from_user],
       order_by: [desc: :inserted_at],
       limit: ^limit
   end
 
-  def preload_for_room_and_address_except_email_request(query, room_id, address_id, limit) do
+  def for_room_and_address_except_email_request(query, room_id, address_id, limit) do
     from m in query,
       where: m.room_id == ^(room_id) and (m.from_id == ^(address_id) or m.to_id == ^(address_id)) and m.type != ^EmbedChat.MessageType.email_request,
-      preload: [:from, :to, :from_user],
       order_by: [desc: :inserted_at],
       limit: ^limit
   end

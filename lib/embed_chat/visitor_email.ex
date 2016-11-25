@@ -7,7 +7,7 @@ defmodule EmbedChat.VisitorEmail do
     base_email
     |> to(visitor.email)
     |> subject("[#{project.name} #{project.domain}] New message")
-    |> render(:send_msgs)
+    |> render(:send_msgs, messages: messages)
   end
 
   defp base_email do
