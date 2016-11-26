@@ -14,15 +14,8 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.RoomChannel.MessageParam
   alias EmbedChat.User
   alias EmbedChat.UserLog
-  alias EmbedChat.Visitor
 
   import Ecto.Query, only: [from: 2]
-
-  def create_visitor(uuid, room_id, email) do
-    with {:ok, visitor} <- create_or_update_visitor(email) do
-      create_or_update_address(uuid, room_id, nil, visitor.id)
-    end
-  end
 
   def create_access_log(%Address{} = address, payload) do
     address
@@ -94,18 +87,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     Repo.insert(changeset)
   end
 
-  defp create_or_update_visitor(email) do
-    struct =
-      case Repo.get_by(Visitor, email: email) do
-        nil  -> %Visitor{}
-        visitor -> visitor
-      end
-    struct
-    |> Visitor.changeset(%{email: email})
-    |> Repo.insert_or_update
-  end
-
-  defp create_or_update_address(uuid, room_id, user_id, visitor_id) when is_nil(visitor_id) do
+  defp create_or_update_address(uuid, room_id, user_id) do
     struct =
       case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
         nil  -> %Address{}
@@ -114,17 +96,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     struct
     |> Address.changeset(%{room_id: room_id, uuid: uuid, user_id: user_id})
     |> Repo.insert_or_update(force: true)
-  end
-
-  defp create_or_update_address(uuid, room_id, user_id, visitor_id) do
-    struct =
-      case Repo.get_by(Address, room_id: room_id, uuid: uuid) do
-        nil  -> %Address{}
-        address -> address
-      end
-    struct
-    |> Address.changeset(%{room_id: room_id, uuid: uuid, user_id: user_id, visitor_id: visitor_id})
-    |> Repo.insert_or_update
   end
 
   def create_or_update_address(socket) do
@@ -136,8 +107,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     create_or_update_address(
       socket.assigns.distinct_id,
       socket.assigns.room.id,
-      user_id,
-      nil)
+      user_id)
   end
 
   def get_address(distinct_id, room_id) when is_nil(distinct_id) or is_nil(room_id) do
@@ -269,7 +239,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   def random_admin(room) do
     cond do
-      admin = random_online_admin(room.id) ->
+      admin = random_online_admin(room) ->
         admin
       address = room_admin_address(room) ->
         address.uuid
@@ -278,8 +248,8 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     end
   end
 
-  def random_online_admin(room_id) do
-    admins = online_admins(room_id)
+  def random_online_admin(room) do
+    admins = online_admins(room.id)
     if Enum.empty?(admins) do
       nil
     else

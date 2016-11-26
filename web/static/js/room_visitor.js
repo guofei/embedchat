@@ -1,4 +1,7 @@
+import fetch from 'isomorphic-fetch';
+
 import nextUserAccessLog from './user_info';
+import { host } from './global';
 import {
   setCurrentUser,
   setCurrentUserEmail,
@@ -12,7 +15,7 @@ import {
 
 function visitorRoom(socket, roomID, distinctID, store) {
   const messageEvent = 'new_message';
-  const sendEmail = 'email';
+  // const sendEmail = 'email';
   const adminJoin = 'admin_join';
   const adminLeft = 'admin_left';
   const messages = 'messages';
@@ -76,9 +79,22 @@ function visitorRoom(socket, roomID, distinctID, store) {
       return channel.push(messageEvent, message);
     },
 
-    sendEmail(email) {
-      store.dispatch(setCurrentUserEmail(email));
-      channel.push(sendEmail, email);
+    sendEmail(mail) {
+      store.dispatch(setCurrentUserEmail(mail));
+      // channel.push(sendEmail, mail);
+      const data = {
+        visitor: { email: mail },
+        uuid: distinctID,
+        room_uuid: roomID,
+      };
+      fetch(`//${host}/api/visitors`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
     },
   };
 }

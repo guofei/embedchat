@@ -5,7 +5,7 @@ defmodule EmbedChat.VisitorController do
   alias EmbedChat.Repo
   alias EmbedChat.Visitor
 
-  plug Guardian.Plug.EnsureAuthenticated
+  plug Guardian.Plug.EnsureAuthenticated when action in [:index, :show, :update, :delete]
 
   def index(conn, params) do
     visitors = Repo.paginate(Visitor, params)

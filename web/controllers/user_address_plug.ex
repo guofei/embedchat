@@ -10,7 +10,11 @@ defmodule EmbedChat.UserAddressPlug do
     user = Guardian.Plug.current_resource(conn)
     if user do
       # TODO change to current user project's room
-      room = Ecto.assoc(user, :rooms) |> EmbedChat.Room.first |> repo.one
+      room =
+        user
+        |> Ecto.assoc(:rooms)
+        |> EmbedChat.Room.first
+        |> repo.one
       if room do
         address = create_or_get_address(user, room, repo)
         assign(conn, :user_address, address.uuid)

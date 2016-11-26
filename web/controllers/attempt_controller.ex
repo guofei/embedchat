@@ -103,7 +103,7 @@ defmodule EmbedChat.AttemptController do
           {:error, get_valid_str(body)}
         end
       {:ok, %HTTPoison.Response{status_code: 404}} ->
-        {:error, "404 error" }
+        {:error, "404 error"}
       {:error, %HTTPoison.Error{reason: _reason}} ->
         {:error, "error"}
     end
@@ -117,7 +117,8 @@ defmodule EmbedChat.AttemptController do
     if String.valid?(str) do
       str
     else
-      String.graphemes(str)
+      str
+      |> String.graphemes
       |> Enum.filter(&(String.valid?(&1)))
       |> List.to_string
     end

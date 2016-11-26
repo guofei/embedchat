@@ -3,7 +3,6 @@ defmodule EmbedChat.RoomChannel do
   use Elixometer
 
   alias EmbedChat.MessageView
-  alias EmbedChat.MessageType
   alias EmbedChat.ChannelWatcher
   alias EmbedChat.Room
   alias EmbedChat.RoomChannel.MessageParam
@@ -104,21 +103,6 @@ defmodule EmbedChat.RoomChannel do
   end
 
   @log_size 50
-
-  def handle_event("email", email, socket) do
-    room = socket.assigns.room
-    distinct_id = socket.assigns.distinct_id
-    param = %MessageParam{
-      room_id: room.id,
-      from_uid: distinct_id,
-      to_uid: SideEffect.random_online_admin(room.id),
-      text: email,
-      type: MessageType.email_response
-    }
-    SideEffect.create_message(param)
-    SideEffect.create_visitor(distinct_id, room.id, email)
-    {:noreply, socket}
-  end
 
   def handle_event("access_logs", payload, socket) do
     room = socket.assigns.room
@@ -290,10 +274,14 @@ defmodule EmbedChat.RoomChannel do
   # TODO remove random
   defp new_message_from_visitor(socket, text) do
     room = socket.assigns.room
-    master_uid = SideEffect.random_online_admin(room.id)
-    if master_uid == nil do
-      SideEffect.send_notification_mail(room.id, text)
-    end
+    master_uid =
+      case SideEffect.random_online_admin(room) do
+        nil ->
+          SideEffect.send_notification_mail(room.id, text)
+          SideEffect.random_admin(room)
+        uid ->
+          uid
+      end
     param = %MessageParam{
       room_id: room.id,
       from_uid: socket.assigns.distinct_id,
