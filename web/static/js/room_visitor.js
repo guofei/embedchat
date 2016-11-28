@@ -22,6 +22,31 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
   let channel = null;
 
+  function getHistory() {
+    channel.push(messages)
+    .receive('ok', msgsResp => {
+      store.dispatch(receiveHistoryMessages(msgsResp.messages));
+    });
+  }
+
+  function getContactList() {
+    const contactList = 'contact_list';
+    channel.push(contactList)
+      .receive('ok', listResp => {
+        const admins = listResp.admins;
+        if (admins) {
+          const newAdmins = [];
+          for (const key in admins) {
+            if (admins.hasOwnProperty(key)) {
+              const user = Object.assign({}, { uid: key }, admins[key]);
+              newAdmins.push(user);
+            }
+          }
+          store.dispatch(receiveMultiAdminsOnline(newAdmins));
+        }
+      });
+  }
+
   store.dispatch(setCurrentUser(distinctID));
 
   return {
@@ -31,10 +56,6 @@ function visitorRoom(socket, roomID, distinctID, store) {
       if (userInfo.isBot()) { return; }
       socket.connect();
       channel = socket.channel(`rooms:${roomID}`, userInfo);
-
-      channel.on(messages, (msgsResp) => {
-        store.dispatch(receiveHistoryMessages(msgsResp.messages));
-      });
 
       channel.on(messageEvent, (msg) => {
         store.dispatch(receiveMessage(msg));
@@ -52,21 +73,8 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
       channel.join()
         .receive('ok', () => {
-          const contactList = 'contact_list';
-          channel.push(contactList)
-            .receive('ok', listResp => {
-              const admins = listResp.admins;
-              if (admins) {
-                const newAdmins = [];
-                for (const key in admins) {
-                  if (admins.hasOwnProperty(key)) {
-                    const user = Object.assign({}, { uid: key }, admins[key]);
-                    newAdmins.push(user);
-                  }
-                }
-                store.dispatch(receiveMultiAdminsOnline(newAdmins));
-              }
-            });
+          getHistory();
+          getContactList();
         });
     },
 

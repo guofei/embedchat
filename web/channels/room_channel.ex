@@ -73,21 +73,10 @@ defmodule EmbedChat.RoomChannel do
       info: View.render(UserLogView, "user_log.json", user_log: log)
     }
     broadcast! socket, "user_join", resp
-    send_message_history(distinct_id, socket)
     auto_message(socket, log)
   end
 
   @messages_size 50
-
-  defp send_message_history(uuid, socket) do
-    room = socket.assigns.room
-    if address = SideEffect.get_address(uuid, room.id) do
-      messages = SideEffect.messages(room.id, address, @messages_size)
-      messages = View.render_many(messages, MessageView, "message.json")
-      resp = %{uid: uuid, messages: messages}
-      push socket, "messages", resp
-    end
-  end
 
   # Have all channel messages go to a single point
   @timed(key: "channel_resp_time")

@@ -41,6 +41,41 @@ function masterRoom(socket, roomUUID, distinctID, store) {
     });
   }
 
+  function getContactList() {
+    const contactList = 'contact_list';
+    channel.push(contactList)
+      .receive('ok', listResp => {
+        const users = listResp.online_users;
+        if (users) {
+          const newUsers = [];
+          for (const key in users) {
+            if (users.hasOwnProperty(key)) {
+              const info = users[key];
+              const user = {
+                uid: key, id: info.id, name: info.name, email: info.email, note: info.note,
+              };
+              newUsers.push(user);
+            }
+          }
+          store.dispatch(receiveMultiUsersOnline(newUsers));
+        }
+        const offlineUsers = listResp.offline_users;
+        if (offlineUsers) {
+          const newUsers = [];
+          for (const key in offlineUsers) {
+            if (offlineUsers.hasOwnProperty(key)) {
+              const info = offlineUsers[key];
+              const user = {
+                uid: key, id: info.id, name: info.name, email: info.email, note: info.note,
+              };
+              newUsers.push(user);
+            }
+          }
+          store.dispatch(receiveMultiUsersOffline(newUsers));
+        }
+      });
+  }
+
   store.dispatch(setCurrentUser(distinctID));
 
   return {
@@ -74,38 +109,7 @@ function masterRoom(socket, roomUUID, distinctID, store) {
       channel.join()
         .receive('ok', () => {
           getHistory(distinctID);
-          const contactList = 'contact_list';
-          channel.push(contactList)
-            .receive('ok', listResp => {
-              const users = listResp.online_users;
-              if (users) {
-                const newUsers = [];
-                for (const key in users) {
-                  if (users.hasOwnProperty(key)) {
-                    const info = users[key];
-                    const user = {
-                      uid: key, id: info.id, name: info.name, email: info.email, note: info.note,
-                    };
-                    newUsers.push(user);
-                  }
-                }
-                store.dispatch(receiveMultiUsersOnline(newUsers));
-              }
-              const offlineUsers = listResp.offline_users;
-              if (offlineUsers) {
-                const newUsers = [];
-                for (const key in offlineUsers) {
-                  if (offlineUsers.hasOwnProperty(key)) {
-                    const info = offlineUsers[key];
-                    const user = {
-                      uid: key, id: info.id, name: info.name, email: info.email, note: info.note,
-                    };
-                    newUsers.push(user);
-                  }
-                }
-                store.dispatch(receiveMultiUsersOffline(newUsers));
-              }
-            });
+          getContactList();
         });
     },
 
