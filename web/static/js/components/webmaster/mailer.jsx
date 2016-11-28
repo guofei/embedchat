@@ -49,13 +49,13 @@ class Mailer extends React.Component {
       return (
         <div>
           <FlatButton
-            label="Send Email to User"
+            label="Send Email"
             onTouchTap={this.handleOpen}
             primary
             icon={<CommunicationEmail />}
           />
           <Dialog
-            title="Send Email to User"
+            title="Send Email"
             actions={actions}
             modal={false}
             open={this.state.open}
