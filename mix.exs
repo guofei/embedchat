@@ -45,7 +45,7 @@ defmodule EmbedChat.Mixfile do
      {:edown, "~> 0.8.1", override: true},
      {:lager, "~> 3.2", override: true},
      # exometer end
-     {:sentry, "~> 1.1"},
+     {:sentry, "~> 2.0"},
      {:guardian, "~> 0.13.0"},
      {:gettext, "~> 0.12"},
      {:httpoison, "~> 0.10"},
