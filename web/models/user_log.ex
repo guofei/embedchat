@@ -1,7 +1,7 @@
 defmodule EmbedChat.UserLog do
   use EmbedChat.Web, :model
 
-  schema "user_logs" do
+  schema "tracks" do
     field :agent, :string
     field :current_url, :string
     field :referrer, :string
