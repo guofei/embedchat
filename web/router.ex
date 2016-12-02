@@ -97,6 +97,7 @@ defmodule EmbedChat.Router do
 
     resources "/visitors", VisitorController, except: [:new, :edit]
     resources "/message_mailers", MessageMailerController, only: [:create]
+    resources "/tracks", TrackController, except: [:new, :edit]
   end
 
   if Mix.env == :dev do
