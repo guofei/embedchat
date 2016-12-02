@@ -13,14 +13,14 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.Room.Registry
   alias EmbedChat.RoomChannel.MessageParam
   alias EmbedChat.User
-  alias EmbedChat.UserLog
+  alias EmbedChat.Track
 
   import Ecto.Query, only: [from: 2]
 
   def create_access_log(%Address{} = address, payload) do
     address
-    |> Ecto.build_assoc(:user_logs)
-    |> UserLog.changeset(payload)
+    |> Ecto.build_assoc(:tracks)
+    |> Track.changeset(payload)
     |> Repo.insert
   end
 
@@ -39,7 +39,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   def accesslogs(address, limit) do
-    query = from u in UserLog,
+    query = from u in Track,
       where: u.address_id == ^(address.id),
       order_by: [desc: :inserted_at],
       limit: ^limit
@@ -64,7 +64,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
     create_message(sender, receiver, param.room_id, param.text, param.type)
   end
 
-  def auto_messages(room_id, %UserLog{} = log) do
+  def auto_messages(room_id, %Track{} = log) do
     all_messages = Repo.all(from m in AutoMessageConfig, where: m.room_id == ^room_id)
     EmbedChat.AutoMessageConfig.match(all_messages, log)
   end
@@ -147,7 +147,7 @@ defmodule EmbedChat.RoomChannel.SideEffect do
 
   @max_offline_size 10
   @max_online_size 20
-  @max_user_log 20
+  @max_track 20
 
   # return %{"uuid1" => %{id: id, name: name, email: "name@domain"}, "uuid2" => %{id: id, name: name, email: nil, note: note}}
   def offline_visitors(room_id) do

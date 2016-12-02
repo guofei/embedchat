@@ -1,4 +1,4 @@
-defmodule EmbedChat.UserLog do
+defmodule EmbedChat.Track do
   use EmbedChat.Web, :model
 
   schema "tracks" do

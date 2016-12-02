@@ -8,7 +8,7 @@ defmodule EmbedChat.Address do
     belongs_to :room, EmbedChat.Room
     has_many :outgoing_messages, EmbedChat.Message, foreign_key: :from_id
     has_many :incoming_messages, EmbedChat.Message, foreign_key: :to_id
-    has_many :user_logs, EmbedChat.UserLog
+    has_many :tracks, EmbedChat.Track
 
     timestamps
   end
@@ -71,7 +71,7 @@ defmodule EmbedChat.Address do
   def latest_for_room_with_logs(query, room_id, limit) do
     query
     |> latest_for_room(room_id, limit)
-    |> Ecto.Query.preload(:user_logs)
+    |> Ecto.Query.preload(:tracks)
   end
 
   def with_visitor(query, room_uuid, uuid) do

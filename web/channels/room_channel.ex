@@ -7,8 +7,8 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.Room
   alias EmbedChat.RoomChannel.MessageParam
   alias EmbedChat.RoomChannel.SideEffect
-  alias EmbedChat.UserLog
-  alias EmbedChat.UserLogView
+  alias EmbedChat.Track
+  alias EmbedChat.TrackView
   alias Phoenix.View
 
   @timed(key: "channel_resp_time")
@@ -70,7 +70,7 @@ defmodule EmbedChat.RoomChannel do
       name: SideEffect.address_name(address),
       email: SideEffect.address_email(address),
       note: SideEffect.address_note(address),
-      info: View.render(UserLogView, "user_log.json", user_log: log)
+      info: View.render(TrackView, "track.json", track: log)
     }
     broadcast! socket, "user_join", resp
     auto_message(socket, log)
@@ -98,7 +98,7 @@ defmodule EmbedChat.RoomChannel do
     uuid = event_owner(payload, socket)
     if address = SideEffect.get_address(uuid, room.id) do
       logs = SideEffect.accesslogs(address, @log_size)
-      resp = View.render_many(logs, UserLogView, "user_log.json")
+      resp = View.render_many(logs, TrackView, "track.json")
       {:reply, {:ok, %{uid: uuid, logs: resp}}, socket}
     else
       {:reply, {:error, %{reason: "address error"}}, socket}
@@ -210,7 +210,7 @@ defmodule EmbedChat.RoomChannel do
   end
 
   # TODO remove random
-  defp auto_message(socket, %UserLog{} = log) do
+  defp auto_message(socket, %Track{} = log) do
     distinct_id = socket.assigns.distinct_id
     room = socket.assigns.room
     messages = SideEffect.auto_messages(room.id, log)

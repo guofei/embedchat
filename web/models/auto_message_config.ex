@@ -1,6 +1,6 @@
 defmodule EmbedChat.AutoMessageConfig do
   use EmbedChat.Web, :model
-  alias EmbedChat.UserLog
+  alias EmbedChat.Track
 
   schema "auto_message_configs" do
     field :delay_time, :integer
@@ -40,7 +40,7 @@ defmodule EmbedChat.AutoMessageConfig do
   end
 
   # current_status = %{current_url: url, referrer: referrer, language: lan, visit_view: n}
-  def match(models, %UserLog{} = status) when is_list(models) do
+  def match(models, %Track{} = status) when is_list(models) do
     Enum.filter(models, fn(model) -> match(model, status) end)
   end
 
