@@ -48,6 +48,12 @@ defmodule EmbedChat.Address do
       order_by: [desc: a.updated_at]
   end
 
+  def for_room_uuid(query, room_uuid, uuid) do
+    from a in query,
+      join: r in EmbedChat.Room, on: r.uuid == ^room_uuid and r.id == a.room_id,
+      where: a.uuid == ^uuid
+  end
+
   def for_room_with_visitors(query, room_id) do
     query
     |> for_room(room_id)
@@ -76,8 +82,8 @@ defmodule EmbedChat.Address do
 
   def with_visitor(query, room_uuid, uuid) do
     from a in query,
-      join: r in EmbedChat.Room, on: r.id == a.room_id,
-      where: r.uuid == ^room_uuid and a.uuid == ^uuid,
+      join: r in EmbedChat.Room, on: r.uuid == ^room_uuid and r.id == a.room_id,
+      where: a.uuid == ^uuid,
       preload: :visitor
   end
 

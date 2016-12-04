@@ -1,6 +1,8 @@
 defmodule EmbedChat.TrackController do
   use EmbedChat.Web, :controller
 
+  alias EmbedChat.Address
+  alias EmbedChat.Room
   alias EmbedChat.Track
 
   plug Guardian.Plug.EnsureAuthenticated when action in [:index, :show, :update, :delete]
@@ -10,8 +12,9 @@ defmodule EmbedChat.TrackController do
     render(conn, "index.json", tracks: tracks)
   end
 
-  def create(conn, %{"track" => track_params}) do
-    changeset = Track.changeset(%Track{}, track_params)
+  def create(conn, %{"track" => track_params, "address_uuid" => a_uuid, "room_uuid" => r_uuid}) do
+    {:ok, address} = create_or_update_address(a_uuid, r_uuid)
+    changeset = Track.changeset(%Track{address_id: address.id}, track_params)
 
     case Repo.insert(changeset) do
       {:ok, track} ->
@@ -53,5 +56,24 @@ defmodule EmbedChat.TrackController do
     Repo.delete!(track)
 
     send_resp(conn, :no_content, "")
+  end
+
+  defp create_or_update_address(address_uuid, room_uuid) do
+    address =
+      Address
+      |> Address.for_room_uuid(room_uuid, address_uuid)
+      |> Ecto.Query.limit(1)
+      |> Repo.one
+
+    if address do
+      address
+      |> Address.changeset()
+      |> Repo.update(force: true)
+    else
+      room = Repo.get_by(Room, uuid: room_uuid)
+      %Address{}
+      |> Address.changeset(%{uuid: address_uuid, room_id: room.id})
+      |> Repo.insert
+    end
   end
 end

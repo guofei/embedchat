@@ -7,9 +7,11 @@ defmodule EmbedChat.TrackControllerTest do
 
   setup %{conn: conn} do
     user = insert_user(username: "test")
+    room = insert_room(user, %{})
+    address = insert_address(user, room)
     {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user)
     conn = put_req_header(conn, "authorization", "Bearer #{jwt}")
-    {:ok, conn: conn}
+    {:ok, conn: conn, room: room, address: address}
   end
 
   test "lists all entries on index", %{conn: conn} do
@@ -41,8 +43,14 @@ defmodule EmbedChat.TrackControllerTest do
     end
   end
 
-  test "creates and renders resource when data is valid", %{conn: conn} do
-    conn = post conn, track_path(conn, :create), track: @valid_attrs
+  test "creates with address and renders resource when data is valid", %{conn: conn, room: room} do
+    conn = post conn, track_path(conn, :create), track: @valid_attrs, address_uuid: "7488a646-e31f-11e4-aace-600308960662", room_uuid: room.uuid
+    assert json_response(conn, 201)["data"]["id"]
+    assert Repo.get_by(Track, @valid_attrs)
+  end
+
+  test "creates and renders resource when data is valid", %{conn: conn, room: room, address: address} do
+    conn = post conn, track_path(conn, :create), track: @valid_attrs, address_uuid: address.uuid, room_uuid: room.uuid
     assert json_response(conn, 201)["data"]["id"]
     assert Repo.get_by(Track, @valid_attrs)
   end
