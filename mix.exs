@@ -34,7 +34,7 @@ defmodule EmbedChat.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [{:bamboo, "~> 0.7"},
-     {:comeonin, "~> 2.6"},
+     {:comeonin, "~> 3.0"},
      {:cowboy, "~> 1.0"},
      {:credo, "~> 0.5", only: [:dev, :test]},
      {:cors_plug, "~> 1.1"},
