@@ -34,11 +34,21 @@ function masterRoom(socket, roomUUID, distinctID, store) {
     .receive('ok', (resp) => {
       const logs = resp.logs;
       const newLogs = [];
-      for (const log of logs) {
+      logs.forEach((log) => {
         const newLog = Object.assign({}, log, { uid: resp.uid });
         newLogs.push(newLog);
-      }
+      });
       store.dispatch(receiveMultiAccessLogs(newLogs));
+    });
+  }
+
+  function getUsers(users) {
+    return Object.keys(users).map((key) => {
+      const info = users[key];
+      const user = {
+        uid: key, id: info.id, name: info.name, email: info.email, note: info.note,
+      };
+      return user;
     });
   }
 
@@ -46,32 +56,14 @@ function masterRoom(socket, roomUUID, distinctID, store) {
     const contactList = 'contact_list';
     channel.push(contactList)
       .receive('ok', (listResp) => {
-        const users = listResp.online_users;
-        if (users) {
-          const newUsers = [];
-          for (const key in users) {
-            if (users.hasOwnProperty(key)) {
-              const info = users[key];
-              const user = {
-                uid: key, id: info.id, name: info.name, email: info.email, note: info.note,
-              };
-              newUsers.push(user);
-            }
-          }
+        const onlineUsers = listResp.online_users;
+        if (onlineUsers) {
+          const newUsers = getUsers(onlineUsers);
           store.dispatch(receiveMultiUsersOnline(newUsers));
         }
         const offlineUsers = listResp.offline_users;
         if (offlineUsers) {
-          const newUsers = [];
-          for (const key in offlineUsers) {
-            if (offlineUsers.hasOwnProperty(key)) {
-              const info = offlineUsers[key];
-              const user = {
-                uid: key, id: info.id, name: info.name, email: info.email, note: info.note,
-              };
-              newUsers.push(user);
-            }
-          }
+          const newUsers = getUsers(offlineUsers);
           store.dispatch(receiveMultiUsersOffline(newUsers));
         }
       });

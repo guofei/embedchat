@@ -37,12 +37,10 @@ function visitorRoom(socket, roomID, distinctID, store) {
         const admins = listResp.admins;
         if (admins) {
           const newAdmins = [];
-          for (const key in admins) {
-            if (admins.hasOwnProperty(key)) {
-              const user = Object.assign({}, { uid: key }, admins[key]);
-              newAdmins.push(user);
-            }
-          }
+          Object.keys(admins).forEach((key) => {
+            const user = Object.assign({}, { uid: key }, admins[key]);
+            newAdmins.push(user);
+          });
           store.dispatch(receiveMultiAdminsOnline(newAdmins));
         }
       });
