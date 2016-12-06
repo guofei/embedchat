@@ -2,8 +2,11 @@ defmodule EmbedChat.TrackController do
   use EmbedChat.Web, :controller
 
   alias EmbedChat.Address
+  alias EmbedChat.Chat
   alias EmbedChat.Room
   alias EmbedChat.Track
+  alias EmbedChat.TrackView
+  alias Phoenix.View
 
   plug Guardian.Plug.EnsureAuthenticated when action in [:index, :show, :update, :delete]
 
@@ -13,11 +16,21 @@ defmodule EmbedChat.TrackController do
   end
 
   def create(conn, %{"track" => track_params, "address_uuid" => a_uuid, "room_uuid" => r_uuid}) do
-    {:ok, address} = create_or_update_address(a_uuid, r_uuid)
-    changeset = Track.changeset(%Track{address_id: address.id}, track_params)
+    room = Repo.get_by(Room, uuid: r_uuid)
+    {:ok, address} = create_or_update_address(a_uuid, room)
+    changeset =
+      address
+      |> Ecto.build_assoc(:tracks)
+      |> Track.changeset(track_params)
 
     case Repo.insert(changeset) do
       {:ok, track} ->
+        resp =
+          TrackView
+          |> View.render("track.json", track: track)
+          |> Map.merge(%{uid: a_uuid})
+        EmbedChat.Endpoint.broadcast "rooms:#{r_uuid}", "track", resp
+        auto_message(a_uuid, room, track)
         conn
         |> put_status(:created)
         |> put_resp_header("location", track_path(conn, :show, track))
@@ -58,10 +71,36 @@ defmodule EmbedChat.TrackController do
     send_resp(conn, :no_content, "")
   end
 
-  defp create_or_update_address(address_uuid, room_uuid) do
+  defp auto_message(to_uuid, room, %Track{} = track) do
+    all_messages = Repo.all(from m in EmbedChat.AutoMessageConfig, where: m.room_id == ^room.id)
+    messages = EmbedChat.AutoMessageConfig.match(all_messages, track)
+    Enum.each(messages, fn (msg) ->
+      resp =
+        msg
+        |> message_param(room, to_uuid)
+        |> Chat.master_to_visitor
+        |> Chat.response
+      case resp do
+        {:ok, resp} ->
+          EmbedChat.Endpoint.broadcast "rooms:#{room.uuid}", "new_message", resp
+        {:error, _} ->
+          nil
+      end
+    end)
+  end
+
+  defp message_param(msg, room, to_uuid) do
+    %Chat{
+      room_id: room.id,
+      to_uid: to_uuid,
+      text: msg.message
+    }
+  end
+
+  defp create_or_update_address(address_uuid, room) do
     address =
       Address
-      |> Address.for_room_uuid(room_uuid, address_uuid)
+      |> Ecto.Query.where([a], a.uuid == ^address_uuid and a.room_id == ^room.id)
       |> Ecto.Query.limit(1)
       |> Repo.one
 
@@ -70,7 +109,6 @@ defmodule EmbedChat.TrackController do
       |> Address.changeset()
       |> Repo.update(force: true)
     else
-      room = Repo.get_by(Room, uuid: room_uuid)
       %Address{}
       |> Address.changeset(%{uuid: address_uuid, room_id: room.id})
       |> Repo.insert

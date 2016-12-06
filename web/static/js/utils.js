@@ -1,3 +1,12 @@
+import isbot from 'is-bot';
+
+export function isBot() {
+  if (window.navigator.userAgent) {
+    return isbot(window.navigator.userAgent);
+  }
+  return false;
+}
+
 export function arrayToObject(arr, key, assignSource = {}) {
   return arr.reduce((pre, cur) => {
     const obj = Object.assign({}, cur, assignSource);

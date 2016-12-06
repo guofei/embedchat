@@ -1,4 +1,3 @@
-import nextUserAccessLog from './user_info';
 import {
   selectUser,
   setCurrentUser,
@@ -11,26 +10,28 @@ import {
   receiveAccessLog,
   receiveMultiAccessLogs,
 } from './actions';
+import { isBot } from './utils';
 
 function masterRoom(socket, roomUUID, distinctID, store) {
   const messageEvent = 'new_message';
   const userLeft = 'user_left';
   const userJoin = 'user_join';
   const messages = 'messages';
+  const trackEvent = 'track';
   const accessLogs = 'access_logs';
 
   let channel = null;
 
   function getHistory(userID) {
     channel.push(messages, { uid: userID })
-    .receive('ok', msgsResp => {
+    .receive('ok', (msgsResp) => {
       store.dispatch(receiveHistoryMessages(msgsResp.messages));
     });
   }
 
   function getLog(userID) {
     channel.push(accessLogs, { uid: userID })
-    .receive('ok', resp => {
+    .receive('ok', (resp) => {
       const logs = resp.logs;
       const newLogs = [];
       for (const log of logs) {
@@ -44,7 +45,7 @@ function masterRoom(socket, roomUUID, distinctID, store) {
   function getContactList() {
     const contactList = 'contact_list';
     channel.push(contactList)
-      .receive('ok', listResp => {
+      .receive('ok', (listResp) => {
         const users = listResp.online_users;
         if (users) {
           const newUsers = [];
@@ -80,14 +81,18 @@ function masterRoom(socket, roomUUID, distinctID, store) {
 
   return {
     join() {
-      const userInfo = nextUserAccessLog();
+      // const userInfo = nextUserAccessLog();
       if (!roomUUID) { return; }
-      if (userInfo.isBot()) { return; }
+      if (isBot()) { return; }
       socket.connect();
-      channel = socket.channel(`rooms:${roomUUID}`, userInfo);
+      channel = socket.channel(`rooms:${roomUUID}`);
 
       channel.on(messageEvent, (msg) => {
         store.dispatch(receiveMessage(msg));
+      });
+
+      channel.on(trackEvent, (accesslog) => {
+        store.dispatch(receiveAccessLog(accesslog));
       });
 
       channel.on(userLeft, (user) => {
@@ -99,10 +104,6 @@ function masterRoom(socket, roomUUID, distinctID, store) {
           uid: user.uid, id: user.id, name: user.name, email: user.email, note: user.note,
         };
         store.dispatch(receiveUserOnline(newUser));
-        if (user.info) {
-          const accesslog = Object.assign({}, user.info, { uid: user.uid });
-          store.dispatch(receiveAccessLog(accesslog));
-        }
         getHistory(user.uid);
       });
 

@@ -1,6 +1,5 @@
 import fetch from 'isomorphic-fetch';
 
-import nextUserAccessLog from './user_info';
 import { host } from './global';
 import {
   setCurrentUser,
@@ -12,6 +11,8 @@ import {
   receiveAdminOffline,
   receiveMultiAdminsOnline,
 } from './actions';
+import { isBot } from './utils';
+import sendTrack from './user_info';
 
 function visitorRoom(socket, roomID, distinctID, store) {
   const messageEvent = 'new_message';
@@ -24,7 +25,7 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
   function getHistory() {
     channel.push(messages)
-    .receive('ok', msgsResp => {
+    .receive('ok', (msgsResp) => {
       store.dispatch(receiveHistoryMessages(msgsResp.messages));
     });
   }
@@ -32,7 +33,7 @@ function visitorRoom(socket, roomID, distinctID, store) {
   function getContactList() {
     const contactList = 'contact_list';
     channel.push(contactList)
-      .receive('ok', listResp => {
+      .receive('ok', (listResp) => {
         const admins = listResp.admins;
         if (admins) {
           const newAdmins = [];
@@ -51,11 +52,11 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
   return {
     join() {
-      const userInfo = nextUserAccessLog();
+      // const userInfo = nextUserAccessLog();
       if (!roomID) { return; }
-      if (userInfo.isBot()) { return; }
+      if (isBot()) { return; }
       socket.connect();
-      channel = socket.channel(`rooms:${roomID}`, userInfo);
+      channel = socket.channel(`rooms:${roomID}`);
 
       channel.on(messageEvent, (msg) => {
         store.dispatch(receiveMessage(msg));
@@ -73,6 +74,7 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
       channel.join()
         .receive('ok', () => {
+          sendTrack();
           getHistory();
           getContactList();
         });

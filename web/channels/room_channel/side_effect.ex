@@ -1,28 +1,13 @@
-defmodule EmbedChat.RoomChannel.MessageParam do
-  alias EmbedChat.MessageType
-  defstruct [:room_id, :from_uid, :to_uid, :text, type: MessageType.normal()]
-end
-
 defmodule EmbedChat.RoomChannel.SideEffect do
   alias EmbedChat.Address
-  alias EmbedChat.AutoMessageConfig
   alias EmbedChat.Repo
   alias EmbedChat.Message
   alias EmbedChat.Room
   alias EmbedChat.Room.Bucket
   alias EmbedChat.Room.Registry
-  alias EmbedChat.RoomChannel.MessageParam
-  alias EmbedChat.User
   alias EmbedChat.Track
 
   import Ecto.Query, only: [from: 2]
-
-  def create_access_log(%Address{} = address, payload) do
-    address
-    |> Ecto.build_assoc(:tracks)
-    |> Track.changeset(payload)
-    |> Repo.insert
-  end
 
   def messages(room_id, address, limit) do
     if show_request_email?(room_id, address.uuid) do
@@ -56,35 +41,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       |> EmbedChat.UserEmail.send_msg_notification(text)
       |> EmbedChat.Mailer.deliver_later
     end)
-  end
-
-  def create_message(%MessageParam{} = param) do
-    sender = get_address(param.from_uid, param.room_id)
-    receiver = get_address(param.to_uid, param.room_id)
-    create_message(sender, receiver, param.room_id, param.text, param.type)
-  end
-
-  def auto_messages(room_id, %Track{} = log) do
-    all_messages = Repo.all(from m in AutoMessageConfig, where: m.room_id == ^room_id)
-    EmbedChat.AutoMessageConfig.match(all_messages, log)
-  end
-
-  defp create_message(sender, receiver, room_id, text, type) when is_nil(receiver) do
-    changeset =
-      Message.changeset(
-        %Message{room_id: room_id, from_id: sender.id, to_id: nil},
-        %{body: text, type: type}
-      )
-    Repo.insert(changeset)
-  end
-
-  defp create_message(sender, receiver, room_id, text, type) do
-    changeset =
-      Message.changeset(
-        %Message{room_id: room_id, from_id: sender.id, to_id: receiver.id},
-        %{body: text, type: type}
-      )
-    Repo.insert(changeset)
   end
 
   defp create_or_update_address(uuid, room_id, user_id) do
@@ -223,28 +179,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
       email_request_count <= 0
     else
       false
-    end
-  end
-
-  defp room_admin_address(room) do
-    user =
-      User
-      |> User.latest_for_room(room)
-      |> Repo.one
-
-    Address
-    |> Address.latest_for_room_master(user.id, room.id)
-    |> Repo.one
-  end
-
-  def random_admin(room) do
-    cond do
-      admin = random_online_admin(room) ->
-        admin
-      address = room_admin_address(room) ->
-        address.uuid
-      true ->
-        nil
     end
   end
 

@@ -1,6 +1,8 @@
-import moment from 'moment';
 import store from 'store';
-import isbot from 'is-bot';
+import fetch from 'isomorphic-fetch';
+
+import { clientID } from './distinct_id';
+import { host } from './global';
 
 function getBrowserLanguage() {
   const first = window.navigator.languages
@@ -35,8 +37,9 @@ function totalPageView() {
   return autoIncrement(key);
 }
 
-export default function nextUserAccessLog() {
+function currentTrack() {
   const singlePageView = visitView();
+  const totalView = totalPageView();
   const info = {
     agent: window.navigator.userAgent,
     current_url: window.location.href,
@@ -46,11 +49,43 @@ export default function nextUserAccessLog() {
     language: getBrowserLanguage(),
     visit_view: singlePageView,
     single_page_view: singlePageView,
-    total_page_view: totalPageView(),
-    inserted_at: moment.utc().format(),
-    isBot() {
-      return isbot(window.navigator.userAgent);
-    },
+    total_page_view: totalView,
   };
   return info;
+}
+
+function getRoomID() {
+  const roomElement = document.getElementById('lewini-chat');
+  if (roomElement) {
+    const roomID = roomElement.getAttribute('data-id');
+    if (roomID) {
+      return roomID;
+    }
+  }
+  if (!window.lwn || !window.lwn.q) {
+    return null;
+  }
+  let rid = null;
+  window.lwn.q.forEach((e) => {
+    if (e[0] === 'init') {
+      rid = e[1];
+    }
+  });
+  return rid;
+}
+
+export default function sendTrack() {
+  if (window.userToken) {
+    return;
+  }
+
+  const track = { track: currentTrack(), address_uuid: clientID, room_uuid: getRoomID() };
+  fetch(`//${host}/api/tracks`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(track),
+  });
 }
