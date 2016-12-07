@@ -22,6 +22,7 @@ defmodule EmbedChat.TrackView do
       total_page_view: track.total_page_view,
       location: track.location,
       address_id: track.address_id,
+      ip: track.ip,
       inserted_at: track.inserted_at}
   end
 end

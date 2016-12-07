@@ -16,11 +16,15 @@ defmodule EmbedChat.TrackController do
   end
 
   def create(conn, %{"track" => track_params, "address_uuid" => a_uuid, "room_uuid" => r_uuid}) do
+    ip =
+      conn.remote_ip
+      |> Tuple.to_list
+      |> Enum.join(".")
     room = Repo.get_by(Room, uuid: r_uuid)
     {:ok, address} = create_or_update_address(a_uuid, room)
     changeset =
       address
-      |> Ecto.build_assoc(:tracks)
+      |> Ecto.build_assoc(:tracks, ip: ip)
       |> Track.changeset(track_params)
 
     case Repo.insert(changeset) do

@@ -12,6 +12,7 @@ defmodule EmbedChat.Track do
     field :single_page_view, :integer
     field :total_page_view, :integer
     field :location, :string
+    field :ip, :string
     belongs_to :address, EmbedChat.Address
 
     timestamps()
