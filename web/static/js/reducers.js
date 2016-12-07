@@ -62,6 +62,7 @@ let state_tree = {
       screen_height: 100,
       visit_view: 1,
       single_page_view: 1,
+      ip: '127.0.0.1',
       total_page_view: 1,
     },
   },

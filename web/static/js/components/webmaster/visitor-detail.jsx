@@ -29,14 +29,15 @@ function LogContent({ log }) {
   const ua = parser(log.agent);
   return (
     <div>
-      PageView: {log.single_page_view}<br/>
-      TotalPageView: {log.total_page_view}<br/>
-      OS: {`${ua.os.name} ${ua.os.version}`}<br/>
-      Browser: {`${ua.browser.name} ${ua.browser.version}`}<br/>
-      Referrer: {log.referrer}<br/>
-      Language: {log.language}<br/>
-      screenWidth: {log.screen_width}<br/>
-      ScreenHeight: {log.screen_height}<br/>
+      IP Address: {log.ip}<br />
+      PageView: {log.single_page_view}<br />
+      TotalPageView: {log.total_page_view}<br />
+      OS: {`${ua.os.name} ${ua.os.version}`}<br />
+      Browser: {`${ua.browser.name} ${ua.browser.version}`}<br />
+      Referrer: {log.referrer}<br />
+      Language: {log.language}<br />
+      screenWidth: {log.screen_width}<br />
+      ScreenHeight: {log.screen_height}<br />
     </div>
   );
 }
