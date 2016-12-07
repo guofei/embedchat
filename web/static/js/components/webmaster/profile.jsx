@@ -71,7 +71,7 @@ class Profile extends React.Component {
   render() {
     const { visitor } = this.props;
 
-    let profile = (<div></div>);
+    let profile = (<div />);
     if (visitor && Object.keys(visitor).length > 0) {
       profile = (
         <div>

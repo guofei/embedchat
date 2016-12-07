@@ -61,12 +61,12 @@ class Mailer extends React.Component {
             open={this.state.open}
             onRequestClose={this.handleClose}
           >
-            Send current 10 messages to user's email.
+            Send current 10 messages to user&apos;s email.
           </Dialog>
         </div>
       );
     }
-    return (<div/>);
+    return (<div />);
   }
 }
 

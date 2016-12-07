@@ -58,12 +58,8 @@ function userItem(user, onSelected) {
 const SelectableList = makeSelectable(List);
 
 function UserLists({ onlineUsers, offlineUsers, selectedUser, onUserSelected }) {
-  const onlines = onlineUsers.map((user) =>
-    userItem(user, onUserSelected)
-  );
-  const offlines = offlineUsers.map((user) =>
-    userItem(user, onUserSelected)
-  );
+  const onlines = onlineUsers.map(user => userItem(user, onUserSelected));
+  const offlines = offlineUsers.map(user => userItem(user, onUserSelected));
   return (
     <Paper zDepth={1}>
       <Toolbar>

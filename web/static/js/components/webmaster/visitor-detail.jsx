@@ -9,7 +9,7 @@ import Person from 'material-ui/svg-icons/social/person';
 import Timeline from 'material-ui/svg-icons/action/timeline';
 import FlatButton from 'material-ui/FlatButton';
 
-import { USERMENU } from '../common/ui-const.js';
+import { USERMENU } from '../common/ui-const';
 import ItemWithDialog from '../common/item-with-dialog';
 import Profile from './profile';
 
@@ -43,7 +43,7 @@ function LogContent({ log }) {
 }
 
 function Logs({ allLogs }) {
-  const logs = allLogs.map((log) =>
+  const logs = allLogs.map(log =>
     (
       <ItemWithDialog
         key={log.id}
@@ -73,7 +73,7 @@ function menuName(menu) {
 }
 
 function MenuButton({ menu, handleChangeMenu }) {
-  let button = (<div/>);
+  let button = (<div />);
   if (menu === USERMENU.TRACKING) {
     button = (
       <FlatButton
@@ -116,7 +116,7 @@ class UserDetail extends React.Component {
   render() {
     const { selectedMenu, logs, visitor } = this.props;
 
-    let content = (<div style={styles.content} ></div>);
+    let content = (<div style={styles.content} />);
     if (selectedMenu === USERMENU.TRACKING) {
       content = (<Logs allLogs={logs} />);
     } else if (selectedMenu === USERMENU.PROFILE) {
@@ -126,7 +126,7 @@ class UserDetail extends React.Component {
             <Profile onUpdateVisitor={this.props.onUpdateVisitor} visitor={visitor} />
           </div>);
       } else {
-        content = (<div style={styles.content}></div>);
+        content = (<div style={styles.content} />);
       }
     }
 
