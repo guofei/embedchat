@@ -15,7 +15,7 @@ export function arrayToObject(arr, key, assignSource = {}) {
 }
 
 export function objectToArray(obj) {
-  return Object.keys(obj).map((k) => obj[k]);
+  return Object.keys(obj).map(k => obj[k]);
 }
 
 export function shortName(fullName) {

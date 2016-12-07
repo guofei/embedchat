@@ -19,7 +19,7 @@ export default function webmaster(store) {
     const roomID = masterRoomElement.getAttribute('data-id');
     const chatRoom = masterRoom(masterSocket, roomID, masterID, store);
     ReactDOM.render(
-      <I18nextProvider i18n={ i18n }>
+      <I18nextProvider i18n={i18n}>
         <Provider store={store}>
           <ChatWebmaster room={chatRoom} />
         </Provider>

@@ -24,6 +24,7 @@ import { createStore } from 'redux';
 
 import visitor from './visitor';
 import chatApp from './reducers';
+
 const store = createStore(chatApp);
 
 function getRoomID() {

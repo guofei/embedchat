@@ -34,7 +34,7 @@ export default function visitor(store, roomID) {
 
   const chatRoom = visitorRoom(clientSocket, roomID, clientID, store);
   ReactDOM.render(
-    <I18nextProvider i18n={ i18n }>
+    <I18nextProvider i18n={i18n}>
       <Provider store={store}>
         <ChatVisitor room={chatRoom} />
       </Provider>

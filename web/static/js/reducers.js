@@ -21,8 +21,8 @@ import {
   UPDATE_VISITOR,
   OPEN_CHAT,
 } from './actions';
-import { USERMENU } from './components/common/ui-const.js';
-import { arrayToObject } from './utils.js';
+import { USERMENU } from './components/common/ui-const';
+import { arrayToObject } from './utils';
 
 // state tree sample
 /*
