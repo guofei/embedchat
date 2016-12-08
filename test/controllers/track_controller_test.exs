@@ -33,6 +33,7 @@ defmodule EmbedChat.TrackControllerTest do
       "single_page_view" => track.single_page_view,
       "total_page_view" => track.total_page_view,
       "location" => track.location,
+      "ip" => track.ip,
       "address_id" => track.address_id,
       "inserted_at" =>  Ecto.DateTime.to_iso8601(track.inserted_at)}
   end
