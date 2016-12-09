@@ -12,13 +12,21 @@ const styles = {
   },
 };
 
+function shortTitle(title) {
+  const maxLenght = 40;
+  if (title.length > maxLenght) {
+    return `${title.substring(0, maxLenght)}...`;
+  }
+  return title;
+}
+
 function Item({ title, moment, handleTouchTap, content }) {
   return (
     <ListItem
       secondaryTextLines={2}
       primaryText={
         <div style={{ fontSize: 'small' }}>
-          {title}
+          {shortTitle(title)}
           <div style={styles.pullRight}>
             {moment}
           </div>
