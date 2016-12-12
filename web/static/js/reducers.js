@@ -6,7 +6,8 @@ import {
   READ_MESSAGE,
   READ_ALL_MESSAGES,
   CURRENT_USER,
-  CURRENT_USER_EMAIL,
+  CURRENT_VISITOR,
+  CURRENT_VISITOR_EMAIL,
   SELECT_USER,
   SELECT_USER_DETAIL_MENU,
   RECEIVE_USER_ONLINE,
@@ -68,7 +69,8 @@ let state_tree = {
   },
   // ui state
   currentUser: 'xxx-xxx-xxx',
-  currentUserEmail: 'email@domain.com',
+  currentVisitor: 'xxx-xxx-xxx',
+  currentVisitorEmail: 'email@domain.com',
   selectedUser: 'xxx-xxx-xxx',
   selectedUserDetailMenu: USERMENU,
   openChat: false,
@@ -180,9 +182,18 @@ function currentUser(state = '', action) {
   }
 }
 
-function currentUserEmail(state = '', action) {
+function currentVisitor(state = '', action) {
   switch (action.type) {
-    case CURRENT_USER_EMAIL:
+    case CURRENT_VISITOR:
+      return action.uid;
+    default:
+      return state;
+  }
+}
+
+function currentVisitorEmail(state = '', action) {
+  switch (action.type) {
+    case CURRENT_VISITOR_EMAIL:
       return action.email;
     default:
       return state;
@@ -221,7 +232,8 @@ function logs(state = {}, action) {
 
 const chatApp = combineReducers({
   currentUser,
-  currentUserEmail,
+  currentVisitor,
+  currentVisitorEmail,
   selectedUser,
   selectedUserDetailMenu,
   users,

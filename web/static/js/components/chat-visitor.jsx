@@ -167,13 +167,13 @@ ChatVisitor.propTypes = {
 function select(state) {
   const msgs = objectToArray(state.messages).filter(x =>
     x.type !== 'email_response' &&
-    (x.from_id === state.currentUser || x.to_id === state.currentUser)
+    (x.from_id === state.currentVisitor || x.to_id === state.currentVisitor)
   );
   const adminUsers = objectToArray(state.users).filter(x => x.online && x.admin);
   return {
     messages: msgs,
-    currentUser: state.currentUser,
-    currentUserEmail: state.currentUserEmail,
+    currentUser: state.currentVisitor,
+    currentUserEmail: state.currentVisitorEmail,
     selectedAdmin: state.selectedUser,
     allUsers: state.users,
     admins: adminUsers,

@@ -5,13 +5,12 @@ import { connect } from 'react-redux';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Paper from 'material-ui/Paper';
+import fetch from 'isomorphic-fetch';
 
 import UserLists from './webmaster/user-lists';
 import Messages from './webmaster/messages';
 import EmptyMessage from './webmaster/empty-message';
 import VisitorDetail from './webmaster/visitor-detail';
-
-import fetch from 'isomorphic-fetch';
 
 import { selectUserDetailMenu, updateVisitor } from '../actions';
 import { objectToArray } from '../utils';

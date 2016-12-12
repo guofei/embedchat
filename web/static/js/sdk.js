@@ -25,6 +25,8 @@ import { createStore } from 'redux';
 import visitor from './visitor';
 import chatApp from './reducers';
 
+require('es6-promise').polyfill();
+
 const store = createStore(chatApp);
 
 function getRoomID() {

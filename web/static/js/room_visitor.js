@@ -2,8 +2,8 @@ import fetch from 'isomorphic-fetch';
 
 import { host } from './global';
 import {
-  setCurrentUser,
-  setCurrentUserEmail,
+  setCurrentVisitor,
+  setCurrentVisitorEmail,
   openChat,
   receiveMessage,
   receiveHistoryMessages,
@@ -46,7 +46,7 @@ function visitorRoom(socket, roomID, distinctID, store) {
       });
   }
 
-  store.dispatch(setCurrentUser(distinctID));
+  store.dispatch(setCurrentVisitor(distinctID));
 
   return {
     join() {
@@ -88,7 +88,7 @@ function visitorRoom(socket, roomID, distinctID, store) {
     },
 
     sendEmail(mail) {
-      store.dispatch(setCurrentUserEmail(mail));
+      store.dispatch(setCurrentVisitorEmail(mail));
       // channel.push(sendEmail, mail);
       const data = {
         visitor: { email: mail },

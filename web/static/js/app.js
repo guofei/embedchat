@@ -16,6 +16,7 @@ import 'phoenix_html';
 
 require('../css/app.css');
 require('getmdl-select/getmdl-select.min.js');
+require('es6-promise').polyfill();
 
 // import 'bootstrap-sass/assets/javascripts/bootstrap.min.js';
 
