@@ -85,9 +85,7 @@
       </main>
     </div>
 
-    <%= if !@current_user do %>
-      <div data-id="<%= @conn.assigns[:chat_id] %>" id="lewini-chat"></div>
-    <% end %>
+    <div data-id="<%= @conn.assigns[:chat_id] %>" id="lewini-chat"></div>
     <script>window.userToken = "<%= assigns[:user_token] %>"</script>
     <script>window.userAddress = "<%= assigns[:user_address] %>"</script>
     <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
