@@ -13,6 +13,11 @@
 // to also remove its path from "config.paths.watched".
 // import "deps/phoenix_html/web/static/js/phoenix_html"
 import 'phoenix_html';
+import { createStore } from 'redux';
+import chatApp from './reducers';
+import visitor from './visitor';
+import webmaster from './webmaster';
+import showEmbedSite from './embedded_site';
 
 require('../css/app.css');
 require('getmdl-select/getmdl-select.min.js');
@@ -25,11 +30,6 @@ require('es6-promise').polyfill();
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import { createStore } from 'redux';
-
-import chatApp from './reducers';
-import visitor from './visitor';
-import webmaster from './webmaster';
 
 const store = createStore(chatApp);
 webmaster(store);
@@ -40,5 +40,4 @@ if (roomElement) {
   visitor(store, roomID);
 }
 
-import showEmbedSite from 'embedded_site';
 showEmbedSite();
