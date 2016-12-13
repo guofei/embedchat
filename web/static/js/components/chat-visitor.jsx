@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { readAllMessages, openChat } from '../actions';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -10,6 +9,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import CommunicationMessage from 'material-ui/svg-icons/communication/message';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
+import { readAllMessages, openChat } from '../actions';
 import MenuBar from './common/menu-bar';
 import ListMessages from './common/list-messages';
 import MessageForm from './common/message-form';
