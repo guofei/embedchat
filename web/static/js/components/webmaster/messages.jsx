@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import Paper from 'material-ui/Paper';
 import { Toolbar, ToolbarTitle, ToolbarGroup } from 'material-ui/Toolbar';
@@ -43,10 +42,7 @@ class Messages extends React.Component {
   }
 
   scrollMessages() {
-    const node = ReactDOM.findDOMNode(this.refs.messages);
-    if (node) {
-      node.scrollTop = node.scrollHeight;
-    }
+    this.messages.scrollTop = this.messages.scrollHeight;
   }
 
   handleTouchTap() {
@@ -71,7 +67,7 @@ class Messages extends React.Component {
             </IconButton>
           </ToolbarGroup>
         </Toolbar>
-        <div ref="messages" style={styles.messages}>
+        <div ref={node => (this.messages = node)} style={styles.messages}>
           <ListMessages
             messages={messages}
             users={users}

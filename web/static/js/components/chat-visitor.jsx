@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -75,10 +74,7 @@ class ChatVisitor extends React.Component {
   }
 
   scrollMessages() {
-    const node = ReactDOM.findDOMNode(this.refs.messages);
-    if (node) {
-      node.scrollTop = node.scrollHeight;
-    }
+    this.messages.scrollTop = this.messages.scrollHeight;
   }
 
   handleTouchTap() {
@@ -113,7 +109,7 @@ class ChatVisitor extends React.Component {
             open={this.props.openChat}
           >
             <div style={styles.messagesBox}>
-              <div ref="messages" style={styles.messages}>
+              <div ref={node => (this.messages = node)} style={styles.messages}>
                 <ListMessages
                   messages={this.props.messages}
                   users={this.props.allUsers}
@@ -124,7 +120,7 @@ class ChatVisitor extends React.Component {
               </div>
             </div>
             <div style={styles.messageMenu}>
-              <MenuBar onClose={this.handleClose} onTouchMenu={this.handleTouchMenu}/>
+              <MenuBar onClose={this.handleClose} onTouchMenu={this.handleTouchMenu} />
             </div>
             <div style={styles.messageForm}>
               <MessageForm onInputMessage={this.handleInputMessage} />
