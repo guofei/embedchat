@@ -1,6 +1,10 @@
 import isbot from 'is-bot';
 
 export function isBot() {
+  if (typeof Function.prototype.bind !== 'function') {
+    // phantomjs
+    return true;
+  }
   if (window.navigator.userAgent) {
     return isbot(window.navigator.userAgent);
   }
