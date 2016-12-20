@@ -14,6 +14,17 @@ import {
 import { isBot } from './utils';
 import sendTrack from './user_info';
 
+function updateVisitor(data) {
+  fetch(`//${host}/api/visitors`, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+}
+
 function visitorRoom(socket, roomID, distinctID, store) {
   const messageEvent = 'new_message';
   // const sendEmail = 'email';
@@ -89,20 +100,12 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
     sendEmail(mail) {
       store.dispatch(setCurrentVisitorEmail(mail));
-      // channel.push(sendEmail, mail);
       const data = {
         visitor: { email: mail },
         uuid: distinctID,
         room_uuid: roomID,
       };
-      fetch(`//${host}/api/visitors`, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      updateVisitor(data);
     },
   };
 }
