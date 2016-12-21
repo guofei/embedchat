@@ -27,7 +27,6 @@ function updateVisitor(data) {
 
 function visitorRoom(socket, roomID, distinctID, store) {
   const messageEvent = 'new_message';
-  // const sendEmail = 'email';
   const adminJoin = 'admin_join';
   const adminLeft = 'admin_left';
   const messages = 'messages';
@@ -61,7 +60,6 @@ function visitorRoom(socket, roomID, distinctID, store) {
 
   return {
     join() {
-      // const userInfo = nextUserAccessLog();
       if (!roomID) { return; }
       if (isBot()) { return; }
       socket.connect();

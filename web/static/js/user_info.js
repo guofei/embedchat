@@ -56,10 +56,6 @@ function currentTrack() {
 }
 
 export default function sendTrack() {
-  if (window.userToken) {
-    return;
-  }
-
   const track = { track: currentTrack(), address_uuid: clientID, room_uuid: visitorRoomID() };
   fetch(`//${host}/api/tracks`, {
     method: 'POST',
