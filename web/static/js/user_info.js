@@ -2,6 +2,7 @@ import store from 'store';
 import fetch from 'isomorphic-fetch';
 
 import { clientID } from './distinct_id';
+import visitorRoomID from './visitor_room_id';
 import { host } from './global';
 
 function getBrowserLanguage() {
@@ -54,32 +55,12 @@ function currentTrack() {
   return info;
 }
 
-function getRoomID() {
-  const roomElement = document.getElementById('lewini-chat');
-  if (roomElement) {
-    const roomID = roomElement.getAttribute('data-id');
-    if (roomID) {
-      return roomID;
-    }
-  }
-  if (!window.lwn || !window.lwn.q) {
-    return null;
-  }
-  let rid = null;
-  window.lwn.q.forEach((e) => {
-    if (e[0] === 'init') {
-      rid = e[1];
-    }
-  });
-  return rid;
-}
-
 export default function sendTrack() {
   if (window.userToken) {
     return;
   }
 
-  const track = { track: currentTrack(), address_uuid: clientID, room_uuid: getRoomID() };
+  const track = { track: currentTrack(), address_uuid: clientID, room_uuid: visitorRoomID() };
   fetch(`//${host}/api/tracks`, {
     method: 'POST',
     headers: {

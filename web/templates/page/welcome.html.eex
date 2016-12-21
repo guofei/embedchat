@@ -11,6 +11,9 @@
  }
 </style>
 
+<% user = Guardian.Plug.current_resource(@conn) %>
+<div id="after-regist" data-name="<%= user.name %>" data-email=<%= user.email %>></div>
+
 <div class="page-content-max">
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">

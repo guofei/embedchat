@@ -23,27 +23,16 @@
 import { createStore } from 'redux';
 
 import visitor from './visitor';
+import visitorRoomID from './visitor_room_id';
 import chatApp from './reducers';
 
 require('es6-promise').polyfill();
 
 const store = createStore(chatApp);
 
-function getRoomID() {
-  if (!window.lwn || !window.lwn.q) {
-    return null;
-  }
-  let rid = null;
-  window.lwn.q.forEach((e) => {
-    if (e[0] === 'init') {
-      rid = e[1];
-    }
-  });
-  return rid;
-}
 
 function runChat() {
-  const roomID = getRoomID();
+  const roomID = visitorRoomID();
   visitor(store, roomID);
 }
 

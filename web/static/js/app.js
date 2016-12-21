@@ -18,6 +18,8 @@ import chatApp from './reducers';
 import visitor from './visitor';
 import webmaster from './webmaster';
 import showEmbedSite from './embedded_site';
+import visitorRoomID from './visitor_room_id';
+import updateVisitorInfo from './after_regist';
 
 require('../css/app.css');
 require('getmdl-select/getmdl-select.min.js');
@@ -34,10 +36,10 @@ require('es6-promise').polyfill();
 const store = createStore(chatApp);
 webmaster(store);
 
-const roomElement = document.getElementById('lewini-chat');
-if (roomElement) {
-  const roomID = roomElement.getAttribute('data-id');
+const roomID = visitorRoomID();
+if (roomID) {
   visitor(store, roomID);
 }
 
 showEmbedSite();
+updateVisitorInfo();
