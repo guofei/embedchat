@@ -38,7 +38,7 @@ defmodule EmbedChat.MessageView do
       from_id: from_id(msg),
       from_name: from_name(msg),
       to_id: to_id(msg),
-      inserted_at: Ecto.DateTime.to_string(msg.inserted_at)
+      inserted_at: msg.inserted_at
     }
   end
 

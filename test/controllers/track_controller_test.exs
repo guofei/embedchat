@@ -35,7 +35,7 @@ defmodule EmbedChat.TrackControllerTest do
       "location" => track.location,
       "ip" => track.ip,
       "address_id" => track.address_id,
-      "inserted_at" =>  Ecto.DateTime.to_iso8601(track.inserted_at)}
+      "inserted_at" => NaiveDateTime.to_iso8601(track.inserted_at)}
   end
 
   test "renders page not found when id is nonexistent", %{conn: conn} do

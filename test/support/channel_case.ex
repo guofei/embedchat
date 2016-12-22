@@ -21,8 +21,9 @@ defmodule EmbedChat.ChannelCase do
       use Phoenix.ChannelTest
 
       alias EmbedChat.Repo
-      import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+      import Ecto
+      import Ecto.Changeset
+      import Ecto.Query
 
       import EmbedChat.TestHelpers
 

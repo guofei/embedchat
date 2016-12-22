@@ -17,8 +17,10 @@ defmodule EmbedChat.ModelCase do
   using do
     quote do
       alias EmbedChat.Repo
-      import Ecto.Model
-      import Ecto.Query, only: [from: 2]
+
+      import Ecto
+      import Ecto.Changeset
+      import Ecto.Query
       import EmbedChat.ModelCase
     end
   end
@@ -55,7 +57,9 @@ defmodule EmbedChat.ModelCase do
       iex> {:password, "is unsafe"} in changeset.errors
       true
   """
-  def errors_on(model, data) do
-    model.__struct__.changeset(model, data).errors
+  def errors_on(struct, data) do
+    struct.__struct__.changeset(struct, data)
+    |> Ecto.Changeset.traverse_errors(&EmbedChat.ErrorHelpers.translate_error/1)
+    |> Enum.flat_map(fn {key, errors} -> for msg <- errors, do: {key, msg} end)
   end
 end
