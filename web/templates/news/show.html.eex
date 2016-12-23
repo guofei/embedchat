@@ -1,0 +1,13 @@
+<h2>Show news</h2>
+
+<ul>
+
+  <li>
+    <strong>Content:</strong>
+    <%= @news.content %>
+  </li>
+
+</ul>
+
+<%= link "Edit", to: news_path(@conn, :edit, @news) %>
+<%= link "Back", to: news_path(@conn, :index) %>

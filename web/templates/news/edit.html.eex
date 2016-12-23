@@ -1,0 +1,6 @@
+<h2>Edit news</h2>
+
+<%= render "form.html", changeset: @changeset,
+                        action: news_path(@conn, :update, @news) %>
+
+<%= link "Back", to: news_path(@conn, :index) %>

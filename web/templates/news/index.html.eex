@@ -1,0 +1,26 @@
+<h2>Listing news</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Content</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for news <- @news do %>
+    <tr>
+      <td><%= news.content %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: news_path(@conn, :show, news), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: news_path(@conn, :edit, news), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: news_path(@conn, :delete, news), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New news", to: news_path(@conn, :new) %>

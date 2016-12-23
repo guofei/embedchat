@@ -70,6 +70,7 @@ defmodule EmbedChat.Router do
     resources "/messages", MessageController
     resources "/projects", ProjectController
     resources "/addresses", AddressController, only: [:show, :index]
+    resources "/news", NewsController
   end
 
   pipeline :admin_layout do
