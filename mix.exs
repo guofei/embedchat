@@ -46,10 +46,10 @@ defmodule EmbedChat.Mixfile do
      {:lager, "~> 3.2", override: true},
      # exometer end
      {:sentry, "~> 2.0"},
-     {:guardian, "~> 0.13.0"},
+     {:guardian, "~> 0.14"},
      {:gettext, "~> 0.12"},
      {:httpoison, "~> 0.10"},
-     {:phoenix, "~> 1.2"},
+     {:phoenix, "~> 1.2.1"},
      {:phoenix_ecto, "~> 3.0"},
      {:phoenix_html, "~> 2.7"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
