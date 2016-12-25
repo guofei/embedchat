@@ -1,13 +1,21 @@
-<h2>Show news</h2>
+<div class="page-content-max">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
 
-<ul>
+      <h2>Show news</h2>
 
-  <li>
-    <strong>Content:</strong>
-    <%= @news.content %>
-  </li>
+      <ul>
 
-</ul>
+        <li>
+          <strong>Content:</strong>
+          <%= @news.content %>
+        </li>
 
-<%= link "Edit", to: news_path(@conn, :edit, @news) %>
-<%= link "Back", to: news_path(@conn, :index) %>
+      </ul>
+
+      <%= link "Edit", to: news_path(@conn, :edit, @news) %>
+      <%= link "Back", to: news_path(@conn, :index) %>
+
+    </div>
+  </div>
+</div>

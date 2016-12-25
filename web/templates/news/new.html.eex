@@ -1,6 +1,14 @@
-<h2>New news</h2>
+<div class="page-content-max">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--12-col">
 
-<%= render "form.html", changeset: @changeset,
-                        action: news_path(@conn, :create) %>
+      <h2>New news</h2>
 
-<%= link "Back", to: news_path(@conn, :index) %>
+      <%= render "form.html", changeset: @changeset,
+      action: news_path(@conn, :create) %>
+
+      <%= link "Back", to: news_path(@conn, :index) %>
+
+    </div>
+  </div>
+</div>
