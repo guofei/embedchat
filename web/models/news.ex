@@ -2,7 +2,9 @@ defmodule EmbedChat.News do
   use EmbedChat.Web, :model
 
   schema "news" do
-    field :content, :string
+    field :content_en, :string
+    field :content_ja, :string
+    field :content_zh, :string
 
     timestamps()
   end
@@ -12,7 +14,7 @@ defmodule EmbedChat.News do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:content])
-    |> validate_required([:content])
+    |> cast(params, [:content_en, :content_ja, :content_zh])
+    |> validate_required([:content_en])
   end
 end

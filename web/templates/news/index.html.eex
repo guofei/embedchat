@@ -1,6 +1,7 @@
 <div class="page-content-max">
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
+      News
       <%= if admin_logged_in?(@conn) do %>
         <%= link "New news", to: news_path(@conn, :new) %>
       <% end %>
@@ -12,7 +13,7 @@
           <h2 class="mdl-card__title-text"><%= news.inserted_at%></h2>
         </div>
         <div class="mdl-card__supporting-text">
-          <%= text_to_html news.content %>
+          <%= text_to_html news.content_en %>
           <%= if admin_logged_in?(@conn) do %>
             <%= link "Show", to: news_path(@conn, :show, news) %>
             <%= link "Edit", to: news_path(@conn, :edit, news) %>

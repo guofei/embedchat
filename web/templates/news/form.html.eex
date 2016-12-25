@@ -6,9 +6,21 @@
   <% end %>
 
   <div class="mdl-cell--12-col mdl-textfield mdl-js-textfield">
-    <%= textarea f, :content, class: "mdl-textfield__input", id: "new-news", rows: "5" %>
-    <%= label f, :content, class: "mdl-textfield__label", for: "new-news" %>
-    <%= error_tag f, :content %>
+    <%= textarea f, :content_en, class: "mdl-textfield__input", id: "new-news-en", rows: "5" %>
+    <%= label f, :content_en, class: "mdl-textfield__label", for: "new-news-en" %>
+    <%= error_tag f, :content_en %>
+  </div>
+
+  <div class="mdl-cell--12-col mdl-textfield mdl-js-textfield">
+    <%= textarea f, :content_ja, class: "mdl-textfield__input", id: "new-news-ja", rows: "5" %>
+    <%= label f, :content_ja, class: "mdl-textfield__label", for: "new-news-ja" %>
+    <%= error_tag f, :content_ja %>
+  </div>
+
+  <div class="mdl-cell--12-col mdl-textfield mdl-js-textfield">
+    <%= textarea f, :content_zh, class: "mdl-textfield__input", id: "new-news-zh", rows: "5" %>
+    <%= label f, :content_zh, class: "mdl-textfield__label", for: "new-news-zh" %>
+    <%= error_tag f, :content_zh %>
   </div>
 
   <div class="mdl-cell--12-col">

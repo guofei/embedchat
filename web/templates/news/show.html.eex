@@ -8,7 +8,7 @@
 
         <li>
           <strong>Content:</strong>
-          <%= @news.content %>
+          <%= @news.content_en %>
         </li>
 
       </ul>

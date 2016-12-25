@@ -2,12 +2,12 @@ defmodule EmbedChat.NewsControllerTest do
   use EmbedChat.ConnCase
 
   alias EmbedChat.News
-  @valid_attrs %{content: "some content"}
+  @valid_attrs %{content_en: "some content", content_ja: "some content", content_zh: "some content"}
   @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, news_path(conn, :index)
-    assert html_response(conn, 200) =~ "Listing news"
+    assert html_response(conn, 200) =~ "News"
   end
 
   test "shows chosen resource", %{conn: conn} do

@@ -3,7 +3,7 @@ defmodule EmbedChat.NewsTest do
 
   alias EmbedChat.News
 
-  @valid_attrs %{content: "some content"}
+  @valid_attrs %{content_en: "some content", content_ja: "some content", content_zh: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
