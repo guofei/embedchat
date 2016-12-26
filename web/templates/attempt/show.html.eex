@@ -34,8 +34,6 @@
   <% end %>
 </div>
 
-<script>window.room_uuid = "<%= @room.uuid %>"</script>
-<script>window.js_src = "<%= static_path(@conn, "/js/app.js") %>"</script>
 <script>
   document.getElementsByClassName('mdl-layout__header')[0].style.display="none";
 </script>
