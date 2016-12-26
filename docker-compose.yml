@@ -8,8 +8,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /proc/:/host/proc/:ro
       - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
-    environment:
-      - DOGSTATSD_ONLY=true
     env_file:
       - ./datadog_key.env
   web:
