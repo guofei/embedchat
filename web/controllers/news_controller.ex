@@ -6,7 +6,8 @@ defmodule EmbedChat.NewsController do
   plug Guardian.Plug.EnsureAuthenticated, [key: :admin, handler: EmbedChat.AuthErrorHandler] when action in [:new, :create, :edit, :update, :delete]
 
   def index(conn, _params) do
-    news = Repo.all(News)
+    query = from q in News, order_by: [desc: q.id]
+    news = Repo.all(query)
     render(conn, "index.html", news: news)
   end
 

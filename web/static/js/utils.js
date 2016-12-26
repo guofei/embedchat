@@ -1,7 +1,7 @@
 import isbot from 'is-bot';
 
 export function isBot() {
-  if (typeof Function.prototype.bind !== 'function') {
+  if (!Function.prototype.bind) {
     // phantomjs
     return true;
   }
