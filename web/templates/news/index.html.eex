@@ -10,7 +10,7 @@
     <%= for news <- @news do %>
       <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--2dp">
         <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text"><%= news.inserted_at%></h2>
+          <h2 class="mdl-card__title-text"><%= NaiveDateTime.to_date news.inserted_at%></h2>
         </div>
         <div class="mdl-card__supporting-text">
           <%= text_to_html locale_content(news) %>
