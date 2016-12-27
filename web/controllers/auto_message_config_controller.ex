@@ -11,7 +11,7 @@ defmodule EmbedChat.AutoMessageConfigController do
     auto_message_configs =
       conn
       |> user_configs
-      |> Ecto.Query.order_by([desc: :updated_at])
+      |> Ecto.Query.order_by(asc: :id)
       |> Repo.all
     render(conn, "index.html", auto_message_configs: auto_message_configs)
   end
