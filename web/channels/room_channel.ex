@@ -85,7 +85,7 @@ defmodule EmbedChat.RoomChannel do
     response
   end
 
-  @log_size 50
+  @log_size 20
 
   def handle_event("access_logs", payload, socket) do
     room = socket.assigns.room

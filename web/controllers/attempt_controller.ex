@@ -33,12 +33,11 @@ defmodule EmbedChat.AttemptController do
       redirect(conn, external: to_http(conn, attempt))
     else
       url = get_url(attempt.url)
-      room = EmbedChat.Room |> EmbedChat.Room.first |> Repo.one
       case frame(url) do
         {:ok, _} ->
-          render(conn, "show.html", room: room, url: url, body: false)
+          render(conn, "show.html", url: url, body: false)
         {:error, body} ->
-          render(conn, "show.html", room: room, url: url, body: body)
+          render(conn, "show.html", url: url, body: body)
       end
     end
   end
