@@ -27,7 +27,7 @@ msgstr "日本語"
 #: web/templates/admin/session/new.html.eex:4
 #: web/templates/admin/session/new.html.eex:21
 #: web/templates/layout/admin.html.eex:38
-#: web/templates/layout/header_nologin_nav.html.eex:3
+#: web/templates/layout/header_nologin_nav.html.eex:4
 #: web/templates/session/new.html.eex:4 web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr ""
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: web/templates/layout/header_nologin_nav.html.eex:4
+#: web/templates/layout/header_nologin_nav.html.eex:5
 msgid "Register"
 msgstr ""
 
@@ -46,7 +46,7 @@ msgid "Setup"
 msgstr ""
 
 #: web/templates/layout/admin.html.eex:10 web/templates/layout/app.html.eex:10
-#: web/templates/page/welcome.html.eex:24
+#: web/templates/page/welcome.html.eex:27
 msgid "Lewini Live Chat: A Live Chat Software for Business!"
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr ""
 msgid "Start live chat with visitors on your website!"
 msgstr ""
 
-#: web/templates/layout/header_nologin_nav.html.eex:2
+#: web/templates/layout/header_nologin_nav.html.eex:3
 msgid "Price"
 msgstr ""
 
@@ -96,19 +96,19 @@ msgstr ""
 msgid "Chat with visitors to your website in real-time, capture them as leads, and convert them to customers."
 msgstr ""
 
-#: web/templates/room/index.html.eex:31
+#: web/templates/project/show.html.eex:52 web/templates/room/index.html.eex:31
 msgid "Add your code here"
 msgstr ""
 
-#: web/templates/room/index.html.eex:5
+#: web/templates/project/show.html.eex:28 web/templates/room/index.html.eex:5
 msgid "The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page."
 msgstr ""
 
-#: web/templates/room/index.html.eex:27
+#: web/templates/project/show.html.eex:48 web/templates/room/index.html.eex:27
 msgid "We recommend installing the chat code before the closing body tag."
 msgstr ""
 
-#: web/templates/room/index.html.eex:9
+#: web/templates/project/show.html.eex:31 web/templates/room/index.html.eex:9
 msgid "Your code:"
 msgstr ""
 
@@ -134,7 +134,7 @@ msgstr ""
 
 #: web/templates/admin/user/index.html.eex:40
 #: web/templates/auto_message_config/index.html.eex:46
-#: web/templates/user/show.html.eex:20
+#: web/templates/project/show.html.eex:20 web/templates/user/show.html.eex:20
 msgid "Edit"
 msgstr ""
 
@@ -174,14 +174,20 @@ msgid "Created At"
 msgstr ""
 
 #: web/templates/message/index.html.eex:6
+#: web/templates/visitor_email/send_msgs.html.eex:5
+#: web/templates/visitor_email/send_msgs.text.eex:1
 msgid "From"
 msgstr ""
 
 #: web/templates/message/index.html.eex:8
+#: web/templates/visitor_email/send_msgs.html.eex:7
+#: web/templates/visitor_email/send_msgs.text.eex:1
 msgid "Message"
 msgstr ""
 
 #: web/templates/message/index.html.eex:7
+#: web/templates/visitor_email/send_msgs.html.eex:6
+#: web/templates/visitor_email/send_msgs.text.eex:1
 msgid "To"
 msgstr ""
 
@@ -363,16 +369,12 @@ msgstr ""
 msgid "per agent/mo."
 msgstr ""
 
-#: web/templates/page/welcome.html.eex:27
+#: web/templates/page/welcome.html.eex:30
 msgid "SET UP NOW"
 msgstr ""
 
-#: web/templates/page/welcome.html.eex:21
+#: web/templates/page/welcome.html.eex:24
 msgid "Welcome!"
-msgstr ""
-
-#: web/controllers/attempt_controller.ex:41
-msgid "Lewini uses iframing to display the demo, but this page doesn't support iframes."
 msgstr ""
 
 #: web/templates/admin/user/index.html.eex:34
@@ -398,4 +400,13 @@ msgstr ""
 #: web/views/message_view.ex:49 web/views/message_view.ex:68
 #: web/views/message_view.ex:81
 msgid "You"
+msgstr ""
+
+#: web/templates/visitor_email/send_msgs.html.eex:4
+#: web/templates/visitor_email/send_msgs.text.eex:1
+msgid "Time"
+msgstr ""
+
+#: web/templates/layout/header_nologin_nav.html.eex:2
+msgid "Release Notes"
 msgstr ""

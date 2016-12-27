@@ -27,7 +27,7 @@ msgstr "日本語"
 #: web/templates/admin/session/new.html.eex:4
 #: web/templates/admin/session/new.html.eex:21
 #: web/templates/layout/admin.html.eex:38
-#: web/templates/layout/header_nologin_nav.html.eex:3
+#: web/templates/layout/header_nologin_nav.html.eex:4
 #: web/templates/session/new.html.eex:4 web/templates/session/new.html.eex:21
 msgid "Login"
 msgstr "ログイン"
@@ -37,7 +37,7 @@ msgstr "ログイン"
 msgid "Logout"
 msgstr "ログアウト"
 
-#: web/templates/layout/header_nologin_nav.html.eex:4
+#: web/templates/layout/header_nologin_nav.html.eex:5
 msgid "Register"
 msgstr "アカウント登録"
 
@@ -46,7 +46,7 @@ msgid "Setup"
 msgstr "設置"
 
 #: web/templates/layout/admin.html.eex:10 web/templates/layout/app.html.eex:10
-#: web/templates/page/welcome.html.eex:24
+#: web/templates/page/welcome.html.eex:27
 msgid "Lewini Live Chat: A Live Chat Software for Business!"
 msgstr "Lewiniライブチャット - シンプルで高機能なチャット接客・オンラインサポートツール"
 
@@ -84,7 +84,7 @@ msgstr "パスワード"
 msgid "Start live chat with visitors on your website!"
 msgstr "今すぐお持ちのウェブサイトをチャットサポートできる店に変える！"
 
-#: web/templates/layout/header_nologin_nav.html.eex:2
+#: web/templates/layout/header_nologin_nav.html.eex:3
 msgid "Price"
 msgstr "料金"
 
@@ -96,19 +96,19 @@ msgstr "登録"
 msgid "Chat with visitors to your website in real-time, capture them as leads, and convert them to customers."
 msgstr "サイトに訪問したお客様とリアルタイムチャットで、新規顧客を獲得しましょう"
 
-#: web/templates/room/index.html.eex:31
+#: web/templates/project/show.html.eex:52 web/templates/room/index.html.eex:31
 msgid "Add your code here"
 msgstr "チャットコードをここで追加"
 
-#: web/templates/room/index.html.eex:5
+#: web/templates/project/show.html.eex:28 web/templates/room/index.html.eex:5
 msgid "The chat code needs to be installed on any page you would like to have chat with visitor. It can be installed once site-wide in your header template or individually on each page."
 msgstr "下記のチャットコードをコピーしご自分のサイトへ設置してください。"
 
-#: web/templates/room/index.html.eex:27
+#: web/templates/project/show.html.eex:48 web/templates/room/index.html.eex:27
 msgid "We recommend installing the chat code before the closing body tag."
 msgstr "貼り付ける場所：チャットしたいページのbodyタグの間に貼り付けてください。"
 
-#: web/templates/room/index.html.eex:9
+#: web/templates/project/show.html.eex:31 web/templates/room/index.html.eex:9
 msgid "Your code:"
 msgstr "チャットコード："
 
@@ -134,7 +134,7 @@ msgstr "削除"
 
 #: web/templates/admin/user/index.html.eex:40
 #: web/templates/auto_message_config/index.html.eex:46
-#: web/templates/user/show.html.eex:20
+#: web/templates/project/show.html.eex:20 web/templates/user/show.html.eex:20
 msgid "Edit"
 msgstr "編集"
 
@@ -174,14 +174,20 @@ msgid "Created At"
 msgstr "時間"
 
 #: web/templates/message/index.html.eex:6
+#: web/templates/visitor_email/send_msgs.html.eex:5
+#: web/templates/visitor_email/send_msgs.text.eex:1
 msgid "From"
 msgstr "送信者"
 
 #: web/templates/message/index.html.eex:8
+#: web/templates/visitor_email/send_msgs.html.eex:7
+#: web/templates/visitor_email/send_msgs.text.eex:1
 msgid "Message"
 msgstr "内容"
 
 #: web/templates/message/index.html.eex:7
+#: web/templates/visitor_email/send_msgs.html.eex:6
+#: web/templates/visitor_email/send_msgs.text.eex:1
 msgid "To"
 msgstr "受信者"
 
@@ -363,17 +369,13 @@ msgstr "デモを見る"
 msgid "per agent/mo."
 msgstr "/月･人"
 
-#: web/templates/page/welcome.html.eex:27
+#: web/templates/page/welcome.html.eex:30
 msgid "SET UP NOW"
 msgstr "今すぐ設置する"
 
-#: web/templates/page/welcome.html.eex:21
+#: web/templates/page/welcome.html.eex:24
 msgid "Welcome!"
 msgstr "ようこそ"
-
-#: web/controllers/attempt_controller.ex:41
-msgid "Lewini uses iframing to display the demo, but this page doesn't support iframes."
-msgstr "このページはiframeを表示しないように設定されているため、デモが表示できません。"
 
 #: web/templates/admin/user/index.html.eex:34
 msgid "Impersonate"
@@ -399,3 +401,12 @@ msgstr "メンバーを追加"
 #: web/views/message_view.ex:81
 msgid "You"
 msgstr "あなた"
+
+#: web/templates/visitor_email/send_msgs.html.eex:4
+#: web/templates/visitor_email/send_msgs.text.eex:1
+msgid "Time"
+msgstr ""
+
+#: web/templates/layout/header_nologin_nav.html.eex:2
+msgid "Release Notes"
+msgstr "リリースノート"
