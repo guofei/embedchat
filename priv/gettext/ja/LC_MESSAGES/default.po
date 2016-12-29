@@ -410,3 +410,7 @@ msgstr ""
 #: web/templates/layout/header_nologin_nav.html.eex:2
 msgid "Release Notes"
 msgstr "リリースノート"
+
+#: web/templates/news/index.html.eex:4
+msgid "News"
+msgstr "ニュース"
