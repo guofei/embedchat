@@ -1,10 +1,12 @@
 <div class="page-content-max">
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
-      <%= gettext "News" %>
-      <%= if admin_logged_in?(@conn) do %>
-        <%= link "New news", to: news_path(@conn, :new) %>
-      <% end %>
+      <center>
+        <%= gettext "Release Notes" %>
+        <%= if admin_logged_in?(@conn) do %>
+          <%= link "New news", to: news_path(@conn, :new) %>
+        <% end %>
+      </center>
     </div>
 
     <%= for news <- @news do %>

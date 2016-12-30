@@ -116,6 +116,7 @@ msgstr "チャットコード："
 msgid "Try Now"
 msgstr "今すぐ試す"
 
+#: web/templates/auto_message_config/index.html.eex:5
 #: web/templates/layout/header_login_nav.html.eex:3
 msgid "Auto Message"
 msgstr "自動話しかけ"
@@ -124,16 +125,16 @@ msgstr "自動話しかけ"
 msgid "Messages"
 msgstr "履歴"
 
-#: web/templates/auto_message_config/index.html.eex:59
+#: web/templates/auto_message_config/index.html.eex:64
 msgid "New auto message"
 msgstr "追加する"
 
-#: web/templates/auto_message_config/index.html.eex:49
+#: web/templates/auto_message_config/index.html.eex:54
 msgid "Delete"
 msgstr "削除"
 
 #: web/templates/admin/user/index.html.eex:40
-#: web/templates/auto_message_config/index.html.eex:46
+#: web/templates/auto_message_config/index.html.eex:51
 #: web/templates/project/show.html.eex:20 web/templates/user/show.html.eex:20
 msgid "Edit"
 msgstr "編集"
@@ -191,19 +192,19 @@ msgstr "内容"
 msgid "To"
 msgstr "受信者"
 
-#: web/templates/auto_message_config/index.html.eex:9
+#: web/templates/auto_message_config/index.html.eex:14
 msgid "Language"
 msgstr "言語"
 
-#: web/templates/auto_message_config/index.html.eex:8
+#: web/templates/auto_message_config/index.html.eex:13
 msgid "Total Page View"
 msgstr "全体ページビュー数"
 
-#: web/templates/auto_message_config/index.html.eex:7
+#: web/templates/auto_message_config/index.html.eex:12
 msgid "URL Page View"
 msgstr "ページビュー数"
 
-#: web/templates/auto_message_config/index.html.eex:6
+#: web/templates/auto_message_config/index.html.eex:11
 msgid "Page URL"
 msgstr "ページURL"
 
@@ -223,11 +224,11 @@ msgstr "PV数 (未入力の場合は0より大きい)"
 msgid "Site total page view (default is greater than 0)"
 msgstr "サイト全体PV数 (未入力の場合は0より大きい)"
 
-#: web/templates/auto_message_config/index.html.eex:42
+#: web/templates/auto_message_config/index.html.eex:47
 msgid "All Language"
 msgstr "全ての言語"
 
-#: web/templates/auto_message_config/index.html.eex:21
+#: web/templates/auto_message_config/index.html.eex:26
 msgid "All URL"
 msgstr "全てのURL"
 
@@ -408,9 +409,10 @@ msgid "Time"
 msgstr ""
 
 #: web/templates/layout/header_nologin_nav.html.eex:2
+#: web/templates/news/index.html.eex:5
 msgid "Release Notes"
 msgstr "リリースノート"
 
-#: web/templates/news/index.html.eex:4
-msgid "News"
-msgstr "ニュース"
+#: web/templates/auto_message_config/index.html.eex:5
+msgid "(Beta Feature)"
+msgstr "（ベータ機能）"

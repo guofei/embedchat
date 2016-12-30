@@ -117,6 +117,7 @@ msgstr ""
 msgid "Try Now"
 msgstr ""
 
+#: web/templates/auto_message_config/index.html.eex:5
 #: web/templates/layout/header_login_nav.html.eex:3
 msgid "Auto Message"
 msgstr ""
@@ -125,16 +126,16 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:59
+#: web/templates/auto_message_config/index.html.eex:64
 msgid "New auto message"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:49
+#: web/templates/auto_message_config/index.html.eex:54
 msgid "Delete"
 msgstr ""
 
 #: web/templates/admin/user/index.html.eex:40
-#: web/templates/auto_message_config/index.html.eex:46
+#: web/templates/auto_message_config/index.html.eex:51
 #: web/templates/project/show.html.eex:20 web/templates/user/show.html.eex:20
 msgid "Edit"
 msgstr ""
@@ -192,19 +193,19 @@ msgstr ""
 msgid "To"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:9
+#: web/templates/auto_message_config/index.html.eex:14
 msgid "Language"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:8
+#: web/templates/auto_message_config/index.html.eex:13
 msgid "Total Page View"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:7
+#: web/templates/auto_message_config/index.html.eex:12
 msgid "URL Page View"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:6
+#: web/templates/auto_message_config/index.html.eex:11
 msgid "Page URL"
 msgstr ""
 
@@ -224,11 +225,11 @@ msgstr ""
 msgid "Site total page view (default is greater than 0)"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:42
+#: web/templates/auto_message_config/index.html.eex:47
 msgid "All Language"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:21
+#: web/templates/auto_message_config/index.html.eex:26
 msgid "All URL"
 msgstr ""
 
@@ -409,9 +410,10 @@ msgid "Time"
 msgstr ""
 
 #: web/templates/layout/header_nologin_nav.html.eex:2
+#: web/templates/news/index.html.eex:5
 msgid "Release Notes"
 msgstr ""
 
-#: web/templates/news/index.html.eex:4
-msgid "News"
+#: web/templates/auto_message_config/index.html.eex:5
+msgid "(Beta Feature)"
 msgstr ""
