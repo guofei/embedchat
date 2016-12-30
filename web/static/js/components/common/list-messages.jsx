@@ -1,14 +1,12 @@
 import React from 'react';
-
 import { List } from 'material-ui/List';
 
 import ListItemMessage from './list-item-message';
-
 import { userName } from '../../utils';
 
 class ListMessages extends React.Component {
   render() {
-    const messages = this.props.messages.map((msg) =>
+    const messages = this.props.messages.map(msg =>
       (
         <ListItemMessage
           currentUser={this.props.currentUser}
@@ -22,7 +20,7 @@ class ListMessages extends React.Component {
         >
           {msg.body}
         </ListItemMessage>
-      )
+      ),
     );
     return (
       <List>

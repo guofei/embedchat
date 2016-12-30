@@ -19,11 +19,14 @@ const styles = {
 
 const emailRequestType = 'email_request';
 
-function Message({ children, createdAt, handleTouchTap, shortUserName }) {
+function textLines(text) {
+  return text.length > 15 ? 2 : 1;
+}
+
+function Message({ children, createdAt, shortUserName, handleTouchTap }) {
   return (
     <ListItem
-      secondaryTextLines={children.length > 15 ? 2 : 1}
-      // leftAvatar={<Avatar>{this.avatar()}</Avatar>}
+      secondaryTextLines={textLines(children)}
       primaryText={
         <div>
           {shortUserName}
@@ -44,6 +47,13 @@ function Message({ children, createdAt, handleTouchTap, shortUserName }) {
   );
 }
 
+Message.propTypes = {
+  children: React.PropTypes.string.isRequired,
+  createdAt: React.PropTypes.string.isRequired,
+  shortUserName: React.PropTypes.string.isRequired,
+  handleTouchTap: React.PropTypes.func.isRequired,
+};
+
 function PopoverContent({ text }) {
   return (
     <div>
@@ -57,6 +67,10 @@ function PopoverContent({ text }) {
     </div>
   );
 }
+
+PopoverContent.propTypes = {
+  text: React.PropTypes.string.isRequired,
+};
 
 class ListItemMessage extends React.Component {
   constructor(props) {
@@ -102,11 +116,12 @@ class ListItemMessage extends React.Component {
     let message = (
       <div>
         <Message
-          children={this.props.children}
           createdAt={this.props.createdAt}
-          handleTouchTap={this.handleTouchTap}
           shortUserName={this.shortName()}
-        />
+          handleTouchTap={this.handleTouchTap}
+        >
+          {this.props.children}
+        </Message>
         <Popover
           open={this.state.open}
           anchorEl={this.state.anchorEl}
