@@ -24,10 +24,11 @@ class MenuBar extends React.Component {
         onLeftIconButtonTouchTap={this.props.onTouchMenu}
         titleStyle={{ fontSize: '18px', textAlign: 'left' }}
         iconElementRight={
-          <IconButton onTouchTap={this.props.onClose}>
+          <IconButton onTouchStart={this.props.onClose}>
             <NavigationClose />
           </IconButton>
         }
+        onRightIconButtonTouchTap={this.props.onClose}
       />
     );
   }
