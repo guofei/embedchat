@@ -40,6 +40,12 @@ defmodule EmbedChat.AutoMessageConfig do
     |> foreign_key_constraint(:room_id)
   end
 
+  def all_configs(query, room_id) do
+    from m in query,
+      where: m.room_id == ^room_id,
+      order_by: m.priority
+  end
+
   # current_status = %{current_url: url, referrer: referrer, language: lan, visit_view: n}
   def match(models, %Track{} = status) when is_list(models) do
     Enum.filter(models, fn(model) -> match(model, status) end)

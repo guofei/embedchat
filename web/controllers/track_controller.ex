@@ -2,6 +2,7 @@ defmodule EmbedChat.TrackController do
   use EmbedChat.Web, :controller
 
   alias EmbedChat.Address
+  alias EmbedChat.AutoMessageConfig
   alias EmbedChat.Chat
   alias EmbedChat.Room
   alias EmbedChat.Track
@@ -76,7 +77,10 @@ defmodule EmbedChat.TrackController do
   end
 
   defp auto_message(to_uuid, room, %Track{} = track) do
-    all_messages = Repo.all(from m in EmbedChat.AutoMessageConfig, where: m.room_id == ^room.id)
+    all_messages =
+      AutoMessageConfig
+      |> AutoMessageConfig.all_configs(room.id)
+      |> Repo.all
     messages = EmbedChat.AutoMessageConfig.match(all_messages, track)
     Enum.each(messages, fn (msg) ->
       resp =
