@@ -2,7 +2,7 @@
   "base64url": {:hex, :base64url, "0.0.1", "36a90125f5948e3afd7be97662a1504b934dd5dac78451ca6e9abf85a10286be", [], []},
   "bunt": {:hex, :bunt, "0.1.6", "5d95a6882f73f3b9969fdfd1953798046664e6f77ec4e486e6fafc7caad97c6f", [], []},
   "certifi": {:hex, :certifi, "0.7.0", "861a57f3808f7eb0c2d1802afeaae0fa5de813b0df0979153cbafcd853ababaf", [], []},
-  "comeonin": {:hex, :comeonin, "3.0.0", "f30f11246838f048ba576a896ed3e5af754fcf7fb874cfb2cf086aefc0c0ab42", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, optional: false]}]},
+  "comeonin": {:hex, :comeonin, "3.0.1", "ec71ee1dac6271e7b319d4b14c72f79f51631bd668cd3dcfdd3fe5aea0436bbf", [:make, :mix], [{:elixir_make, "~> 0.4", [hex: :elixir_make, optional: false]}]},
   "connection": {:hex, :connection, "1.0.4", "a1cae72211f0eef17705aaededacac3eb30e6625b04a6117c1b2db6ace7d5976", [], []},
   "cors_plug": {:hex, :cors_plug, "1.1.3", "4a6c55bd11e6682eae4517b93521b55e4e8c6ce1119f91c7ad725291327a68bc", [:mix], [{:cowboy, "~> 1.0.0", [hex: :cowboy, optional: false]}, {:plug, "> 0.8.0", [hex: :plug, optional: false]}]},
   "cowboy": {:hex, :cowboy, "1.0.4", "a324a8df9f2316c833a470d918aaf73ae894278b8aa6226ce7a9bf699388f878", [], [{:cowlib, "~> 1.0.0", [hex: :cowlib, optional: false]}, {:ranch, "~> 1.0", [hex: :ranch, optional: false]}]},
