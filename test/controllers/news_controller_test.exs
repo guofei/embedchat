@@ -7,7 +7,7 @@ defmodule EmbedChat.NewsControllerTest do
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, news_path(conn, :index)
-    assert html_response(conn, 200) =~ "News"
+    assert html_response(conn, 200) =~ "Release Notes"
   end
 
   test "shows chosen resource", %{conn: conn} do
