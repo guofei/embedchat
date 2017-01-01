@@ -3,7 +3,7 @@ defmodule EmbedChat.AutoMessageConfig do
   alias EmbedChat.Track
 
   schema "auto_message_configs" do
-    field :priority, :integer
+    field :priority, :integer, default: 10
     field :delay_time, :integer
     field :message, :string
     field :current_url, :string
