@@ -3,6 +3,7 @@ defmodule EmbedChat.AutoMessageConfig do
   alias EmbedChat.Track
 
   schema "auto_message_configs" do
+    field :priority, :integer
     field :delay_time, :integer
     field :message, :string
     field :current_url, :string
@@ -24,7 +25,7 @@ defmodule EmbedChat.AutoMessageConfig do
   end
 
   @required_fields ~w(message room_id)a
-  @all_fields ~w(message room_id delay_time referrer language visit_view current_url_pattern referrer_pattern language_pattern visit_view_pattern current_url single_page_view single_page_view_pattern total_page_view total_page_view_pattern)a
+  @all_fields ~w(message room_id delay_time referrer language visit_view current_url_pattern referrer_pattern language_pattern visit_view_pattern current_url single_page_view single_page_view_pattern total_page_view total_page_view_pattern priority)a
 
   @doc """
   Creates a changeset based on the `model` and `params`.

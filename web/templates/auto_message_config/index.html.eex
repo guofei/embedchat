@@ -12,6 +12,7 @@
           <th class="mdl-data-table__cell--non-numeric"><%= gettext "URL Page View" %></th>
           <th class="mdl-data-table__cell--non-numeric"><%= gettext "Total Page View" %></th>
           <th class="mdl-data-table__cell--non-numeric"><%= gettext "Language" %></th>
+          <th><%= gettext "Priority" %></th>
           <th class="mdl-data-table__cell--non-numeric"></th>
           <th class="mdl-data-table__cell--non-numeric"></th>
         </tr>
@@ -46,6 +47,9 @@
               <% else %>
                 include (<%= gettext "All Language" %>)
               <% end %>
+            </td>
+            <td>
+              <%= auto_message_config.priority %>
             </td>
             <td>
               <%= link gettext("Edit"), to: auto_message_config_path(@conn, :edit, auto_message_config), class: "mdl-button mdl-js-button" %>

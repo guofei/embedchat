@@ -140,7 +140,7 @@ msgid "Edit"
 msgstr ""
 
 #: web/templates/admin/user/form.html.eex:31
-#: web/templates/auto_message_config/form.html.eex:110
+#: web/templates/auto_message_config/form.html.eex:118
 #: web/templates/user/form.html.eex:34
 msgid "Submit"
 msgstr ""
@@ -415,4 +415,8 @@ msgstr ""
 
 #: web/templates/auto_message_config/index.html.eex:5
 msgid "(Beta Feature)"
+msgstr ""
+
+#: web/templates/auto_message_config/form.html.eex:87
+msgid "Priority"
 msgstr ""

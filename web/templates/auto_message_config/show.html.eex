@@ -19,6 +19,10 @@
       </li>
 
       <li class="mdl-list__item">
+        Priority <%= @auto_message_config.priority %>
+      </li>
+
+      <li class="mdl-list__item">
         Then Send Message: <%= @auto_message_config.message %>
       </li>
 

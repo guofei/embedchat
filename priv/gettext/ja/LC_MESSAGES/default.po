@@ -140,7 +140,7 @@ msgid "Edit"
 msgstr "編集"
 
 #: web/templates/admin/user/form.html.eex:31
-#: web/templates/auto_message_config/form.html.eex:110
+#: web/templates/auto_message_config/form.html.eex:118
 #: web/templates/user/form.html.eex:34
 msgid "Submit"
 msgstr "保存する"
@@ -416,3 +416,7 @@ msgstr "リリースノート"
 #: web/templates/auto_message_config/index.html.eex:5
 msgid "(Beta Feature)"
 msgstr "（ベータ機能）"
+
+#: web/templates/auto_message_config/form.html.eex:87
+msgid "Priority"
+msgstr "優先度"
