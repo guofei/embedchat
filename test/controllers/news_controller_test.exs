@@ -2,8 +2,6 @@ defmodule EmbedChat.NewsControllerTest do
   use EmbedChat.ConnCase
 
   alias EmbedChat.News
-  @valid_attrs %{content_en: "some content", content_ja: "some content", content_zh: "some content"}
-  @invalid_attrs %{}
 
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, news_path(conn, :index)

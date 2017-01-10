@@ -4,7 +4,6 @@ defmodule EmbedChat.RoomTest do
   alias EmbedChat.Room
 
   @valid_attrs %{uuid: Ecto.UUID.generate(), project_id: 1}
-  @invalid_attrs %{}
 
   test "changeset with valid attributes" do
     changeset = Room.changeset(%Room{}, @valid_attrs)

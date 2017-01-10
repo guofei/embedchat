@@ -12,7 +12,7 @@ defmodule EmbedChat.Message do
     has_one :from_user, through: [:from, :user]
     has_one :to_user, through: [:to, :user]
 
-    timestamps
+    timestamps()
   end
 
   @doc """

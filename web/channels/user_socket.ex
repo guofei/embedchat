@@ -24,8 +24,6 @@ defmodule EmbedChat.UserSocket do
     connect(%{"distinct_id" => distinct_id}, socket)
   end
 
-  @max_age 2 * 7 * 24 * 60 * 60
-
   def connect(%{"token" => token, "distinct_id" => distinct_id}, socket) do
     case Ecto.UUID.cast(distinct_id) do
       {:ok, distinct_id} ->

@@ -5,7 +5,7 @@ defmodule EmbedChat.Attempt do
     field :email, :string
     field :url, :string
 
-    timestamps
+    timestamps()
   end
 
   @doc """

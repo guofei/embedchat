@@ -1,10 +1,6 @@
 defmodule EmbedChat.AddressControllerTest do
   use EmbedChat.ConnCase
 
-  # alias EmbedChat.Address
-  @valid_attrs %{uuid: "7488a646-e31f-11e4-aace-600308960662"}
-  @invalid_attrs %{}
-
   setup %{conn: conn} do
     user = insert_user(username: "test")
     # room = insert_room(user, %{})

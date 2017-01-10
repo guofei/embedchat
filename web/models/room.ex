@@ -10,7 +10,7 @@ defmodule EmbedChat.Room do
     belongs_to :project, EmbedChat.Project
     has_many :users, through: [:project, :userprojects, :user]
 
-    timestamps
+    timestamps()
   end
 
   @doc """

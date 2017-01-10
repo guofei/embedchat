@@ -2,11 +2,11 @@ defmodule EmbedChat.TestHelpers do
   alias EmbedChat.Repo
 
   def insert_user(attrs \\ %{}) do
-    changes = Dict.merge(%{
+    changes = Map.merge(%{
           email:    "user#{Base.encode16(:crypto.strong_rand_bytes(8))}@email.com",
           name:     "name",
           password: "supersecret",
-                     }, attrs)
+                     }, Enum.into(attrs, %{}))
 
     %EmbedChat.User{}
     |> EmbedChat.User.registration_changeset(changes)
@@ -21,7 +21,7 @@ defmodule EmbedChat.TestHelpers do
   end
 
   def insert_room() do
-    user = insert_user
+    user = insert_user()
     {_, project} = Repo.insert(%EmbedChat.Project{})
     Repo.insert(%EmbedChat.UserProject{user_id: user.id, project_id: project.id})
     {_, room} = Repo.insert(%EmbedChat.Room{uuid: uuid(), project_id: project.id})
@@ -44,7 +44,7 @@ defmodule EmbedChat.TestHelpers do
   end
 
   def insert_address() do
-    user = insert_user
+    user = insert_user()
     room = insert_room(user)
     {_, address} = Repo.insert(%EmbedChat.Address{uuid: uuid(), room_id: room.id})
     address

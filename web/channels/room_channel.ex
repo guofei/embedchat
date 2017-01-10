@@ -12,10 +12,10 @@ defmodule EmbedChat.RoomChannel do
   def join("rooms:" <> room_uuid, _payload, socket) do
     if room = Repo.get_by(Room, uuid: room_uuid) do
       if authorized?(socket, room) do
-        send(self, :after_join)
+        send(self(), :after_join)
         ChannelWatcher.monitor(
           :rooms,
-          self,
+          self(),
           {__MODULE__, :leave, [socket.assigns.distinct_id,
                                 room,
                                 socket.assigns[:current_user]]

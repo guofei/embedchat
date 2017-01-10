@@ -1,13 +1,10 @@
 defmodule EmbedChat.MessageMailerControllerTest do
   use EmbedChat.ConnCase
 
-  # alias EmbedChat.MessageMailer
-  @invalid_attrs %{}
-
   setup %{conn: conn} do
     user = insert_user(username: "test")
     room = insert_room(user, %{})
-    visitor = insert_visitor
+    visitor = insert_visitor()
     address = insert_address(visitor, room)
     {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user)
     conn = put_req_header(conn, "authorization", "Bearer #{jwt}")

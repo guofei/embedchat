@@ -21,7 +21,7 @@ defmodule EmbedChat.AutoMessageConfig do
     belongs_to :user, EmbedChat.User
     belongs_to :room, EmbedChat.Room
 
-    timestamps
+    timestamps()
   end
 
   @required_fields ~w(message room_id)a

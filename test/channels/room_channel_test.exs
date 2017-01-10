@@ -3,7 +3,7 @@ defmodule EmbedChat.RoomChannelTest do
   alias EmbedChat.RoomChannel
 
   setup config do
-    {room, owner} = create_room
+    {room, owner} = create_room()
     cond do
       config[:master] && config[:visitor] ->
         {:ok, _, master} = join_room(owner, uuid(), room.uuid)

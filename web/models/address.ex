@@ -10,7 +10,7 @@ defmodule EmbedChat.Address do
     has_many :incoming_messages, EmbedChat.Message, foreign_key: :to_id
     has_many :tracks, EmbedChat.Track
 
-    timestamps
+    timestamps()
   end
 
   @doc """

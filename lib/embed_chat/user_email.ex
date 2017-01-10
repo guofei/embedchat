@@ -4,7 +4,7 @@ defmodule EmbedChat.UserEmail do
   @from "Lewini <notification@lewini.com>"
 
   def send_msg_notification(user, _text) do
-    new_email
+    new_email()
     |> to(user.email)
     |> from(@from)
     |> subject("[#{user.name} lewini.com] New message")

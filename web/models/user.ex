@@ -14,7 +14,7 @@ defmodule EmbedChat.User do
 
     has_many :auto_message_configs, EmbedChat.AutoMessageConfig
 
-    timestamps
+    timestamps()
   end
 
   def registration_changeset(struct, params) do

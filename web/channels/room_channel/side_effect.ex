@@ -102,8 +102,6 @@ defmodule EmbedChat.RoomChannel.SideEffect do
   end
 
   @max_offline_size 10
-  @max_online_size 20
-  @max_track 20
 
   # return %{"uuid1" => %{id: id, name: name, email: "name@domain"}, "uuid2" => %{id: id, name: name, email: nil, note: note}}
   def offline_visitors(room_id) do

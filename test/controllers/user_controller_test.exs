@@ -3,7 +3,6 @@ defmodule EmbedChat.UserControllerTest do
   alias EmbedChat.User
 
   @valid_attrs %{password: "some content", email: "some@content.com", name: "name"}
-  @invalid_attrs %{}
 
   defp room_count(query), do: Repo.one(from v in query, select: count(v.id))
 
