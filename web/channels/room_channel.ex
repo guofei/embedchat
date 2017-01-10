@@ -1,6 +1,5 @@
 defmodule EmbedChat.RoomChannel do
   use EmbedChat.Web, :channel
-  use Elixometer
 
   alias EmbedChat.MessageView
   alias EmbedChat.ChannelWatcher
@@ -10,9 +9,7 @@ defmodule EmbedChat.RoomChannel do
   alias EmbedChat.TrackView
   alias Phoenix.View
 
-  @timed(key: "channel_resp_time")
   def join("rooms:" <> room_uuid, _payload, socket) do
-    update_spiral("channel_event_count", 1)
     if room = Repo.get_by(Room, uuid: room_uuid) do
       if authorized?(socket, room) do
         send(self, :after_join)
@@ -36,9 +33,7 @@ defmodule EmbedChat.RoomChannel do
     end
   end
 
-  @timed(key: "channel_resp_time")
   def handle_info(:after_join, socket) do
-    update_spiral("channel_event_count", 1)
     if master?(socket) do
       master_after_join(socket)
     else
@@ -74,14 +69,9 @@ defmodule EmbedChat.RoomChannel do
   @messages_size 50
 
   # Have all channel messages go to a single point
-  @timed(key: "channel_resp_time")
   def handle_in(event, params, socket) do
     # Use a different named function so we can measure messages
     response = handle_event(event, params, socket)
-
-    # update event count
-    update_spiral("channel_event_count", 1)
-
     response
   end
 

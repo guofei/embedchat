@@ -42,10 +42,5 @@ config :embed_chat, EmbedChat.Repo,
   hostname: "localhost",
   pool_size: 10
 
-# config(:exometer_core, report: [reporters: [{:exometer_report_tty, []}]])
-# config(:elixometer, reporter: :exometer_report_tty,
-#   env: Mix.env,
-#   metric_prefix: "embed_chat")
-
 config :embed_chat, EmbedChat.Mailer,
   adapter: Bamboo.LocalAdapter

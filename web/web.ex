@@ -39,8 +39,6 @@ defmodule EmbedChat.Web do
 
       # common controller function module
       import EmbedChat.Helpers
-
-      plug ElixometerPlug
     end
   end
 

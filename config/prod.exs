@@ -68,36 +68,3 @@ config :logger, level: :info
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
-
-memory_stats = ~w(atom binary ets processes total)a
-
-config :exometer,
-  predefined: [
-    {
-      ~w(erlang memory)a,
-      {:function, :erlang, :memory, [], :proplist, memory_stats},
-      []
-    }
-  ],
-  report: [
-    reporters: [
-      {
-        :exometer_report_statsd,
-        [hostname: 'dogstatsd', port: 8125]
-      }
-    ],
-    subscribers: [
-      {
-        :exometer_report_statsd,
-        [:erlang, :memory], memory_stats, 1_000, true
-      }
-    ]
-  ]
-
-config :elixometer,
-  reporter: :exometer_report_statsd,
-  env: Mix.env,
-  metric_prefix: "embed_chat"
-
-config :embed_chat, EmbedChat.Repo,
-  loggers: [{Ecto.LogEntry, :log, []}, {EmbedChat.Repo.Metrics, :record_metric, []}]

@@ -9,8 +9,8 @@ defmodule EmbedChat.Mixfile do
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     aliases: aliases,
-     deps: deps]
+     aliases: aliases(),
+     deps: deps()]
   end
 
   # Configuration for the OTP application.
@@ -18,11 +18,7 @@ defmodule EmbedChat.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {EmbedChat, []},
-     # :elixometer, :exometer must before at phoenix.
-     # see: https://groups.google.com/forum/#!topic/elixir-lang-talk/aulK9E4Hxk8
-     applications: [:elixometer, :exometer, :sentry,
-                    :phoenix, :phoenix_html, :phoenix_pubsub, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :comeonin, :httpoison, :bamboo]]
+     extra_applications: [:logger]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,13 +34,6 @@ defmodule EmbedChat.Mixfile do
      {:cowboy, "~> 1.0"},
      {:credo, "~> 0.5", only: [:dev, :test]},
      {:cors_plug, "~> 1.1"},
-     # exometer start
-     {:elixometer, "~>1.2"},
-     {:exometer_core, github: "PSPDFKit-Labs/exometer_core", override: true},
-     {:exometer, github: "PSPDFKit-Labs/exometer", override: true},
-     {:edown, "~> 0.8.1", override: true},
-     {:lager, "~> 3.2", override: true},
-     # exometer end
      {:sentry, "~> 2.0"},
      {:guardian, "~> 0.14"},
      {:gettext, "~> 0.12"},
