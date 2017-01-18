@@ -5,7 +5,7 @@ defmodule EmbedChat.Repo.Migrations.CreateRoom do
     create table(:rooms) do
       add :uuid, :uuid
 
-      timestamps
+      timestamps()
     end
 
   end

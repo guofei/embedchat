@@ -6,7 +6,7 @@ defmodule EmbedChat.Repo.Migrations.CreateAddress do
       add :uuid, :uuid
       add :user_id, references(:users, on_delete: :nothing)
 
-      timestamps
+      timestamps()
     end
     create index(:addresses, [:user_id])
     create index(:addresses, [:uuid])

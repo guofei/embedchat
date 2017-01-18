@@ -6,7 +6,7 @@ defmodule EmbedChat.Repo.Migrations.CreateAttempt do
       add :email, :string
       add :url, :string
 
-      timestamps
+      timestamps()
     end
 
   end

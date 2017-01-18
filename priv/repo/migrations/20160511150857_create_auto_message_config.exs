@@ -8,7 +8,7 @@ defmodule EmbedChat.Repo.Migrations.CreateAutoMessageConfig do
       add :referrer, :string
       add :language, :string
 
-      timestamps
+      timestamps()
     end
 
   end
