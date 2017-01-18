@@ -12,7 +12,7 @@
       <li class="mdl-menu__item">=</li>
       <li class="mdl-menu__item">!=</li>
       <li class="mdl-menu__item">include</li>
-      <li class="mdl-menu__item">regex</li>
+      <li class="mdl-menu__item">exclude</li>
     </ul>
   </div>
 

@@ -76,7 +76,8 @@ defmodule EmbedChat.AutoMessageConfig do
 
   defp do_match("~=", regex, str), do: do_match_regex(regex, str)
   defp do_match("regex", regex, str), do: do_match_regex(regex, str)
-  defp do_match("include", short, long), do: do_match_regex(short, long)
+  defp do_match("include", short, long), do: String.contains?(long, short)
+  defp do_match("exclude", short, long), do: !String.contains?(long, short)
   defp do_match("=", pattern, status), do: pattern == status
   defp do_match("!=", pattern, status), do: pattern != status
   defp do_match(">", pattern, status), do: status > pattern
@@ -132,7 +133,7 @@ defmodule EmbedChat.AutoMessageConfig do
   end
 
   defp should_strip_url_end_slash?(url_pattern, url1, url2) do
-    if url_pattern != "regex" && url1 && url2, do: true, else: false
+    if (url_pattern == "=" || url_pattern == "!=") && url1 && url2, do: true, else: false
   end
 
   defp should_strip_url_scheme?(pattern, url1, url2) do
