@@ -10,7 +10,7 @@
     <title><%= gettext "Lewini Live Chat: A Live Chat Software for Business!" %></title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.cyan-blue.min.css" />
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.cyan-blue.min.css" />
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="alternate" hreflang="en" href=<%= current_locale_url(@conn, "en") %> />
     <link rel="alternate" hreflang="ja" href=<%= current_locale_url(@conn, "ja") %> />
@@ -88,7 +88,7 @@
     <div data-id="<%= @conn.assigns[:chat_id] %>" id="lewini-chat"></div>
     <script>window.userToken = "<%= assigns[:user_token] %>"</script>
     <script>window.userAddress = "<%= assigns[:user_address] %>"</script>
-    <script defer src="https://code.getmdl.io/1.2.1/material.min.js"></script>
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
     <script src="https://cdn.ravenjs.com/3.9.1/raven.min.js" crossorigin="anonymous"></script>
     <script>Raven.config('https://13f465e7ecb948afbe73f9f7a5f43f94@sentry.io/98951').install();</script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
