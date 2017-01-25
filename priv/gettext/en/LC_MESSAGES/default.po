@@ -125,17 +125,18 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:64
+#: web/templates/auto_message_config/index.html.eex:68
 msgid "New auto message"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:54
+#: web/templates/auto_message_config/index.html.eex:58
 msgid "Delete"
 msgstr ""
 
 #: web/templates/admin/user/index.html.eex:40
-#: web/templates/auto_message_config/index.html.eex:51
-#: web/templates/project/show.html.eex:20 web/templates/user/show.html.eex:20
+#: web/templates/auto_message_config/index.html.eex:55
+#: web/templates/project/show.html.eex:20 web/templates/user/edit.html.eex:4
+#: web/templates/user/show.html.eex:20
 msgid "Edit"
 msgstr ""
 
@@ -224,11 +225,11 @@ msgstr ""
 msgid "Site total page view (default is greater than 0)"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:47
+#: web/templates/auto_message_config/index.html.eex:48
 msgid "All Language"
 msgstr ""
 
-#: web/templates/auto_message_config/index.html.eex:26
+#: web/templates/auto_message_config/index.html.eex:27
 msgid "All URL"
 msgstr ""
 
@@ -418,5 +419,6 @@ msgid "(Beta Feature)"
 msgstr ""
 
 #: web/templates/auto_message_config/form.html.eex:87
+#: web/templates/auto_message_config/index.html.eex:15
 msgid "Priority"
 msgstr ""
