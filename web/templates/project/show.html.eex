@@ -3,8 +3,12 @@
     <table class="mdl-data-table mdl-js-data-table mdl-cell mdl-cell--12-col">
       <thead>
         <tr>
-          <th class="mdl-data-table__cell--non-numeric">Project Domain</th>
-          <th class="mdl-data-table__cell--non-numeric">Project Name</th>
+          <th class="mdl-data-table__cell--non-numeric">
+            <%= gettext "Project Domain" %>
+          </th>
+          <th class="mdl-data-table__cell--non-numeric">
+            <%= gettext "Project Name" %>
+          </th>
           <th></th>
         </tr>
       </thead>
