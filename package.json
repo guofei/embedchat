@@ -10,6 +10,7 @@
     "i18next-browser-languagedetector": "^1.0.1",
     "is-bot": "^0.0.1",
     "isomorphic-fetch": "^2.2.1",
+    "js-beautify": "^1.6.8",
     "material-ui": "^0.16.4",
     "moment": "^2.17.0",
     "phoenix": "file:deps/phoenix",
