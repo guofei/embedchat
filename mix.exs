@@ -34,7 +34,7 @@ defmodule EmbedChat.Mixfile do
      {:cowboy, "~> 1.0"},
      {:credo, "~> 0.5", only: [:dev, :test]},
      {:cors_plug, "~> 1.1"},
-     {:sentry, "~> 2.0"},
+     {:sentry, "~> 3.0"},
      {:guardian, "~> 0.14.2"},
      {:gettext, "~> 0.12"},
      {:httpoison, "~> 0.10"},
