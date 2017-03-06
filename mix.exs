@@ -29,7 +29,7 @@ defmodule EmbedChat.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:bamboo, "~> 0.7"},
+    [{:bamboo, "~> 0.8"},
      {:comeonin, "~> 3.0"},
      {:cowboy, "~> 1.0"},
      {:credo, "~> 0.5", only: [:dev, :test]},
@@ -37,7 +37,7 @@ defmodule EmbedChat.Mixfile do
      {:sentry, "~> 3.0"},
      {:guardian, "~> 0.14.2"},
      {:gettext, "~> 0.12"},
-     {:httpoison, "~> 0.10"},
+     {:httpoison, "~> 0.11"},
      {:phoenix, "~> 1.2.1"},
      {:phoenix_ecto, "~> 3.0"},
      {:phoenix_html, "~> 2.7"},
