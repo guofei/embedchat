@@ -15,8 +15,6 @@
         </p>
       </div>
       <div class="mdl-card__actions mdl-card--border">
-        <%= link gettext("Invite members"), to: "#", class: "mdl-button mdl-js-button mdl-button--raised" %>
-        &nbsp;&nbsp;
         <%= link gettext("Edit"), to: user_path(@conn, :edit, @user), class: "mdl-button mdl-js-button mdl-button--raised" %>
       </div>
     </div>
