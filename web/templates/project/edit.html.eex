@@ -2,13 +2,15 @@
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
 
+      <br/>
+
       <center>
         <%= render "form.html", changeset: @changeset,
         action: project_path(@conn, :update, @project) %>
 
         <br/>
 
-        <%= link "Back", to: project_path(@conn, :index) %>
+        <%= link gettext("Back"), to: project_path(@conn, :index) %>
       </center>
 
     </div>

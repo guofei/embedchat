@@ -21,6 +21,6 @@
 
   <br/><br/>
 
-  <%= submit "Submit", class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
+  <%= submit gettext("Submit"), class: "mdl-button mdl-js-button mdl-button--raised mdl-button--colored" %>
 
 <% end %>
