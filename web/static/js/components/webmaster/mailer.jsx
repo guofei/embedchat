@@ -76,7 +76,7 @@ Mailer.propTypes = {
     uid: React.PropTypes.string.isRequired,
     name: React.PropTypes.string,
     email: React.PropTypes.string,
-  }),
+  }).isRequired,
   onMailMessagesToUser: React.PropTypes.func.isRequired,
 };
 
