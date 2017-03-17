@@ -3,6 +3,7 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import CommunicationEmail from 'material-ui/svg-icons/communication/email';
 import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 
 class Mailer extends React.Component {
   constructor(props) {
@@ -61,6 +62,7 @@ class Mailer extends React.Component {
             open={this.state.open}
             onRequestClose={this.handleClose}
           >
+            <TextField hintText="Title" /><br /><br />
             Send current 10 messages to user&apos;s email.
           </Dialog>
         </div>
