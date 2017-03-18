@@ -63,7 +63,7 @@ class Mailer extends React.Component {
             onRequestClose={this.handleClose}
           >
             <TextField hintText="Title" /><br /><br />
-            Send current 10 messages to user&apos;s email.
+            Send current <TextField hintText="10" /> messages to user&apos;s email.
           </Dialog>
         </div>
       );
