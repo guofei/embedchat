@@ -62,8 +62,16 @@ class Mailer extends React.Component {
             open={this.state.open}
             onRequestClose={this.handleClose}
           >
-            <TextField hintText="Title" /><br /><br />
-            Send current <TextField hintText="10" /> messages to user&apos;s email.
+            <TextField
+              floatingLabelText="Email Title"
+              defaultValue="[lewini.com] New message"
+            />
+            <br />
+            <TextField
+              floatingLabelText="Send current"
+              defaultValue="10"
+            />
+            messages to user&apos;s email.
           </Dialog>
         </div>
       );
