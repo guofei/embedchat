@@ -37,6 +37,8 @@ defmodule EmbedChat.Mixfile do
      {:sentry, "~> 3.0"},
      {:guardian, "~> 0.14.2"},
      {:gettext, "~> 0.12"},
+     # for sentry and bamboo
+     {:hackney, "~> 1.7", override: true},
      {:httpoison, "~> 0.11"},
      {:phoenix, "~> 1.2.1"},
      {:phoenix_ecto, "~> 3.0"},
