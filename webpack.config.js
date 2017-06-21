@@ -1,5 +1,7 @@
+const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const webpack = require('webpack');
 
 module.exports = {
   devtool: 'source-map',
@@ -8,24 +10,22 @@ module.exports = {
     sdk: './web/static/js/sdk.js',
   },
   output: {
-    path: './priv/static',
+    path: path.resolve(__dirname, 'priv/static'),
     filename: 'js/[name].js',
   },
-
   resolve: {
-    modulesDirectories: [
-      './web/static/js',
-      './node_modules',
+    modules: [
+      path.join(__dirname, './web/static/js'),
+      'node_modules',
     ],
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
-
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js[x]?$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
           plugins: ['transform-runtime'],
           presets: ['es2015', 'react'],
@@ -33,12 +33,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css'),
+        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }),
       },
     ],
   },
-
   plugins: [
+    // new webpack.optimize.UglifyJsPlugin(),
     new ExtractTextPlugin('css/app.css'),
     new CopyWebpackPlugin([{ from: './web/static/assets' }]),
   ],
