@@ -10,4 +10,8 @@
            method: "DELETE",
            class: "mdl-navigation__link"
   %>
+  <%= link gettext("Attempts"),
+           to: attempt_path(@conn, :index),
+           class: "mdl-navigation__link"
+  %>
 <% end %>
