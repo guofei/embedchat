@@ -136,13 +136,13 @@ msgstr "削除"
 #: web/templates/admin/user/index.html.eex:40
 #: web/templates/auto_message_config/index.html.eex:55
 #: web/templates/project/show.html.eex:24 web/templates/user/edit.html.eex:4
-#: web/templates/user/show.html.eex:20
+#: web/templates/user/show.html.eex:18
 msgid "Edit"
 msgstr "編集"
 
 #: web/templates/admin/user/form.html.eex:31
 #: web/templates/auto_message_config/form.html.eex:118
-#: web/templates/user/form.html.eex:34
+#: web/templates/project/form.html.eex:24 web/templates/user/form.html.eex:34
 msgid "Submit"
 msgstr "保存する"
 
@@ -234,6 +234,7 @@ msgid "All URL"
 msgstr "全てのURL"
 
 #: web/templates/auto_message_config/new.html.eex:7
+#: web/templates/project/edit.html.eex:13
 msgid "Back"
 msgstr "戻る"
 
@@ -395,10 +396,6 @@ msgstr "更新"
 msgid "Users"
 msgstr "ユーザー"
 
-#: web/templates/user/show.html.eex:18
-msgid "Invite members"
-msgstr "メンバーを追加"
-
 #: web/views/message_view.ex:49 web/views/message_view.ex:68
 #: web/views/message_view.ex:81
 msgid "You"
@@ -430,3 +427,7 @@ msgstr "プロジェクトのドメイン"
 #: web/templates/project/show.html.eex:10
 msgid "Project Name"
 msgstr "プロジェクトの名前"
+
+#: web/templates/layout/header_login_nav.html.eex:13
+msgid "Attempts"
+msgstr "試み"
