@@ -2,11 +2,11 @@
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--12-col">
 
-      <table class="table">
+      <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp mdl-cell mdl-cell--12-col">
         <thead>
           <tr>
-            <th>Email</th>
-            <th>Url</th>
+            <th class="mdl-data-table__cell--non-numeric">Email</th>
+            <th class="mdl-data-table__cell--non-numeric">Url</th>
 
             <th></th>
           </tr>
@@ -14,19 +14,16 @@
         <tbody>
           <%= for attempt <- @attempts do %>
             <tr>
-              <td><%= attempt.email %></td>
-              <td><%= attempt.url %></td>
+              <td class="mdl-data-table__cell--non-numeric"><%= attempt.email %></td>
+              <td class="mdl-data-table__cell--non-numeric"><%= attempt.url %></td>
 
-              <td class="text-right">
+              <td class="mdl-data-table__cell--non-numeric">
                 <%= link "Show", to: attempt_path(@conn, :show, attempt), class: "btn btn-default btn-xs" %>
               </td>
             </tr>
           <% end %>
         </tbody>
       </table>
-
-      <%= link "New attempt", to: attempt_path(@conn, :new) %>
-
     </div>
   </div>
 </div>
