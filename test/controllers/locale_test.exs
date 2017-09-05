@@ -1,6 +1,6 @@
-defmodule EmbedChat.LocaleTest do
-  use EmbedChat.ConnCase
-  alias EmbedChat.Locale
+defmodule EmbedChatWeb.LocaleTest do
+  use EmbedChatWeb.ConnCase
+  alias EmbedChatWeb.Locale
 
   setup %{conn: conn} = config do
     params =
@@ -15,7 +15,7 @@ defmodule EmbedChat.LocaleTest do
 
     conn =
       conn
-    |> bypass_through(EmbedChat.Router, :browser)
+    |> bypass_through(EmbedChatWeb.Router, :browser)
     |> get("/#{params}")
 
     {:ok, %{conn: conn}}
@@ -23,17 +23,17 @@ defmodule EmbedChat.LocaleTest do
 
   @tag locale: "en"
   test "set en locale by params", %{conn: _} do
-    assert Gettext.get_locale(EmbedChat.Gettext) == "en"
+    assert Gettext.get_locale(EmbedChatWeb.Gettext) == "en"
   end
 
   @tag locale: "ja"
   test "set ja locale by params", %{conn: _} do
-    assert Gettext.get_locale(EmbedChat.Gettext) == "ja"
+    assert Gettext.get_locale(EmbedChatWeb.Gettext) == "ja"
   end
 
   @tag locale: "unknown"
   test "set ohter locale by params", %{conn: _} do
-    assert Gettext.get_locale(EmbedChat.Gettext) == "en"
+    assert Gettext.get_locale(EmbedChatWeb.Gettext) == "en"
   end
 
   # test "set accept language to ja", %{conn: conn} do
@@ -41,6 +41,6 @@ defmodule EmbedChat.LocaleTest do
 
   test "set ja to default locale", %{conn: conn} do
     Locale.call(conn, "ja")
-    assert Gettext.get_locale(EmbedChat.Gettext) == "ja"
+    assert Gettext.get_locale(EmbedChatWeb.Gettext) == "ja"
   end
 end

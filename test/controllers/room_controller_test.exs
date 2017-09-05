@@ -1,5 +1,5 @@
-defmodule EmbedChat.RoomControllerTest do
-  use EmbedChat.ConnCase
+defmodule EmbedChatWeb.RoomControllerTest do
+  use EmbedChatWeb.ConnCase
   alias EmbedChat.Room
 
   @valid_attrs %{}

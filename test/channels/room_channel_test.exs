@@ -1,6 +1,6 @@
-defmodule EmbedChat.RoomChannelTest do
-  use EmbedChat.ChannelCase
-  alias EmbedChat.RoomChannel
+defmodule EmbedChatWeb.RoomChannelTest do
+  use EmbedChatWeb.ChannelCase
+  alias EmbedChatWeb.RoomChannel
 
   setup config do
     {room, owner} = create_room()

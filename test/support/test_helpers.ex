@@ -1,4 +1,4 @@
-defmodule EmbedChat.TestHelpers do
+defmodule EmbedChatWeb.TestHelpers do
   alias EmbedChat.Repo
 
   def insert_user(attrs \\ %{}) do
@@ -55,11 +55,11 @@ defmodule EmbedChat.TestHelpers do
   end
 
   use Phoenix.ConnTest
-  @endpoint EmbedChat.Endpoint
+  @endpoint EmbedChatWeb.Endpoint
 
   def guardian_login(conn, user, token \\ :token, opts \\ []) do
     conn
-    |> bypass_through(EmbedChat.Router, [:browser])
+    |> bypass_through(EmbedChatWeb.Router, [:browser])
     |> get("/")
     |> Guardian.Plug.sign_in(user, token, opts)
     |> send_resp(200, "Flush the session yo")

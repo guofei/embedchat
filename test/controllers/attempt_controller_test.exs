@@ -1,5 +1,5 @@
-defmodule EmbedChat.AttemptControllerTest do
-  use EmbedChat.ConnCase
+defmodule EmbedChatWeb.AttemptControllerTest do
+  use EmbedChatWeb.ConnCase
 
   alias EmbedChat.Attempt
   @valid_attrs %{email: "some content", url: "http://google.com"}

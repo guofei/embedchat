@@ -1,5 +1,5 @@
-defmodule EmbedChat.UserControllerTest do
-  use EmbedChat.ConnCase
+defmodule EmbedChatWeb.UserControllerTest do
+  use EmbedChatWeb.ConnCase
   alias EmbedChat.User
 
   @valid_attrs %{password: "some content", email: "some@content.com", name: "name"}

@@ -1,5 +1,5 @@
-defmodule EmbedChat.PageControllerTest do
-  use EmbedChat.ConnCase
+defmodule EmbedChatWeb.PageControllerTest do
+  use EmbedChatWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

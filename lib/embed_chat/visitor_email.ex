@@ -1,5 +1,5 @@
 defmodule EmbedChat.VisitorEmail do
-  use Bamboo.Phoenix, view: EmbedChat.VisitorEmailView
+  use Bamboo.Phoenix, view: EmbedChatWeb.VisitorEmailView
 
   @from "Lewini <notification@lewini.com>"
 
@@ -13,7 +13,7 @@ defmodule EmbedChat.VisitorEmail do
   defp base_email do
     new_email()
     |> from(@from)
-    |> put_text_layout({EmbedChat.LayoutView, "email.text"})
-    |> put_html_layout({EmbedChat.LayoutView, "email.html"})
+    |> put_text_layout({EmbedChatWeb.LayoutView, "email.text"})
+    |> put_html_layout({EmbedChatWeb.LayoutView, "email.html"})
   end
 end

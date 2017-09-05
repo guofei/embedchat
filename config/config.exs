@@ -6,7 +6,7 @@
 use Mix.Config
 
 # Configures the endpoint
-config :embed_chat, EmbedChat.Endpoint,
+config :embed_chat, EmbedChatWeb.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "lMDLZpU9VELtV5xh7vKniLeEQkh0beFSS35y19OgwOv/Ie7mDCEfSqkE2xSYLsgN",
@@ -31,8 +31,8 @@ config :phoenix, :generators,
 
 config :embed_chat, ecto_repos: [EmbedChat.Repo]
 
-config :embed_chat, EmbedChat.Gettext,
+config :embed_chat, EmbedChatWeb.Gettext,
   locales: ~w(en ja)
 
 config :scrivener_html,
-  routes_helper: EmbedChat.Router.Helpers
+  routes_helper: EmbedChatWeb.Router.Helpers

@@ -1,5 +1,5 @@
-defmodule EmbedChat.MessageControllerTest do
-  use EmbedChat.ConnCase
+defmodule EmbedChatWeb.MessageControllerTest do
+  use EmbedChatWeb.ConnCase
 
   alias EmbedChat.Message
   @valid_attrs %{body: "some content"}

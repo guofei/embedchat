@@ -1,4 +1,4 @@
-defmodule EmbedChat.ConnCase do
+defmodule EmbedChatWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -25,12 +25,12 @@ defmodule EmbedChat.ConnCase do
       import Ecto.Changeset
       import Ecto.Query
 
-      import EmbedChat.Router.Helpers
+      import EmbedChatWeb.Router.Helpers
 
-      import EmbedChat.TestHelpers
+      import EmbedChatWeb.TestHelpers
 
       # The default endpoint for testing
-      @endpoint EmbedChat.Endpoint
+      @endpoint EmbedChatWeb.Endpoint
     end
   end
 

@@ -1,4 +1,4 @@
-defmodule EmbedChat.ChannelCase do
+defmodule EmbedChatWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -25,10 +25,10 @@ defmodule EmbedChat.ChannelCase do
       import Ecto.Changeset
       import Ecto.Query
 
-      import EmbedChat.TestHelpers
+      import EmbedChatWeb.TestHelpers
 
       # The default endpoint for testing
-      @endpoint EmbedChat.Endpoint
+      @endpoint EmbedChatWeb.Endpoint
     end
   end
 

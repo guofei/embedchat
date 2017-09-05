@@ -1,3 +1,3 @@
-defmodule EmbedChat.LayoutViewTest do
-  use EmbedChat.ConnCase, async: true
+defmodule EmbedChatWeb.LayoutViewTest do
+  use EmbedChatWeb.ConnCase, async: true
 end

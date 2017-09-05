@@ -1,5 +1,5 @@
-defmodule EmbedChat.MessageMailerControllerTest do
-  use EmbedChat.ConnCase
+defmodule EmbedChatWeb.MessageMailerControllerTest do
+  use EmbedChatWeb.ConnCase
 
   setup %{conn: conn} do
     user = insert_user(username: "test")

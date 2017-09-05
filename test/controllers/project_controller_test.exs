@@ -1,5 +1,5 @@
-defmodule EmbedChat.ProjectControllerTest do
-  use EmbedChat.ConnCase
+defmodule EmbedChatWeb.ProjectControllerTest do
+  use EmbedChatWeb.ConnCase
 
   alias EmbedChat.Project
   @valid_attrs %{domain: "some content", name: "some content"}

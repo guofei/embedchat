@@ -1,5 +1,5 @@
-defmodule EmbedChat.NewsControllerTest do
-  use EmbedChat.ConnCase
+defmodule EmbedChatWeb.NewsControllerTest do
+  use EmbedChatWeb.ConnCase
 
   alias EmbedChat.News
 

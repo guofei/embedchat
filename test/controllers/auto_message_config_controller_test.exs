@@ -1,5 +1,5 @@
-defmodule EmbedChat.AutoMessageConfigControllerTest do
-  use EmbedChat.ConnCase
+defmodule EmbedChatWeb.AutoMessageConfigControllerTest do
+  use EmbedChatWeb.ConnCase
 
   alias EmbedChat.AutoMessageConfig
   @valid_attrs %{message: "some message", current_url: "some content", delay_time: 42, language: "some content", referrer: "some content", visit_view: 3}
