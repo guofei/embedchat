@@ -18,7 +18,7 @@ defmodule EmbedChatWeb.AttemptControllerTest do
   @tag login_as: "user"
   test "lists all entries on index", %{conn: conn} do
     conn = get conn, attempt_path(conn, :index)
-    assert html_response(conn, 200) =~ "New attempt"
+    assert html_response(conn, 200) =~ "Url"
   end
 
   test "renders form for new resources", %{conn: conn} do
