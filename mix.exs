@@ -30,15 +30,14 @@ defmodule EmbedChat.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [{:bamboo, "~> 0.8"},
-     {:comeonin, "~> 3.0"},
+     {:comeonin, "~> 4.0"},
+     {:bcrypt_elixir, "~> 1.0"},
      {:cowboy, "~> 1.0"},
      {:credo, "~> 0.8", only: [:dev, :test]},
      {:cors_plug, "~> 1.1"},
-     {:sentry, "~> 3.0"},
+     {:sentry, "~> 6.0"},
      {:guardian, "~> 0.14.5"},
      {:gettext, "~> 0.12"},
-     # for sentry and bamboo
-     {:hackney, "~> 1.7", override: true},
      {:httpoison, "~> 0.11"},
      {:phoenix, "~> 1.3.0"},
      {:phoenix_ecto, "~> 3.0"},

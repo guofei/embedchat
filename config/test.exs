@@ -16,8 +16,7 @@ config :embed_chat, EmbedChat.Repo,
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
-config :comeonin, :bcrypt_log_rounds, 4
-config :comeonin, :pbkdf2_rounds, 1
+config :bcrypt_elixir, :log_rounds, 4
 
 config :embed_chat, EmbedChat.Mailer,
   adapter: Bamboo.LocalAdapter
