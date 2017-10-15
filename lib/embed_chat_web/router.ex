@@ -79,7 +79,7 @@ defmodule EmbedChatWeb.Router do
 
   # This scope is intended for admin users.
   # Normal users can only go to the login page
-  scope "/admin", EmbedChat.Admin, as: :admin do
+  scope "/admin", EmbedChatWeb.Admin, as: :admin do
     pipe_through [:browser, :admin_browser_auth, :admin_layout]
 
     resources "/sessions", SessionController, only: [:new, :create, :delete]
