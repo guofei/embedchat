@@ -21,8 +21,8 @@ ADD . /myapp
 RUN chmod +x run.sh
 RUN mix local.hex --force
 RUN mix archive.install --force https://github.com/phoenixframework/archives/raw/master/phoenix_new.ez
-RUN mix deps.get && yarn install && mix local.rebar
-RUN yarn run compile
+RUN mix deps.get && cd assets && yarn install && cd .. && mix local.rebar
+RUN cd assets && yarn run compile
 RUN mix compile
 RUN mix phoenix.digest
 # RUN mix release
