@@ -11,7 +11,7 @@ defmodule EmbedChatWeb.Chat do
 
   defstruct [:room_id, :from_uid, :to_uid, :text, type: MessageType.normal()]
 
-  def master_to_visitor(%Chat{} = chat) do
+  def operator_to_visitor(%Chat{} = chat) do
     if chat.from_uid do
       create_message chat
     else
@@ -21,7 +21,7 @@ defmodule EmbedChatWeb.Chat do
     end
   end
 
-  def visitor_to_master(%Chat{} = chat) do
+  def visitor_to_operator(%Chat{} = chat) do
     if chat.to_uid do
       create_message chat
     else

@@ -1,10 +1,10 @@
 defmodule EmbedChatWeb.RoomChannel do
   use EmbedChatWeb, :channel
 
-  alias EmbedChatWeb.MessageView
   alias EmbedChat.ChannelWatcher
-  alias EmbedChatWeb.Chat
   alias EmbedChat.Room
+  alias EmbedChatWeb.Chat
+  alias EmbedChatWeb.MessageView
   alias EmbedChatWeb.RoomChannel.SideEffect
   alias EmbedChatWeb.TrackView
   alias Phoenix.View
@@ -34,15 +34,15 @@ defmodule EmbedChatWeb.RoomChannel do
   end
 
   def handle_info(:after_join, socket) do
-    if master?(socket) do
-      master_after_join(socket)
+    if operator?(socket) do
+      operator_after_join(socket)
     else
       visitor_after_join(socket)
     end
     {:noreply, socket}
   end
 
-  defp master_after_join(socket) do
+  defp operator_after_join(socket) do
     {:ok, address} = SideEffect.create_or_update_address(socket)
     user = socket.assigns.current_user
     distinct_id = socket.assigns.distinct_id
@@ -104,7 +104,7 @@ defmodule EmbedChatWeb.RoomChannel do
 
   def handle_event("contact_list", _payload, socket) do
     room = socket.assigns.room
-    if master?(socket) do
+    if operator?(socket) do
       resp = %{online_users: SideEffect.online_visitors(room.id),
                offline_users: SideEffect.offline_visitors(room.id)}
       {:reply, {:ok, resp}, socket}
@@ -117,7 +117,7 @@ defmodule EmbedChatWeb.RoomChannel do
     case new_message(payload, socket) do
       {:ok, resp} ->
         broadcast! socket, "new_message", resp
-        if !master?(socket) do
+        if !operator?(socket) do
           request_visitor_email(socket)
         end
         {:reply, {:ok, resp}, socket}
@@ -171,14 +171,14 @@ defmodule EmbedChatWeb.RoomChannel do
   end
 
   defp event_owner(payload, socket) do
-    if payload["uid"] && master?(socket) do
+    if payload["uid"] && operator?(socket) do
       payload["uid"]
     else
       socket.assigns.distinct_id
     end
   end
 
-  defp master?(socket) do
+  defp operator?(socket) do
     socket.assigns[:current_user]
   end
 
@@ -205,7 +205,7 @@ defmodule EmbedChatWeb.RoomChannel do
       }
       msg_resp =
         param
-        |> Chat.master_to_visitor
+        |> Chat.operator_to_visitor
         |> Chat.response
       case msg_resp do
         {:ok, resp} ->
@@ -217,8 +217,8 @@ defmodule EmbedChatWeb.RoomChannel do
   end
 
   defp new_message(%{"to_id" => to_uid, "body" => msg_text}, socket) do
-    if master?(socket) do
-      new_message_from_master(socket, to_uid, msg_text)
+    if operator?(socket) do
+      new_message_from_operator(socket, to_uid, msg_text)
     else
       new_message_from_visitor(socket, msg_text)
     end
@@ -232,14 +232,14 @@ defmodule EmbedChatWeb.RoomChannel do
     }
     param
     |> offline_email(socket)
-    |> Chat.visitor_to_master
+    |> Chat.visitor_to_operator
     |> Chat.response
   end
 
   # TODO remove random
   defp offline_email(%Chat{} = chat, socket) do
     room = socket.assigns.room
-    master_uid =
+    operator_uid =
       case SideEffect.random_online_admin(room) do
         nil ->
           SideEffect.send_notification_mail(room.id, chat.text)
@@ -247,10 +247,10 @@ defmodule EmbedChatWeb.RoomChannel do
         uid ->
           uid
       end
-    %{chat | to_uid: master_uid}
+    %{chat | to_uid: operator_uid}
   end
 
-  defp new_message_from_master(socket, to_uid, text) do
+  defp new_message_from_operator(socket, to_uid, text) do
     param = %Chat{
       room_id: socket.assigns.room.id,
       from_uid: socket.assigns.distinct_id,
@@ -258,7 +258,7 @@ defmodule EmbedChatWeb.RoomChannel do
       text: text
     }
     param
-    |> Chat.master_to_visitor
+    |> Chat.operator_to_visitor
     |> Chat.response
   end
 end

@@ -86,7 +86,7 @@ defmodule EmbedChatWeb.TrackController do
       resp =
         msg
         |> message_param(room, to_uuid)
-        |> Chat.master_to_visitor
+        |> Chat.operator_to_visitor
         |> Chat.response
       case resp do
         {:ok, resp} ->
