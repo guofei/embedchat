@@ -7,7 +7,7 @@
 <%= if admin_logged_in?(@conn) do %>
   <%= link gettext("Stop Impersonating"),
            to: admin_session_path(@conn, :stop_impersonating),
-           method: "DELETE",
+           method: :delete,
            class: "mdl-navigation__link"
   %>
   <%= link gettext("Attempts"),
