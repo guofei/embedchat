@@ -3,7 +3,7 @@ defmodule EmbedChatWeb.RoomChannel do
 
   alias EmbedChat.ChannelWatcher
   alias EmbedChat.Room
-  alias EmbedChatWeb.Chat
+  alias EmbedChatWeb.Chat, as: ChatWeb
   alias EmbedChatWeb.MessageView
   alias EmbedChatWeb.RoomChannel.SideEffect
   alias EmbedChatWeb.TrackView
@@ -197,7 +197,7 @@ defmodule EmbedChatWeb.RoomChannel do
     room = socket.assigns.room
     distinct_id = socket.assigns.distinct_id
     if SideEffect.can_request_email?(room.id, distinct_id) do
-      param = %Chat{
+      param = %ChatWeb{
         room_id: room.id,
         to_uid: distinct_id,
         text: "Get replies by email",
@@ -205,8 +205,8 @@ defmodule EmbedChatWeb.RoomChannel do
       }
       msg_resp =
         param
-        |> Chat.operator_to_visitor
-        |> Chat.response
+        |> ChatWeb.operator_to_visitor
+        |> ChatWeb.response
       case msg_resp do
         {:ok, resp} ->
           push socket, "new_message", resp
@@ -225,19 +225,19 @@ defmodule EmbedChatWeb.RoomChannel do
   end
 
   defp new_message_from_visitor(socket, text) do
-    param = %Chat{
+    param = %ChatWeb{
       room_id: socket.assigns.room.id,
       from_uid: socket.assigns.distinct_id,
       text: text
     }
     param
     |> offline_email(socket)
-    |> Chat.visitor_to_operator
-    |> Chat.response
+    |> ChatWeb.visitor_to_operator
+    |> ChatWeb.response
   end
 
   # TODO remove random
-  defp offline_email(%Chat{} = chat, socket) do
+  defp offline_email(%ChatWeb{} = chat, socket) do
     room = socket.assigns.room
     operator_uid =
       case SideEffect.random_online_admin(room) do
@@ -251,14 +251,14 @@ defmodule EmbedChatWeb.RoomChannel do
   end
 
   defp new_message_from_operator(socket, to_uid, text) do
-    param = %Chat{
+    param = %ChatWeb{
       room_id: socket.assigns.room.id,
       from_uid: socket.assigns.distinct_id,
       to_uid: to_uid,
       text: text
     }
     param
-    |> Chat.operator_to_visitor
-    |> Chat.response
+    |> ChatWeb.operator_to_visitor
+    |> ChatWeb.response
   end
 end
