@@ -67,11 +67,11 @@ defmodule EmbedChatWeb.Chat do
     Repo.insert(changeset)
   end
 
-  def get_address(distinct_id, room_id) when is_nil(distinct_id) or is_nil(room_id) do
+  defp get_address(distinct_id, room_id) when is_nil(distinct_id) or is_nil(room_id) do
     nil
   end
 
-  def get_address(distinct_id, room_id) do
+  defp get_address(distinct_id, room_id) do
     Repo.get_by(Address, uuid: distinct_id, room_id: room_id)
   end
 
