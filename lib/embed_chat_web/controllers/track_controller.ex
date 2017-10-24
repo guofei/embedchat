@@ -3,7 +3,7 @@ defmodule EmbedChatWeb.TrackController do
 
   alias EmbedChat.Address
   alias EmbedChat.AutoMessageConfig
-  alias EmbedChatWeb.Chat
+  alias EmbedChat.Chat
   alias EmbedChat.Room
   alias EmbedChat.Track
   alias EmbedChatWeb.TrackView

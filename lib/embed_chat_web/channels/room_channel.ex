@@ -63,7 +63,7 @@ defmodule EmbedChatWeb.RoomChannel do
 
   @log_size 20
 
-  # TODO may be better to use http
+  # TODO it would be better to use http
   def handle_event("access_logs", payload, socket) do
     room = socket.assigns.room
     uuid = event_owner(payload, socket)
@@ -76,7 +76,7 @@ defmodule EmbedChatWeb.RoomChannel do
     end
   end
 
-  # TODO may be better to use http
+  # TODO it would be better to use http
   def handle_event("messages", payload, socket) do
     room = socket.assigns.room
     uuid = event_owner(payload, socket)
